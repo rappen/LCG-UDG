@@ -13,16 +13,32 @@ using Microsoft.Xrm.Sdk;
 
 namespace LateboundConstantGenerator
 {
-    public partial class MyPluginControl : PluginControlBase
+    public partial class LCG : PluginControlBase
     {
         private Settings mySettings;
 
-        public MyPluginControl()
+        public LCG()
         {
             InitializeComponent();
         }
 
-        private void MyPluginControl_Load(object sender, EventArgs e)
+        private void UpdateUI(Action action)
+        {
+            MethodInvoker mi = delegate
+            {
+                action();
+            };
+            if (InvokeRequired)
+            {
+                Invoke(mi);
+            }
+            else
+            {
+                mi();
+            }
+        }
+
+        private void LCG_Load(object sender, EventArgs e)
         {
             ShowInfoNotification("This is a notification that can lead to XrmToolBox repository", new Uri("http://github.com/MscrmTools/XrmToolBox"));
 
@@ -37,6 +53,28 @@ namespace LateboundConstantGenerator
             {
                 LogInfo("Settings found and loaded");
             }
+        }
+
+        /// <summary>
+        /// This event occurs when the plugin is closed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LCG_OnCloseTool(object sender, EventArgs e)
+        {
+            // Before leaving, save the settings
+            SettingsManager.Instance.Save(GetType(), mySettings);
+        }
+
+        /// <summary>
+        /// This event occurs when the connection has been updated in XrmToolBox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LCG_ConnectionUpdated(object sender, ConnectionUpdatedEventArgs e)
+        {
+            mySettings.LastUsedOrganizationWebappUrl = e.ConnectionDetail.WebApplicationUrl;
+            LogInfo("Connection has changed to: {0}", e.ConnectionDetail.WebApplicationUrl);
         }
 
         private void tsbClose_Click(object sender, EventArgs e)
@@ -76,28 +114,6 @@ namespace LateboundConstantGenerator
                     }
                 }
             });
-        }
-
-        /// <summary>
-        /// This event occurs when the plugin is closed
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MyPluginControl_OnCloseTool(object sender, EventArgs e)
-        {
-            // Before leaving, save the settings
-            SettingsManager.Instance.Save(GetType(), mySettings);
-        }
-
-        /// <summary>
-        /// This event occurs when the connection has been updated in XrmToolBox
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MyPluginControl_ConnectionUpdated(object sender, ConnectionUpdatedEventArgs e)
-        {
-            mySettings.LastUsedOrganizationWebappUrl = e.ConnectionDetail.WebApplicationUrl;
-            LogInfo("Connection has changed to: {0}", e.ConnectionDetail.WebApplicationUrl);
         }
     }
 }

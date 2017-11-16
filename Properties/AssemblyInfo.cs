@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("LateboundConstantGenerator")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Generate constant classes from metadata for late bound development on Microsoft Dynamics 365")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Jonas Rapp, Innofactor Sweden")]
 [assembly: AssemblyProduct("LateboundConstantGenerator")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCopyright("Copyright © Jonas Rapp 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
