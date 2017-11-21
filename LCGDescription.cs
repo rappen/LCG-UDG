@@ -2,10 +2,10 @@
 using XrmToolBox.Extensibility;
 using XrmToolBox.Extensibility.Interfaces;
 
-namespace LateboundConstantGenerator
+namespace Rappen.XTB.LCG
 {
     [Export(typeof(IXrmToolBoxPlugin)),
-        ExportMetadata("Name", "Latebound Constant Generator"),
+        ExportMetadata("Name", "Latebound Constants Generator"),
         ExportMetadata("Description", "Generate constant classes from metadata for late bound development on Microsoft Dynamics 365/CRM."),
         ExportMetadata("SmallImageBase64", null),
         ExportMetadata("BigImageBase64", null),
