@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xrm.Sdk.Metadata;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 
 namespace Rappen.XTB.LCG
 {
@@ -9,9 +8,8 @@ namespace Rappen.XTB.LCG
     {
         #region Public Fields
 
-        public EntityMetadata Metadata;
-
         public List<AttributeMetadataProxy> Attributes;
+        public EntityMetadata Metadata;
 
         [DisplayName(" ")]
         public bool Selected { get => IsSelected; }
@@ -47,19 +45,6 @@ namespace Rappen.XTB.LCG
             }
             return base.ToString();
         }
-
-        //public override void SetSelected(bool value)
-        //{
-        //    var wasSelected = IsSelected;
-        //    base.SetSelected(value);
-        //    if (value != wasSelected && value && Attributes != null && Attributes.Count(a => a.IsSelected) == 0)
-        //    {
-        //        foreach (var attribute in Attributes)
-        //        {
-        //            attribute.SetSelected(true);
-        //        }
-        //    }
-        //}
 
         #endregion Public Methods
     }
