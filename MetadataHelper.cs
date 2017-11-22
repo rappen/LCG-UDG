@@ -70,6 +70,7 @@ namespace Rappen.XTB.LCG
             }
             var eqe = new EntityQueryExpression();
             eqe.Properties = new MetadataPropertiesExpression(entityProperties);
+            eqe.Criteria.Conditions.Add(new MetadataConditionExpression("IsPrivate", MetadataConditionOperator.NotEquals, true));
             var req = new RetrieveMetadataChangesRequest()
             {
                 Query = eqe,
