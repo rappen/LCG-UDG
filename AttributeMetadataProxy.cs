@@ -46,8 +46,8 @@ namespace Rappen.XTB.LCG
 
         public override void SetSelected(bool value)
         {
-            base.SetSelected(value);
             var wasSelected = IsSelected;
+            base.SetSelected(value);
             if (value != wasSelected && value && !entity.IsSelected)
             {
                 entity.SetSelected(true);
