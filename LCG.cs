@@ -82,7 +82,6 @@ namespace Rappen.XTB.LCG
                         metadata.SetSelected(chk.Checked);
                     }
                 }
-                grid.Refresh();
             }
         }
 
