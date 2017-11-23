@@ -62,7 +62,7 @@ namespace Rappen.XTB.LCG
             return null;
         }
 
-        public static RetrieveMetadataChangesResponse LoadEntities(IOrganizationService service)
+        public static RetrieveMetadataChangesResponse LoadEntities(IOrganizationService service, int majorversion)
         {
             if (service == null)
             {
@@ -70,7 +70,10 @@ namespace Rappen.XTB.LCG
             }
             var eqe = new EntityQueryExpression();
             eqe.Properties = new MetadataPropertiesExpression(entityProperties);
-            eqe.Criteria.Conditions.Add(new MetadataConditionExpression("IsPrivate", MetadataConditionOperator.NotEquals, true));
+            if (majorversion > 5)
+            {
+                eqe.Criteria.Conditions.Add(new MetadataConditionExpression("IsPrivate", MetadataConditionOperator.NotEquals, true));
+            }
             var req = new RetrieveMetadataChangesRequest()
             {
                 Query = eqe,
