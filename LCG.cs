@@ -15,6 +15,7 @@ namespace Rappen.XTB.LCG
 
         private List<EntityMetadataProxy> entities;
         private EntityMetadataProxy selectedEntity;
+        private Dictionary<string, int> groupBoxHeights;
 
         #endregion Private Fields
 
@@ -22,7 +23,20 @@ namespace Rappen.XTB.LCG
 
         public LCG()
         {
+            IEnumerable<Control> GetAll(Control control, Type type)
+            {
+                var controls = control.Controls.Cast<Control>();
+                return controls.SelectMany(ctrl => GetAll(ctrl, type))
+                                          .Concat(controls)
+                                          .Where(c => c.GetType() == type);
+            }
+
             InitializeComponent();
+            groupBoxHeights = new Dictionary<string, int>();
+            foreach (var gb in GetAll(this, typeof(GroupBox)))
+            {
+                groupBoxHeights.Add(gb.Name, gb.Height);
+            }
         }
 
         #endregion Public Constructors
@@ -93,7 +107,7 @@ namespace Rappen.XTB.LCG
         private void grid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             var grid = sender as DataGridView;
-            if (grid != null && e.ColumnIndex == 0)
+            if (grid != null && e.ColumnIndex == 0 && e.RowIndex >= 0)
             {
                 var row = grid.Rows[e.RowIndex];
                 var metadata = row.DataBoundItem as MetadataProxy;
@@ -130,13 +144,17 @@ namespace Rappen.XTB.LCG
         private void LCG_ConnectionUpdated(object sender, ConnectionUpdatedEventArgs e)
         {
             LogInfo("Connection has changed to: {0}", e.ConnectionDetail.WebApplicationUrl);
+            entities = null;
+            selectedEntity = null;
+            gridAttributes.DataSource = null;
+            gridEntities.DataSource = null;
             SettingsLoad(e.ConnectionDetail?.ConnectionName);
             Enabled = true;
         }
 
-        private void llOptionsExpander_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void llGroupBoxExpander_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            OptionsToggle();
+            GroupBoxToggle(sender as LinkLabel);
         }
 
         private void tsbClose_Click(object sender, EventArgs e)
@@ -307,12 +325,13 @@ namespace Rappen.XTB.LCG
         {
             entities = null;
             EnableControls(false);
+            gridAttributes.DataSource = null;
             WorkAsync(new WorkAsyncInfo
             {
                 Message = "Loading entities...",
                 Work = (worker, args) =>
                 {
-                    args.Result = MetadataHelper.LoadEntities(Service);
+                    args.Result = MetadataHelper.LoadEntities(Service, ConnectionDetail.OrganizationMajorVersion);
                 },
                 PostWorkCallBack = (args) =>
                 {
@@ -349,6 +368,46 @@ namespace Rappen.XTB.LCG
             });
         }
 
+        //private void LoadSolutions()
+        //{
+        //    cmbSolution.Items.Clear();
+        //    cmbSolution.Enabled = false;
+        //    WorkAsync(new WorkAsyncInfo("Loading solutions...",
+        //        (eventargs) =>
+        //        {
+        //            EnableControls(false);
+        //            var qx = new QueryExpression("solution");
+        //            qx.ColumnSet.AddColumns("friendlyname", "uniquename");
+        //            qx.AddOrder("installedon", OrderType.Ascending);
+        //            qx.Criteria.AddCondition("ismanaged", ConditionOperator.Equal, false);
+        //            qx.Criteria.AddCondition("isvisible", ConditionOperator.Equal, true);
+        //            var lePub = qx.AddLink("publisher", "publisherid", "publisherid");
+        //            lePub.EntityAlias = "P";
+        //            lePub.Columns.AddColumns("customizationprefix");
+        //            eventargs.Result = Service.RetrieveMultiple(qx);
+        //        })
+        //    {
+        //        PostWorkCallBack = (completedargs) =>
+        //        {
+        //            if (completedargs.Error != null)
+        //            {
+        //                MessageBox.Show(completedargs.Error.Message);
+        //            }
+        //            else
+        //            {
+        //                if (completedargs.Result is EntityCollection)
+        //                {
+        //                    var solutions = (EntityCollection)completedargs.Result;
+        //                    var proxiedsolutions = solutions.Entities.Select(s => new SolutionProxy(s)).OrderBy(s => s.ToString());
+        //                    cmbSolution.Items.AddRange(proxiedsolutions.ToArray());
+        //                    cmbSolution.Enabled = true;
+        //                }
+        //            }
+        //            EnableControls(true);
+        //        }
+        //    });
+        //}
+
         private void Entity_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             UpdateEntitiesStatus();
@@ -368,27 +427,27 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        private void OptionsCollapse()
+        private void GropBoxCollapse(LinkLabel link)
         {
-            gbOptions.Height = 18;
-            llOptionsExpander.Text = "Expand";
+            link.Parent.Height = 18;
+            link.Text = "Expand";
         }
 
-        private void OptionsExpand()
+        private void GroupBoxExpand(LinkLabel link)
         {
-            gbOptions.Height = 130;
-            llOptionsExpander.Text = "Collapse";
+            link.Parent.Height = groupBoxHeights[link.Parent.Name];
+            link.Text = "Collapse";
         }
 
-        private void OptionsToggle()
+        private void GroupBoxToggle(LinkLabel link)
         {
-            if (gbOptions.Height > 20)
+            if (link.Parent.Height > 20)
             {
-                OptionsCollapse();
+                GropBoxCollapse(link);
             }
             else
             {
-                OptionsExpand();
+                GroupBoxExpand(link);
             }
         }
 
@@ -415,11 +474,11 @@ namespace Rappen.XTB.LCG
                 }
                 if (settings.OptionsExpanded)
                 {
-                    OptionsExpand();
+                    GroupBoxExpand(llOptionsExpander);
                 }
                 else
                 {
-                    OptionsCollapse();
+                    GropBoxCollapse(llOptionsExpander);
                 }
             }
         }
@@ -466,5 +525,15 @@ namespace Rappen.XTB.LCG
         }
 
         #endregion Private Methods
+
+        private void gridEntities_Move(object sender, EventArgs e)
+        {
+            chkEntAll.Top = gridEntities.Top + 6;
+        }
+
+        private void gridAttributes_Move(object sender, EventArgs e)
+        {
+            chkAttAll.Top = gridAttributes.Top + 6;
+        }
     }
 }
