@@ -95,6 +95,8 @@
             this.llOptionsExpander = new System.Windows.Forms.LinkLabel();
             this.tmEntSearch = new System.Windows.Forms.Timer(this.components);
             this.tmAttSearch = new System.Windows.Forms.Timer(this.components);
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtNamespace = new System.Windows.Forms.TextBox();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -157,6 +159,7 @@
             // 
             // btnGenerate
             // 
+            this.btnGenerate.Enabled = false;
             this.btnGenerate.Image = ((System.Drawing.Image)(resources.GetObject("btnGenerate.Image")));
             this.btnGenerate.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnGenerate.Name = "btnGenerate";
@@ -735,6 +738,8 @@
             // 
             // gbOptions
             // 
+            this.gbOptions.Controls.Add(this.txtNamespace);
+            this.gbOptions.Controls.Add(this.label5);
             this.gbOptions.Controls.Add(this.btnOutputFolder);
             this.gbOptions.Controls.Add(this.txtOutputFolder);
             this.gbOptions.Controls.Add(this.label3);
@@ -798,6 +803,22 @@
             // 
             this.tmAttSearch.Interval = 500;
             this.tmAttSearch.Tick += new System.EventHandler(this.tmAttSearch_Tick);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 51);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(64, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Namespace";
+            // 
+            // txtNamespace
+            // 
+            this.txtNamespace.Location = new System.Drawing.Point(95, 48);
+            this.txtNamespace.Name = "txtNamespace";
+            this.txtNamespace.Size = new System.Drawing.Size(254, 20);
+            this.txtNamespace.TabIndex = 5;
             // 
             // LCG
             // 
@@ -914,5 +935,7 @@
         private System.Windows.Forms.RadioButton rbEntCustomAll;
         private System.Windows.Forms.Timer tmEntSearch;
         private System.Windows.Forms.Timer tmAttSearch;
+        private System.Windows.Forms.TextBox txtNamespace;
+        private System.Windows.Forms.Label label5;
     }
 }

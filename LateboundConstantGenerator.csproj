@@ -110,6 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttributeMetadataProxy.cs" />
+    <Compile Include="CSharpUtils.cs" />
     <Compile Include="EntityMetadataProxy.cs" />
     <Compile Include="LCGDescription.cs" />
     <Compile Include="LCG.cs">

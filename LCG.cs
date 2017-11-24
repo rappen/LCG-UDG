@@ -62,7 +62,7 @@ namespace Rappen.XTB.LCG
 
         private void btnGenerate_Click(object sender, EventArgs e)
         {
-            GenerateClasses();
+            CSharpUtils.GenerateClasses(entities, txtNamespace.Text);
         }
 
         private void btnLoadEntities_Click(object sender, EventArgs e)
@@ -104,6 +104,7 @@ namespace Rappen.XTB.LCG
         private void entityFilter_Changed(object sender, EventArgs e)
         {
             FilterEntities();
+            SetNamespace();
         }
 
         private void grid_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -291,17 +292,6 @@ namespace Rappen.XTB.LCG
                 gridEntities.DataSource = null;
             }
             UpdateEntitiesStatus();
-        }
-
-        private void GenerateClasses()
-        {
-            var ent = string.Join("\n", entities
-                .Where(e => e.IsSelected)
-                .Select(e => e.ToString() + "\n" +
-                    string.Join("\n", e.Attributes
-                        .Where(a => a.IsSelected)
-                        .Select(a => "  " + a.ToString()))));
-            MessageBox.Show(ent);
         }
 
         private EntityMetadataProxy GetSelectedEntity()
@@ -502,6 +492,14 @@ namespace Rappen.XTB.LCG
             });
         }
 
+        private void SetNamespace()
+        {
+            if (cmbSolution.SelectedItem is SolutionProxy solution && string.IsNullOrWhiteSpace(txtNamespace.Text))
+            {
+                txtNamespace.Text = solution.UniqueName;
+            }
+        }
+
         private void SettingsLoad(string connectionname)
         {
             if (SettingsManager.Instance.TryLoad(GetType(), out Settings settings, connectionname))
@@ -592,6 +590,7 @@ namespace Rappen.XTB.LCG
         private void UpdateEntitiesStatus()
         {
             chkEntAll.Visible = gridEntities.Rows.Count > 0;
+            btnGenerate.Enabled = (bool)entities?.Any(e => e.IsSelected);
             if (gridEntities.DataSource != null && entities != null)
             {
                 statusEntitiesShowing.Text = $"Showing {gridEntities.Rows.Count} of {entities.Count} entities.";
