@@ -14,8 +14,8 @@ namespace Rappen.XTB.LCG
         #region Private Fields
 
         private List<EntityMetadataProxy> entities;
-        private EntityMetadataProxy selectedEntity;
         private Dictionary<string, int> groupBoxHeights;
+        private EntityMetadataProxy selectedEntity;
 
         #endregion Private Fields
 
@@ -120,6 +120,11 @@ namespace Rappen.XTB.LCG
             }
         }
 
+        private void gridAttributes_Move(object sender, EventArgs e)
+        {
+            chkAttAll.Top = gridAttributes.Top + 6;
+        }
+
         private void gridEntities_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.ColumnIndex == 0)
@@ -131,6 +136,11 @@ namespace Rappen.XTB.LCG
                     e.CellStyle.BackColor = ColorTranslator.FromHtml(data.Metadata.EntityColor);
                 }
             }
+        }
+
+        private void gridEntities_Move(object sender, EventArgs e)
+        {
+            chkEntAll.Top = gridEntities.Top + 6;
         }
 
         private void gridEntities_SelectionChanged(object sender, EventArgs e)
@@ -146,6 +156,8 @@ namespace Rappen.XTB.LCG
         private void LCG_ConnectionUpdated(object sender, ConnectionUpdatedEventArgs e)
         {
             LogInfo("Connection has changed to: {0}", e.ConnectionDetail.WebApplicationUrl);
+            chkEntAll.Visible = false;
+            chkAttAll.Visible = false;
             entities = null;
             selectedEntity = null;
             gridAttributes.DataSource = null;
@@ -159,6 +171,18 @@ namespace Rappen.XTB.LCG
             GroupBoxToggle(sender as LinkLabel);
         }
 
+        private void tmAttSearch_Tick(object sender, EventArgs e)
+        {
+            tmAttSearch.Stop();
+            FilterAttributes(selectedEntity);
+        }
+
+        private void tmEntSearch_Tick(object sender, EventArgs e)
+        {
+            tmEntSearch.Stop();
+            FilterEntities();
+        }
+
         private void tsbClose_Click(object sender, EventArgs e)
         {
             CloseTool();
@@ -167,6 +191,11 @@ namespace Rappen.XTB.LCG
         #endregion Private Event Handlers
 
         #region Private Methods
+
+        private void Attribute_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            UpdateAttributesStatus();
+        }
 
         private void DisplayAttributes(EntityMetadataProxy entity)
         {
@@ -183,6 +212,11 @@ namespace Rappen.XTB.LCG
             {
                 Enabled = enabled;
             });
+        }
+
+        private void Entity_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            UpdateEntitiesStatus();
         }
 
         private void FilterAttributes(EntityMetadataProxy entity)
@@ -255,6 +289,30 @@ namespace Rappen.XTB.LCG
             return null;
         }
 
+        private void GropBoxCollapse(LinkLabel link)
+        {
+            link.Parent.Height = 18;
+            link.Text = "Expand";
+        }
+
+        private void GroupBoxExpand(LinkLabel link)
+        {
+            link.Parent.Height = groupBoxHeights[link.Parent.Name];
+            link.Text = "Collapse";
+        }
+
+        private void GroupBoxToggle(LinkLabel link)
+        {
+            if (link.Parent.Height > 20)
+            {
+                GropBoxCollapse(link);
+            }
+            else
+            {
+                GroupBoxExpand(link);
+            }
+        }
+
         private void LoadAttributes(EntityMetadataProxy entity)
         {
             entity.Attributes = null;
@@ -302,26 +360,6 @@ namespace Rappen.XTB.LCG
             });
         }
 
-        private void Attribute_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            UpdateAttributesStatus();
-        }
-
-        private void UpdateAttributesStatus()
-        {
-            chkAttAll.Visible = gridAttributes.Rows.Count > 0;
-            if (gridAttributes.DataSource != null && selectedEntity != null && selectedEntity.Attributes != null)
-            {
-                statusAttributesShowing.Text = $"Showing {gridAttributes.Rows.Count} of {selectedEntity.Attributes.Count} attributes.";
-                statusAttributesSelected.Text = $"{selectedEntity?.Attributes?.Count(att => att.Selected)} selected.";
-            }
-            else
-            {
-                statusAttributesShowing.Text = "No attributes available";
-                statusAttributesSelected.Text = "";
-            }
-        }
-
         private void LoadEntities()
         {
             entities = null;
@@ -367,90 +405,6 @@ namespace Rappen.XTB.LCG
                     });
                 }
             });
-        }
-
-        //private void LoadSolutions()
-        //{
-        //    cmbSolution.Items.Clear();
-        //    cmbSolution.Enabled = false;
-        //    WorkAsync(new WorkAsyncInfo("Loading solutions...",
-        //        (eventargs) =>
-        //        {
-        //            EnableControls(false);
-        //            var qx = new QueryExpression("solution");
-        //            qx.ColumnSet.AddColumns("friendlyname", "uniquename");
-        //            qx.AddOrder("installedon", OrderType.Ascending);
-        //            qx.Criteria.AddCondition("ismanaged", ConditionOperator.Equal, false);
-        //            qx.Criteria.AddCondition("isvisible", ConditionOperator.Equal, true);
-        //            var lePub = qx.AddLink("publisher", "publisherid", "publisherid");
-        //            lePub.EntityAlias = "P";
-        //            lePub.Columns.AddColumns("customizationprefix");
-        //            eventargs.Result = Service.RetrieveMultiple(qx);
-        //        })
-        //    {
-        //        PostWorkCallBack = (completedargs) =>
-        //        {
-        //            if (completedargs.Error != null)
-        //            {
-        //                MessageBox.Show(completedargs.Error.Message);
-        //            }
-        //            else
-        //            {
-        //                if (completedargs.Result is EntityCollection)
-        //                {
-        //                    var solutions = (EntityCollection)completedargs.Result;
-        //                    var proxiedsolutions = solutions.Entities.Select(s => new SolutionProxy(s)).OrderBy(s => s.ToString());
-        //                    cmbSolution.Items.AddRange(proxiedsolutions.ToArray());
-        //                    cmbSolution.Enabled = true;
-        //                }
-        //            }
-        //            EnableControls(true);
-        //        }
-        //    });
-        //}
-
-        private void Entity_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            UpdateEntitiesStatus();
-        }
-
-        private void UpdateEntitiesStatus()
-        {
-            chkEntAll.Visible = gridEntities.Rows.Count > 0;
-            if (gridEntities.DataSource != null && entities != null)
-            {
-                statusEntitiesShowing.Text = $"Showing {gridEntities.Rows.Count} of {entities.Count} entities.";
-                statusEntitiesSelected.Text = $"{entities.Count(ent => ent.Selected)} selected.";
-            }
-            else
-            {
-                statusEntitiesShowing.Text = "No entities available";
-                statusEntitiesSelected.Text = "";
-            }
-        }
-
-        private void GropBoxCollapse(LinkLabel link)
-        {
-            link.Parent.Height = 18;
-            link.Text = "Expand";
-        }
-
-        private void GroupBoxExpand(LinkLabel link)
-        {
-            link.Parent.Height = groupBoxHeights[link.Parent.Name];
-            link.Text = "Collapse";
-        }
-
-        private void GroupBoxToggle(LinkLabel link)
-        {
-            if (link.Parent.Height > 20)
-            {
-                GropBoxCollapse(link);
-            }
-            else
-            {
-                GroupBoxExpand(link);
-            }
         }
 
         private void SettingsLoad(string connectionname)
@@ -507,6 +461,75 @@ namespace Rappen.XTB.LCG
             }, connectionname);
         }
 
+        private void UpdateAttributesStatus()
+        {
+            chkAttAll.Visible = gridAttributes.Rows.Count > 0;
+            if (gridAttributes.DataSource != null && selectedEntity != null && selectedEntity.Attributes != null)
+            {
+                statusAttributesShowing.Text = $"Showing {gridAttributes.Rows.Count} of {selectedEntity.Attributes.Count} attributes.";
+                statusAttributesSelected.Text = $"{selectedEntity?.Attributes?.Count(att => att.Selected)} selected.";
+            }
+            else
+            {
+                statusAttributesShowing.Text = "No attributes available";
+                statusAttributesSelected.Text = "";
+            }
+        }
+
+        //private void LoadSolutions()
+        //{
+        //    cmbSolution.Items.Clear();
+        //    cmbSolution.Enabled = false;
+        //    WorkAsync(new WorkAsyncInfo("Loading solutions...",
+        //        (eventargs) =>
+        //        {
+        //            EnableControls(false);
+        //            var qx = new QueryExpression("solution");
+        //            qx.ColumnSet.AddColumns("friendlyname", "uniquename");
+        //            qx.AddOrder("installedon", OrderType.Ascending);
+        //            qx.Criteria.AddCondition("ismanaged", ConditionOperator.Equal, false);
+        //            qx.Criteria.AddCondition("isvisible", ConditionOperator.Equal, true);
+        //            var lePub = qx.AddLink("publisher", "publisherid", "publisherid");
+        //            lePub.EntityAlias = "P";
+        //            lePub.Columns.AddColumns("customizationprefix");
+        //            eventargs.Result = Service.RetrieveMultiple(qx);
+        //        })
+        //    {
+        //        PostWorkCallBack = (completedargs) =>
+        //        {
+        //            if (completedargs.Error != null)
+        //            {
+        //                MessageBox.Show(completedargs.Error.Message);
+        //            }
+        //            else
+        //            {
+        //                if (completedargs.Result is EntityCollection)
+        //                {
+        //                    var solutions = (EntityCollection)completedargs.Result;
+        //                    var proxiedsolutions = solutions.Entities.Select(s => new SolutionProxy(s)).OrderBy(s => s.ToString());
+        //                    cmbSolution.Items.AddRange(proxiedsolutions.ToArray());
+        //                    cmbSolution.Enabled = true;
+        //                }
+        //            }
+        //            EnableControls(true);
+        //        }
+        //    });
+        //}
+        private void UpdateEntitiesStatus()
+        {
+            chkEntAll.Visible = gridEntities.Rows.Count > 0;
+            if (gridEntities.DataSource != null && entities != null)
+            {
+                statusEntitiesShowing.Text = $"Showing {gridEntities.Rows.Count} of {entities.Count} entities.";
+                statusEntitiesSelected.Text = $"{entities.Count(ent => ent.Selected)} selected.";
+            }
+            else
+            {
+                statusEntitiesShowing.Text = "No entities available";
+                statusEntitiesSelected.Text = "";
+            }
+        }
+
         private void UpdateUI(Action action)
         {
             MethodInvoker mi = delegate
@@ -527,27 +550,5 @@ namespace Rappen.XTB.LCG
         }
 
         #endregion Private Methods
-
-        private void gridEntities_Move(object sender, EventArgs e)
-        {
-            chkEntAll.Top = gridEntities.Top + 6;
-        }
-
-        private void gridAttributes_Move(object sender, EventArgs e)
-        {
-            chkAttAll.Top = gridAttributes.Top + 6;
-        }
-
-        private void tmEntSearch_Tick(object sender, EventArgs e)
-        {
-            tmEntSearch.Stop();
-            FilterEntities();
-        }
-
-        private void tmAttSearch_Tick(object sender, EventArgs e)
-        {
-            tmAttSearch.Stop();
-            FilterAttributes(selectedEntity);
-        }
     }
 }
