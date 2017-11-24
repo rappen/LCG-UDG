@@ -531,6 +531,22 @@ namespace Rappen.XTB.LCG
                 {
                     GropBoxCollapse(llOptionsExpander);
                 }
+                if (settings.EntityFilterExpanded)
+                {
+                    GroupBoxExpand(llEntityExpander);
+                }
+                else
+                {
+                    GropBoxCollapse(llEntityExpander);
+                }
+                if (settings.AttributeFilterExpanded)
+                {
+                    GroupBoxExpand(llAttributeExpander);
+                }
+                else
+                {
+                    GropBoxCollapse(llAttributeExpander);
+                }
             }
         }
 
@@ -552,7 +568,9 @@ namespace Rappen.XTB.LCG
                 AttributesManagedTrue = rbAttMgdTrue.Checked,
                 AttributesManagedFalse = rbAttMgdFalse.Checked,
                 OutputFolder = txtOutputFolder.Text,
-                OptionsExpanded = gbOptions.Height > 20
+                OptionsExpanded = gbOptions.Height > 20,
+                EntityFilterExpanded = gbEntities.Height > 20,
+                AttributeFilterExpanded = gbAttributes.Height > 20
             }, connectionname);
         }
 

@@ -28,6 +28,8 @@ namespace Rappen.XTB.LCG
         public bool AttributesManagedTrue { get; set; }
         public bool AttributesManagedFalse { get; set; }
         public bool OptionsExpanded { get; set; } = true;
+        public bool EntityFilterExpanded { get; set; } = true;
+        public bool AttributeFilterExpanded { get; set; } = true;
         public string OutputFolder { get; set; }
     }
 }

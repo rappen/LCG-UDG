@@ -48,7 +48,7 @@
             this.statusEntitiesSelected = new System.Windows.Forms.ToolStripStatusLabel();
             this.gridEntities = new System.Windows.Forms.DataGridView();
             this.gbEntities = new System.Windows.Forms.GroupBox();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.llEntityExpander = new System.Windows.Forms.LinkLabel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pnEntSearch = new System.Windows.Forms.Panel();
             this.txtEntSearch = new System.Windows.Forms.TextBox();
@@ -75,7 +75,7 @@
             this.statusAttributesShowing = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusAttributesSelected = new System.Windows.Forms.ToolStripStatusLabel();
             this.gbAttributes = new System.Windows.Forms.GroupBox();
-            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
+            this.llAttributeExpander = new System.Windows.Forms.LinkLabel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.pnAttSearch = new System.Windows.Forms.Panel();
             this.txtAttSearch = new System.Windows.Forms.TextBox();
@@ -267,7 +267,7 @@
             // 
             // gbEntities
             // 
-            this.gbEntities.Controls.Add(this.linkLabel1);
+            this.gbEntities.Controls.Add(this.llEntityExpander);
             this.gbEntities.Controls.Add(this.panel1);
             this.gbEntities.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbEntities.Location = new System.Drawing.Point(0, 0);
@@ -277,17 +277,17 @@
             this.gbEntities.TabStop = false;
             this.gbEntities.Text = "Entities";
             // 
-            // linkLabel1
+            // llEntityExpander
             // 
-            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(302, 0);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(47, 13);
-            this.linkLabel1.TabIndex = 3;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Collapse";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
+            this.llEntityExpander.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.llEntityExpander.AutoSize = true;
+            this.llEntityExpander.Location = new System.Drawing.Point(302, 0);
+            this.llEntityExpander.Name = "llEntityExpander";
+            this.llEntityExpander.Size = new System.Drawing.Size(47, 13);
+            this.llEntityExpander.TabIndex = 3;
+            this.llEntityExpander.TabStop = true;
+            this.llEntityExpander.Text = "Collapse";
+            this.llEntityExpander.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
             // 
             // panel1
             // 
@@ -578,7 +578,7 @@
             // 
             // gbAttributes
             // 
-            this.gbAttributes.Controls.Add(this.linkLabel2);
+            this.gbAttributes.Controls.Add(this.llAttributeExpander);
             this.gbAttributes.Controls.Add(this.panel5);
             this.gbAttributes.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbAttributes.Location = new System.Drawing.Point(0, 0);
@@ -588,17 +588,17 @@
             this.gbAttributes.TabStop = false;
             this.gbAttributes.Text = "Attributes";
             // 
-            // linkLabel2
+            // llAttributeExpander
             // 
-            this.linkLabel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(380, 0);
-            this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(47, 13);
-            this.linkLabel2.TabIndex = 4;
-            this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "Collapse";
-            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
+            this.llAttributeExpander.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.llAttributeExpander.AutoSize = true;
+            this.llAttributeExpander.Location = new System.Drawing.Point(380, 0);
+            this.llAttributeExpander.Name = "llAttributeExpander";
+            this.llAttributeExpander.Size = new System.Drawing.Size(47, 13);
+            this.llAttributeExpander.TabIndex = 4;
+            this.llAttributeExpander.TabStop = true;
+            this.llAttributeExpander.Text = "Collapse";
+            this.llAttributeExpander.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
             // 
             // panel5
             // 
@@ -892,8 +892,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolStripStatusLabel statusAttributesShowing;
         private System.Windows.Forms.ToolStripStatusLabel statusAttributesSelected;
-        private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.LinkLabel linkLabel2;
+        private System.Windows.Forms.LinkLabel llEntityExpander;
+        private System.Windows.Forms.LinkLabel llAttributeExpander;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel pnEntSearch;
         private System.Windows.Forms.TextBox txtEntSearch;
