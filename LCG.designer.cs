@@ -274,6 +274,7 @@
             this.gridEntities.Size = new System.Drawing.Size(357, 230);
             this.gridEntities.TabIndex = 1;
             this.gridEntities.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
+            this.gridEntities.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridEntities_CellFormatting);
             this.gridEntities.SelectionChanged += new System.EventHandler(this.gridEntities_SelectionChanged);
             this.gridEntities.Move += new System.EventHandler(this.gridEntities_Move);
             // 
