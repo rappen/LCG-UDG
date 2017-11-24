@@ -55,7 +55,8 @@ namespace Rappen.XTB.LCG
 
         private void attributeFilter_Changed(object sender, EventArgs e)
         {
-            FilterAttributes(selectedEntity);
+            tmAttSearch.Stop();
+            tmAttSearch.Start();
         }
 
         private void btnGenerate_Click(object sender, EventArgs e)
@@ -101,7 +102,8 @@ namespace Rappen.XTB.LCG
 
         private void entityFilter_Changed(object sender, EventArgs e)
         {
-            FilterEntities();
+            tmEntSearch.Stop();
+            tmEntSearch.Start();
         }
 
         private void grid_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -256,7 +258,6 @@ namespace Rappen.XTB.LCG
         private void LoadAttributes(EntityMetadataProxy entity)
         {
             entity.Attributes = null;
-            EnableControls(false);
             WorkAsync(new WorkAsyncInfo
             {
                 Message = $"Loading attributes for {entity}...",
@@ -296,7 +297,6 @@ namespace Rappen.XTB.LCG
                             gridAttributes.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader);
                             gridAttributes.Columns[0].Width = 30;
                         }
-                        EnableControls(true);
                     });
                 }
             });
@@ -309,6 +309,7 @@ namespace Rappen.XTB.LCG
 
         private void UpdateAttributesStatus()
         {
+            chkAttAll.Visible = gridAttributes.Rows.Count > 0;
             if (gridAttributes.DataSource != null && selectedEntity != null && selectedEntity.Attributes != null)
             {
                 statusAttributesShowing.Text = $"Showing {gridAttributes.Rows.Count} of {selectedEntity.Attributes.Count} attributes.";
@@ -415,6 +416,7 @@ namespace Rappen.XTB.LCG
 
         private void UpdateEntitiesStatus()
         {
+            chkEntAll.Visible = gridEntities.Rows.Count > 0;
             if (gridEntities.DataSource != null && entities != null)
             {
                 statusEntitiesShowing.Text = $"Showing {gridEntities.Rows.Count} of {entities.Count} entities.";
@@ -534,6 +536,18 @@ namespace Rappen.XTB.LCG
         private void gridAttributes_Move(object sender, EventArgs e)
         {
             chkAttAll.Top = gridAttributes.Top + 6;
+        }
+
+        private void tmEntSearch_Tick(object sender, EventArgs e)
+        {
+            tmEntSearch.Stop();
+            FilterEntities();
+        }
+
+        private void tmAttSearch_Tick(object sender, EventArgs e)
+        {
+            tmAttSearch.Stop();
+            FilterAttributes(selectedEntity);
         }
     }
 }

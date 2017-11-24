@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LCG));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -92,6 +93,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtEntFilter = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.tmEntSearch = new System.Windows.Forms.Timer(this.components);
+            this.tmAttSearch = new System.Windows.Forms.Timer(this.components);
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -282,6 +285,7 @@
             this.chkEntAll.Size = new System.Drawing.Size(15, 14);
             this.chkEntAll.TabIndex = 8;
             this.chkEntAll.UseVisualStyleBackColor = true;
+            this.chkEntAll.Visible = false;
             this.chkEntAll.CheckedChanged += new System.EventHandler(this.chkAllRows_CheckedChanged);
             // 
             // gbAttributes
@@ -291,7 +295,7 @@
             this.gbAttributes.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbAttributes.Location = new System.Drawing.Point(0, 0);
             this.gbAttributes.Name = "gbAttributes";
-            this.gbAttributes.Size = new System.Drawing.Size(437, 97);
+            this.gbAttributes.Size = new System.Drawing.Size(437, 148);
             this.gbAttributes.TabIndex = 1;
             this.gbAttributes.TabStop = false;
             this.gbAttributes.Text = "Attributes";
@@ -368,7 +372,7 @@
             this.gridAttributes.DefaultCellStyle = dataGridViewCellStyle5;
             this.gridAttributes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridAttributes.EnableHeadersVisualStyles = false;
-            this.gridAttributes.Location = new System.Drawing.Point(0, 97);
+            this.gridAttributes.Location = new System.Drawing.Point(0, 148);
             this.gridAttributes.Name = "gridAttributes";
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
@@ -380,7 +384,7 @@
             this.gridAttributes.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.gridAttributes.RowHeadersVisible = false;
             this.gridAttributes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridAttributes.Size = new System.Drawing.Size(437, 259);
+            this.gridAttributes.Size = new System.Drawing.Size(437, 208);
             this.gridAttributes.TabIndex = 1;
             this.gridAttributes.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             this.gridAttributes.Move += new System.EventHandler(this.gridAttributes_Move);
@@ -399,11 +403,12 @@
             // chkAttAll
             // 
             this.chkAttAll.AutoSize = true;
-            this.chkAttAll.Location = new System.Drawing.Point(10, 103);
+            this.chkAttAll.Location = new System.Drawing.Point(10, 154);
             this.chkAttAll.Name = "chkAttAll";
             this.chkAttAll.Size = new System.Drawing.Size(15, 14);
             this.chkAttAll.TabIndex = 9;
             this.chkAttAll.UseVisualStyleBackColor = true;
+            this.chkAttAll.Visible = false;
             this.chkAttAll.CheckedChanged += new System.EventHandler(this.chkAllRows_CheckedChanged);
             // 
             // panel6
@@ -432,9 +437,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(6, 5);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(29, 13);
+            this.label2.Size = new System.Drawing.Size(41, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Filter";
+            this.label2.Text = "Search";
             // 
             // panel7
             // 
@@ -755,9 +760,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 5);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(29, 13);
+            this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Filter";
+            this.label1.Text = "Search";
             // 
             // txtEntFilter
             // 
@@ -781,6 +786,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(351, 130);
             this.panel1.TabIndex = 0;
+            // 
+            // tmEntSearch
+            // 
+            this.tmEntSearch.Interval = 500;
+            this.tmEntSearch.Tick += new System.EventHandler(this.tmEntSearch_Tick);
+            // 
+            // tmAttSearch
+            // 
+            this.tmAttSearch.Interval = 500;
+            this.tmAttSearch.Tick += new System.EventHandler(this.tmAttSearch_Tick);
             // 
             // LCG
             // 
@@ -895,5 +910,7 @@
         private System.Windows.Forms.RadioButton rbEntCustomTrue;
         private System.Windows.Forms.RadioButton rbEntCustomFalse;
         private System.Windows.Forms.RadioButton rbEntCustomAll;
+        private System.Windows.Forms.Timer tmEntSearch;
+        private System.Windows.Forms.Timer tmAttSearch;
     }
 }
