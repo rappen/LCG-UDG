@@ -42,31 +42,49 @@
             this.btnLoadEntities = new System.Windows.Forms.ToolStripButton();
             this.btnGenerate = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.gbEntities = new System.Windows.Forms.GroupBox();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.chkEntAll = new System.Windows.Forms.CheckBox();
             this.statusEntities = new System.Windows.Forms.StatusStrip();
             this.statusEntitiesShowing = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusEntitiesSelected = new System.Windows.Forms.ToolStripStatusLabel();
             this.gridEntities = new System.Windows.Forms.DataGridView();
-            this.chkEntAll = new System.Windows.Forms.CheckBox();
-            this.gbAttributes = new System.Windows.Forms.GroupBox();
-            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
+            this.gbEntities = new System.Windows.Forms.GroupBox();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.pnEntSearch = new System.Windows.Forms.Panel();
+            this.txtEntSearch = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.pnEntIntersect = new System.Windows.Forms.Panel();
+            this.chkEntSelected = new System.Windows.Forms.CheckBox();
+            this.chkEntIntersect = new System.Windows.Forms.CheckBox();
+            this.pnEntManaged = new System.Windows.Forms.Panel();
+            this.rbEntMgdFalse = new System.Windows.Forms.RadioButton();
+            this.rbEntMgdTrue = new System.Windows.Forms.RadioButton();
+            this.rbEntMgdAll = new System.Windows.Forms.RadioButton();
+            this.pnEntCustom = new System.Windows.Forms.Panel();
+            this.rbEntCustomTrue = new System.Windows.Forms.RadioButton();
+            this.rbEntCustomFalse = new System.Windows.Forms.RadioButton();
+            this.rbEntCustomAll = new System.Windows.Forms.RadioButton();
+            this.pnEntSolution = new System.Windows.Forms.Panel();
+            this.cmbSolution = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.chkAttAll = new System.Windows.Forms.CheckBox();
+            this.gridAttributes = new System.Windows.Forms.DataGridView();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusAttributesShowing = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusAttributesSelected = new System.Windows.Forms.ToolStripStatusLabel();
-            this.gridAttributes = new System.Windows.Forms.DataGridView();
+            this.gbAttributes = new System.Windows.Forms.GroupBox();
+            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.chkAttAll = new System.Windows.Forms.CheckBox();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.txtAttFilter = new System.Windows.Forms.TextBox();
+            this.pnAttSearch = new System.Windows.Forms.Panel();
+            this.txtAttSearch = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.panel7 = new System.Windows.Forms.Panel();
+            this.pnAttManaged = new System.Windows.Forms.Panel();
             this.rbAttMgdFalse = new System.Windows.Forms.RadioButton();
             this.rbAttMgdTrue = new System.Windows.Forms.RadioButton();
             this.rbAttMgdAll = new System.Windows.Forms.RadioButton();
-            this.panel8 = new System.Windows.Forms.Panel();
+            this.pnAttCustom = new System.Windows.Forms.Panel();
             this.rbAttCustomTrue = new System.Windows.Forms.RadioButton();
             this.rbAttCustomFalse = new System.Windows.Forms.RadioButton();
             this.rbAttCustomAll = new System.Windows.Forms.RadioButton();
@@ -75,24 +93,6 @@
             this.txtOutputFolder = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.llOptionsExpander = new System.Windows.Forms.LinkLabel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.rbEntCustomAll = new System.Windows.Forms.RadioButton();
-            this.rbEntCustomFalse = new System.Windows.Forms.RadioButton();
-            this.rbEntCustomTrue = new System.Windows.Forms.RadioButton();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.rbEntMgdAll = new System.Windows.Forms.RadioButton();
-            this.rbEntMgdTrue = new System.Windows.Forms.RadioButton();
-            this.rbEntMgdFalse = new System.Windows.Forms.RadioButton();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.chkEntIntersect = new System.Windows.Forms.CheckBox();
-            this.chkEntSelected = new System.Windows.Forms.CheckBox();
-            this.panel9 = new System.Windows.Forms.Panel();
-            this.label4 = new System.Windows.Forms.Label();
-            this.cmbSolution = new System.Windows.Forms.ComboBox();
-            this.panel10 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtEntFilter = new System.Windows.Forms.TextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.tmEntSearch = new System.Windows.Forms.Timer(this.components);
             this.tmAttSearch = new System.Windows.Forms.Timer(this.components);
             this.toolStripMenu.SuspendLayout();
@@ -100,23 +100,23 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.gbEntities.SuspendLayout();
             this.statusEntities.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridEntities)).BeginInit();
-            this.gbAttributes.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridAttributes)).BeginInit();
-            this.panel5.SuspendLayout();
-            this.panel6.SuspendLayout();
-            this.panel7.SuspendLayout();
-            this.panel8.SuspendLayout();
-            this.gbOptions.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
-            this.panel4.SuspendLayout();
-            this.panel9.SuspendLayout();
-            this.panel10.SuspendLayout();
+            this.gbEntities.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.pnEntSearch.SuspendLayout();
+            this.pnEntIntersect.SuspendLayout();
+            this.pnEntManaged.SuspendLayout();
+            this.pnEntCustom.SuspendLayout();
+            this.pnEntSolution.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridAttributes)).BeginInit();
+            this.statusStrip1.SuspendLayout();
+            this.gbAttributes.SuspendLayout();
+            this.panel5.SuspendLayout();
+            this.pnAttSearch.SuspendLayout();
+            this.pnAttManaged.SuspendLayout();
+            this.pnAttCustom.SuspendLayout();
+            this.gbOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripMenu
@@ -187,29 +187,16 @@
             this.splitContainer1.SplitterDistance = 357;
             this.splitContainer1.TabIndex = 5;
             // 
-            // gbEntities
+            // chkEntAll
             // 
-            this.gbEntities.Controls.Add(this.linkLabel1);
-            this.gbEntities.Controls.Add(this.panel1);
-            this.gbEntities.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbEntities.Location = new System.Drawing.Point(0, 0);
-            this.gbEntities.Name = "gbEntities";
-            this.gbEntities.Size = new System.Drawing.Size(357, 148);
-            this.gbEntities.TabIndex = 0;
-            this.gbEntities.TabStop = false;
-            this.gbEntities.Text = "Entities";
-            // 
-            // linkLabel1
-            // 
-            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(302, 0);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(47, 13);
-            this.linkLabel1.TabIndex = 3;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Collapse";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
+            this.chkEntAll.AutoSize = true;
+            this.chkEntAll.Location = new System.Drawing.Point(10, 154);
+            this.chkEntAll.Name = "chkEntAll";
+            this.chkEntAll.Size = new System.Drawing.Size(15, 14);
+            this.chkEntAll.TabIndex = 8;
+            this.chkEntAll.UseVisualStyleBackColor = true;
+            this.chkEntAll.Visible = false;
+            this.chkEntAll.CheckedChanged += new System.EventHandler(this.chkAllRows_CheckedChanged);
             // 
             // statusEntities
             // 
@@ -272,81 +259,245 @@
             this.gridEntities.RowHeadersVisible = false;
             this.gridEntities.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridEntities.Size = new System.Drawing.Size(357, 230);
-            this.gridEntities.TabIndex = 1;
+            this.gridEntities.TabIndex = 6;
             this.gridEntities.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             this.gridEntities.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridEntities_CellFormatting);
             this.gridEntities.SelectionChanged += new System.EventHandler(this.gridEntities_SelectionChanged);
             this.gridEntities.Move += new System.EventHandler(this.gridEntities_Move);
             // 
-            // chkEntAll
+            // gbEntities
             // 
-            this.chkEntAll.AutoSize = true;
-            this.chkEntAll.Location = new System.Drawing.Point(10, 154);
-            this.chkEntAll.Name = "chkEntAll";
-            this.chkEntAll.Size = new System.Drawing.Size(15, 14);
-            this.chkEntAll.TabIndex = 8;
-            this.chkEntAll.UseVisualStyleBackColor = true;
-            this.chkEntAll.Visible = false;
-            this.chkEntAll.CheckedChanged += new System.EventHandler(this.chkAllRows_CheckedChanged);
+            this.gbEntities.Controls.Add(this.linkLabel1);
+            this.gbEntities.Controls.Add(this.panel1);
+            this.gbEntities.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gbEntities.Location = new System.Drawing.Point(0, 0);
+            this.gbEntities.Name = "gbEntities";
+            this.gbEntities.Size = new System.Drawing.Size(357, 148);
+            this.gbEntities.TabIndex = 0;
+            this.gbEntities.TabStop = false;
+            this.gbEntities.Text = "Entities";
             // 
-            // gbAttributes
+            // linkLabel1
             // 
-            this.gbAttributes.Controls.Add(this.linkLabel2);
-            this.gbAttributes.Controls.Add(this.panel5);
-            this.gbAttributes.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbAttributes.Location = new System.Drawing.Point(0, 0);
-            this.gbAttributes.Name = "gbAttributes";
-            this.gbAttributes.Size = new System.Drawing.Size(437, 148);
-            this.gbAttributes.TabIndex = 1;
-            this.gbAttributes.TabStop = false;
-            this.gbAttributes.Text = "Attributes";
+            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(302, 0);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(47, 13);
+            this.linkLabel1.TabIndex = 3;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Collapse";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
             // 
-            // linkLabel2
+            // panel1
             // 
-            this.linkLabel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(380, 0);
-            this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(47, 13);
-            this.linkLabel2.TabIndex = 4;
-            this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "Collapse";
-            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
+            this.panel1.Controls.Add(this.pnEntSearch);
+            this.panel1.Controls.Add(this.pnEntIntersect);
+            this.panel1.Controls.Add(this.pnEntManaged);
+            this.panel1.Controls.Add(this.pnEntCustom);
+            this.panel1.Controls.Add(this.pnEntSolution);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(3, 16);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(351, 130);
+            this.panel1.TabIndex = 0;
             // 
-            // statusStrip1
+            // pnEntSearch
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.toolStripStatusLabel2,
-            this.statusAttributesShowing,
-            this.statusAttributesSelected});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 356);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(437, 22);
-            this.statusStrip1.SizingGrip = false;
-            this.statusStrip1.TabIndex = 2;
-            this.statusStrip1.Text = "statusStrip1";
+            this.pnEntSearch.Controls.Add(this.txtEntSearch);
+            this.pnEntSearch.Controls.Add(this.label1);
+            this.pnEntSearch.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnEntSearch.Location = new System.Drawing.Point(0, 104);
+            this.pnEntSearch.Name = "pnEntSearch";
+            this.pnEntSearch.Size = new System.Drawing.Size(351, 26);
+            this.pnEntSearch.TabIndex = 5;
             // 
-            // toolStripStatusLabel1
+            // txtEntSearch
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
+            this.txtEntSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtEntSearch.Location = new System.Drawing.Point(92, 2);
+            this.txtEntSearch.Name = "txtEntSearch";
+            this.txtEntSearch.Size = new System.Drawing.Size(254, 20);
+            this.txtEntSearch.TabIndex = 4;
+            this.txtEntSearch.TextChanged += new System.EventHandler(this.txtEntSearch_TextChanged);
             // 
-            // toolStripStatusLabel2
+            // label1
             // 
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(0, 17);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 5);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Search";
             // 
-            // statusAttributesShowing
+            // pnEntIntersect
             // 
-            this.statusAttributesShowing.Name = "statusAttributesShowing";
-            this.statusAttributesShowing.Size = new System.Drawing.Size(144, 17);
-            this.statusAttributesShowing.Text = "Select an entity to the left!";
+            this.pnEntIntersect.Controls.Add(this.chkEntSelected);
+            this.pnEntIntersect.Controls.Add(this.chkEntIntersect);
+            this.pnEntIntersect.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnEntIntersect.Location = new System.Drawing.Point(0, 78);
+            this.pnEntIntersect.Name = "pnEntIntersect";
+            this.pnEntIntersect.Size = new System.Drawing.Size(351, 26);
+            this.pnEntIntersect.TabIndex = 4;
             // 
-            // statusAttributesSelected
+            // chkEntSelected
             // 
-            this.statusAttributesSelected.Name = "statusAttributesSelected";
-            this.statusAttributesSelected.Size = new System.Drawing.Size(0, 17);
+            this.chkEntSelected.AutoSize = true;
+            this.chkEntSelected.Location = new System.Drawing.Point(175, 5);
+            this.chkEntSelected.Name = "chkEntSelected";
+            this.chkEntSelected.Size = new System.Drawing.Size(90, 17);
+            this.chkEntSelected.TabIndex = 1;
+            this.chkEntSelected.Text = "Selected only";
+            this.chkEntSelected.UseVisualStyleBackColor = true;
+            this.chkEntSelected.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            // 
+            // chkEntIntersect
+            // 
+            this.chkEntIntersect.AutoSize = true;
+            this.chkEntIntersect.Checked = true;
+            this.chkEntIntersect.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkEntIntersect.Location = new System.Drawing.Point(9, 5);
+            this.chkEntIntersect.Name = "chkEntIntersect";
+            this.chkEntIntersect.Size = new System.Drawing.Size(104, 17);
+            this.chkEntIntersect.TabIndex = 0;
+            this.chkEntIntersect.Text = "Include intersect";
+            this.chkEntIntersect.UseVisualStyleBackColor = true;
+            this.chkEntIntersect.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            // 
+            // pnEntManaged
+            // 
+            this.pnEntManaged.Controls.Add(this.rbEntMgdFalse);
+            this.pnEntManaged.Controls.Add(this.rbEntMgdTrue);
+            this.pnEntManaged.Controls.Add(this.rbEntMgdAll);
+            this.pnEntManaged.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnEntManaged.Location = new System.Drawing.Point(0, 52);
+            this.pnEntManaged.Name = "pnEntManaged";
+            this.pnEntManaged.Size = new System.Drawing.Size(351, 26);
+            this.pnEntManaged.TabIndex = 3;
+            // 
+            // rbEntMgdFalse
+            // 
+            this.rbEntMgdFalse.AutoSize = true;
+            this.rbEntMgdFalse.Location = new System.Drawing.Point(175, 5);
+            this.rbEntMgdFalse.Name = "rbEntMgdFalse";
+            this.rbEntMgdFalse.Size = new System.Drawing.Size(83, 17);
+            this.rbEntMgdFalse.TabIndex = 2;
+            this.rbEntMgdFalse.Text = "Unmanaged";
+            this.rbEntMgdFalse.UseVisualStyleBackColor = true;
+            this.rbEntMgdFalse.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            // 
+            // rbEntMgdTrue
+            // 
+            this.rbEntMgdTrue.AutoSize = true;
+            this.rbEntMgdTrue.Location = new System.Drawing.Point(92, 5);
+            this.rbEntMgdTrue.Name = "rbEntMgdTrue";
+            this.rbEntMgdTrue.Size = new System.Drawing.Size(70, 17);
+            this.rbEntMgdTrue.TabIndex = 1;
+            this.rbEntMgdTrue.Text = "Managed";
+            this.rbEntMgdTrue.UseVisualStyleBackColor = true;
+            this.rbEntMgdTrue.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            // 
+            // rbEntMgdAll
+            // 
+            this.rbEntMgdAll.AutoSize = true;
+            this.rbEntMgdAll.Checked = true;
+            this.rbEntMgdAll.Location = new System.Drawing.Point(9, 5);
+            this.rbEntMgdAll.Name = "rbEntMgdAll";
+            this.rbEntMgdAll.Size = new System.Drawing.Size(36, 17);
+            this.rbEntMgdAll.TabIndex = 0;
+            this.rbEntMgdAll.TabStop = true;
+            this.rbEntMgdAll.Text = "All";
+            this.rbEntMgdAll.UseVisualStyleBackColor = true;
+            this.rbEntMgdAll.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            // 
+            // pnEntCustom
+            // 
+            this.pnEntCustom.Controls.Add(this.rbEntCustomTrue);
+            this.pnEntCustom.Controls.Add(this.rbEntCustomFalse);
+            this.pnEntCustom.Controls.Add(this.rbEntCustomAll);
+            this.pnEntCustom.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnEntCustom.Location = new System.Drawing.Point(0, 26);
+            this.pnEntCustom.Name = "pnEntCustom";
+            this.pnEntCustom.Size = new System.Drawing.Size(351, 26);
+            this.pnEntCustom.TabIndex = 2;
+            // 
+            // rbEntCustomTrue
+            // 
+            this.rbEntCustomTrue.AutoSize = true;
+            this.rbEntCustomTrue.Location = new System.Drawing.Point(175, 5);
+            this.rbEntCustomTrue.Name = "rbEntCustomTrue";
+            this.rbEntCustomTrue.Size = new System.Drawing.Size(60, 17);
+            this.rbEntCustomTrue.TabIndex = 2;
+            this.rbEntCustomTrue.Text = "Custom";
+            this.rbEntCustomTrue.UseVisualStyleBackColor = true;
+            this.rbEntCustomTrue.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            // 
+            // rbEntCustomFalse
+            // 
+            this.rbEntCustomFalse.AutoSize = true;
+            this.rbEntCustomFalse.Location = new System.Drawing.Point(92, 5);
+            this.rbEntCustomFalse.Name = "rbEntCustomFalse";
+            this.rbEntCustomFalse.Size = new System.Drawing.Size(59, 17);
+            this.rbEntCustomFalse.TabIndex = 1;
+            this.rbEntCustomFalse.Text = "System";
+            this.rbEntCustomFalse.UseVisualStyleBackColor = true;
+            this.rbEntCustomFalse.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            // 
+            // rbEntCustomAll
+            // 
+            this.rbEntCustomAll.AutoSize = true;
+            this.rbEntCustomAll.Checked = true;
+            this.rbEntCustomAll.Location = new System.Drawing.Point(9, 5);
+            this.rbEntCustomAll.Name = "rbEntCustomAll";
+            this.rbEntCustomAll.Size = new System.Drawing.Size(36, 17);
+            this.rbEntCustomAll.TabIndex = 0;
+            this.rbEntCustomAll.TabStop = true;
+            this.rbEntCustomAll.Text = "All";
+            this.rbEntCustomAll.UseVisualStyleBackColor = true;
+            this.rbEntCustomAll.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            // 
+            // pnEntSolution
+            // 
+            this.pnEntSolution.Controls.Add(this.cmbSolution);
+            this.pnEntSolution.Controls.Add(this.label4);
+            this.pnEntSolution.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnEntSolution.Location = new System.Drawing.Point(0, 0);
+            this.pnEntSolution.Name = "pnEntSolution";
+            this.pnEntSolution.Size = new System.Drawing.Size(351, 26);
+            this.pnEntSolution.TabIndex = 1;
+            // 
+            // cmbSolution
+            // 
+            this.cmbSolution.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbSolution.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSolution.FormattingEnabled = true;
+            this.cmbSolution.Location = new System.Drawing.Point(92, 4);
+            this.cmbSolution.Name = "cmbSolution";
+            this.cmbSolution.Size = new System.Drawing.Size(254, 21);
+            this.cmbSolution.TabIndex = 1;
+            this.cmbSolution.SelectedIndexChanged += new System.EventHandler(this.entityFilter_Changed);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(9, 7);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(45, 13);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Solution";
+            // 
+            // chkAttAll
+            // 
+            this.chkAttAll.AutoSize = true;
+            this.chkAttAll.Location = new System.Drawing.Point(10, 154);
+            this.chkAttAll.Name = "chkAttAll";
+            this.chkAttAll.Size = new System.Drawing.Size(15, 14);
+            this.chkAttAll.TabIndex = 9;
+            this.chkAttAll.UseVisualStyleBackColor = true;
+            this.chkAttAll.Visible = false;
+            this.chkAttAll.CheckedChanged += new System.EventHandler(this.chkAllRows_CheckedChanged);
             // 
             // gridAttributes
             // 
@@ -386,77 +537,125 @@
             this.gridAttributes.RowHeadersVisible = false;
             this.gridAttributes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridAttributes.Size = new System.Drawing.Size(437, 208);
-            this.gridAttributes.TabIndex = 1;
+            this.gridAttributes.TabIndex = 6;
             this.gridAttributes.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             this.gridAttributes.Move += new System.EventHandler(this.gridAttributes_Move);
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1,
+            this.toolStripStatusLabel2,
+            this.statusAttributesShowing,
+            this.statusAttributesSelected});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 356);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(437, 22);
+            this.statusStrip1.SizingGrip = false;
+            this.statusStrip1.TabIndex = 2;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
+            // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(0, 17);
+            // 
+            // statusAttributesShowing
+            // 
+            this.statusAttributesShowing.Name = "statusAttributesShowing";
+            this.statusAttributesShowing.Size = new System.Drawing.Size(144, 17);
+            this.statusAttributesShowing.Text = "Select an entity to the left!";
+            // 
+            // statusAttributesSelected
+            // 
+            this.statusAttributesSelected.Name = "statusAttributesSelected";
+            this.statusAttributesSelected.Size = new System.Drawing.Size(0, 17);
+            // 
+            // gbAttributes
+            // 
+            this.gbAttributes.Controls.Add(this.linkLabel2);
+            this.gbAttributes.Controls.Add(this.panel5);
+            this.gbAttributes.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gbAttributes.Location = new System.Drawing.Point(0, 0);
+            this.gbAttributes.Name = "gbAttributes";
+            this.gbAttributes.Size = new System.Drawing.Size(437, 148);
+            this.gbAttributes.TabIndex = 1;
+            this.gbAttributes.TabStop = false;
+            this.gbAttributes.Text = "Attributes";
+            // 
+            // linkLabel2
+            // 
+            this.linkLabel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.linkLabel2.AutoSize = true;
+            this.linkLabel2.Location = new System.Drawing.Point(380, 0);
+            this.linkLabel2.Name = "linkLabel2";
+            this.linkLabel2.Size = new System.Drawing.Size(47, 13);
+            this.linkLabel2.TabIndex = 4;
+            this.linkLabel2.TabStop = true;
+            this.linkLabel2.Text = "Collapse";
+            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
+            // 
             // panel5
             // 
-            this.panel5.Controls.Add(this.panel6);
-            this.panel5.Controls.Add(this.panel7);
-            this.panel5.Controls.Add(this.panel8);
+            this.panel5.Controls.Add(this.pnAttSearch);
+            this.panel5.Controls.Add(this.pnAttManaged);
+            this.panel5.Controls.Add(this.pnAttCustom);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel5.Location = new System.Drawing.Point(3, 16);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(431, 78);
+            this.panel5.Size = new System.Drawing.Size(431, 88);
             this.panel5.TabIndex = 0;
             // 
-            // chkAttAll
+            // pnAttSearch
             // 
-            this.chkAttAll.AutoSize = true;
-            this.chkAttAll.Location = new System.Drawing.Point(10, 154);
-            this.chkAttAll.Name = "chkAttAll";
-            this.chkAttAll.Size = new System.Drawing.Size(15, 14);
-            this.chkAttAll.TabIndex = 9;
-            this.chkAttAll.UseVisualStyleBackColor = true;
-            this.chkAttAll.Visible = false;
-            this.chkAttAll.CheckedChanged += new System.EventHandler(this.chkAllRows_CheckedChanged);
+            this.pnAttSearch.Controls.Add(this.txtAttSearch);
+            this.pnAttSearch.Controls.Add(this.label2);
+            this.pnAttSearch.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnAttSearch.Location = new System.Drawing.Point(0, 52);
+            this.pnAttSearch.Name = "pnAttSearch";
+            this.pnAttSearch.Size = new System.Drawing.Size(431, 26);
+            this.pnAttSearch.TabIndex = 3;
             // 
-            // panel6
+            // txtAttSearch
             // 
-            this.panel6.Controls.Add(this.txtAttFilter);
-            this.panel6.Controls.Add(this.label2);
-            this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel6.Location = new System.Drawing.Point(0, 52);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(431, 26);
-            this.panel6.TabIndex = 7;
-            // 
-            // txtAttFilter
-            // 
-            this.txtAttFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtAttSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtAttFilter.Location = new System.Drawing.Point(132, 2);
-            this.txtAttFilter.Name = "txtAttFilter";
-            this.txtAttFilter.Size = new System.Drawing.Size(294, 20);
-            this.txtAttFilter.TabIndex = 4;
-            this.txtAttFilter.TextChanged += new System.EventHandler(this.attributeFilter_Changed);
+            this.txtAttSearch.Location = new System.Drawing.Point(92, 4);
+            this.txtAttSearch.Name = "txtAttSearch";
+            this.txtAttSearch.Size = new System.Drawing.Size(334, 20);
+            this.txtAttSearch.TabIndex = 4;
+            this.txtAttSearch.TextChanged += new System.EventHandler(this.txtAttSearch_TextChanged);
             // 
             // label2
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 5);
+            this.label2.Location = new System.Drawing.Point(6, 7);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(41, 13);
             this.label2.TabIndex = 3;
             this.label2.Text = "Search";
             // 
-            // panel7
+            // pnAttManaged
             // 
-            this.panel7.Controls.Add(this.rbAttMgdFalse);
-            this.panel7.Controls.Add(this.rbAttMgdTrue);
-            this.panel7.Controls.Add(this.rbAttMgdAll);
-            this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel7.Location = new System.Drawing.Point(0, 26);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(431, 26);
-            this.panel7.TabIndex = 6;
+            this.pnAttManaged.Controls.Add(this.rbAttMgdFalse);
+            this.pnAttManaged.Controls.Add(this.rbAttMgdTrue);
+            this.pnAttManaged.Controls.Add(this.rbAttMgdAll);
+            this.pnAttManaged.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnAttManaged.Location = new System.Drawing.Point(0, 26);
+            this.pnAttManaged.Name = "pnAttManaged";
+            this.pnAttManaged.Size = new System.Drawing.Size(431, 26);
+            this.pnAttManaged.TabIndex = 2;
             // 
             // rbAttMgdFalse
             // 
             this.rbAttMgdFalse.AutoSize = true;
-            this.rbAttMgdFalse.Location = new System.Drawing.Point(132, 5);
+            this.rbAttMgdFalse.Location = new System.Drawing.Point(175, 5);
             this.rbAttMgdFalse.Name = "rbAttMgdFalse";
             this.rbAttMgdFalse.Size = new System.Drawing.Size(83, 17);
             this.rbAttMgdFalse.TabIndex = 2;
@@ -467,7 +666,7 @@
             // rbAttMgdTrue
             // 
             this.rbAttMgdTrue.AutoSize = true;
-            this.rbAttMgdTrue.Location = new System.Drawing.Point(55, 5);
+            this.rbAttMgdTrue.Location = new System.Drawing.Point(92, 5);
             this.rbAttMgdTrue.Name = "rbAttMgdTrue";
             this.rbAttMgdTrue.Size = new System.Drawing.Size(70, 17);
             this.rbAttMgdTrue.TabIndex = 1;
@@ -488,21 +687,21 @@
             this.rbAttMgdAll.UseVisualStyleBackColor = true;
             this.rbAttMgdAll.CheckedChanged += new System.EventHandler(this.attributeFilter_Changed);
             // 
-            // panel8
+            // pnAttCustom
             // 
-            this.panel8.Controls.Add(this.rbAttCustomTrue);
-            this.panel8.Controls.Add(this.rbAttCustomFalse);
-            this.panel8.Controls.Add(this.rbAttCustomAll);
-            this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel8.Location = new System.Drawing.Point(0, 0);
-            this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(431, 26);
-            this.panel8.TabIndex = 5;
+            this.pnAttCustom.Controls.Add(this.rbAttCustomTrue);
+            this.pnAttCustom.Controls.Add(this.rbAttCustomFalse);
+            this.pnAttCustom.Controls.Add(this.rbAttCustomAll);
+            this.pnAttCustom.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnAttCustom.Location = new System.Drawing.Point(0, 0);
+            this.pnAttCustom.Name = "pnAttCustom";
+            this.pnAttCustom.Size = new System.Drawing.Size(431, 26);
+            this.pnAttCustom.TabIndex = 1;
             // 
             // rbAttCustomTrue
             // 
             this.rbAttCustomTrue.AutoSize = true;
-            this.rbAttCustomTrue.Location = new System.Drawing.Point(132, 5);
+            this.rbAttCustomTrue.Location = new System.Drawing.Point(175, 5);
             this.rbAttCustomTrue.Name = "rbAttCustomTrue";
             this.rbAttCustomTrue.Size = new System.Drawing.Size(60, 17);
             this.rbAttCustomTrue.TabIndex = 2;
@@ -513,7 +712,7 @@
             // rbAttCustomFalse
             // 
             this.rbAttCustomFalse.AutoSize = true;
-            this.rbAttCustomFalse.Location = new System.Drawing.Point(55, 5);
+            this.rbAttCustomFalse.Location = new System.Drawing.Point(92, 5);
             this.rbAttCustomFalse.Name = "rbAttCustomFalse";
             this.rbAttCustomFalse.Size = new System.Drawing.Size(59, 17);
             this.rbAttCustomFalse.TabIndex = 1;
@@ -590,204 +789,6 @@
             this.llOptionsExpander.Text = "Collapse";
             this.llOptionsExpander.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
             // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.rbEntCustomTrue);
-            this.panel2.Controls.Add(this.rbEntCustomFalse);
-            this.panel2.Controls.Add(this.rbEntCustomAll);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(351, 26);
-            this.panel2.TabIndex = 5;
-            // 
-            // rbEntCustomAll
-            // 
-            this.rbEntCustomAll.AutoSize = true;
-            this.rbEntCustomAll.Checked = true;
-            this.rbEntCustomAll.Location = new System.Drawing.Point(9, 5);
-            this.rbEntCustomAll.Name = "rbEntCustomAll";
-            this.rbEntCustomAll.Size = new System.Drawing.Size(36, 17);
-            this.rbEntCustomAll.TabIndex = 0;
-            this.rbEntCustomAll.TabStop = true;
-            this.rbEntCustomAll.Text = "All";
-            this.rbEntCustomAll.UseVisualStyleBackColor = true;
-            this.rbEntCustomAll.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
-            // 
-            // rbEntCustomFalse
-            // 
-            this.rbEntCustomFalse.AutoSize = true;
-            this.rbEntCustomFalse.Location = new System.Drawing.Point(55, 5);
-            this.rbEntCustomFalse.Name = "rbEntCustomFalse";
-            this.rbEntCustomFalse.Size = new System.Drawing.Size(59, 17);
-            this.rbEntCustomFalse.TabIndex = 1;
-            this.rbEntCustomFalse.Text = "System";
-            this.rbEntCustomFalse.UseVisualStyleBackColor = true;
-            this.rbEntCustomFalse.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
-            // 
-            // rbEntCustomTrue
-            // 
-            this.rbEntCustomTrue.AutoSize = true;
-            this.rbEntCustomTrue.Location = new System.Drawing.Point(132, 5);
-            this.rbEntCustomTrue.Name = "rbEntCustomTrue";
-            this.rbEntCustomTrue.Size = new System.Drawing.Size(60, 17);
-            this.rbEntCustomTrue.TabIndex = 2;
-            this.rbEntCustomTrue.Text = "Custom";
-            this.rbEntCustomTrue.UseVisualStyleBackColor = true;
-            this.rbEntCustomTrue.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.rbEntMgdFalse);
-            this.panel3.Controls.Add(this.rbEntMgdTrue);
-            this.panel3.Controls.Add(this.rbEntMgdAll);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(0, 26);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(351, 26);
-            this.panel3.TabIndex = 6;
-            // 
-            // rbEntMgdAll
-            // 
-            this.rbEntMgdAll.AutoSize = true;
-            this.rbEntMgdAll.Checked = true;
-            this.rbEntMgdAll.Location = new System.Drawing.Point(9, 5);
-            this.rbEntMgdAll.Name = "rbEntMgdAll";
-            this.rbEntMgdAll.Size = new System.Drawing.Size(36, 17);
-            this.rbEntMgdAll.TabIndex = 0;
-            this.rbEntMgdAll.TabStop = true;
-            this.rbEntMgdAll.Text = "All";
-            this.rbEntMgdAll.UseVisualStyleBackColor = true;
-            this.rbEntMgdAll.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
-            // 
-            // rbEntMgdTrue
-            // 
-            this.rbEntMgdTrue.AutoSize = true;
-            this.rbEntMgdTrue.Location = new System.Drawing.Point(55, 5);
-            this.rbEntMgdTrue.Name = "rbEntMgdTrue";
-            this.rbEntMgdTrue.Size = new System.Drawing.Size(70, 17);
-            this.rbEntMgdTrue.TabIndex = 1;
-            this.rbEntMgdTrue.Text = "Managed";
-            this.rbEntMgdTrue.UseVisualStyleBackColor = true;
-            this.rbEntMgdTrue.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
-            // 
-            // rbEntMgdFalse
-            // 
-            this.rbEntMgdFalse.AutoSize = true;
-            this.rbEntMgdFalse.Location = new System.Drawing.Point(132, 5);
-            this.rbEntMgdFalse.Name = "rbEntMgdFalse";
-            this.rbEntMgdFalse.Size = new System.Drawing.Size(83, 17);
-            this.rbEntMgdFalse.TabIndex = 2;
-            this.rbEntMgdFalse.Text = "Unmanaged";
-            this.rbEntMgdFalse.UseVisualStyleBackColor = true;
-            this.rbEntMgdFalse.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.chkEntSelected);
-            this.panel4.Controls.Add(this.chkEntIntersect);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel4.Location = new System.Drawing.Point(0, 52);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(351, 26);
-            this.panel4.TabIndex = 7;
-            // 
-            // chkEntIntersect
-            // 
-            this.chkEntIntersect.AutoSize = true;
-            this.chkEntIntersect.Checked = true;
-            this.chkEntIntersect.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkEntIntersect.Location = new System.Drawing.Point(9, 5);
-            this.chkEntIntersect.Name = "chkEntIntersect";
-            this.chkEntIntersect.Size = new System.Drawing.Size(104, 17);
-            this.chkEntIntersect.TabIndex = 0;
-            this.chkEntIntersect.Text = "Include intersect";
-            this.chkEntIntersect.UseVisualStyleBackColor = true;
-            this.chkEntIntersect.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
-            // 
-            // chkEntSelected
-            // 
-            this.chkEntSelected.AutoSize = true;
-            this.chkEntSelected.Location = new System.Drawing.Point(132, 5);
-            this.chkEntSelected.Name = "chkEntSelected";
-            this.chkEntSelected.Size = new System.Drawing.Size(90, 17);
-            this.chkEntSelected.TabIndex = 1;
-            this.chkEntSelected.Text = "Selected only";
-            this.chkEntSelected.UseVisualStyleBackColor = true;
-            this.chkEntSelected.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
-            // 
-            // panel9
-            // 
-            this.panel9.Controls.Add(this.cmbSolution);
-            this.panel9.Controls.Add(this.label4);
-            this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel9.Location = new System.Drawing.Point(0, 78);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(351, 26);
-            this.panel9.TabIndex = 9;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 5);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(45, 13);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Solution";
-            // 
-            // cmbSolution
-            // 
-            this.cmbSolution.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbSolution.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbSolution.FormattingEnabled = true;
-            this.cmbSolution.Location = new System.Drawing.Point(132, 2);
-            this.cmbSolution.Name = "cmbSolution";
-            this.cmbSolution.Size = new System.Drawing.Size(214, 21);
-            this.cmbSolution.TabIndex = 1;
-            // 
-            // panel10
-            // 
-            this.panel10.Controls.Add(this.txtEntFilter);
-            this.panel10.Controls.Add(this.label1);
-            this.panel10.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel10.Location = new System.Drawing.Point(0, 104);
-            this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(351, 26);
-            this.panel10.TabIndex = 10;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 5);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Search";
-            // 
-            // txtEntFilter
-            // 
-            this.txtEntFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtEntFilter.Location = new System.Drawing.Point(132, 2);
-            this.txtEntFilter.Name = "txtEntFilter";
-            this.txtEntFilter.Size = new System.Drawing.Size(214, 20);
-            this.txtEntFilter.TabIndex = 4;
-            this.txtEntFilter.TextChanged += new System.EventHandler(this.entityFilter_Changed);
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.panel10);
-            this.panel1.Controls.Add(this.panel9);
-            this.panel1.Controls.Add(this.panel4);
-            this.panel1.Controls.Add(this.panel3);
-            this.panel1.Controls.Add(this.panel2);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(3, 16);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(351, 130);
-            this.panel1.TabIndex = 0;
-            // 
             // tmEntSearch
             // 
             this.tmEntSearch.Interval = 500;
@@ -818,36 +819,36 @@
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.gbEntities.ResumeLayout(false);
-            this.gbEntities.PerformLayout();
             this.statusEntities.ResumeLayout(false);
             this.statusEntities.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridEntities)).EndInit();
-            this.gbAttributes.ResumeLayout(false);
-            this.gbAttributes.PerformLayout();
+            this.gbEntities.ResumeLayout(false);
+            this.gbEntities.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.pnEntSearch.ResumeLayout(false);
+            this.pnEntSearch.PerformLayout();
+            this.pnEntIntersect.ResumeLayout(false);
+            this.pnEntIntersect.PerformLayout();
+            this.pnEntManaged.ResumeLayout(false);
+            this.pnEntManaged.PerformLayout();
+            this.pnEntCustom.ResumeLayout(false);
+            this.pnEntCustom.PerformLayout();
+            this.pnEntSolution.ResumeLayout(false);
+            this.pnEntSolution.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridAttributes)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridAttributes)).EndInit();
+            this.gbAttributes.ResumeLayout(false);
+            this.gbAttributes.PerformLayout();
             this.panel5.ResumeLayout(false);
-            this.panel6.ResumeLayout(false);
-            this.panel6.PerformLayout();
-            this.panel7.ResumeLayout(false);
-            this.panel7.PerformLayout();
-            this.panel8.ResumeLayout(false);
-            this.panel8.PerformLayout();
+            this.pnAttSearch.ResumeLayout(false);
+            this.pnAttSearch.PerformLayout();
+            this.pnAttManaged.ResumeLayout(false);
+            this.pnAttManaged.PerformLayout();
+            this.pnAttCustom.ResumeLayout(false);
+            this.pnAttCustom.PerformLayout();
             this.gbOptions.ResumeLayout(false);
             this.gbOptions.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
-            this.panel9.ResumeLayout(false);
-            this.panel9.PerformLayout();
-            this.panel10.ResumeLayout(false);
-            this.panel10.PerformLayout();
-            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -870,16 +871,16 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.DataGridView gridAttributes;
         private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.Panel pnAttSearch;
+        private System.Windows.Forms.Panel pnAttManaged;
         private System.Windows.Forms.RadioButton rbAttMgdFalse;
         private System.Windows.Forms.RadioButton rbAttMgdTrue;
         private System.Windows.Forms.RadioButton rbAttMgdAll;
-        private System.Windows.Forms.Panel panel8;
+        private System.Windows.Forms.Panel pnAttCustom;
         private System.Windows.Forms.RadioButton rbAttCustomTrue;
         private System.Windows.Forms.RadioButton rbAttCustomFalse;
         private System.Windows.Forms.RadioButton rbAttCustomAll;
-        private System.Windows.Forms.TextBox txtAttFilter;
+        private System.Windows.Forms.TextBox txtAttSearch;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox chkEntAll;
         private System.Windows.Forms.CheckBox chkAttAll;
@@ -894,20 +895,20 @@
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel10;
-        private System.Windows.Forms.TextBox txtEntFilter;
+        private System.Windows.Forms.Panel pnEntSearch;
+        private System.Windows.Forms.TextBox txtEntSearch;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Panel panel9;
+        private System.Windows.Forms.Panel pnEntSolution;
         private System.Windows.Forms.ComboBox cmbSolution;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Panel pnEntIntersect;
         private System.Windows.Forms.CheckBox chkEntSelected;
         private System.Windows.Forms.CheckBox chkEntIntersect;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel pnEntManaged;
         private System.Windows.Forms.RadioButton rbEntMgdFalse;
         private System.Windows.Forms.RadioButton rbEntMgdTrue;
         private System.Windows.Forms.RadioButton rbEntMgdAll;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel pnEntCustom;
         private System.Windows.Forms.RadioButton rbEntCustomTrue;
         private System.Windows.Forms.RadioButton rbEntCustomFalse;
         private System.Windows.Forms.RadioButton rbEntCustomAll;

@@ -1,4 +1,6 @@
-﻿using Microsoft.Xrm.Sdk.Messages;
+﻿using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk.Messages;
+using Microsoft.Xrm.Sdk.Query;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -55,8 +57,7 @@ namespace Rappen.XTB.LCG
 
         private void attributeFilter_Changed(object sender, EventArgs e)
         {
-            tmAttSearch.Stop();
-            tmAttSearch.Start();
+            FilterAttributes(selectedEntity);
         }
 
         private void btnGenerate_Click(object sender, EventArgs e)
@@ -102,8 +103,7 @@ namespace Rappen.XTB.LCG
 
         private void entityFilter_Changed(object sender, EventArgs e)
         {
-            tmEntSearch.Stop();
-            tmEntSearch.Start();
+            FilterEntities();
         }
 
         private void grid_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -163,6 +163,7 @@ namespace Rappen.XTB.LCG
             gridAttributes.DataSource = null;
             gridEntities.DataSource = null;
             SettingsLoad(e.ConnectionDetail?.ConnectionName);
+            LoadSolutions();
             Enabled = true;
         }
 
@@ -186,6 +187,18 @@ namespace Rappen.XTB.LCG
         private void tsbClose_Click(object sender, EventArgs e)
         {
             CloseTool();
+        }
+
+        private void txtAttSearch_TextChanged(object sender, EventArgs e)
+        {
+            tmAttSearch.Stop();
+            tmAttSearch.Start();
+        }
+
+        private void txtEntSearch_TextChanged(object sender, EventArgs e)
+        {
+            tmEntSearch.Stop();
+            tmEntSearch.Start();
         }
 
         #endregion Private Event Handlers
@@ -231,9 +244,9 @@ namespace Rappen.XTB.LCG
                     .Where(e => (rbAttMgdAll.Checked ||
                          (rbAttMgdTrue.Checked && e.Metadata.IsManaged.Value) ||
                          (rbAttMgdFalse.Checked && !e.Metadata.IsManaged.Value)))
-                    .Where(e => string.IsNullOrWhiteSpace(txtAttFilter.Text) ||
-                        e.Metadata.LogicalName.ToLowerInvariant().Contains(txtAttFilter.Text) ||
-                        e.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtAttFilter.Text) == true));
+                    .Where(e => string.IsNullOrWhiteSpace(txtAttSearch.Text) ||
+                        e.Metadata.LogicalName.ToLowerInvariant().Contains(txtAttSearch.Text) ||
+                        e.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtAttSearch.Text) == true));
             }
             else
             {
@@ -246,7 +259,7 @@ namespace Rappen.XTB.LCG
         {
             if (entities != null && entities.Count > 0)
             {
-                gridEntities.DataSource = new SortableBindingList<EntityMetadataProxy>(
+                var filteredentities =
                     entities
                     .Where(e => !e.Metadata.IsPrivate.Value)
                     .Where(e => !chkEntSelected.Checked || e.IsSelected)
@@ -257,9 +270,21 @@ namespace Rappen.XTB.LCG
                          (rbEntMgdTrue.Checked && e.Metadata.IsManaged.Value) ||
                          (rbEntMgdFalse.Checked && !e.Metadata.IsManaged.Value)))
                     .Where(e => !e.Metadata.IsIntersect.Value || chkEntIntersect.Checked)
-                    .Where(e => string.IsNullOrWhiteSpace(txtEntFilter.Text) ||
-                        e.Metadata.LogicalName.ToLowerInvariant().Contains(txtEntFilter.Text) ||
-                        e.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtEntFilter.Text) == true));
+                    .Where(e => string.IsNullOrWhiteSpace(txtEntSearch.Text) ||
+                        e.Metadata.LogicalName.ToLowerInvariant().Contains(txtEntSearch.Text) ||
+                        e.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtEntSearch.Text) == true);
+                if (cmbSolution.SelectedItem is SolutionProxy solution)
+                {
+                    if (solution.Entities == null)
+                    {
+                        LoadSolutionEntities(solution, FilterEntities);
+                        return;
+                    }
+                    filteredentities = filteredentities
+                        .Where(e => solution.Entities.Contains(e.LogicalName));
+                }
+
+                gridEntities.DataSource = new SortableBindingList<EntityMetadataProxy>(filteredentities);
             }
             else
             {
@@ -407,6 +432,76 @@ namespace Rappen.XTB.LCG
             });
         }
 
+        private void LoadSolutionEntities(SolutionProxy solution, Action callback)
+        {
+            WorkAsync(new WorkAsyncInfo
+            {
+                Message = "Loading solution entities...",
+                Work = (worker, args) =>
+                  {
+                      var qx = new QueryExpression("solutioncomponent");
+                      qx.ColumnSet.AddColumns("objectid");
+                      qx.Criteria.AddCondition("componenttype", ConditionOperator.Equal, 1);
+                      qx.Criteria.AddCondition("solutionid", ConditionOperator.Equal, solution.Solution.Id);
+                      args.Result = Service.RetrieveMultiple(qx);
+                  },
+                PostWorkCallBack = (args) =>
+                {
+                    if (args.Error != null)
+                    {
+                        MessageBox.Show(args.Error.Message);
+                    }
+                    if (args.Result is EntityCollection solutionentities)
+                    {
+                        solution.Entities = entities
+                            .Where(e => solutionentities.Entities
+                                .Select(i => i["objectid"]).Contains(e.Metadata.MetadataId))
+                            .Select(e => e.LogicalName)
+                            .ToList();
+                        callback?.Invoke();
+                    }
+                }
+            });
+        }
+
+        private void LoadSolutions()
+        {
+            cmbSolution.Items.Clear();
+            WorkAsync(new WorkAsyncInfo("Loading solutions...",
+                (eventargs) =>
+                {
+                    EnableControls(false);
+                    var qx = new QueryExpression("solution");
+                    qx.ColumnSet.AddColumns("friendlyname", "uniquename");
+                    //qx.Criteria.AddCondition("ismanaged", ConditionOperator.Equal, false);
+                    qx.Criteria.AddCondition("isvisible", ConditionOperator.Equal, true);
+                    var lePub = qx.AddLink("publisher", "publisherid", "publisherid");
+                    lePub.EntityAlias = "P";
+                    lePub.Columns.AddColumns("customizationprefix");
+                    eventargs.Result = Service.RetrieveMultiple(qx);
+                })
+            {
+                PostWorkCallBack = (completedargs) =>
+                {
+                    if (completedargs.Error != null)
+                    {
+                        MessageBox.Show(completedargs.Error.Message);
+                    }
+                    else
+                    {
+                        if (completedargs.Result is EntityCollection)
+                        {
+                            var solutions = (EntityCollection)completedargs.Result;
+                            var proxiedsolutions = solutions.Entities.Select(s => new SolutionProxy(s)).OrderBy(s => s.ToString());
+                            cmbSolution.Items.Add("");
+                            cmbSolution.Items.AddRange(proxiedsolutions.ToArray());
+                        }
+                    }
+                    EnableControls(true);
+                }
+            });
+        }
+
         private void SettingsLoad(string connectionname)
         {
             if (SettingsManager.Instance.TryLoad(GetType(), out Settings settings, connectionname))
@@ -476,45 +571,6 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        //private void LoadSolutions()
-        //{
-        //    cmbSolution.Items.Clear();
-        //    cmbSolution.Enabled = false;
-        //    WorkAsync(new WorkAsyncInfo("Loading solutions...",
-        //        (eventargs) =>
-        //        {
-        //            EnableControls(false);
-        //            var qx = new QueryExpression("solution");
-        //            qx.ColumnSet.AddColumns("friendlyname", "uniquename");
-        //            qx.AddOrder("installedon", OrderType.Ascending);
-        //            qx.Criteria.AddCondition("ismanaged", ConditionOperator.Equal, false);
-        //            qx.Criteria.AddCondition("isvisible", ConditionOperator.Equal, true);
-        //            var lePub = qx.AddLink("publisher", "publisherid", "publisherid");
-        //            lePub.EntityAlias = "P";
-        //            lePub.Columns.AddColumns("customizationprefix");
-        //            eventargs.Result = Service.RetrieveMultiple(qx);
-        //        })
-        //    {
-        //        PostWorkCallBack = (completedargs) =>
-        //        {
-        //            if (completedargs.Error != null)
-        //            {
-        //                MessageBox.Show(completedargs.Error.Message);
-        //            }
-        //            else
-        //            {
-        //                if (completedargs.Result is EntityCollection)
-        //                {
-        //                    var solutions = (EntityCollection)completedargs.Result;
-        //                    var proxiedsolutions = solutions.Entities.Select(s => new SolutionProxy(s)).OrderBy(s => s.ToString());
-        //                    cmbSolution.Items.AddRange(proxiedsolutions.ToArray());
-        //                    cmbSolution.Enabled = true;
-        //                }
-        //            }
-        //            EnableControls(true);
-        //        }
-        //    });
-        //}
         private void UpdateEntitiesStatus()
         {
             chkEntAll.Visible = gridEntities.Rows.Count > 0;
