@@ -97,7 +97,7 @@ namespace Rappen.XTB.LCG
         private static string CodifyDisplayName(string name)
         {
             return System.Text.Encoding.UTF8.GetString(System.Text.Encoding.GetEncoding("ISO-8859-8").GetBytes(name))
-                .Replace(" ", "").Replace("(", "").Replace(")", "");
+                .Replace(" ", "").Replace("(", "").Replace(")", "").Replace(":", "");
         }
     }
 
