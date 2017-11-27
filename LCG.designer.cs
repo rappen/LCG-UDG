@@ -193,7 +193,7 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 268);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 138);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -209,7 +209,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.gridAttributes);
             this.splitContainer1.Panel2.Controls.Add(this.statusStrip1);
             this.splitContainer1.Panel2.Controls.Add(this.gbAttributes);
-            this.splitContainer1.Size = new System.Drawing.Size(798, 524);
+            this.splitContainer1.Size = new System.Drawing.Size(798, 417);
             this.splitContainer1.SplitterDistance = 357;
             this.splitContainer1.TabIndex = 5;
             // 
@@ -229,7 +229,7 @@
             this.statusEntities.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusEntitiesShowing,
             this.statusEntitiesSelected});
-            this.statusEntities.Location = new System.Drawing.Point(0, 502);
+            this.statusEntities.Location = new System.Drawing.Point(0, 395);
             this.statusEntities.Name = "statusEntities";
             this.statusEntities.Size = new System.Drawing.Size(357, 22);
             this.statusEntities.SizingGrip = false;
@@ -284,7 +284,7 @@
             this.gridEntities.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.gridEntities.RowHeadersVisible = false;
             this.gridEntities.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridEntities.Size = new System.Drawing.Size(357, 376);
+            this.gridEntities.Size = new System.Drawing.Size(357, 269);
             this.gridEntities.TabIndex = 6;
             this.gridEntities.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             this.gridEntities.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridEntities_CellFormatting);
@@ -562,7 +562,7 @@
             this.gridAttributes.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.gridAttributes.RowHeadersVisible = false;
             this.gridAttributes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridAttributes.Size = new System.Drawing.Size(437, 354);
+            this.gridAttributes.Size = new System.Drawing.Size(437, 247);
             this.gridAttributes.TabIndex = 6;
             this.gridAttributes.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             this.gridAttributes.Move += new System.EventHandler(this.gridAttributes_Move);
@@ -574,7 +574,7 @@
             this.toolStripStatusLabel2,
             this.statusAttributesShowing,
             this.statusAttributesSelected});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 502);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 395);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(437, 22);
             this.statusStrip1.SizingGrip = false;
@@ -778,7 +778,7 @@
             this.gbOptions.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbOptions.Location = new System.Drawing.Point(0, 31);
             this.gbOptions.Name = "gbOptions";
-            this.gbOptions.Size = new System.Drawing.Size(798, 237);
+            this.gbOptions.Size = new System.Drawing.Size(798, 107);
             this.gbOptions.TabIndex = 6;
             this.gbOptions.TabStop = false;
             this.gbOptions.Tag = "130";
@@ -786,8 +786,6 @@
             // 
             // panel2
             // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.rbFilePerEntity);
             this.panel2.Controls.Add(this.rbFileCommon);
             this.panel2.Location = new System.Drawing.Point(95, 45);
@@ -801,7 +799,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCommonFilename.Location = new System.Drawing.Point(0, 4);
             this.txtCommonFilename.Name = "txtCommonFilename";
-            this.txtCommonFilename.Size = new System.Drawing.Size(233, 20);
+            this.txtCommonFilename.Size = new System.Drawing.Size(224, 20);
             this.txtCommonFilename.TabIndex = 4;
             // 
             // label7
@@ -828,7 +826,7 @@
             // 
             this.rbFileCommon.AutoSize = true;
             this.rbFileCommon.Checked = true;
-            this.rbFileCommon.Location = new System.Drawing.Point(0, 4);
+            this.rbFileCommon.Location = new System.Drawing.Point(8, 4);
             this.rbFileCommon.Name = "rbFileCommon";
             this.rbFileCommon.Size = new System.Drawing.Size(104, 17);
             this.rbFileCommon.TabIndex = 1;
@@ -848,9 +846,9 @@
             // 
             // txtNamespace
             // 
-            this.txtNamespace.Location = new System.Drawing.Point(512, 21);
+            this.txtNamespace.Location = new System.Drawing.Point(520, 21);
             this.txtNamespace.Name = "txtNamespace";
-            this.txtNamespace.Size = new System.Drawing.Size(276, 20);
+            this.txtNamespace.Size = new System.Drawing.Size(268, 20);
             this.txtNamespace.TabIndex = 5;
             // 
             // label5
@@ -874,9 +872,9 @@
             // 
             // txtOutputFolder
             // 
-            this.txtOutputFolder.Location = new System.Drawing.Point(95, 21);
+            this.txtOutputFolder.Location = new System.Drawing.Point(103, 21);
             this.txtOutputFolder.Name = "txtOutputFolder";
-            this.txtOutputFolder.Size = new System.Drawing.Size(225, 20);
+            this.txtOutputFolder.Size = new System.Drawing.Size(217, 20);
             this.txtOutputFolder.TabIndex = 2;
             // 
             // label3
@@ -913,7 +911,7 @@
             // textBox1
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(232, 4);
+            this.textBox1.Location = new System.Drawing.Point(224, 4);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(31, 20);
@@ -924,9 +922,9 @@
             // 
             this.pnFileCommonName.Controls.Add(this.txtCommonFilename);
             this.pnFileCommonName.Controls.Add(this.textBox1);
-            this.pnFileCommonName.Location = new System.Drawing.Point(95, 72);
+            this.pnFileCommonName.Location = new System.Drawing.Point(103, 72);
             this.pnFileCommonName.Name = "pnFileCommonName";
-            this.pnFileCommonName.Size = new System.Drawing.Size(263, 26);
+            this.pnFileCommonName.Size = new System.Drawing.Size(255, 26);
             this.pnFileCommonName.TabIndex = 6;
             // 
             // pnFilePerEntityType
@@ -942,7 +940,7 @@
             // rbFileNameDisplay
             // 
             this.rbFileNameDisplay.AutoSize = true;
-            this.rbFileNameDisplay.Location = new System.Drawing.Point(0, 4);
+            this.rbFileNameDisplay.Location = new System.Drawing.Point(8, 4);
             this.rbFileNameDisplay.Name = "rbFileNameDisplay";
             this.rbFileNameDisplay.Size = new System.Drawing.Size(88, 17);
             this.rbFileNameDisplay.TabIndex = 0;
@@ -1016,7 +1014,7 @@
             // rbConstNameDisplay
             // 
             this.rbConstNameDisplay.AutoSize = true;
-            this.rbConstNameDisplay.Location = new System.Drawing.Point(0, 4);
+            this.rbConstNameDisplay.Location = new System.Drawing.Point(8, 4);
             this.rbConstNameDisplay.Name = "rbConstNameDisplay";
             this.rbConstNameDisplay.Size = new System.Drawing.Size(88, 17);
             this.rbConstNameDisplay.TabIndex = 0;
@@ -1043,7 +1041,7 @@
             this.DoubleBuffered = true;
             this.Enabled = false;
             this.Name = "LCG";
-            this.Size = new System.Drawing.Size(798, 792);
+            this.Size = new System.Drawing.Size(798, 555);
             this.ConnectionUpdated += new XrmToolBox.Extensibility.PluginControlBase.ConnectionUpdatedHandler(this.LCG_ConnectionUpdated);
             this.toolStripMenu.ResumeLayout(false);
             this.toolStripMenu.PerformLayout();
