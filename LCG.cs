@@ -123,7 +123,7 @@ namespace Rappen.XTB.LCG
 
         private void gridAttributes_Move(object sender, EventArgs e)
         {
-            chkAttAll.Top = gridAttributes.Top + 6;
+            chkAttAll.Top = gridAttributes.Top + 10;
         }
 
         private void gridEntities_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -141,7 +141,7 @@ namespace Rappen.XTB.LCG
 
         private void gridEntities_Move(object sender, EventArgs e)
         {
-            chkEntAll.Top = gridEntities.Top + 6;
+            chkEntAll.Top = gridEntities.Top + 10;
         }
 
         private void gridEntities_SelectionChanged(object sender, EventArgs e)
@@ -590,7 +590,7 @@ namespace Rappen.XTB.LCG
         private void UpdateEntitiesStatus()
         {
             chkEntAll.Visible = gridEntities.Rows.Count > 0;
-            btnGenerate.Enabled = (bool)entities?.Any(e => e.IsSelected);
+            btnGenerate.Enabled = entities != null && (bool)entities?.Any(e => e.IsSelected);
             if (gridEntities.DataSource != null && entities != null)
             {
                 statusEntitiesShowing.Text = $"Showing {gridEntities.Rows.Count} of {entities.Count} entities.";

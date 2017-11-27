@@ -29,7 +29,7 @@ namespace Rappen.XTB.LCG
 
         #region Public Properties
 
-        [DisplayName(" ")]
+        [DisplayName(" \n ")]
         public bool Selected { get => IsSelected; }
 
         [DisplayName("Name")]

@@ -11,7 +11,7 @@ namespace Rappen.XTB.LCG
         public List<AttributeMetadataProxy> Attributes;
         public EntityMetadata Metadata;
 
-        [DisplayName(" ")]
+        [DisplayName(" \n ")]
         public bool Selected { get => IsSelected; }
 
         [DisplayName("Name")]

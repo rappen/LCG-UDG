@@ -89,14 +89,14 @@
             this.rbAttCustomFalse = new System.Windows.Forms.RadioButton();
             this.rbAttCustomAll = new System.Windows.Forms.RadioButton();
             this.gbOptions = new System.Windows.Forms.GroupBox();
+            this.txtNamespace = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.btnOutputFolder = new System.Windows.Forms.Button();
             this.txtOutputFolder = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.llOptionsExpander = new System.Windows.Forms.LinkLabel();
             this.tmEntSearch = new System.Windows.Forms.Timer(this.components);
             this.tmAttSearch = new System.Windows.Forms.Timer(this.components);
-            this.label5 = new System.Windows.Forms.Label();
-            this.txtNamespace = new System.Windows.Forms.TextBox();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -193,7 +193,7 @@
             // chkEntAll
             // 
             this.chkEntAll.AutoSize = true;
-            this.chkEntAll.Location = new System.Drawing.Point(10, 154);
+            this.chkEntAll.Location = new System.Drawing.Point(10, 158);
             this.chkEntAll.Name = "chkEntAll";
             this.chkEntAll.Size = new System.Drawing.Size(15, 14);
             this.chkEntAll.TabIndex = 8;
@@ -238,7 +238,7 @@
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.gridEntities.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.gridEntities.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.gridEntities.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -494,7 +494,7 @@
             // chkAttAll
             // 
             this.chkAttAll.AutoSize = true;
-            this.chkAttAll.Location = new System.Drawing.Point(10, 154);
+            this.chkAttAll.Location = new System.Drawing.Point(10, 158);
             this.chkAttAll.Name = "chkAttAll";
             this.chkAttAll.Size = new System.Drawing.Size(15, 14);
             this.chkAttAll.TabIndex = 9;
@@ -516,7 +516,7 @@
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.gridAttributes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.gridAttributes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.gridAttributes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -753,6 +753,22 @@
             this.gbOptions.Tag = "130";
             this.gbOptions.Text = "Options";
             // 
+            // txtNamespace
+            // 
+            this.txtNamespace.Location = new System.Drawing.Point(95, 48);
+            this.txtNamespace.Name = "txtNamespace";
+            this.txtNamespace.Size = new System.Drawing.Size(254, 20);
+            this.txtNamespace.TabIndex = 5;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 51);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(64, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Namespace";
+            // 
             // btnOutputFolder
             // 
             this.btnOutputFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -803,22 +819,6 @@
             // 
             this.tmAttSearch.Interval = 500;
             this.tmAttSearch.Tick += new System.EventHandler(this.tmAttSearch_Tick);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 51);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(64, 13);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Namespace";
-            // 
-            // txtNamespace
-            // 
-            this.txtNamespace.Location = new System.Drawing.Point(95, 48);
-            this.txtNamespace.Name = "txtNamespace";
-            this.txtNamespace.Size = new System.Drawing.Size(254, 20);
-            this.txtNamespace.TabIndex = 5;
             // 
             // LCG
             // 
