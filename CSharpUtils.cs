@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -8,6 +9,14 @@ namespace Rappen.XTB.LCG
 {
     internal class CSharpUtils
     {
+        private const string copy = @"// *************************************************
+// *** Latebound Constant Generator for XrmToolBox
+// *** by Jonas Rapp http://twitter.com/rappen
+// *** produced this file.
+// *** Feel free to edit the file as you please,
+// *** you can always regenerate it!
+// *************************************************";
+
         private const string namespacetemplate = @"namespace {namespace}
 {
 {entities}
@@ -17,33 +26,51 @@ namespace Rappen.XTB.LCG
         public const string E_{entity} = '{logicalname}';
 {attributes}
     }";
-        private const string attributetemplate = @"            public const string A_{attribute} = '{logicalname}';";
+        private const string attributetemplate = @"        public const string A_{attribute} = '{logicalname}';";
 
-
-        internal static void GenerateClasses(List<EntityMetadataProxy> entitiesmetadata, string ns)
+        internal static void GenerateClasses(List<EntityMetadataProxy> entitiesmetadata, Settings settings)
         {
-            var file = GetFile(entitiesmetadata, ns);
-            MessageBox.Show(file);
-        }
-
-        private static string GetFile(List<EntityMetadataProxy> entitiesmetadata, string ns)
-        {
-            var file = namespacetemplate.Replace("{namespace}", ns);
+            var savefiles = new List<string>();
+            var file = namespacetemplate.Replace("{namespace}", settings.NameSpace);
 
             var entities = new StringBuilder();
             foreach (var entitymetadata in entitiesmetadata.Where(e => e.Selected))
             {
-                string entity = GetEntity(entitymetadata);
-                entities.Append(entity);
+                var entity = GetEntity(entitymetadata, settings);
+                if (!settings.UseCommonFile)
+                {
+                    var filename = (settings.UseCommonFileDisplay ? CodifyDisplayName(entitymetadata.DisplayName) : entitymetadata.LogicalName) + ".cs";
+                    var entityfile = file.Replace("{entities}", entity.TrimEnd());
+                    File.WriteAllText(Path.Combine(settings.OutputFolder, filename), FileWithHeader(entityfile));
+                    savefiles.Add(filename);
+                }
+                else
+                {
+                    entities.AppendLine(entity);
+                }
             }
-            file = file.Replace("{entities}", entities.ToString());
-            return file;
+            file = file.Replace("{entities}", entities.ToString().TrimEnd());
+            if (settings.UseCommonFile)
+            {
+                var filename = Path.Combine(settings.OutputFolder, settings.CommonFile + ".cs");
+                File.WriteAllText(filename, FileWithHeader(file));
+                MessageBox.Show($"Saved constants to\n  {filename}");
+            }
+            else
+            {
+                MessageBox.Show($"Saved files\n  {string.Join("\n  ", savefiles)}\nto folder\n  {settings.OutputFolder}");
+            }
         }
 
-        private static string GetEntity(EntityMetadataProxy entitymetadata)
+        private static string FileWithHeader(string file)
+        {
+            return copy + "\r\n\r\n" + file;
+        }
+
+        private static string GetEntity(EntityMetadataProxy entitymetadata, Settings settings)
         {
             var entity = entitytemplate
-                .Replace("{entity}", entitymetadata.DisplayName.Replace(" ", ""))
+                .Replace("{entity}", settings.UseConstNameDisplay ? CodifyDisplayName(entitymetadata.DisplayName) : entitymetadata.LogicalName)
                 .Replace("{logicalname}", entitymetadata.LogicalName)
                 .Replace("'", "\"");
             var attributes = new StringBuilder();
@@ -51,20 +78,26 @@ namespace Rappen.XTB.LCG
             {
                 foreach (var attributemetadata in entitymetadata.Attributes.Where(a => a.Selected))
                 {
-                    string attribute = GetAttribute(attributemetadata);
-                    attributes.Append(attribute);
+                    string attribute = GetAttribute(attributemetadata, settings);
+                    attributes.AppendLine(attribute);
                 }
             }
-            entity = entity.Replace("{attributes}", attributes.ToString());
+            entity = entity.Replace("{attributes}", attributes.ToString().TrimEnd());
             return entity;
         }
 
-        private static string GetAttribute(AttributeMetadataProxy attributemetadata)
+        private static string GetAttribute(AttributeMetadataProxy attributemetadata, Settings settings)
         {
             return attributetemplate
-                .Replace("{attribute}", attributemetadata.DisplayName.Replace(" ", ""))
+                .Replace("{attribute}", settings.UseConstNameDisplay ? CodifyDisplayName(attributemetadata.DisplayName) : attributemetadata.LogicalName)
                 .Replace("{logicalname}", attributemetadata.LogicalName)
                 .Replace("'", "\"");
+        }
+
+        private static string CodifyDisplayName(string name)
+        {
+            return System.Text.Encoding.UTF8.GetString(System.Text.Encoding.GetEncoding("ISO-8859-8").GetBytes(name))
+                .Replace(" ", "").Replace("(", "").Replace(")", "");
         }
     }
 

@@ -47,7 +47,7 @@ namespace Rappen.XTB.LCG
 
         public override void ClosingPlugin(PluginCloseInfo info)
         {
-            SettingsSave(ConnectionDetail?.ConnectionName);
+            SaveSettings(ConnectionDetail?.ConnectionName);
             base.ClosingPlugin(info);
         }
 
@@ -57,12 +57,12 @@ namespace Rappen.XTB.LCG
 
         private void attributeFilter_Changed(object sender, EventArgs e)
         {
-            FilterAttributes(selectedEntity);
+            DisplayFilteredAttributes();
         }
 
         private void btnGenerate_Click(object sender, EventArgs e)
         {
-            CSharpUtils.GenerateClasses(entities, txtNamespace.Text);
+            CSharpUtils.GenerateClasses(entities, GetSettingsFromUI());
         }
 
         private void btnLoadEntities_Click(object sender, EventArgs e)
@@ -150,7 +150,7 @@ namespace Rappen.XTB.LCG
             if (newselectedEntity != null && newselectedEntity != selectedEntity)
             {
                 selectedEntity = newselectedEntity;
-                DisplayAttributes(selectedEntity);
+                DisplayAttributes();
             }
         }
 
@@ -163,7 +163,7 @@ namespace Rappen.XTB.LCG
             selectedEntity = null;
             gridAttributes.DataSource = null;
             gridEntities.DataSource = null;
-            SettingsLoad(e.ConnectionDetail?.ConnectionName);
+            LoadSettings(e.ConnectionDetail?.ConnectionName);
             LoadSolutions();
             Enabled = true;
         }
@@ -173,10 +173,16 @@ namespace Rappen.XTB.LCG
             GroupBoxToggle(sender as LinkLabel);
         }
 
+        private void rbFileCommon_CheckedChanged(object sender, EventArgs e)
+        {
+            pnFileCommonName.Visible = rbFileCommon.Checked;
+            pnFilePerEntityType.Visible = rbFilePerEntity.Checked;
+        }
+
         private void tmAttSearch_Tick(object sender, EventArgs e)
         {
             tmAttSearch.Stop();
-            FilterAttributes(selectedEntity);
+            DisplayFilteredAttributes();
         }
 
         private void tmEntSearch_Tick(object sender, EventArgs e)
@@ -211,13 +217,14 @@ namespace Rappen.XTB.LCG
             UpdateAttributesStatus();
         }
 
-        private void DisplayAttributes(EntityMetadataProxy entity)
+        private void DisplayAttributes()
         {
-            if (entity != null && entity.Attributes == null)
+            if (selectedEntity != null && selectedEntity.Attributes == null)
             {
-                LoadAttributes(entity);
+                LoadAttributes(selectedEntity, DisplayFilteredAttributes);
+                return;
             }
-            FilterAttributes(entity);
+            DisplayFilteredAttributes();
         }
 
         private void EnableControls(bool enabled)
@@ -233,12 +240,12 @@ namespace Rappen.XTB.LCG
             UpdateEntitiesStatus();
         }
 
-        private void FilterAttributes(EntityMetadataProxy entity)
+        private void DisplayFilteredAttributes()
         {
-            if (entity != null && entity.Attributes != null && entity.Attributes.Count > 0)
+            if (selectedEntity != null && selectedEntity.Attributes != null && selectedEntity.Attributes.Count > 0)
             {
-                gridAttributes.DataSource = new SortableBindingList<AttributeMetadataProxy>(
-                    entity.Attributes
+                var filteredattributes = new SortableBindingList<AttributeMetadataProxy>(
+                    selectedEntity.Attributes
                     .Where(e => (rbAttCustomAll.Checked ||
                          (rbAttCustomTrue.Checked && e.Metadata.IsCustomAttribute.Value) ||
                          (rbAttCustomFalse.Checked && !e.Metadata.IsCustomAttribute.Value)))
@@ -248,6 +255,28 @@ namespace Rappen.XTB.LCG
                     .Where(e => string.IsNullOrWhiteSpace(txtAttSearch.Text) ||
                         e.Metadata.LogicalName.ToLowerInvariant().Contains(txtAttSearch.Text) ||
                         e.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtAttSearch.Text) == true));
+                if (chkAttPrimaryAttribute.Checked)
+                {
+                    var primaryatt = selectedEntity.Attributes.FirstOrDefault(a => a.LogicalName == selectedEntity.Metadata.PrimaryNameAttribute);
+                    if (primaryatt != null && !filteredattributes.Contains(primaryatt))
+                    {
+                        filteredattributes.Insert(0, primaryatt);
+                    }
+                }
+                if (chkAttPrimaryKey.Checked)
+                {
+                    var primarykey = selectedEntity.Attributes.FirstOrDefault(a => a.LogicalName == selectedEntity.Metadata.PrimaryIdAttribute);
+                    if (primarykey != null && !filteredattributes.Contains(primarykey))
+                    {
+                        filteredattributes.Insert(0, primarykey);
+                    }
+                }
+                gridAttributes.DataSource = filteredattributes;
+                if (gridAttributes.Columns.Count > 0)
+                {
+                    gridAttributes.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader);
+                    gridAttributes.Columns[0].Width = 30;
+                }
             }
             else
             {
@@ -304,6 +333,51 @@ namespace Rappen.XTB.LCG
             return null;
         }
 
+        private Settings GetSettingsFromUI()
+        {
+            var settings = new Settings
+            {
+                OutputFolder = txtOutputFolder.Text,
+                NameSpace = txtNamespace.Text,
+                UseCommonFile = rbFileCommon.Checked,
+                CommonFile = txtCommonFilename.Text,
+                UseCommonFileDisplay = rbFileNameDisplay.Checked,
+                UseConstNameDisplay = rbConstNameDisplay.Checked,
+                OptionsExpanded = gbOptions.Height > 20,
+                EntityFilterExpanded = gbEntities.Height > 20,
+                AttributeFilterExpanded = gbAttributes.Height > 20,
+                EntityFilter = new EntityFilter
+                {
+                    CustomAll = rbEntCustomAll.Checked,
+                    CustomFalse = rbEntCustomFalse.Checked,
+                    CustomTrue = rbEntCustomTrue.Checked,
+                    ManagedAll = rbEntMgdAll.Checked,
+                    ManagedTrue = rbEntMgdTrue.Checked,
+                    ManagedFalse = rbEntMgdFalse.Checked,
+                    Intersect = chkEntIntersect.Checked
+                },
+                AttributeFilter = new AttributeFilter
+                {
+                    CustomAll = rbAttCustomAll.Checked,
+                    CustomFalse = rbAttCustomFalse.Checked,
+                    CustomTrue = rbAttCustomTrue.Checked,
+                    ManagedAll = rbAttMgdAll.Checked,
+                    ManagedTrue = rbAttMgdTrue.Checked,
+                    ManagedFalse = rbAttMgdFalse.Checked,
+                    PrimaryKey = chkAttPrimaryKey.Checked,
+                    PrimaryAttribute = chkAttPrimaryAttribute.Checked
+                }
+            };
+            if (entities != null)
+            {
+                settings.Selection = entities
+                    .Where(e => e.IsSelected)
+                    .Select(e => e.LogicalName + ":" + string.Join(",", e.Attributes.Where(a => a.Selected).Select(a => a.LogicalName)))
+                    .ToList();
+            }
+            return settings;
+        }
+
         private void GropBoxCollapse(LinkLabel link)
         {
             link.Parent.Height = 18;
@@ -328,7 +402,7 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        private void LoadAttributes(EntityMetadataProxy entity)
+        private void LoadAttributes(EntityMetadataProxy entity, Action callback)
         {
             entity.Attributes = null;
             WorkAsync(new WorkAsyncInfo
@@ -364,12 +438,7 @@ namespace Rappen.XTB.LCG
                     }
                     UpdateUI(() =>
                     {
-                        FilterAttributes(entity);
-                        if (gridAttributes.Columns.Count > 0)
-                        {
-                            gridAttributes.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader);
-                            gridAttributes.Columns[0].Width = 30;
-                        }
+                        callback?.Invoke();
                     });
                 }
             });
@@ -410,6 +479,7 @@ namespace Rappen.XTB.LCG
                     }
                     UpdateUI(() =>
                     {
+                        RestoreSelectedEntities();
                         FilterEntities();
                         if (gridEntities.Columns.Count > 0)
                         {
@@ -420,6 +490,94 @@ namespace Rappen.XTB.LCG
                     });
                 }
             });
+        }
+
+        private void RestoreSelectedEntities()
+        {
+            if (entities != null && SettingsManager.Instance.TryLoad(GetType(), out Settings settings, ConnectionDetail.ConnectionName))
+            {
+                foreach (var entitystring in settings.Selection)
+                {
+                    var entityname = entitystring.Split(':')[0];
+                    var attributes = entitystring.Split(':')[1].Split(',').ToList();
+                    var entity = entities.FirstOrDefault(e => e.LogicalName == entityname);
+                    if (entity != null)
+                    {
+                        if (!entity.Selected)
+                        {
+                            entity.SetSelected(true);
+                        }
+                        foreach (var attributename in attributes)
+                        {
+                            if (entity.Attributes == null)
+                            {
+                                LoadAttributes(entity, RestoreSelectedEntities);
+                                return;
+                            }
+                            var attribute = entity.Attributes.FirstOrDefault(a => a.LogicalName == attributename);
+                            if (attribute != null && !attribute.Selected)
+                            {
+                                attribute.SetSelected(true);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void LoadSettings(string connectionname)
+        {
+            if (SettingsManager.Instance.TryLoad(GetType(), out Settings settings, connectionname))
+            {
+                txtOutputFolder.Text = settings.OutputFolder;
+                txtNamespace.Text = settings.NameSpace;
+                rbFileCommon.Checked = settings.UseCommonFile;
+                rbFilePerEntity.Checked = !settings.UseCommonFile;
+                txtCommonFilename.Text = settings.CommonFile;
+                rbFileNameDisplay.Checked = settings.UseCommonFileDisplay;
+                rbFileNameLogical.Checked = !settings.UseCommonFileDisplay;
+                rbConstNameDisplay.Checked = settings.UseConstNameDisplay;
+                rbConstNameLogical.Checked = !settings.UseConstNameDisplay;
+                rbEntCustomAll.Checked = settings.EntityFilter?.CustomAll != false;
+                rbEntCustomFalse.Checked = settings.EntityFilter?.CustomFalse == true;
+                rbEntCustomTrue.Checked = settings.EntityFilter?.CustomTrue == true;
+                rbEntMgdAll.Checked = settings.EntityFilter?.ManagedAll != false;
+                rbEntMgdTrue.Checked = settings.EntityFilter?.ManagedTrue == true;
+                rbEntMgdFalse.Checked = settings.EntityFilter?.ManagedFalse == true;
+                chkEntIntersect.Checked = settings.EntityFilter?.Intersect == true;
+                rbAttCustomAll.Checked = settings.AttributeFilter?.CustomAll != false;
+                rbAttCustomFalse.Checked = settings.AttributeFilter?.CustomFalse == true;
+                rbAttCustomTrue.Checked = settings.AttributeFilter?.CustomTrue == true;
+                rbAttMgdAll.Checked = settings.AttributeFilter?.ManagedAll != false;
+                rbAttMgdTrue.Checked = settings.AttributeFilter?.ManagedTrue == true;
+                rbAttMgdFalse.Checked = settings.AttributeFilter?.ManagedFalse == true;
+                chkAttPrimaryKey.Checked = settings.AttributeFilter?.PrimaryKey == true;
+                chkAttPrimaryAttribute.Checked = settings.AttributeFilter?.PrimaryAttribute == true;
+                if (settings.OptionsExpanded)
+                {
+                    GroupBoxExpand(llOptionsExpander);
+                }
+                else
+                {
+                    GropBoxCollapse(llOptionsExpander);
+                }
+                if (settings.EntityFilterExpanded)
+                {
+                    GroupBoxExpand(llEntityExpander);
+                }
+                else
+                {
+                    GropBoxCollapse(llEntityExpander);
+                }
+                if (settings.AttributeFilterExpanded)
+                {
+                    GroupBoxExpand(llAttributeExpander);
+                }
+                else
+                {
+                    GropBoxCollapse(llAttributeExpander);
+                }
+            }
         }
 
         private void LoadSolutionEntities(SolutionProxy solution, Action callback)
@@ -456,21 +614,22 @@ namespace Rappen.XTB.LCG
 
         private void LoadSolutions()
         {
+            EnableControls(false);
             cmbSolution.Items.Clear();
-            WorkAsync(new WorkAsyncInfo("Loading solutions...",
-                (eventargs) =>
-                {
-                    EnableControls(false);
-                    var qx = new QueryExpression("solution");
-                    qx.ColumnSet.AddColumns("friendlyname", "uniquename");
-                    //qx.Criteria.AddCondition("ismanaged", ConditionOperator.Equal, false);
-                    qx.Criteria.AddCondition("isvisible", ConditionOperator.Equal, true);
-                    var lePub = qx.AddLink("publisher", "publisherid", "publisherid");
-                    lePub.EntityAlias = "P";
-                    lePub.Columns.AddColumns("customizationprefix");
-                    eventargs.Result = Service.RetrieveMultiple(qx);
-                })
+            WorkAsync(new WorkAsyncInfo
             {
+                Message = "Loading solutions...",
+                Work = (worker, args) =>
+                  {
+                      var qx = new QueryExpression("solution");
+                      qx.ColumnSet.AddColumns("friendlyname", "uniquename");
+                      //qx.Criteria.AddCondition("ismanaged", ConditionOperator.Equal, false);
+                      qx.Criteria.AddCondition("isvisible", ConditionOperator.Equal, true);
+                      var lePub = qx.AddLink("publisher", "publisherid", "publisherid");
+                      lePub.EntityAlias = "P";
+                      lePub.Columns.AddColumns("customizationprefix");
+                      args.Result = Service.RetrieveMultiple(qx);
+                  },
                 PostWorkCallBack = (completedargs) =>
                 {
                     if (completedargs.Error != null)
@@ -492,84 +651,17 @@ namespace Rappen.XTB.LCG
             });
         }
 
+        private void SaveSettings(string connectionname)
+        {
+            SettingsManager.Instance.Save(GetType(), GetSettingsFromUI(), connectionname);
+        }
+
         private void SetNamespace()
         {
             if (cmbSolution.SelectedItem is SolutionProxy solution && string.IsNullOrWhiteSpace(txtNamespace.Text))
             {
                 txtNamespace.Text = solution.UniqueName;
             }
-        }
-
-        private void SettingsLoad(string connectionname)
-        {
-            if (SettingsManager.Instance.TryLoad(GetType(), out Settings settings, connectionname))
-            {
-                rbEntCustomAll.Checked = settings.EntitiesCustomAll;
-                rbEntCustomFalse.Checked = settings.EntitiesCustomFalse;
-                rbEntCustomTrue.Checked = settings.EntitiesCustomTrue;
-                rbEntMgdAll.Checked = settings.EntitiesManagedAll;
-                rbEntMgdTrue.Checked = settings.EntitiesManagedTrue;
-                rbEntMgdFalse.Checked = settings.EntitiesManagedFalse;
-                chkEntIntersect.Checked = settings.EntitiesIntersect;
-                rbAttCustomAll.Checked = settings.AttributesCustomAll;
-                rbAttCustomFalse.Checked = settings.AttributesCustomFalse;
-                rbAttCustomTrue.Checked = settings.AttributesCustomTrue;
-                rbAttMgdAll.Checked = settings.AttributesManagedAll;
-                rbAttMgdTrue.Checked = settings.AttributesManagedTrue;
-                rbAttMgdFalse.Checked = settings.AttributesManagedFalse;
-                if (string.IsNullOrEmpty(txtOutputFolder.Text))
-                {
-                    txtOutputFolder.Text = settings.OutputFolder;
-                }
-                if (settings.OptionsExpanded)
-                {
-                    GroupBoxExpand(llOptionsExpander);
-                }
-                else
-                {
-                    GropBoxCollapse(llOptionsExpander);
-                }
-                if (settings.EntityFilterExpanded)
-                {
-                    GroupBoxExpand(llEntityExpander);
-                }
-                else
-                {
-                    GropBoxCollapse(llEntityExpander);
-                }
-                if (settings.AttributeFilterExpanded)
-                {
-                    GroupBoxExpand(llAttributeExpander);
-                }
-                else
-                {
-                    GropBoxCollapse(llAttributeExpander);
-                }
-            }
-        }
-
-        private void SettingsSave(string connectionname)
-        {
-            SettingsManager.Instance.Save(GetType(), new Settings
-            {
-                EntitiesCustomAll = rbEntCustomAll.Checked,
-                EntitiesCustomFalse = rbEntCustomFalse.Checked,
-                EntitiesCustomTrue = rbEntCustomTrue.Checked,
-                EntitiesManagedAll = rbEntMgdAll.Checked,
-                EntitiesManagedTrue = rbEntMgdTrue.Checked,
-                EntitiesManagedFalse = rbEntMgdFalse.Checked,
-                EntitiesIntersect = chkEntIntersect.Checked,
-                AttributesCustomAll = rbAttCustomAll.Checked,
-                AttributesCustomFalse = rbAttCustomFalse.Checked,
-                AttributesCustomTrue = rbAttCustomTrue.Checked,
-                AttributesManagedAll = rbAttMgdAll.Checked,
-                AttributesManagedTrue = rbAttMgdTrue.Checked,
-                AttributesManagedFalse = rbAttMgdFalse.Checked,
-                OutputFolder = txtOutputFolder.Text,
-                OptionsExpanded = gbOptions.Height > 20,
-                EntityFilterExpanded = gbEntities.Height > 20,
-                AttributeFilterExpanded = gbAttributes.Height > 20
-            }, connectionname);
         }
 
         private void UpdateAttributesStatus()

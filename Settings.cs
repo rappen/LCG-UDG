@@ -14,22 +14,40 @@ namespace Rappen.XTB.LCG
     /// </remarks>
     public class Settings
     {
-        public bool EntitiesCustomAll { get; set; } = true;
-        public bool EntitiesCustomFalse { get; set; }
-        public bool EntitiesCustomTrue { get; set; }
-        public bool EntitiesManagedAll { get; set; } = true;
-        public bool EntitiesManagedTrue { get; set; }
-        public bool EntitiesManagedFalse { get; set; }
-        public bool EntitiesIntersect { get; set; }
-        public bool AttributesCustomAll { get; set; } = true;
-        public bool AttributesCustomFalse { get; set; }
-        public bool AttributesCustomTrue { get; set; }
-        public bool AttributesManagedAll { get; set; } = true;
-        public bool AttributesManagedTrue { get; set; }
-        public bool AttributesManagedFalse { get; set; }
         public bool OptionsExpanded { get; set; } = true;
         public bool EntityFilterExpanded { get; set; } = true;
         public bool AttributeFilterExpanded { get; set; } = true;
         public string OutputFolder { get; set; }
+        public string NameSpace { get; set; }
+        public bool UseCommonFile { get; set; }
+        public string CommonFile { get; set; }
+        public bool UseCommonFileDisplay { get; set; }
+        public bool UseConstNameDisplay { get; set; }
+        public List<string> Selection { get; set; }
+        public EntityFilter EntityFilter { get; set; }
+        public AttributeFilter AttributeFilter { get; set; }
+    }
+
+    public class EntityFilter
+    {
+        public bool CustomAll { get; set; } = true;
+        public bool CustomFalse { get; set; }
+        public bool CustomTrue { get; set; }
+        public bool ManagedAll { get; set; } = true;
+        public bool ManagedTrue { get; set; }
+        public bool ManagedFalse { get; set; }
+        public bool Intersect { get; set; }
+    }
+
+    public class AttributeFilter
+    {
+        public bool CustomAll { get; set; } = true;
+        public bool CustomFalse { get; set; }
+        public bool CustomTrue { get; set; }
+        public bool ManagedAll { get; set; } = true;
+        public bool ManagedTrue { get; set; }
+        public bool ManagedFalse { get; set; }
+        public bool PrimaryKey { get; set; }
+        public bool PrimaryAttribute { get; set; }
     }
 }
