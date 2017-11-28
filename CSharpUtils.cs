@@ -13,11 +13,11 @@ namespace Rappen.XTB.LCG
         #region Templates
 
         private const string copy = @"// ********************************************************************
-// *** Latebound Constant Generator for XrmToolBox produced this file.
-// *** Author: Jonas Rapp http://twitter.com/rappen
-// *** Repo: https://github.com/rappen/LateboundConstantGenerator
-// *** Feel free to edit the file as you please,
-// *** you can always regenerate it!
+// *** Created by: Latebound Constant Generator for XrmToolBox
+// *** Author    : Jonas Rapp http://twitter.com/rappen
+// *** Repo      : https://github.com/rappen/LateboundConstantGenerator
+// *** Created   : {timestamp}
+// *** Location  : {location}
 // *******************************************************************";
 
         private const string namespacetemplate = @"namespace {namespace}
@@ -30,8 +30,8 @@ namespace Rappen.XTB.LCG
 {attributes}
 {optionsets}
     }";
-        private const string attributetemplate = @"        public const string {attribute} = '{logicalname}';";
-        private const string optionsettemplate = @"        public enum V_{name}
+        private const string attributetemplate = @"        public const string {attribute} = '{logicalname}';    // {type}";
+        private const string optionsettemplate = @"        public enum {name}
         {
 {values}
         }";
@@ -50,9 +50,9 @@ namespace Rappen.XTB.LCG
                 var entity = GetEntity(entitymetadata, settings);
                 if (!settings.UseCommonFile)
                 {
-                    var filename = (settings.UseCommonFileDisplay ? entitymetadata.CSharpName : entitymetadata.LogicalName) + ".cs";
-                    var entityfile = file.Replace("{entities}", entity.TrimEnd());
-                    File.WriteAllText(Path.Combine(settings.OutputFolder, filename), FileWithHeader(entityfile));
+                    var filename = entitymetadata.GetNameTechnical(settings.FileName) + ".cs";
+                    var entityfile = file.Replace("{entities}", entity);
+                    WriteFile(Path.Combine(settings.OutputFolder, filename), entityfile);
                     savefiles.Add(filename);
                 }
                 else
@@ -60,62 +60,90 @@ namespace Rappen.XTB.LCG
                     entities.AppendLine(entity);
                 }
             }
-            file = file.Replace("{entities}", entities.ToString().TrimEnd());
+            file = file.Replace("{entities}", entities.ToString());
+            var message = string.Empty;
             if (settings.UseCommonFile)
             {
                 var filename = Path.Combine(settings.OutputFolder, settings.CommonFile + ".cs");
-                File.WriteAllText(filename, FileWithHeader(file));
-                MessageBox.Show($"Saved constants to\n  {filename}");
+                WriteFile(filename, file);
+                message = $"Saved constants to\n  {filename}";
             }
             else
             {
-                MessageBox.Show($"Saved files\n  {string.Join("\n  ", savefiles)}\nto folder\n  {settings.OutputFolder}");
+                message = $"Saved files\n  {string.Join("\n  ", savefiles)}\nto folder\n  {settings.OutputFolder}";
             }
+            MessageBox.Show(message, "Latebound Constant Generator", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private static string FileWithHeader(string file)
+        private static void WriteFile(string filename, string content)
         {
-            return copy + "\r\n\r\n" + file;
+            var lines = content.Split('\n').ToList();
+            var fixedcontent = new StringBuilder();
+            var lastline = string.Empty;
+            foreach (var line in lines.Select(l => l.TrimEnd()))
+            {
+                if (!string.IsNullOrEmpty(line))
+                {
+                    if (lastline.Trim().Equals("}") && !line.Trim().Equals("}") && !line.Trim().StartsWith("public enum"))
+                    {
+                        fixedcontent.AppendLine();
+                    }
+                    fixedcontent.AppendLine(line);
+                    lastline = line;
+                }
+            }
+            content = copy
+                .Replace("{timestamp}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
+                .Replace("{location}", filename) + "\r\n\r\n" + fixedcontent.ToString();
+            File.WriteAllText(filename, content);
         }
 
         private static string GetEntity(EntityMetadataProxy entitymetadata, Settings settings)
         {
+            var name = entitymetadata.GetNameTechnical(settings.ConstantName);
+            if (settings.ConstantName != NameType.DisplayName &&
+                settings.DoStripPrefix && !string.IsNullOrEmpty(settings.StripPrefix) &&
+                name.ToLowerInvariant().StartsWith(settings.StripPrefix))
+            {
+                name = name.Substring(settings.StripPrefix.Length);
+            }
             return entitytemplate
-                .Replace("{entity}", settings.UseConstNameDisplay ? entitymetadata.CSharpName : entitymetadata.LogicalName)
+                .Replace("{entity}", name)
                 .Replace("{logicalname}", entitymetadata.LogicalName)
                 .Replace("'", "\"")
                 .Replace("{attributes}", GetAttributes(entitymetadata, settings))
-                .Replace("{optionsets}", GetOptionSets(entitymetadata, settings))
-                .Replace("\r\n\r\n", "\r\n");
+                .Replace("{optionsets}", GetOptionSets(entitymetadata, settings));
         }
 
         private static string GetAttributes(EntityMetadataProxy entitymetadata, Settings settings)
         {
-            var attributes = new StringBuilder();
+            var attributes = new List<string>();
             if (entitymetadata.Attributes != null)
             {
                 if (entitymetadata.PrimaryKey?.IsSelected == true)
                 {   // First Primary Key
-                    attributes.AppendLine(GetAttribute(entitymetadata.PrimaryKey, settings));
+                    attributes.Add(GetAttribute(entitymetadata.PrimaryKey, settings));
                 }
                 if (entitymetadata.PrimaryName?.IsSelected == true)
                 {   // Then Primary Name
-                    attributes.AppendLine(GetAttribute(entitymetadata.PrimaryName, settings));
+                    attributes.Add(GetAttribute(entitymetadata.PrimaryName, settings));
                 }
                 foreach (var attributemetadata in entitymetadata.Attributes
                     .Where(a => a.Selected && a.Metadata.IsPrimaryId != true && a.Metadata.IsPrimaryName != true))
                 {   // Then all the rest
                     var attribute = GetAttribute(attributemetadata, settings);
-                    attributes.AppendLine(attribute);
+                    attributes.Add(attribute);
                 }
             }
-            return attributes.ToString().TrimEnd();
+            AlignSplitters(attributes, "=");
+            AlignSplitters(attributes, "//");
+            return string.Join("\r\n", attributes);
         }
 
         private static string GetOptionSets(EntityMetadataProxy entitymetadata, Settings settings)
         {
             var optionsets = new StringBuilder();
-            if (settings.OptionSets)
+            if (settings.OptionSets && entitymetadata.Attributes != null)
             {
                 foreach (var attributemetadata in entitymetadata.Attributes.Where(a => a.Selected && a.Metadata.AttributeType == AttributeTypeCode.Picklist))
                 {
@@ -123,30 +151,37 @@ namespace Rappen.XTB.LCG
                     optionsets.AppendLine(optionset);
                 }
             }
-            return optionsets.ToString().TrimEnd();
+            return optionsets.ToString();
         }
 
         private static string GetAttribute(AttributeMetadataProxy attributemetadata, Settings settings)
         {
             var name = attributemetadata.Metadata.IsPrimaryId == true ? "PrimaryKey" :
                 attributemetadata.Metadata.IsPrimaryName == true ? "PrimaryName" :
-                "A_" + (settings.UseConstNameDisplay ? attributemetadata.CSharpName : attributemetadata.LogicalName);
+                attributemetadata.GetNameTechnical(settings.ConstantName);
+            if (settings.ConstantName != NameType.DisplayName &&
+                settings.DoStripPrefix && !string.IsNullOrEmpty(settings.StripPrefix) &&
+                name.ToLowerInvariant().StartsWith(settings.StripPrefix))
+            {
+                name = name.Substring(settings.StripPrefix.Length);
+            }
             return attributetemplate
                 .Replace("{attribute}", name)
                 .Replace("{logicalname}", attributemetadata.LogicalName)
+                .Replace("{type}", attributemetadata.Type.ToString())
                 .Replace("'", "\"");
         }
 
         private static string GetOptionSet(AttributeMetadataProxy attributemetadata, Settings settings)
         {
-            var optionset = optionsettemplate.Replace("{name}", settings.UseConstNameDisplay ? attributemetadata.CSharpName : attributemetadata.LogicalName);
+            var optionset = optionsettemplate.Replace("{name}", attributemetadata.GetNameTechnical(settings.ConstantName));
             var options = new List<string>();
             var optionsetmetadata = attributemetadata.Metadata as EnumAttributeMetadata;
             if (optionsetmetadata != null)
             {
                 foreach (var optionmetadata in optionsetmetadata.OptionSet.Options)
                 {
-                    var label = optionmetadata.Label.UserLocalizedLabel.Label;
+                    var label = MetadataProxy.StringToCSharpIdentifier(optionmetadata.Label.UserLocalizedLabel.Label);
                     if (int.TryParse(label, out int tmp))
                     {
                         label = "_" + label;
@@ -157,8 +192,20 @@ namespace Rappen.XTB.LCG
                     options.Add(option);
                 }
             }
+            AlignSplitters(options, "=");
             optionset = optionset.Replace("{values}", string.Join(",\r\n", options));
             return optionset;
+        }
+
+        private static void AlignSplitters(List<string> lines, string splitter)
+        {
+            var attlen = lines.Count > 0 ? lines.Max(a => a.IndexOf(splitter)) : 0;
+            for (var i = 0; i < lines.Count; i++)
+            {
+                var attribute = lines[i];
+                var equal = attribute.IndexOf(splitter);
+                lines[i] = attribute.Substring(0, equal) + new string(' ', attlen - equal) + attribute.Substring(equal);
+            }
         }
     }
 }

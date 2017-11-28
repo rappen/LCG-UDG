@@ -21,8 +21,10 @@ namespace Rappen.XTB.LCG
         public string NameSpace { get; set; }
         public bool UseCommonFile { get; set; }
         public string CommonFile { get; set; }
-        public bool UseCommonFileDisplay { get; set; }
-        public bool UseConstNameDisplay { get; set; }
+        public NameType FileName { get; set; }
+        public NameType ConstantName { get; set; }
+        public bool DoStripPrefix { get; set; }
+        public string StripPrefix { get; set; }
         public List<string> Selection { get; set; }
         public bool OptionSets { get; set; }
         public bool GlobalOptionSets { get; set; }
@@ -51,5 +53,12 @@ namespace Rappen.XTB.LCG
         public bool ManagedFalse { get; set; }
         public bool PrimaryKey { get; set; }
         public bool PrimaryAttribute { get; set; }
+    }
+
+    public enum NameType
+    {
+        DisplayName = 0,
+        SchemaName = 1,
+        LogicalName = 2
     }
 }

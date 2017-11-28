@@ -29,7 +29,7 @@ namespace Rappen.XTB.LCG
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected static string StringToCSharpIdentifier(string name)
+        internal static string StringToCSharpIdentifier(string name)
         {
             return System.Text.Encoding.UTF8.GetString(System.Text.Encoding.GetEncoding("ISO-8859-8").GetBytes(name))
                 .Replace(" ", "").Replace("(", "").Replace(")", "").Replace(":", "");

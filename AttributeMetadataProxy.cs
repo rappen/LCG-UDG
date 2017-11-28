@@ -40,8 +40,6 @@ namespace Rappen.XTB.LCG
 
         public AttributeTypeCode? Type { get => Metadata?.AttributeType; }
 
-        public string CSharpName { get => StringToCSharpIdentifier(DisplayName); }
-
         #endregion Public Properties
 
         #region Public Methods
@@ -67,6 +65,21 @@ namespace Rappen.XTB.LCG
                 return Metadata.LogicalName;
             }
             return base.ToString();
+        }
+
+        public string GetNameTechnical(NameType constantName)
+        {
+            switch (constantName)
+            {
+                case NameType.DisplayName:
+                    return StringToCSharpIdentifier(DisplayName);
+                case NameType.LogicalName:
+                    return Metadata?.LogicalName;
+                case NameType.SchemaName:
+                    return Metadata?.SchemaName;
+                default:
+                    return null;
+            }
         }
 
         #endregion Public Methods

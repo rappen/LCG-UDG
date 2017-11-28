@@ -20,15 +20,17 @@ namespace Rappen.XTB.LCG
         private Dictionary<string, int> groupBoxHeights;
         private EntityMetadataProxy selectedEntity;
 
+        #endregion Private Fields
+
+        #region Interface implementations
+
+        public string DonationDescription => "LCG Fan Club";
+        public string EmailAccount => "jonas@rappen.net";
         public string RepositoryName => "LateboundConstantGenerator";
 
         public string UserName => "rappen";
 
-        public string DonationDescription => "LCG Fan Club";
-
-        public string EmailAccount => "jonas@rappen.net";
-
-        #endregion Private Fields
+        #endregion Interface implementations
 
         #region Public Constructors
 
@@ -110,6 +112,17 @@ namespace Rappen.XTB.LCG
             }
         }
 
+        private void chkConstStripPrefix_CheckedChanged(object sender, EventArgs e)
+        {
+            txtConstStripPrefix.Enabled = chkConstStripPrefix.Enabled && chkConstStripPrefix.Checked;
+        }
+
+        private void cmbConstantName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            chkConstStripPrefix.Enabled = cmbConstantName.SelectedIndex != (int)NameType.DisplayName;
+            txtConstStripPrefix.Enabled = chkConstStripPrefix.Enabled && chkConstStripPrefix.Checked;
+        }
+
         private void entityFilter_Changed(object sender, EventArgs e)
         {
             FilterEntities();
@@ -185,7 +198,7 @@ namespace Rappen.XTB.LCG
         private void rbFileCommon_CheckedChanged(object sender, EventArgs e)
         {
             pnFileCommonName.Visible = rbFileCommon.Checked;
-            pnFilePerEntityType.Visible = rbFilePerEntity.Checked;
+            cmbFileName.Visible = rbFilePerEntity.Checked;
         }
 
         private void tmAttSearch_Tick(object sender, EventArgs e)
@@ -211,6 +224,14 @@ namespace Rappen.XTB.LCG
             tmAttSearch.Start();
         }
 
+        private void txtConstStripPrefix_Leave(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(txtConstStripPrefix.Text))
+            {
+                txtConstStripPrefix.Text = txtConstStripPrefix.Text.ToLowerInvariant().TrimEnd('_') + "_";
+            }
+        }
+
         private void txtEntSearch_TextChanged(object sender, EventArgs e)
         {
             tmEntSearch.Stop();
@@ -234,19 +255,6 @@ namespace Rappen.XTB.LCG
                 return;
             }
             DisplayFilteredAttributes();
-        }
-
-        private void EnableControls(bool enabled)
-        {
-            UpdateUI(() =>
-            {
-                Enabled = enabled;
-            });
-        }
-
-        private void Entity_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            UpdateEntitiesStatus();
         }
 
         private void DisplayFilteredAttributes()
@@ -292,6 +300,19 @@ namespace Rappen.XTB.LCG
                 gridAttributes.DataSource = null;
             }
             UpdateAttributesStatus();
+        }
+
+        private void EnableControls(bool enabled)
+        {
+            UpdateUI(() =>
+            {
+                Enabled = enabled;
+            });
+        }
+
+        private void Entity_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            UpdateEntitiesStatus();
         }
 
         private void FilterEntities()
@@ -350,8 +371,10 @@ namespace Rappen.XTB.LCG
                 NameSpace = txtNamespace.Text,
                 UseCommonFile = rbFileCommon.Checked,
                 CommonFile = txtCommonFilename.Text,
-                UseCommonFileDisplay = rbFileNameDisplay.Checked,
-                UseConstNameDisplay = rbConstNameDisplay.Checked,
+                FileName = (NameType)cmbFileName.SelectedIndex,
+                ConstantName = (NameType)cmbConstantName.SelectedIndex,
+                DoStripPrefix = chkConstStripPrefix.Checked,
+                StripPrefix = txtConstStripPrefix.Text.ToLowerInvariant().TrimEnd('_') + "_",
                 OptionSets = chkEnumsInclude.Checked,
                 GlobalOptionSets = chkEnumsGlobal.Checked,
                 OptionsExpanded = gbOptions.Height > 20,
@@ -383,7 +406,7 @@ namespace Rappen.XTB.LCG
             {
                 settings.Selection = entities
                     .Where(e => e.IsSelected)
-                    .Select(e => e.LogicalName + ":" + string.Join(",", e.Attributes.Where(a => a.Selected).Select(a => a.LogicalName)))
+                    .Select(e => e.LogicalName + ":" + (e.Attributes != null ? string.Join(",", e.Attributes.Where(a => a.Selected).Select(a => a.LogicalName)) : string.Empty))
                     .ToList();
             }
             return settings;
@@ -503,39 +526,6 @@ namespace Rappen.XTB.LCG
             });
         }
 
-        private void RestoreSelectedEntities()
-        {
-            if (entities != null && SettingsManager.Instance.TryLoad(GetType(), out Settings settings, ConnectionDetail.ConnectionName))
-            {
-                foreach (var entitystring in settings.Selection)
-                {
-                    var entityname = entitystring.Split(':')[0];
-                    var attributes = entitystring.Split(':')[1].Split(',').ToList();
-                    var entity = entities.FirstOrDefault(e => e.LogicalName == entityname);
-                    if (entity != null)
-                    {
-                        if (!entity.Selected)
-                        {
-                            entity.SetSelected(true);
-                        }
-                        foreach (var attributename in attributes)
-                        {
-                            if (entity.Attributes == null)
-                            {
-                                LoadAttributes(entity, RestoreSelectedEntities);
-                                return;
-                            }
-                            var attribute = entity.Attributes.FirstOrDefault(a => a.LogicalName == attributename);
-                            if (attribute != null && !attribute.Selected)
-                            {
-                                attribute.SetSelected(true);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         private void LoadSettings(string connectionname)
         {
             if (SettingsManager.Instance.TryLoad(GetType(), out Settings settings, connectionname))
@@ -545,10 +535,10 @@ namespace Rappen.XTB.LCG
                 rbFileCommon.Checked = settings.UseCommonFile;
                 rbFilePerEntity.Checked = !settings.UseCommonFile;
                 txtCommonFilename.Text = settings.CommonFile;
-                rbFileNameDisplay.Checked = settings.UseCommonFileDisplay;
-                rbFileNameLogical.Checked = !settings.UseCommonFileDisplay;
-                rbConstNameDisplay.Checked = settings.UseConstNameDisplay;
-                rbConstNameLogical.Checked = !settings.UseConstNameDisplay;
+                cmbFileName.SelectedIndex = (int)settings.FileName;
+                cmbConstantName.SelectedIndex = (int)settings.ConstantName;
+                chkConstStripPrefix.Checked = settings.DoStripPrefix && settings.ConstantName != NameType.DisplayName;
+                txtConstStripPrefix.Text = settings.StripPrefix;
                 chkEnumsInclude.Checked = settings.OptionSets;
                 chkEnumsGlobal.Checked = settings.GlobalOptionSets;
                 rbEntCustomAll.Checked = settings.EntityFilter?.CustomAll != false;
@@ -662,6 +652,39 @@ namespace Rappen.XTB.LCG
                     EnableControls(true);
                 }
             });
+        }
+
+        private void RestoreSelectedEntities()
+        {
+            if (entities != null && SettingsManager.Instance.TryLoad(GetType(), out Settings settings, ConnectionDetail.ConnectionName))
+            {
+                foreach (var entitystring in settings.Selection)
+                {
+                    var entityname = entitystring.Split(':')[0];
+                    var attributes = entitystring.Split(':')[1].Split(',').ToList();
+                    var entity = entities.FirstOrDefault(e => e.LogicalName == entityname);
+                    if (entity != null)
+                    {
+                        if (!entity.Selected)
+                        {
+                            entity.SetSelected(true);
+                        }
+                        foreach (var attributename in attributes)
+                        {
+                            if (entity.Attributes == null)
+                            {
+                                LoadAttributes(entity, RestoreSelectedEntities);
+                                return;
+                            }
+                            var attribute = entity.Attributes.FirstOrDefault(a => a.LogicalName == attributename);
+                            if (attribute != null && !attribute.Selected)
+                            {
+                                attribute.SetSelected(true);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void SaveSettings(string connectionname)

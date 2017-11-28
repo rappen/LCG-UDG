@@ -21,8 +21,6 @@ namespace Rappen.XTB.LCG
         [DisplayName("Logical Name")]
         public string LogicalName { get => Metadata?.LogicalName; }
 
-        internal string CSharpName { get => StringToCSharpIdentifier(DisplayName); }
-
         internal AttributeMetadataProxy PrimaryKey { get => Attributes?.FirstOrDefault(a => a.Metadata.IsPrimaryId == true); }
 
         internal AttributeMetadataProxy PrimaryName { get => Attributes?.FirstOrDefault(a => a.Metadata.IsPrimaryName == true); }
@@ -51,6 +49,21 @@ namespace Rappen.XTB.LCG
                 return Metadata.LogicalName;
             }
             return base.ToString();
+        }
+
+        public string GetNameTechnical(NameType constantName)
+        {
+            switch (constantName)
+            {
+                case NameType.DisplayName:
+                    return StringToCSharpIdentifier(DisplayName);
+                case NameType.LogicalName:
+                    return Metadata?.LogicalName;
+                case NameType.SchemaName:
+                    return Metadata?.SchemaName;
+                default:
+                    return null;
+            }
         }
 
         #endregion Public Methods
