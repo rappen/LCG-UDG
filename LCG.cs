@@ -143,11 +143,6 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        private void gridAttributes_Move(object sender, EventArgs e)
-        {
-            chkAttAll.Top = gridAttributes.Top + 10;
-        }
-
         private void gridEntities_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.ColumnIndex == 0)
@@ -159,11 +154,6 @@ namespace Rappen.XTB.LCG
                     e.CellStyle.BackColor = ColorTranslator.FromHtml(data.Metadata.EntityColor);
                 }
             }
-        }
-
-        private void gridEntities_Move(object sender, EventArgs e)
-        {
-            chkEntAll.Top = gridEntities.Top + 10;
         }
 
         private void gridEntities_SelectionChanged(object sender, EventArgs e)
@@ -377,7 +367,8 @@ namespace Rappen.XTB.LCG
                 StripPrefix = txtConstStripPrefix.Text.ToLowerInvariant().TrimEnd('_') + "_",
                 OptionSets = chkEnumsInclude.Checked,
                 GlobalOptionSets = chkEnumsGlobal.Checked,
-                OptionsExpanded = gbOptions.Height > 20,
+                FileOptionsExpanded = gbFileOptions.Height > 20,
+                ConstantOptionsExpanded = gbConstOptions.Height > 20,
                 EntityFilterExpanded = gbEntities.Height > 20,
                 AttributeFilterExpanded = gbAttributes.Height > 20,
                 EntityFilter = new EntityFilter
@@ -412,7 +403,7 @@ namespace Rappen.XTB.LCG
             return settings;
         }
 
-        private void GropBoxCollapse(LinkLabel link)
+        private void GroupBoxCollapse(LinkLabel link)
         {
             link.Parent.Height = 18;
             link.Text = "Expand";
@@ -424,11 +415,23 @@ namespace Rappen.XTB.LCG
             link.Text = "Collapse";
         }
 
+        private void GroupBoxSetState(LinkLabel link, bool expanded)
+        {
+            if (expanded)
+            {
+                GroupBoxExpand(link);
+            }
+            else
+            {
+                GroupBoxCollapse(link);
+            }
+        }
+
         private void GroupBoxToggle(LinkLabel link)
         {
             if (link.Parent.Height > 20)
             {
-                GropBoxCollapse(link);
+                GroupBoxCollapse(link);
             }
             else
             {
@@ -556,30 +559,10 @@ namespace Rappen.XTB.LCG
                 rbAttMgdFalse.Checked = settings.AttributeFilter?.ManagedFalse == true;
                 chkAttPrimaryKey.Checked = settings.AttributeFilter?.PrimaryKey == true;
                 chkAttPrimaryAttribute.Checked = settings.AttributeFilter?.PrimaryAttribute == true;
-                if (settings.OptionsExpanded)
-                {
-                    GroupBoxExpand(llOptionsExpander);
-                }
-                else
-                {
-                    GropBoxCollapse(llOptionsExpander);
-                }
-                if (settings.EntityFilterExpanded)
-                {
-                    GroupBoxExpand(llEntityExpander);
-                }
-                else
-                {
-                    GropBoxCollapse(llEntityExpander);
-                }
-                if (settings.AttributeFilterExpanded)
-                {
-                    GroupBoxExpand(llAttributeExpander);
-                }
-                else
-                {
-                    GropBoxCollapse(llAttributeExpander);
-                }
+                GroupBoxSetState(llFileOptionsExpander, settings.FileOptionsExpanded);
+                GroupBoxSetState(llConstOptionsExpander, settings.ConstantOptionsExpanded);
+                GroupBoxSetState(llEntityExpander, settings.EntityFilterExpanded);
+                GroupBoxSetState(llAttributeExpander, settings.AttributeFilterExpanded);
             }
         }
 

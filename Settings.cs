@@ -14,7 +14,8 @@ namespace Rappen.XTB.LCG
     /// </remarks>
     public class Settings
     {
-        public bool OptionsExpanded { get; set; } = true;
+        public bool FileOptionsExpanded { get; set; } = true;
+        public bool ConstantOptionsExpanded { get; set; } = true;
         public bool EntityFilterExpanded { get; set; } = true;
         public bool AttributeFilterExpanded { get; set; } = true;
         public string OutputFolder { get; set; }
