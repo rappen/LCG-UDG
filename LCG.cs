@@ -1,13 +1,16 @@
-﻿using Microsoft.Xrm.Sdk;
+﻿using McTools.Xrm.Connection;
+using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Query;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using System.Xml;
 using XrmToolBox.Extensibility;
 using XrmToolBox.Extensibility.Interfaces;
 
@@ -20,6 +23,7 @@ namespace Rappen.XTB.LCG
         private List<EntityMetadataProxy> entities;
         private Dictionary<string, int> groupBoxHeights;
         private EntityMetadataProxy selectedEntity;
+        private string settingsfile;
 
         #endregion Private Fields
 
@@ -59,7 +63,8 @@ namespace Rappen.XTB.LCG
 
         public override void ClosingPlugin(PluginCloseInfo info)
         {
-            SaveSettings(ConnectionDetail?.ConnectionName);
+            SaveSettings(ConnectionDetail?.ConnectionName, null);
+            LogUse("Close");
             base.ClosingPlugin(info);
         }
 
@@ -74,6 +79,7 @@ namespace Rappen.XTB.LCG
 
         private void btnGenerate_Click(object sender, EventArgs e)
         {
+            LogUse("Generate");
             CSharpUtils.GenerateClasses(entities, GetSettingsFromUI());
         }
 
@@ -93,6 +99,23 @@ namespace Rappen.XTB.LCG
             if (fldr.ShowDialog(this) == DialogResult.OK)
             {
                 txtOutputFolder.Text = fldr.SelectedPath;
+            }
+        }
+
+        private void btnSaveConfig_Click(object sender, EventArgs e)
+        {
+            var sfd = new SaveFileDialog
+            {
+                Title = "Save settings and selections",
+                Filter = "XML file (*.xml)|*.xml",
+                FileName = settingsfile
+            };
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                settingsfile = sfd.FileName;
+                var settings = GetSettingsFromUI();
+                XmlSerializerHelper.SerializeToFile(settings, settingsfile);
+                MessageBox.Show("Settings and selections saved.", "Save configuration", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -181,6 +204,11 @@ namespace Rappen.XTB.LCG
             Enabled = true;
         }
 
+        private void LCG_Load(object sender, EventArgs e)
+        {
+            LogUse("Load");
+        }
+
         private void llGroupBoxExpander_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             GroupBoxToggle(sender as LinkLabel);
@@ -204,7 +232,7 @@ namespace Rappen.XTB.LCG
             FilterEntities();
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void tsbAbout_Click(object sender, EventArgs e)
         {
             LogUse("OpenAbout");
             var about = new About(this);
@@ -229,6 +257,28 @@ namespace Rappen.XTB.LCG
         private void tsbClose_Click(object sender, EventArgs e)
         {
             CloseTool();
+        }
+
+        private void tsbLoadConfig_Click(object sender, EventArgs e)
+        {
+            var sfd = new OpenFileDialog
+            {
+                Title = "Load settings and selections",
+                Filter = "XML file (*.xml)|*.xml",
+                FileName = Path.GetDirectoryName(settingsfile)
+            };
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                settingsfile = sfd.FileName;
+                if (File.Exists(settingsfile))
+                {
+                    var document = new XmlDocument();
+                    document.Load(settingsfile);
+                    var settings = (Settings)XmlSerializerHelper.Deserialize(document.OuterXml, typeof(Settings));
+                    SaveSettings(ConnectionDetail.ConnectionName, settings);
+                    RestoreSelectedEntities();
+                }
+            }
         }
 
         private void txtAttSearch_TextChanged(object sender, EventArgs e)
@@ -265,6 +315,40 @@ namespace Rappen.XTB.LCG
             {
                 LogUsage.DoLog(action);
             }
+        }
+
+        private void ApplySettings(Settings settings, bool includeselection)
+        {
+            txtOutputFolder.Text = settings.OutputFolder;
+            txtNamespace.Text = settings.NameSpace;
+            rbFileCommon.Checked = settings.UseCommonFile;
+            rbFilePerEntity.Checked = !settings.UseCommonFile;
+            txtCommonFilename.Text = settings.CommonFile;
+            cmbFileName.SelectedIndex = (int)settings.FileName;
+            cmbConstantName.SelectedIndex = (int)settings.ConstantName;
+            chkConstStripPrefix.Checked = settings.DoStripPrefix && settings.ConstantName != NameType.DisplayName;
+            txtConstStripPrefix.Text = settings.StripPrefix;
+            chkEnumsInclude.Checked = settings.OptionSets;
+            chkEnumsGlobal.Checked = settings.GlobalOptionSets;
+            rbEntCustomAll.Checked = settings.EntityFilter?.CustomAll != false;
+            rbEntCustomFalse.Checked = settings.EntityFilter?.CustomFalse == true;
+            rbEntCustomTrue.Checked = settings.EntityFilter?.CustomTrue == true;
+            rbEntMgdAll.Checked = settings.EntityFilter?.ManagedAll != false;
+            rbEntMgdTrue.Checked = settings.EntityFilter?.ManagedTrue == true;
+            rbEntMgdFalse.Checked = settings.EntityFilter?.ManagedFalse == true;
+            chkEntIntersect.Checked = settings.EntityFilter?.Intersect == true;
+            rbAttCustomAll.Checked = settings.AttributeFilter?.CustomAll != false;
+            rbAttCustomFalse.Checked = settings.AttributeFilter?.CustomFalse == true;
+            rbAttCustomTrue.Checked = settings.AttributeFilter?.CustomTrue == true;
+            rbAttMgdAll.Checked = settings.AttributeFilter?.ManagedAll != false;
+            rbAttMgdTrue.Checked = settings.AttributeFilter?.ManagedTrue == true;
+            rbAttMgdFalse.Checked = settings.AttributeFilter?.ManagedFalse == true;
+            chkAttPrimaryKey.Checked = settings.AttributeFilter?.PrimaryKey == true;
+            chkAttPrimaryAttribute.Checked = settings.AttributeFilter?.PrimaryAttribute == true;
+            GroupBoxSetState(llFileOptionsExpander, settings.FileOptionsExpanded);
+            GroupBoxSetState(llConstOptionsExpander, settings.ConstantOptionsExpanded);
+            GroupBoxSetState(llEntityExpander, settings.EntityFilterExpanded);
+            GroupBoxSetState(llAttributeExpander, settings.AttributeFilterExpanded);
         }
 
         private void Attribute_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -568,36 +652,7 @@ namespace Rappen.XTB.LCG
         {
             if (SettingsManager.Instance.TryLoad(GetType(), out Settings settings, connectionname))
             {
-                txtOutputFolder.Text = settings.OutputFolder;
-                txtNamespace.Text = settings.NameSpace;
-                rbFileCommon.Checked = settings.UseCommonFile;
-                rbFilePerEntity.Checked = !settings.UseCommonFile;
-                txtCommonFilename.Text = settings.CommonFile;
-                cmbFileName.SelectedIndex = (int)settings.FileName;
-                cmbConstantName.SelectedIndex = (int)settings.ConstantName;
-                chkConstStripPrefix.Checked = settings.DoStripPrefix && settings.ConstantName != NameType.DisplayName;
-                txtConstStripPrefix.Text = settings.StripPrefix;
-                chkEnumsInclude.Checked = settings.OptionSets;
-                chkEnumsGlobal.Checked = settings.GlobalOptionSets;
-                rbEntCustomAll.Checked = settings.EntityFilter?.CustomAll != false;
-                rbEntCustomFalse.Checked = settings.EntityFilter?.CustomFalse == true;
-                rbEntCustomTrue.Checked = settings.EntityFilter?.CustomTrue == true;
-                rbEntMgdAll.Checked = settings.EntityFilter?.ManagedAll != false;
-                rbEntMgdTrue.Checked = settings.EntityFilter?.ManagedTrue == true;
-                rbEntMgdFalse.Checked = settings.EntityFilter?.ManagedFalse == true;
-                chkEntIntersect.Checked = settings.EntityFilter?.Intersect == true;
-                rbAttCustomAll.Checked = settings.AttributeFilter?.CustomAll != false;
-                rbAttCustomFalse.Checked = settings.AttributeFilter?.CustomFalse == true;
-                rbAttCustomTrue.Checked = settings.AttributeFilter?.CustomTrue == true;
-                rbAttMgdAll.Checked = settings.AttributeFilter?.ManagedAll != false;
-                rbAttMgdTrue.Checked = settings.AttributeFilter?.ManagedTrue == true;
-                rbAttMgdFalse.Checked = settings.AttributeFilter?.ManagedFalse == true;
-                chkAttPrimaryKey.Checked = settings.AttributeFilter?.PrimaryKey == true;
-                chkAttPrimaryAttribute.Checked = settings.AttributeFilter?.PrimaryAttribute == true;
-                GroupBoxSetState(llFileOptionsExpander, settings.FileOptionsExpanded);
-                GroupBoxSetState(llConstOptionsExpander, settings.ConstantOptionsExpanded);
-                GroupBoxSetState(llEntityExpander, settings.EntityFilterExpanded);
-                GroupBoxSetState(llAttributeExpander, settings.AttributeFilterExpanded);
+                ApplySettings(settings, false);
             }
         }
 
@@ -705,9 +760,13 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        private void SaveSettings(string connectionname)
+        private void SaveSettings(string connectionname, Settings settings)
         {
-            SettingsManager.Instance.Save(GetType(), GetSettingsFromUI(), connectionname);
+            if (settings == null)
+            {
+                settings = GetSettingsFromUI();
+            }
+            SettingsManager.Instance.Save(GetType(), settings, connectionname);
         }
 
         private void SetNamespace()

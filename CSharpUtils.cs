@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 
@@ -93,6 +94,7 @@ namespace Rappen.XTB.LCG
                 }
             }
             content = copy
+                .Replace("{version}", Assembly.GetExecutingAssembly().GetName().Version.ToString())
                 .Replace("{timestamp}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
                 .Replace("{location}", filename) + "\r\n\r\n" + fixedcontent.ToString();
             File.WriteAllText(filename, content);
