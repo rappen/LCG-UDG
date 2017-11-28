@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Rappen.XrmToolBox.LateboundConstantGenerator</id>
+    <id>Rappen.XrmToolBox.LateboundConstantsGenerator</id>
     <version>1.0.0</version>
-    <title>Latebound Constant Generator for XrmToolBox</title>
+    <title>Latebound Constants Generator for XrmToolBox</title>
     <authors>Jonas Rapp, Innofactor Sweden</authors>
     <owners>rappen</owners>
     <projectUrl>https://github.com/rappen/LateboundConstantGenerator</projectUrl>
@@ -12,7 +12,7 @@
     <description>An XrmToolBox plugin to Generate constant classes from metadata for late bound development on Microsoft Dynamics 365/CRM.</description>
     <summary>An XrmToolBox plugin to Generate constant classes from metadata for late bound development on Microsoft Dynamics 365/CRM.</summary>
     <copyright>Copyright 2017 Jonas Rapp</copyright>
-    <tags>XrmToolBox Plugins LateboundConstantGenerator</tags>
+    <tags>XrmToolBox Plugins LateboundConstantsGenerator</tags>
     <dependencies>
       <dependency id="XrmToolBox" version="1.2017.10.19" />
     </dependencies>
