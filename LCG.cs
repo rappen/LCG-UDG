@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using XrmToolBox.Extensibility;
 using XrmToolBox.Extensibility.Interfaces;
@@ -203,6 +204,28 @@ namespace Rappen.XTB.LCG
             FilterEntities();
         }
 
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            LogUse("OpenAbout");
+            var about = new About(this);
+            about.StartPosition = FormStartPosition.CenterParent;
+            about.lblVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            //about.chkStatAllow.Checked = settings.UseLog != false;
+            about.ShowDialog();
+            //if (settings.UseLog != about.chkStatAllow.Checked)
+            //{
+            //    settings.UseLog = about.chkStatAllow.Checked;
+            //    if (settings.UseLog == true)
+            //    {
+            //        LogUse("Accept", true);
+            //    }
+            //    else if (settings.UseLog == false)
+            //    {
+            //        LogUse("Deny", true);
+            //    }
+            //}
+        }
+
         private void tsbClose_Click(object sender, EventArgs e)
         {
             CloseTool();
@@ -231,6 +254,18 @@ namespace Rappen.XTB.LCG
         #endregion Private Event Handlers
 
         #region Private Methods
+
+        internal void LogUse(string action, bool forceLog = false)
+        {
+            //if (settings == null)
+            //{
+            //    LoadSettings();
+            //}
+            //if (settings.UseLog == true || forceLog)
+            {
+                LogUsage.DoLog(action);
+            }
+        }
 
         private void Attribute_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {

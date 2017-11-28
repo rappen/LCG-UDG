@@ -13,7 +13,7 @@ namespace Rappen.XTB.LCG
         #region Templates
 
         private const string copy = @"// ********************************************************************
-// *** Created by: Latebound Constant Generator for XrmToolBox
+// *** Created by: Latebound Constant Generator {version} for XrmToolBox
 // *** Author    : Jonas Rapp http://twitter.com/rappen
 // *** Repo      : https://github.com/rappen/LateboundConstantGenerator
 // *** Created   : {timestamp}
