@@ -33,12 +33,14 @@ namespace Rappen.XTB.LCG
         public bool Selected { get => IsSelected; }
 
         [DisplayName("Name")]
-        public string DisplayName { get { return Metadata?.DisplayName?.UserLocalizedLabel?.Label; } }
+        public string DisplayName { get => Metadata?.DisplayName?.UserLocalizedLabel?.Label ?? Metadata?.LogicalName; }
 
         [DisplayName("Logical Name")]
-        public string LogicalName { get { return Metadata?.LogicalName; } }
+        public string LogicalName { get => Metadata?.LogicalName; }
 
-        public AttributeTypeCode? Type { get { return Metadata?.AttributeType; } }
+        public AttributeTypeCode? Type { get => Metadata?.AttributeType; }
+
+        public string CSharpName { get => StringToCSharpIdentifier(DisplayName); }
 
         #endregion Public Properties
 

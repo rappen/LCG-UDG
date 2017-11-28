@@ -24,6 +24,8 @@ namespace Rappen.XTB.LCG
         public bool UseCommonFileDisplay { get; set; }
         public bool UseConstNameDisplay { get; set; }
         public List<string> Selection { get; set; }
+        public bool OptionSets { get; set; }
+        public bool GlobalOptionSets { get; set; }
         public EntityFilter EntityFilter { get; set; }
         public AttributeFilter AttributeFilter { get; set; }
     }

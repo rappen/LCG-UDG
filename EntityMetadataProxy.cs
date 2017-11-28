@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xrm.Sdk.Metadata;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace Rappen.XTB.LCG
 {
@@ -15,10 +16,16 @@ namespace Rappen.XTB.LCG
         public bool Selected { get => IsSelected; }
 
         [DisplayName("Name")]
-        public string DisplayName { get { return Metadata?.DisplayName?.UserLocalizedLabel?.Label; } }
+        public string DisplayName { get => Metadata?.DisplayName?.UserLocalizedLabel?.Label ?? Metadata?.LogicalName; }
 
         [DisplayName("Logical Name")]
-        public string LogicalName { get { return Metadata?.LogicalName; } }
+        public string LogicalName { get => Metadata?.LogicalName; }
+
+        internal string CSharpName { get => StringToCSharpIdentifier(DisplayName); }
+
+        internal AttributeMetadataProxy PrimaryKey { get => Attributes?.FirstOrDefault(a => a.Metadata.IsPrimaryId == true); }
+
+        internal AttributeMetadataProxy PrimaryName { get => Attributes?.FirstOrDefault(a => a.Metadata.IsPrimaryName == true); }
 
         #endregion Public Fields
 

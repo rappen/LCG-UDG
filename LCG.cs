@@ -78,7 +78,7 @@ namespace Rappen.XTB.LCG
                 SelectedPath = txtOutputFolder.Text,
                 ShowNewFolderButton = true
             };
-            if (fldr.ShowDialog() == DialogResult.OK)
+            if (fldr.ShowDialog(this) == DialogResult.OK)
             {
                 txtOutputFolder.Text = fldr.SelectedPath;
             }
@@ -343,6 +343,8 @@ namespace Rappen.XTB.LCG
                 CommonFile = txtCommonFilename.Text,
                 UseCommonFileDisplay = rbFileNameDisplay.Checked,
                 UseConstNameDisplay = rbConstNameDisplay.Checked,
+                OptionSets = chkEnumsInclude.Checked,
+                GlobalOptionSets = chkEnumsGlobal.Checked,
                 OptionsExpanded = gbOptions.Height > 20,
                 EntityFilterExpanded = gbEntities.Height > 20,
                 AttributeFilterExpanded = gbAttributes.Height > 20,
@@ -538,6 +540,8 @@ namespace Rappen.XTB.LCG
                 rbFileNameLogical.Checked = !settings.UseCommonFileDisplay;
                 rbConstNameDisplay.Checked = settings.UseConstNameDisplay;
                 rbConstNameLogical.Checked = !settings.UseConstNameDisplay;
+                chkEnumsInclude.Checked = settings.OptionSets;
+                chkEnumsGlobal.Checked = settings.GlobalOptionSets;
                 rbEntCustomAll.Checked = settings.EntityFilter?.CustomAll != false;
                 rbEntCustomFalse.Checked = settings.EntityFilter?.CustomFalse == true;
                 rbEntCustomTrue.Checked = settings.EntityFilter?.CustomTrue == true;
