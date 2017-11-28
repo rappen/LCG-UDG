@@ -77,10 +77,59 @@ namespace Rappen.XTB.LCG
             DisplayFilteredAttributes();
         }
 
+        private void btnAbout_Click(object sender, EventArgs e)
+        {
+            LogUse("OpenAbout");
+            var about = new About(this);
+            about.StartPosition = FormStartPosition.CenterParent;
+            about.lblVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            //about.chkStatAllow.Checked = settings.UseLog != false;
+            about.ShowDialog();
+            //if (settings.UseLog != about.chkStatAllow.Checked)
+            //{
+            //    settings.UseLog = about.chkStatAllow.Checked;
+            //    if (settings.UseLog == true)
+            //    {
+            //        LogUse("Accept", true);
+            //    }
+            //    else if (settings.UseLog == false)
+            //    {
+            //        LogUse("Deny", true);
+            //    }
+            //}
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            CloseTool();
+        }
+
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             LogUse("Generate");
             CSharpUtils.GenerateClasses(entities, GetSettingsFromUI());
+        }
+
+        private void btnLoadConfig_Click(object sender, EventArgs e)
+        {
+            var sfd = new OpenFileDialog
+            {
+                Title = "Load settings and selections",
+                Filter = "XML file (*.xml)|*.xml",
+                FileName = Path.GetDirectoryName(settingsfile)
+            };
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                settingsfile = sfd.FileName;
+                if (File.Exists(settingsfile))
+                {
+                    var document = new XmlDocument();
+                    document.Load(settingsfile);
+                    var settings = (Settings)XmlSerializerHelper.Deserialize(document.OuterXml, typeof(Settings));
+                    SaveSettings(ConnectionDetail.ConnectionName, settings);
+                    RestoreSelectedEntities();
+                }
+            }
         }
 
         private void btnLoadEntities_Click(object sender, EventArgs e)
@@ -195,6 +244,8 @@ namespace Rappen.XTB.LCG
             LogInfo("Connection has changed to: {0}", e.ConnectionDetail.WebApplicationUrl);
             chkEntAll.Visible = false;
             chkAttAll.Visible = false;
+            btnLoadConfig.Enabled = false;
+            btnSaveConfig.Enabled = false;
             entities = null;
             selectedEntity = null;
             gridAttributes.DataSource = null;
@@ -230,55 +281,6 @@ namespace Rappen.XTB.LCG
         {
             tmEntSearch.Stop();
             FilterEntities();
-        }
-
-        private void tsbAbout_Click(object sender, EventArgs e)
-        {
-            LogUse("OpenAbout");
-            var about = new About(this);
-            about.StartPosition = FormStartPosition.CenterParent;
-            about.lblVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            //about.chkStatAllow.Checked = settings.UseLog != false;
-            about.ShowDialog();
-            //if (settings.UseLog != about.chkStatAllow.Checked)
-            //{
-            //    settings.UseLog = about.chkStatAllow.Checked;
-            //    if (settings.UseLog == true)
-            //    {
-            //        LogUse("Accept", true);
-            //    }
-            //    else if (settings.UseLog == false)
-            //    {
-            //        LogUse("Deny", true);
-            //    }
-            //}
-        }
-
-        private void tsbClose_Click(object sender, EventArgs e)
-        {
-            CloseTool();
-        }
-
-        private void tsbLoadConfig_Click(object sender, EventArgs e)
-        {
-            var sfd = new OpenFileDialog
-            {
-                Title = "Load settings and selections",
-                Filter = "XML file (*.xml)|*.xml",
-                FileName = Path.GetDirectoryName(settingsfile)
-            };
-            if (sfd.ShowDialog() == DialogResult.OK)
-            {
-                settingsfile = sfd.FileName;
-                if (File.Exists(settingsfile))
-                {
-                    var document = new XmlDocument();
-                    document.Load(settingsfile);
-                    var settings = (Settings)XmlSerializerHelper.Deserialize(document.OuterXml, typeof(Settings));
-                    SaveSettings(ConnectionDetail.ConnectionName, settings);
-                    RestoreSelectedEntities();
-                }
-            }
         }
 
         private void txtAttSearch_TextChanged(object sender, EventArgs e)
@@ -525,13 +527,13 @@ namespace Rappen.XTB.LCG
         private void GroupBoxCollapse(LinkLabel link)
         {
             link.Parent.Height = 18;
-            link.Text = "Expand";
+            link.Text = "Show";
         }
 
         private void GroupBoxExpand(LinkLabel link)
         {
             link.Parent.Height = groupBoxHeights[link.Parent.Name];
-            link.Text = "Collapse";
+            link.Text = "Hide";
         }
 
         private void GroupBoxSetState(LinkLabel link, bool expanded)
@@ -642,6 +644,8 @@ namespace Rappen.XTB.LCG
                             gridEntities.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader);
                             gridEntities.Columns[0].Width = 30;
                         }
+                        btnLoadConfig.Enabled = true;
+                        btnSaveConfig.Enabled = true;
                         EnableControls(true);
                     });
                 }
