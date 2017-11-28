@@ -68,7 +68,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.chkAttAll = new System.Windows.Forms.CheckBox();
             this.gridAttributes = new System.Windows.Forms.DataGridView();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.statusAttributes = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusAttributesShowing = new System.Windows.Forms.ToolStripStatusLabel();
@@ -95,9 +95,9 @@
             this.label8 = new System.Windows.Forms.Label();
             this.pnFileCommonName = new System.Windows.Forms.Panel();
             this.txtCommonFilename = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtCommonFileSuffix = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.pnFileStructure = new System.Windows.Forms.Panel();
             this.rbFilePerEntity = new System.Windows.Forms.RadioButton();
             this.rbFileCommon = new System.Windows.Forms.RadioButton();
             this.txtNamespace = new System.Windows.Forms.TextBox();
@@ -113,15 +113,21 @@
             this.chkConstStripPrefix = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
             this.txtConstStripPrefix = new System.Windows.Forms.TextBox();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.pnAttributeSpacer = new System.Windows.Forms.Panel();
             this.gbFileOptions = new System.Windows.Forms.GroupBox();
             this.llFileOptionsExpander = new System.Windows.Forms.LinkLabel();
-            this.panel4 = new System.Windows.Forms.Panel();
+            this.pnLeftSpacer = new System.Windows.Forms.Panel();
             this.gbConstOptions = new System.Windows.Forms.GroupBox();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.panel7 = new System.Windows.Forms.Panel();
-            this.panel8 = new System.Windows.Forms.Panel();
+            this.pnRightSpacer = new System.Windows.Forms.Panel();
+            this.pnAttributeGrid = new System.Windows.Forms.Panel();
+            this.pnEntityGrid = new System.Windows.Forms.Panel();
             this.llConstOptionsExpander = new System.Windows.Forms.LinkLabel();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.pnWindowTopSpacer = new System.Windows.Forms.Panel();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -136,18 +142,18 @@
             this.pnEntCustom.SuspendLayout();
             this.pnEntSolution.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridAttributes)).BeginInit();
-            this.statusStrip1.SuspendLayout();
+            this.statusAttributes.SuspendLayout();
             this.gbAttributes.SuspendLayout();
             this.pnAttSearch.SuspendLayout();
             this.pnAttSystem.SuspendLayout();
             this.pnAttManaged.SuspendLayout();
             this.pnAttCustom.SuspendLayout();
             this.pnFileCommonName.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.pnFileStructure.SuspendLayout();
             this.gbFileOptions.SuspendLayout();
             this.gbConstOptions.SuspendLayout();
-            this.panel7.SuspendLayout();
-            this.panel8.SuspendLayout();
+            this.pnAttributeGrid.SuspendLayout();
+            this.pnEntityGrid.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripMenu
@@ -160,7 +166,7 @@
             this.btnGenerate});
             this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
             this.toolStripMenu.Name = "toolStripMenu";
-            this.toolStripMenu.Size = new System.Drawing.Size(1129, 31);
+            this.toolStripMenu.Size = new System.Drawing.Size(930, 31);
             this.toolStripMenu.TabIndex = 4;
             this.toolStripMenu.Text = "toolStrip1";
             // 
@@ -199,26 +205,26 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 31);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 48);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.panel8);
+            this.splitContainer1.Panel1.Controls.Add(this.pnEntityGrid);
             this.splitContainer1.Panel1.Controls.Add(this.gbEntities);
-            this.splitContainer1.Panel1.Controls.Add(this.panel4);
+            this.splitContainer1.Panel1.Controls.Add(this.pnLeftSpacer);
             this.splitContainer1.Panel1.Controls.Add(this.gbFileOptions);
             this.splitContainer1.Panel1.Controls.Add(this.statusEntities);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.panel7);
-            this.splitContainer1.Panel2.Controls.Add(this.statusStrip1);
+            this.splitContainer1.Panel2.Controls.Add(this.pnAttributeGrid);
+            this.splitContainer1.Panel2.Controls.Add(this.statusAttributes);
             this.splitContainer1.Panel2.Controls.Add(this.gbAttributes);
-            this.splitContainer1.Panel2.Controls.Add(this.panel6);
+            this.splitContainer1.Panel2.Controls.Add(this.pnRightSpacer);
             this.splitContainer1.Panel2.Controls.Add(this.gbConstOptions);
-            this.splitContainer1.Size = new System.Drawing.Size(1129, 751);
-            this.splitContainer1.SplitterDistance = 518;
+            this.splitContainer1.Size = new System.Drawing.Size(930, 429);
+            this.splitContainer1.SplitterDistance = 439;
             this.splitContainer1.TabIndex = 2;
             // 
             // chkEntAll
@@ -237,9 +243,9 @@
             this.statusEntities.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusEntitiesShowing,
             this.statusEntitiesSelected});
-            this.statusEntities.Location = new System.Drawing.Point(0, 729);
+            this.statusEntities.Location = new System.Drawing.Point(0, 407);
             this.statusEntities.Name = "statusEntities";
-            this.statusEntities.Size = new System.Drawing.Size(518, 22);
+            this.statusEntities.Size = new System.Drawing.Size(439, 22);
             this.statusEntities.SizingGrip = false;
             this.statusEntities.TabIndex = 2;
             this.statusEntities.Text = "statusStrip1";
@@ -292,7 +298,7 @@
             this.gridEntities.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.gridEntities.RowHeadersVisible = false;
             this.gridEntities.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridEntities.Size = new System.Drawing.Size(518, 442);
+            this.gridEntities.Size = new System.Drawing.Size(439, 120);
             this.gridEntities.TabIndex = 2;
             this.gridEntities.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             this.gridEntities.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridEntities_CellFormatting);
@@ -309,8 +315,8 @@
             this.gbEntities.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbEntities.Location = new System.Drawing.Point(0, 139);
             this.gbEntities.Name = "gbEntities";
-            this.gbEntities.Size = new System.Drawing.Size(518, 148);
-            this.gbEntities.TabIndex = 1;
+            this.gbEntities.Size = new System.Drawing.Size(439, 148);
+            this.gbEntities.TabIndex = 2;
             this.gbEntities.TabStop = false;
             this.gbEntities.Text = "Entities";
             // 
@@ -318,7 +324,7 @@
             // 
             this.llEntityExpander.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.llEntityExpander.AutoSize = true;
-            this.llEntityExpander.Location = new System.Drawing.Point(463, 0);
+            this.llEntityExpander.Location = new System.Drawing.Point(384, 0);
             this.llEntityExpander.Name = "llEntityExpander";
             this.llEntityExpander.Size = new System.Drawing.Size(47, 13);
             this.llEntityExpander.TabIndex = 3;
@@ -333,23 +339,23 @@
             this.pnEntSearch.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnEntSearch.Location = new System.Drawing.Point(3, 120);
             this.pnEntSearch.Name = "pnEntSearch";
-            this.pnEntSearch.Size = new System.Drawing.Size(512, 26);
+            this.pnEntSearch.Size = new System.Drawing.Size(433, 26);
             this.pnEntSearch.TabIndex = 5;
             // 
             // txtEntSearch
             // 
             this.txtEntSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtEntSearch.Location = new System.Drawing.Point(92, 2);
+            this.txtEntSearch.Location = new System.Drawing.Point(129, 2);
             this.txtEntSearch.Name = "txtEntSearch";
-            this.txtEntSearch.Size = new System.Drawing.Size(415, 20);
+            this.txtEntSearch.Size = new System.Drawing.Size(299, 20);
             this.txtEntSearch.TabIndex = 4;
             this.txtEntSearch.TextChanged += new System.EventHandler(this.txtEntSearch_TextChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 5);
+            this.label1.Location = new System.Drawing.Point(12, 5);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 3;
@@ -362,13 +368,13 @@
             this.pnEntIntersect.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnEntIntersect.Location = new System.Drawing.Point(3, 94);
             this.pnEntIntersect.Name = "pnEntIntersect";
-            this.pnEntIntersect.Size = new System.Drawing.Size(512, 26);
+            this.pnEntIntersect.Size = new System.Drawing.Size(433, 26);
             this.pnEntIntersect.TabIndex = 4;
             // 
             // chkEntSelected
             // 
             this.chkEntSelected.AutoSize = true;
-            this.chkEntSelected.Location = new System.Drawing.Point(175, 5);
+            this.chkEntSelected.Location = new System.Drawing.Point(292, 5);
             this.chkEntSelected.Name = "chkEntSelected";
             this.chkEntSelected.Size = new System.Drawing.Size(90, 17);
             this.chkEntSelected.TabIndex = 1;
@@ -381,7 +387,7 @@
             this.chkEntIntersect.AutoSize = true;
             this.chkEntIntersect.Checked = true;
             this.chkEntIntersect.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkEntIntersect.Location = new System.Drawing.Point(12, 5);
+            this.chkEntIntersect.Location = new System.Drawing.Point(129, 5);
             this.chkEntIntersect.Name = "chkEntIntersect";
             this.chkEntIntersect.Size = new System.Drawing.Size(104, 17);
             this.chkEntIntersect.TabIndex = 0;
@@ -391,19 +397,20 @@
             // 
             // pnEntManaged
             // 
+            this.pnEntManaged.Controls.Add(this.label12);
             this.pnEntManaged.Controls.Add(this.rbEntMgdFalse);
             this.pnEntManaged.Controls.Add(this.rbEntMgdTrue);
             this.pnEntManaged.Controls.Add(this.rbEntMgdAll);
             this.pnEntManaged.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnEntManaged.Location = new System.Drawing.Point(3, 68);
             this.pnEntManaged.Name = "pnEntManaged";
-            this.pnEntManaged.Size = new System.Drawing.Size(512, 26);
+            this.pnEntManaged.Size = new System.Drawing.Size(433, 26);
             this.pnEntManaged.TabIndex = 3;
             // 
             // rbEntMgdFalse
             // 
             this.rbEntMgdFalse.AutoSize = true;
-            this.rbEntMgdFalse.Location = new System.Drawing.Point(175, 5);
+            this.rbEntMgdFalse.Location = new System.Drawing.Point(292, 5);
             this.rbEntMgdFalse.Name = "rbEntMgdFalse";
             this.rbEntMgdFalse.Size = new System.Drawing.Size(83, 17);
             this.rbEntMgdFalse.TabIndex = 2;
@@ -414,7 +421,7 @@
             // rbEntMgdTrue
             // 
             this.rbEntMgdTrue.AutoSize = true;
-            this.rbEntMgdTrue.Location = new System.Drawing.Point(92, 5);
+            this.rbEntMgdTrue.Location = new System.Drawing.Point(209, 5);
             this.rbEntMgdTrue.Name = "rbEntMgdTrue";
             this.rbEntMgdTrue.Size = new System.Drawing.Size(70, 17);
             this.rbEntMgdTrue.TabIndex = 1;
@@ -426,7 +433,7 @@
             // 
             this.rbEntMgdAll.AutoSize = true;
             this.rbEntMgdAll.Checked = true;
-            this.rbEntMgdAll.Location = new System.Drawing.Point(12, 5);
+            this.rbEntMgdAll.Location = new System.Drawing.Point(129, 5);
             this.rbEntMgdAll.Name = "rbEntMgdAll";
             this.rbEntMgdAll.Size = new System.Drawing.Size(36, 17);
             this.rbEntMgdAll.TabIndex = 0;
@@ -437,19 +444,20 @@
             // 
             // pnEntCustom
             // 
+            this.pnEntCustom.Controls.Add(this.label11);
             this.pnEntCustom.Controls.Add(this.rbEntCustomTrue);
             this.pnEntCustom.Controls.Add(this.rbEntCustomFalse);
             this.pnEntCustom.Controls.Add(this.rbEntCustomAll);
             this.pnEntCustom.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnEntCustom.Location = new System.Drawing.Point(3, 42);
             this.pnEntCustom.Name = "pnEntCustom";
-            this.pnEntCustom.Size = new System.Drawing.Size(512, 26);
+            this.pnEntCustom.Size = new System.Drawing.Size(433, 26);
             this.pnEntCustom.TabIndex = 2;
             // 
             // rbEntCustomTrue
             // 
             this.rbEntCustomTrue.AutoSize = true;
-            this.rbEntCustomTrue.Location = new System.Drawing.Point(175, 5);
+            this.rbEntCustomTrue.Location = new System.Drawing.Point(292, 5);
             this.rbEntCustomTrue.Name = "rbEntCustomTrue";
             this.rbEntCustomTrue.Size = new System.Drawing.Size(60, 17);
             this.rbEntCustomTrue.TabIndex = 2;
@@ -460,7 +468,7 @@
             // rbEntCustomFalse
             // 
             this.rbEntCustomFalse.AutoSize = true;
-            this.rbEntCustomFalse.Location = new System.Drawing.Point(92, 5);
+            this.rbEntCustomFalse.Location = new System.Drawing.Point(209, 5);
             this.rbEntCustomFalse.Name = "rbEntCustomFalse";
             this.rbEntCustomFalse.Size = new System.Drawing.Size(59, 17);
             this.rbEntCustomFalse.TabIndex = 1;
@@ -472,7 +480,7 @@
             // 
             this.rbEntCustomAll.AutoSize = true;
             this.rbEntCustomAll.Checked = true;
-            this.rbEntCustomAll.Location = new System.Drawing.Point(12, 5);
+            this.rbEntCustomAll.Location = new System.Drawing.Point(129, 5);
             this.rbEntCustomAll.Name = "rbEntCustomAll";
             this.rbEntCustomAll.Size = new System.Drawing.Size(36, 17);
             this.rbEntCustomAll.TabIndex = 0;
@@ -488,7 +496,7 @@
             this.pnEntSolution.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnEntSolution.Location = new System.Drawing.Point(3, 16);
             this.pnEntSolution.Name = "pnEntSolution";
-            this.pnEntSolution.Size = new System.Drawing.Size(512, 26);
+            this.pnEntSolution.Size = new System.Drawing.Size(433, 26);
             this.pnEntSolution.TabIndex = 1;
             // 
             // cmbSolution
@@ -497,16 +505,16 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbSolution.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSolution.FormattingEnabled = true;
-            this.cmbSolution.Location = new System.Drawing.Point(92, 4);
+            this.cmbSolution.Location = new System.Drawing.Point(129, 4);
             this.cmbSolution.Name = "cmbSolution";
-            this.cmbSolution.Size = new System.Drawing.Size(415, 21);
+            this.cmbSolution.Size = new System.Drawing.Size(299, 21);
             this.cmbSolution.TabIndex = 1;
             this.cmbSolution.SelectedIndexChanged += new System.EventHandler(this.entityFilter_Changed);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(9, 7);
+            this.label4.Location = new System.Drawing.Point(12, 7);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(45, 13);
             this.label4.TabIndex = 0;
@@ -560,23 +568,23 @@
             this.gridAttributes.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.gridAttributes.RowHeadersVisible = false;
             this.gridAttributes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridAttributes.Size = new System.Drawing.Size(607, 442);
+            this.gridAttributes.Size = new System.Drawing.Size(487, 120);
             this.gridAttributes.TabIndex = 2;
             this.gridAttributes.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             // 
-            // statusStrip1
+            // statusAttributes
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusAttributes.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.toolStripStatusLabel2,
             this.statusAttributesShowing,
             this.statusAttributesSelected});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 729);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(607, 22);
-            this.statusStrip1.SizingGrip = false;
-            this.statusStrip1.TabIndex = 2;
-            this.statusStrip1.Text = "statusStrip1";
+            this.statusAttributes.Location = new System.Drawing.Point(0, 407);
+            this.statusAttributes.Name = "statusAttributes";
+            this.statusAttributes.Size = new System.Drawing.Size(487, 22);
+            this.statusAttributes.SizingGrip = false;
+            this.statusAttributes.TabIndex = 2;
+            this.statusAttributes.Text = "statusStrip1";
             // 
             // toolStripStatusLabel1
             // 
@@ -606,12 +614,12 @@
             this.gbAttributes.Controls.Add(this.pnAttSystem);
             this.gbAttributes.Controls.Add(this.pnAttManaged);
             this.gbAttributes.Controls.Add(this.pnAttCustom);
-            this.gbAttributes.Controls.Add(this.panel3);
+            this.gbAttributes.Controls.Add(this.pnAttributeSpacer);
             this.gbAttributes.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbAttributes.Location = new System.Drawing.Point(0, 139);
             this.gbAttributes.Name = "gbAttributes";
-            this.gbAttributes.Size = new System.Drawing.Size(607, 148);
-            this.gbAttributes.TabIndex = 1;
+            this.gbAttributes.Size = new System.Drawing.Size(487, 148);
+            this.gbAttributes.TabIndex = 2;
             this.gbAttributes.TabStop = false;
             this.gbAttributes.Text = "Attributes";
             // 
@@ -619,7 +627,7 @@
             // 
             this.llAttributeExpander.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.llAttributeExpander.AutoSize = true;
-            this.llAttributeExpander.Location = new System.Drawing.Point(550, 0);
+            this.llAttributeExpander.Location = new System.Drawing.Point(430, 0);
             this.llAttributeExpander.Name = "llAttributeExpander";
             this.llAttributeExpander.Size = new System.Drawing.Size(47, 13);
             this.llAttributeExpander.TabIndex = 4;
@@ -634,16 +642,16 @@
             this.pnAttSearch.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnAttSearch.Location = new System.Drawing.Point(3, 120);
             this.pnAttSearch.Name = "pnAttSearch";
-            this.pnAttSearch.Size = new System.Drawing.Size(601, 26);
+            this.pnAttSearch.Size = new System.Drawing.Size(481, 26);
             this.pnAttSearch.TabIndex = 4;
             // 
             // txtAttSearch
             // 
             this.txtAttSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtAttSearch.Location = new System.Drawing.Point(92, 2);
+            this.txtAttSearch.Location = new System.Drawing.Point(129, 2);
             this.txtAttSearch.Name = "txtAttSearch";
-            this.txtAttSearch.Size = new System.Drawing.Size(504, 20);
+            this.txtAttSearch.Size = new System.Drawing.Size(345, 20);
             this.txtAttSearch.TabIndex = 4;
             this.txtAttSearch.TextChanged += new System.EventHandler(this.txtAttSearch_TextChanged);
             // 
@@ -651,7 +659,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 5);
+            this.label2.Location = new System.Drawing.Point(12, 5);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(41, 13);
             this.label2.TabIndex = 3;
@@ -659,18 +667,19 @@
             // 
             // pnAttSystem
             // 
+            this.pnAttSystem.Controls.Add(this.label15);
             this.pnAttSystem.Controls.Add(this.chkAttPrimaryAttribute);
             this.pnAttSystem.Controls.Add(this.chkAttPrimaryKey);
             this.pnAttSystem.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnAttSystem.Location = new System.Drawing.Point(3, 94);
             this.pnAttSystem.Name = "pnAttSystem";
-            this.pnAttSystem.Size = new System.Drawing.Size(601, 26);
+            this.pnAttSystem.Size = new System.Drawing.Size(481, 26);
             this.pnAttSystem.TabIndex = 3;
             // 
             // chkAttPrimaryAttribute
             // 
             this.chkAttPrimaryAttribute.AutoSize = true;
-            this.chkAttPrimaryAttribute.Location = new System.Drawing.Point(175, 5);
+            this.chkAttPrimaryAttribute.Location = new System.Drawing.Point(295, 5);
             this.chkAttPrimaryAttribute.Name = "chkAttPrimaryAttribute";
             this.chkAttPrimaryAttribute.Size = new System.Drawing.Size(139, 17);
             this.chkAttPrimaryAttribute.TabIndex = 1;
@@ -681,7 +690,7 @@
             // chkAttPrimaryKey
             // 
             this.chkAttPrimaryKey.AutoSize = true;
-            this.chkAttPrimaryKey.Location = new System.Drawing.Point(9, 5);
+            this.chkAttPrimaryKey.Location = new System.Drawing.Point(129, 5);
             this.chkAttPrimaryKey.Name = "chkAttPrimaryKey";
             this.chkAttPrimaryKey.Size = new System.Drawing.Size(118, 17);
             this.chkAttPrimaryKey.TabIndex = 0;
@@ -691,19 +700,20 @@
             // 
             // pnAttManaged
             // 
+            this.pnAttManaged.Controls.Add(this.label14);
             this.pnAttManaged.Controls.Add(this.rbAttMgdFalse);
             this.pnAttManaged.Controls.Add(this.rbAttMgdTrue);
             this.pnAttManaged.Controls.Add(this.rbAttMgdAll);
             this.pnAttManaged.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnAttManaged.Location = new System.Drawing.Point(3, 68);
             this.pnAttManaged.Name = "pnAttManaged";
-            this.pnAttManaged.Size = new System.Drawing.Size(601, 26);
+            this.pnAttManaged.Size = new System.Drawing.Size(481, 26);
             this.pnAttManaged.TabIndex = 2;
             // 
             // rbAttMgdFalse
             // 
             this.rbAttMgdFalse.AutoSize = true;
-            this.rbAttMgdFalse.Location = new System.Drawing.Point(175, 5);
+            this.rbAttMgdFalse.Location = new System.Drawing.Point(295, 5);
             this.rbAttMgdFalse.Name = "rbAttMgdFalse";
             this.rbAttMgdFalse.Size = new System.Drawing.Size(83, 17);
             this.rbAttMgdFalse.TabIndex = 2;
@@ -714,7 +724,7 @@
             // rbAttMgdTrue
             // 
             this.rbAttMgdTrue.AutoSize = true;
-            this.rbAttMgdTrue.Location = new System.Drawing.Point(92, 5);
+            this.rbAttMgdTrue.Location = new System.Drawing.Point(212, 5);
             this.rbAttMgdTrue.Name = "rbAttMgdTrue";
             this.rbAttMgdTrue.Size = new System.Drawing.Size(70, 17);
             this.rbAttMgdTrue.TabIndex = 1;
@@ -726,7 +736,7 @@
             // 
             this.rbAttMgdAll.AutoSize = true;
             this.rbAttMgdAll.Checked = true;
-            this.rbAttMgdAll.Location = new System.Drawing.Point(9, 5);
+            this.rbAttMgdAll.Location = new System.Drawing.Point(129, 5);
             this.rbAttMgdAll.Name = "rbAttMgdAll";
             this.rbAttMgdAll.Size = new System.Drawing.Size(36, 17);
             this.rbAttMgdAll.TabIndex = 0;
@@ -737,19 +747,20 @@
             // 
             // pnAttCustom
             // 
+            this.pnAttCustom.Controls.Add(this.label13);
             this.pnAttCustom.Controls.Add(this.rbAttCustomTrue);
             this.pnAttCustom.Controls.Add(this.rbAttCustomFalse);
             this.pnAttCustom.Controls.Add(this.rbAttCustomAll);
             this.pnAttCustom.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnAttCustom.Location = new System.Drawing.Point(3, 42);
             this.pnAttCustom.Name = "pnAttCustom";
-            this.pnAttCustom.Size = new System.Drawing.Size(601, 26);
+            this.pnAttCustom.Size = new System.Drawing.Size(481, 26);
             this.pnAttCustom.TabIndex = 1;
             // 
             // rbAttCustomTrue
             // 
             this.rbAttCustomTrue.AutoSize = true;
-            this.rbAttCustomTrue.Location = new System.Drawing.Point(175, 5);
+            this.rbAttCustomTrue.Location = new System.Drawing.Point(295, 5);
             this.rbAttCustomTrue.Name = "rbAttCustomTrue";
             this.rbAttCustomTrue.Size = new System.Drawing.Size(60, 17);
             this.rbAttCustomTrue.TabIndex = 2;
@@ -760,7 +771,7 @@
             // rbAttCustomFalse
             // 
             this.rbAttCustomFalse.AutoSize = true;
-            this.rbAttCustomFalse.Location = new System.Drawing.Point(92, 5);
+            this.rbAttCustomFalse.Location = new System.Drawing.Point(212, 5);
             this.rbAttCustomFalse.Name = "rbAttCustomFalse";
             this.rbAttCustomFalse.Size = new System.Drawing.Size(59, 17);
             this.rbAttCustomFalse.TabIndex = 1;
@@ -772,7 +783,7 @@
             // 
             this.rbAttCustomAll.AutoSize = true;
             this.rbAttCustomAll.Checked = true;
-            this.rbAttCustomAll.Location = new System.Drawing.Point(9, 5);
+            this.rbAttCustomAll.Location = new System.Drawing.Point(129, 5);
             this.rbAttCustomAll.Name = "rbAttCustomAll";
             this.rbAttCustomAll.Size = new System.Drawing.Size(36, 17);
             this.rbAttCustomAll.TabIndex = 0;
@@ -784,17 +795,17 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(12, 102);
+            this.label9.Location = new System.Drawing.Point(15, 102);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(89, 13);
+            this.label9.Size = new System.Drawing.Size(59, 13);
             this.label9.TabIndex = 10;
-            this.label9.Text = "OptionSet Enums";
+            this.label9.Text = "OptionSets";
             // 
             // chkEnumsGlobal
             // 
             this.chkEnumsGlobal.AutoSize = true;
             this.chkEnumsGlobal.Enabled = false;
-            this.chkEnumsGlobal.Location = new System.Drawing.Point(254, 101);
+            this.chkEnumsGlobal.Location = new System.Drawing.Point(218, 101);
             this.chkEnumsGlobal.Name = "chkEnumsGlobal";
             this.chkEnumsGlobal.Size = new System.Drawing.Size(56, 17);
             this.chkEnumsGlobal.TabIndex = 9;
@@ -804,7 +815,7 @@
             // chkEnumsInclude
             // 
             this.chkEnumsInclude.AutoSize = true;
-            this.chkEnumsInclude.Location = new System.Drawing.Point(133, 101);
+            this.chkEnumsInclude.Location = new System.Drawing.Point(132, 101);
             this.chkEnumsInclude.Name = "chkEnumsInclude";
             this.chkEnumsInclude.Size = new System.Drawing.Size(70, 17);
             this.chkEnumsInclude.TabIndex = 8;
@@ -814,7 +825,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(12, 48);
+            this.label8.Location = new System.Drawing.Point(15, 48);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(47, 13);
             this.label8.TabIndex = 8;
@@ -822,11 +833,13 @@
             // 
             // pnFileCommonName
             // 
+            this.pnFileCommonName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pnFileCommonName.Controls.Add(this.txtCommonFilename);
-            this.pnFileCommonName.Controls.Add(this.textBox1);
-            this.pnFileCommonName.Location = new System.Drawing.Point(103, 68);
+            this.pnFileCommonName.Controls.Add(this.txtCommonFileSuffix);
+            this.pnFileCommonName.Location = new System.Drawing.Point(132, 68);
             this.pnFileCommonName.Name = "pnFileCommonName";
-            this.pnFileCommonName.Size = new System.Drawing.Size(305, 26);
+            this.pnFileCommonName.Size = new System.Drawing.Size(299, 26);
             this.pnFileCommonName.TabIndex = 5;
             // 
             // txtCommonFilename
@@ -835,41 +848,41 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCommonFilename.Location = new System.Drawing.Point(0, 4);
             this.txtCommonFilename.Name = "txtCommonFilename";
-            this.txtCommonFilename.Size = new System.Drawing.Size(275, 20);
+            this.txtCommonFilename.Size = new System.Drawing.Size(269, 20);
             this.txtCommonFilename.TabIndex = 4;
             // 
-            // textBox1
+            // txtCommonFileSuffix
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(274, 4);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(31, 20);
-            this.textBox1.TabIndex = 5;
-            this.textBox1.Text = ".cs";
+            this.txtCommonFileSuffix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCommonFileSuffix.Location = new System.Drawing.Point(268, 4);
+            this.txtCommonFileSuffix.Name = "txtCommonFileSuffix";
+            this.txtCommonFileSuffix.ReadOnly = true;
+            this.txtCommonFileSuffix.Size = new System.Drawing.Size(31, 20);
+            this.txtCommonFileSuffix.TabIndex = 5;
+            this.txtCommonFileSuffix.Text = ".cs";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(12, 48);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(28, 13);
+            this.label6.Size = new System.Drawing.Size(67, 13);
             this.label6.TabIndex = 0;
-            this.label6.Text = "Files";
+            this.label6.Text = "File structure";
             // 
-            // panel2
+            // pnFileStructure
             // 
-            this.panel2.Controls.Add(this.rbFilePerEntity);
-            this.panel2.Controls.Add(this.rbFileCommon);
-            this.panel2.Location = new System.Drawing.Point(95, 42);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(313, 26);
-            this.panel2.TabIndex = 3;
+            this.pnFileStructure.Controls.Add(this.rbFilePerEntity);
+            this.pnFileStructure.Controls.Add(this.rbFileCommon);
+            this.pnFileStructure.Location = new System.Drawing.Point(132, 43);
+            this.pnFileStructure.Name = "pnFileStructure";
+            this.pnFileStructure.Size = new System.Drawing.Size(313, 26);
+            this.pnFileStructure.TabIndex = 3;
             // 
             // rbFilePerEntity
             // 
             this.rbFilePerEntity.AutoSize = true;
-            this.rbFilePerEntity.Location = new System.Drawing.Point(168, 4);
+            this.rbFilePerEntity.Location = new System.Drawing.Point(163, 3);
             this.rbFilePerEntity.Name = "rbFilePerEntity";
             this.rbFilePerEntity.Size = new System.Drawing.Size(107, 17);
             this.rbFilePerEntity.TabIndex = 2;
@@ -881,7 +894,7 @@
             // 
             this.rbFileCommon.AutoSize = true;
             this.rbFileCommon.Checked = true;
-            this.rbFileCommon.Location = new System.Drawing.Point(8, 4);
+            this.rbFileCommon.Location = new System.Drawing.Point(0, 3);
             this.rbFileCommon.Name = "rbFileCommon";
             this.rbFileCommon.Size = new System.Drawing.Size(104, 17);
             this.rbFileCommon.TabIndex = 1;
@@ -892,15 +905,15 @@
             // 
             // txtNamespace
             // 
-            this.txtNamespace.Location = new System.Drawing.Point(133, 18);
+            this.txtNamespace.Location = new System.Drawing.Point(132, 18);
             this.txtNamespace.Name = "txtNamespace";
-            this.txtNamespace.Size = new System.Drawing.Size(285, 20);
+            this.txtNamespace.Size = new System.Drawing.Size(239, 20);
             this.txtNamespace.TabIndex = 6;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 21);
+            this.label5.Location = new System.Drawing.Point(15, 21);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(64, 13);
             this.label5.TabIndex = 4;
@@ -917,8 +930,9 @@
             // 
             // btnOutputFolder
             // 
+            this.btnOutputFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOutputFolder.Image = ((System.Drawing.Image)(resources.GetObject("btnOutputFolder.Image")));
-            this.btnOutputFolder.Location = new System.Drawing.Point(376, 17);
+            this.btnOutputFolder.Location = new System.Drawing.Point(399, 17);
             this.btnOutputFolder.Name = "btnOutputFolder";
             this.btnOutputFolder.Size = new System.Drawing.Size(32, 24);
             this.btnOutputFolder.TabIndex = 2;
@@ -927,9 +941,11 @@
             // 
             // txtOutputFolder
             // 
-            this.txtOutputFolder.Location = new System.Drawing.Point(103, 18);
+            this.txtOutputFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtOutputFolder.Location = new System.Drawing.Point(132, 18);
             this.txtOutputFolder.Name = "txtOutputFolder";
-            this.txtOutputFolder.Size = new System.Drawing.Size(267, 20);
+            this.txtOutputFolder.Size = new System.Drawing.Size(261, 20);
             this.txtOutputFolder.TabIndex = 1;
             // 
             // label3
@@ -959,9 +975,9 @@
             "Display Name",
             "Schema Name",
             "Logical Name"});
-            this.cmbConstantName.Location = new System.Drawing.Point(133, 45);
+            this.cmbConstantName.Location = new System.Drawing.Point(132, 45);
             this.cmbConstantName.Name = "cmbConstantName";
-            this.cmbConstantName.Size = new System.Drawing.Size(285, 21);
+            this.cmbConstantName.Size = new System.Drawing.Size(239, 21);
             this.cmbConstantName.TabIndex = 11;
             this.cmbConstantName.SelectedIndexChanged += new System.EventHandler(this.cmbConstantName_SelectedIndexChanged);
             // 
@@ -973,16 +989,16 @@
             "Display Name",
             "Schema Name",
             "Logical Name"});
-            this.cmbFileName.Location = new System.Drawing.Point(103, 72);
+            this.cmbFileName.Location = new System.Drawing.Point(132, 72);
             this.cmbFileName.Name = "cmbFileName";
-            this.cmbFileName.Size = new System.Drawing.Size(305, 21);
+            this.cmbFileName.Size = new System.Drawing.Size(239, 21);
             this.cmbFileName.TabIndex = 12;
             // 
             // chkConstStripPrefix
             // 
             this.chkConstStripPrefix.AutoSize = true;
             this.chkConstStripPrefix.Enabled = false;
-            this.chkConstStripPrefix.Location = new System.Drawing.Point(133, 74);
+            this.chkConstStripPrefix.Location = new System.Drawing.Point(132, 74);
             this.chkConstStripPrefix.Name = "chkConstStripPrefix";
             this.chkConstStripPrefix.Size = new System.Drawing.Size(75, 17);
             this.chkConstStripPrefix.TabIndex = 13;
@@ -993,7 +1009,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(12, 75);
+            this.label10.Location = new System.Drawing.Point(15, 75);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(33, 13);
             this.label10.TabIndex = 14;
@@ -1002,19 +1018,19 @@
             // txtConstStripPrefix
             // 
             this.txtConstStripPrefix.Enabled = false;
-            this.txtConstStripPrefix.Location = new System.Drawing.Point(254, 72);
+            this.txtConstStripPrefix.Location = new System.Drawing.Point(218, 72);
             this.txtConstStripPrefix.Name = "txtConstStripPrefix";
             this.txtConstStripPrefix.Size = new System.Drawing.Size(73, 20);
             this.txtConstStripPrefix.TabIndex = 15;
             this.txtConstStripPrefix.Leave += new System.EventHandler(this.txtConstStripPrefix_Leave);
             // 
-            // panel3
+            // pnAttributeSpacer
             // 
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(3, 16);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(601, 26);
-            this.panel3.TabIndex = 5;
+            this.pnAttributeSpacer.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnAttributeSpacer.Location = new System.Drawing.Point(3, 16);
+            this.pnAttributeSpacer.Name = "pnAttributeSpacer";
+            this.pnAttributeSpacer.Size = new System.Drawing.Size(481, 26);
+            this.pnAttributeSpacer.TabIndex = 5;
             // 
             // gbFileOptions
             // 
@@ -1025,13 +1041,13 @@
             this.gbFileOptions.Controls.Add(this.pnFileCommonName);
             this.gbFileOptions.Controls.Add(this.label7);
             this.gbFileOptions.Controls.Add(this.cmbFileName);
-            this.gbFileOptions.Controls.Add(this.panel2);
+            this.gbFileOptions.Controls.Add(this.pnFileStructure);
             this.gbFileOptions.Controls.Add(this.label6);
             this.gbFileOptions.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbFileOptions.Location = new System.Drawing.Point(0, 0);
             this.gbFileOptions.Name = "gbFileOptions";
-            this.gbFileOptions.Size = new System.Drawing.Size(518, 122);
-            this.gbFileOptions.TabIndex = 9;
+            this.gbFileOptions.Size = new System.Drawing.Size(439, 122);
+            this.gbFileOptions.TabIndex = 1;
             this.gbFileOptions.TabStop = false;
             this.gbFileOptions.Text = "File Options";
             // 
@@ -1039,7 +1055,7 @@
             // 
             this.llFileOptionsExpander.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.llFileOptionsExpander.AutoSize = true;
-            this.llFileOptionsExpander.Location = new System.Drawing.Point(463, 0);
+            this.llFileOptionsExpander.Location = new System.Drawing.Point(384, 0);
             this.llFileOptionsExpander.Name = "llFileOptionsExpander";
             this.llFileOptionsExpander.Size = new System.Drawing.Size(47, 13);
             this.llFileOptionsExpander.TabIndex = 13;
@@ -1047,13 +1063,13 @@
             this.llFileOptionsExpander.Text = "Collapse";
             this.llFileOptionsExpander.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
             // 
-            // panel4
+            // pnLeftSpacer
             // 
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel4.Location = new System.Drawing.Point(0, 122);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(518, 17);
-            this.panel4.TabIndex = 10;
+            this.pnLeftSpacer.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnLeftSpacer.Location = new System.Drawing.Point(0, 122);
+            this.pnLeftSpacer.Name = "pnLeftSpacer";
+            this.pnLeftSpacer.Size = new System.Drawing.Size(439, 17);
+            this.pnLeftSpacer.TabIndex = 10;
             // 
             // gbConstOptions
             // 
@@ -1071,44 +1087,44 @@
             this.gbConstOptions.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbConstOptions.Location = new System.Drawing.Point(0, 0);
             this.gbConstOptions.Name = "gbConstOptions";
-            this.gbConstOptions.Size = new System.Drawing.Size(607, 122);
-            this.gbConstOptions.TabIndex = 10;
+            this.gbConstOptions.Size = new System.Drawing.Size(487, 122);
+            this.gbConstOptions.TabIndex = 1;
             this.gbConstOptions.TabStop = false;
             this.gbConstOptions.Text = "Constant Options";
             // 
-            // panel6
+            // pnRightSpacer
             // 
-            this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel6.Location = new System.Drawing.Point(0, 122);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(607, 17);
-            this.panel6.TabIndex = 11;
+            this.pnRightSpacer.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnRightSpacer.Location = new System.Drawing.Point(0, 122);
+            this.pnRightSpacer.Name = "pnRightSpacer";
+            this.pnRightSpacer.Size = new System.Drawing.Size(487, 17);
+            this.pnRightSpacer.TabIndex = 11;
             // 
-            // panel7
+            // pnAttributeGrid
             // 
-            this.panel7.Controls.Add(this.chkAttAll);
-            this.panel7.Controls.Add(this.gridAttributes);
-            this.panel7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel7.Location = new System.Drawing.Point(0, 287);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(607, 442);
-            this.panel7.TabIndex = 12;
+            this.pnAttributeGrid.Controls.Add(this.chkAttAll);
+            this.pnAttributeGrid.Controls.Add(this.gridAttributes);
+            this.pnAttributeGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnAttributeGrid.Location = new System.Drawing.Point(0, 287);
+            this.pnAttributeGrid.Name = "pnAttributeGrid";
+            this.pnAttributeGrid.Size = new System.Drawing.Size(487, 120);
+            this.pnAttributeGrid.TabIndex = 3;
             // 
-            // panel8
+            // pnEntityGrid
             // 
-            this.panel8.Controls.Add(this.chkEntAll);
-            this.panel8.Controls.Add(this.gridEntities);
-            this.panel8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel8.Location = new System.Drawing.Point(0, 287);
-            this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(518, 442);
-            this.panel8.TabIndex = 11;
+            this.pnEntityGrid.Controls.Add(this.chkEntAll);
+            this.pnEntityGrid.Controls.Add(this.gridEntities);
+            this.pnEntityGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnEntityGrid.Location = new System.Drawing.Point(0, 287);
+            this.pnEntityGrid.Name = "pnEntityGrid";
+            this.pnEntityGrid.Size = new System.Drawing.Size(439, 120);
+            this.pnEntityGrid.TabIndex = 3;
             // 
             // llConstOptionsExpander
             // 
             this.llConstOptionsExpander.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.llConstOptionsExpander.AutoSize = true;
-            this.llConstOptionsExpander.Location = new System.Drawing.Point(550, 0);
+            this.llConstOptionsExpander.Location = new System.Drawing.Point(430, 0);
             this.llConstOptionsExpander.Name = "llConstOptionsExpander";
             this.llConstOptionsExpander.Size = new System.Drawing.Size(47, 13);
             this.llConstOptionsExpander.TabIndex = 16;
@@ -1116,16 +1132,70 @@
             this.llConstOptionsExpander.Text = "Collapse";
             this.llConstOptionsExpander.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(12, 7);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(61, 13);
+            this.label11.TabIndex = 3;
+            this.label11.Text = "Customized";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(12, 7);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(52, 13);
+            this.label12.TabIndex = 3;
+            this.label12.Text = "Managed";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(12, 7);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(61, 13);
+            this.label13.TabIndex = 4;
+            this.label13.Text = "Customized";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(12, 7);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(52, 13);
+            this.label14.TabIndex = 4;
+            this.label14.Text = "Managed";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(12, 6);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(42, 13);
+            this.label15.TabIndex = 2;
+            this.label15.Text = "Special";
+            // 
+            // pnWindowTopSpacer
+            // 
+            this.pnWindowTopSpacer.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnWindowTopSpacer.Location = new System.Drawing.Point(0, 31);
+            this.pnWindowTopSpacer.Name = "pnWindowTopSpacer";
+            this.pnWindowTopSpacer.Size = new System.Drawing.Size(930, 17);
+            this.pnWindowTopSpacer.TabIndex = 11;
+            // 
             // LCG
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.pnWindowTopSpacer);
             this.Controls.Add(this.toolStripMenu);
             this.DoubleBuffered = true;
             this.Enabled = false;
             this.Name = "LCG";
-            this.Size = new System.Drawing.Size(1129, 782);
+            this.Size = new System.Drawing.Size(930, 477);
             this.TabIcon = ((System.Drawing.Image)(resources.GetObject("$this.TabIcon")));
             this.ConnectionUpdated += new XrmToolBox.Extensibility.PluginControlBase.ConnectionUpdatedHandler(this.LCG_ConnectionUpdated);
             this.toolStripMenu.ResumeLayout(false);
@@ -1152,8 +1222,8 @@
             this.pnEntSolution.ResumeLayout(false);
             this.pnEntSolution.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridAttributes)).EndInit();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
+            this.statusAttributes.ResumeLayout(false);
+            this.statusAttributes.PerformLayout();
             this.gbAttributes.ResumeLayout(false);
             this.gbAttributes.PerformLayout();
             this.pnAttSearch.ResumeLayout(false);
@@ -1166,16 +1236,16 @@
             this.pnAttCustom.PerformLayout();
             this.pnFileCommonName.ResumeLayout(false);
             this.pnFileCommonName.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.pnFileStructure.ResumeLayout(false);
+            this.pnFileStructure.PerformLayout();
             this.gbFileOptions.ResumeLayout(false);
             this.gbFileOptions.PerformLayout();
             this.gbConstOptions.ResumeLayout(false);
             this.gbConstOptions.PerformLayout();
-            this.panel7.ResumeLayout(false);
-            this.panel7.PerformLayout();
-            this.panel8.ResumeLayout(false);
-            this.panel8.PerformLayout();
+            this.pnAttributeGrid.ResumeLayout(false);
+            this.pnAttributeGrid.PerformLayout();
+            this.pnEntityGrid.ResumeLayout(false);
+            this.pnEntityGrid.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1193,7 +1263,7 @@
         private System.Windows.Forms.ToolStripStatusLabel statusEntitiesShowing;
         private System.Windows.Forms.ToolStripStatusLabel statusEntitiesSelected;
         private System.Windows.Forms.GroupBox gbAttributes;
-        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.StatusStrip statusAttributes;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.DataGridView gridAttributes;
@@ -1239,13 +1309,13 @@
         private System.Windows.Forms.Timer tmAttSearch;
         private System.Windows.Forms.TextBox txtNamespace;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel pnFileStructure;
         private System.Windows.Forms.TextBox txtCommonFilename;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.RadioButton rbFilePerEntity;
         private System.Windows.Forms.RadioButton rbFileCommon;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtCommonFileSuffix;
         private System.Windows.Forms.Panel pnFileCommonName;
         private System.Windows.Forms.Panel pnAttSystem;
         private System.Windows.Forms.CheckBox chkAttPrimaryAttribute;
@@ -1259,14 +1329,20 @@
         private System.Windows.Forms.TextBox txtConstStripPrefix;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.CheckBox chkConstStripPrefix;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Panel pnAttributeSpacer;
+        private System.Windows.Forms.Panel pnLeftSpacer;
         private System.Windows.Forms.GroupBox gbFileOptions;
         private System.Windows.Forms.LinkLabel llFileOptionsExpander;
-        private System.Windows.Forms.Panel panel7;
-        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.Panel pnAttributeGrid;
+        private System.Windows.Forms.Panel pnRightSpacer;
         private System.Windows.Forms.GroupBox gbConstOptions;
-        private System.Windows.Forms.Panel panel8;
+        private System.Windows.Forms.Panel pnEntityGrid;
         private System.Windows.Forms.LinkLabel llConstOptionsExpander;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Panel pnWindowTopSpacer;
     }
 }
