@@ -8,16 +8,25 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using XrmToolBox.Extensibility;
+using XrmToolBox.Extensibility.Interfaces;
 
 namespace Rappen.XTB.LCG
 {
-    public partial class LCG : PluginControlBase
+    public partial class LCG : PluginControlBase, IGitHubPlugin, IPayPalPlugin
     {
         #region Private Fields
 
         private List<EntityMetadataProxy> entities;
         private Dictionary<string, int> groupBoxHeights;
         private EntityMetadataProxy selectedEntity;
+
+        public string RepositoryName => "LateboundConstantGenerator";
+
+        public string UserName => "rappen";
+
+        public string DonationDescription => "LCG Fan Club";
+
+        public string EmailAccount => "jonas@rappen.net";
 
         #endregion Private Fields
 
