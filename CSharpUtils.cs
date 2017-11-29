@@ -52,7 +52,7 @@ namespace Rappen.XTB.LCG
                 var entity = GetEntity(entitymetadata, settings);
                 if (!settings.UseCommonFile)
                 {
-                    var filename = entitymetadata.GetNameTechnical(settings.FileName) + ".cs";
+                    var filename = entitymetadata.GetNameTechnical(settings.FileName, settings.DoStripPrefix, settings.StripPrefix) + ".cs";
                     var entityfile = file.Replace("{entities}", entity);
                     WriteFile(Path.Combine(settings.OutputFolder, filename), entityfile, orgurl);
                     savefiles.Add(filename);
@@ -104,13 +104,7 @@ namespace Rappen.XTB.LCG
 
         private static string GetEntity(EntityMetadataProxy entitymetadata, Settings settings)
         {
-            var name = entitymetadata.GetNameTechnical(settings.ConstantName);
-            if (settings.ConstantName != NameType.DisplayName &&
-                settings.DoStripPrefix && !string.IsNullOrEmpty(settings.StripPrefix) &&
-                name.ToLowerInvariant().StartsWith(settings.StripPrefix))
-            {
-                name = name.Substring(settings.StripPrefix.Length);
-            }
+            var name = entitymetadata.GetNameTechnical(settings.ConstantName, settings.DoStripPrefix, settings.StripPrefix);
             return entitytemplate
                 .Replace("{entity}", name)
                 .Replace("{logicalname}", entitymetadata.LogicalName)
@@ -149,7 +143,7 @@ namespace Rappen.XTB.LCG
             var optionsets = new StringBuilder();
             if (settings.OptionSets && entitymetadata.Attributes != null)
             {
-                foreach (var attributemetadata in entitymetadata.Attributes.Where(a => a.Selected && a.Metadata.AttributeType == AttributeTypeCode.Picklist))
+                foreach (var attributemetadata in entitymetadata.Attributes.Where(a => a.Selected && (a.Metadata is EnumAttributeMetadata)))
                 {
                     string optionset = GetOptionSet(attributemetadata, settings);
                     optionsets.AppendLine(optionset);
@@ -162,13 +156,7 @@ namespace Rappen.XTB.LCG
         {
             var name = attributemetadata.Metadata.IsPrimaryId == true ? "PrimaryKey" :
                 attributemetadata.Metadata.IsPrimaryName == true ? "PrimaryName" :
-                attributemetadata.GetNameTechnical(settings.ConstantName);
-            if (settings.ConstantName != NameType.DisplayName &&
-                settings.DoStripPrefix && !string.IsNullOrEmpty(settings.StripPrefix) &&
-                name.ToLowerInvariant().StartsWith(settings.StripPrefix))
-            {
-                name = name.Substring(settings.StripPrefix.Length);
-            }
+                attributemetadata.GetNameTechnical(settings);
             return attributetemplate
                 .Replace("{attribute}", name)
                 .Replace("{logicalname}", attributemetadata.LogicalName)
@@ -178,7 +166,7 @@ namespace Rappen.XTB.LCG
 
         private static string GetOptionSet(AttributeMetadataProxy attributemetadata, Settings settings)
         {
-            var optionset = optionsettemplate.Replace("{name}", attributemetadata.GetNameTechnical(settings.ConstantName));
+            var optionset = optionsettemplate.Replace("{name}", attributemetadata.GetNameTechnical(settings));
             var options = new List<string>();
             var optionsetmetadata = attributemetadata.Metadata as EnumAttributeMetadata;
             if (optionsetmetadata != null)

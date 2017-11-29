@@ -51,19 +51,28 @@ namespace Rappen.XTB.LCG
             return base.ToString();
         }
 
-        public string GetNameTechnical(NameType constantName)
+        public string GetNameTechnical(NameType nametype, bool dostripprefix, string stripprefix)
         {
-            switch (constantName)
+            var name = string.Empty;
+            switch (nametype)
             {
                 case NameType.DisplayName:
-                    return StringToCSharpIdentifier(DisplayName);
+                    name = StringToCSharpIdentifier(DisplayName);
+                    break;
                 case NameType.LogicalName:
-                    return Metadata?.LogicalName;
+                    name = Metadata?.LogicalName;
+                    break;
                 case NameType.SchemaName:
-                    return Metadata?.SchemaName;
-                default:
-                    return null;
+                    name = Metadata?.SchemaName;
+                    break;
             }
+            if (nametype != NameType.DisplayName &&
+                dostripprefix && !string.IsNullOrEmpty(stripprefix) &&
+                name.ToLowerInvariant().StartsWith(stripprefix))
+            {
+                name = name.Substring(stripprefix.Length);
+            }
+            return name;
         }
 
         #endregion Public Methods

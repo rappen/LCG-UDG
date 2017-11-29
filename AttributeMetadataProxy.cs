@@ -67,19 +67,28 @@ namespace Rappen.XTB.LCG
             return base.ToString();
         }
 
-        public string GetNameTechnical(NameType constantName)
+        public string GetNameTechnical(Settings settings)
         {
-            switch (constantName)
+            var name = string.Empty;
+            switch (settings.ConstantName)
             {
                 case NameType.DisplayName:
-                    return StringToCSharpIdentifier(DisplayName);
+                    name = StringToCSharpIdentifier(DisplayName);
+                    break;
                 case NameType.LogicalName:
-                    return Metadata?.LogicalName;
+                    name = Metadata?.LogicalName;
+                    break;
                 case NameType.SchemaName:
-                    return Metadata?.SchemaName;
-                default:
-                    return null;
+                    name = Metadata?.SchemaName;
+                    break;
             }
+            if (settings.ConstantName != NameType.DisplayName &&
+                settings.DoStripPrefix && !string.IsNullOrEmpty(settings.StripPrefix) &&
+                name.ToLowerInvariant().StartsWith(settings.StripPrefix))
+            {
+                name = name.Substring(settings.StripPrefix.Length);
+            }
+            return name;
         }
 
         #endregion Public Methods
