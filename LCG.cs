@@ -108,7 +108,7 @@ namespace Rappen.XTB.LCG
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             LogUse("Generate");
-            CSharpUtils.GenerateClasses(entities, GetSettingsFromUI());
+            CSharpUtils.GenerateClasses(entities, GetSettingsFromUI(), ConnectionDetail.WebApplicationUrl);
         }
 
         private void btnLoadConfig_Click(object sender, EventArgs e)

@@ -19,6 +19,7 @@ namespace Rappen.XTB.LCG
 // *** Repo      : https://github.com/rappen/LateboundConstantGenerator
 // *** Created   : {timestamp}
 // *** Location  : {location}
+// *** Source Org: {organization}
 // *******************************************************************";
 
         private const string namespacetemplate = @"namespace {namespace}
@@ -40,7 +41,7 @@ namespace Rappen.XTB.LCG
 
         #endregion Templates
 
-        internal static void GenerateClasses(List<EntityMetadataProxy> entitiesmetadata, Settings settings)
+        internal static void GenerateClasses(List<EntityMetadataProxy> entitiesmetadata, Settings settings, string orgurl)
         {
             var savefiles = new List<string>();
             var file = namespacetemplate.Replace("{namespace}", settings.NameSpace);
@@ -53,7 +54,7 @@ namespace Rappen.XTB.LCG
                 {
                     var filename = entitymetadata.GetNameTechnical(settings.FileName) + ".cs";
                     var entityfile = file.Replace("{entities}", entity);
-                    WriteFile(Path.Combine(settings.OutputFolder, filename), entityfile);
+                    WriteFile(Path.Combine(settings.OutputFolder, filename), entityfile, orgurl);
                     savefiles.Add(filename);
                 }
                 else
@@ -66,7 +67,7 @@ namespace Rappen.XTB.LCG
             if (settings.UseCommonFile)
             {
                 var filename = Path.Combine(settings.OutputFolder, settings.CommonFile + ".cs");
-                WriteFile(filename, file);
+                WriteFile(filename, file, orgurl);
                 message = $"Saved constants to\n  {filename}";
             }
             else
@@ -76,7 +77,7 @@ namespace Rappen.XTB.LCG
             MessageBox.Show(message, "Latebound Constant Generator", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private static void WriteFile(string filename, string content)
+        private static void WriteFile(string filename, string content, string orgurl)
         {
             var lines = content.Split('\n').ToList();
             var fixedcontent = new StringBuilder();
@@ -96,7 +97,8 @@ namespace Rappen.XTB.LCG
             content = copy
                 .Replace("{version}", Assembly.GetExecutingAssembly().GetName().Version.ToString())
                 .Replace("{timestamp}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
-                .Replace("{location}", filename) + "\r\n\r\n" + fixedcontent.ToString();
+                .Replace("{location}", filename)
+                .Replace("{organization}", orgurl) + "\r\n\r\n" + fixedcontent.ToString();
             File.WriteAllText(filename, content);
         }
 
