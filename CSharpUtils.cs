@@ -32,7 +32,7 @@ namespace Rappen.XTB.LCG
 {optionsets}
     }";
         private const string attributetemplate = @"        public const string {attribute} = '{logicalname}';    // {type}";
-        private const string optionsettemplate = @"        public enum {name}
+        private const string optionsettemplate = @"        public enum {name}_OptionSet
         {
 {values}
         }";
@@ -184,7 +184,7 @@ namespace Rappen.XTB.LCG
                 foreach (var optionmetadata in optionsetmetadata.OptionSet.Options)
                 {
                     var label = MetadataProxy.StringToCSharpIdentifier(optionmetadata.Label.UserLocalizedLabel.Label);
-                    if (int.TryParse(label, out int tmp))
+                    if (string.IsNullOrEmpty(label) || int.TryParse(label[0].ToString(), out int tmp))
                     {
                         label = "_" + label;
                     }

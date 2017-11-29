@@ -32,7 +32,22 @@ namespace Rappen.XTB.LCG
         internal static string StringToCSharpIdentifier(string name)
         {
             return System.Text.Encoding.UTF8.GetString(System.Text.Encoding.GetEncoding("ISO-8859-8").GetBytes(name))
-                .Replace(" ", "").Replace("(", "").Replace(")", "").Replace(":", "");
+                .Replace(" ", "")
+                .Replace("(", "")
+                .Replace(")", "")
+                .Replace("<", "")
+                .Replace(">", "")
+                .Replace(".", "")
+                .Replace(",", "")
+                .Replace(";", "")
+                .Replace(":", "")
+                .Replace("*", "")
+                .Replace("&", "")
+                .Replace("%", "")
+                .Replace("-", "_")
+                .Replace("+", "_")
+                .Replace("/", "_")
+                .Replace("\\", "_");
         }
     }
 }
