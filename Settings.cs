@@ -46,6 +46,7 @@ namespace Rappen.XTB.LCG
 
     public class AttributeFilter
     {
+        public bool CheckAll { get; set; }
         public bool CustomAll { get; set; } = true;
         public bool CustomFalse { get; set; }
         public bool CustomTrue { get; set; }

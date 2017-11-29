@@ -133,6 +133,8 @@
             this.tmEntSearch = new System.Windows.Forms.Timer(this.components);
             this.tmAttSearch = new System.Windows.Forms.Timer(this.components);
             this.pnWindowTopSpacer = new System.Windows.Forms.Panel();
+            this.chkAttCheckAll = new System.Windows.Forms.CheckBox();
+            this.label16 = new System.Windows.Forms.Label();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -158,6 +160,7 @@
             this.pnAttSystem.SuspendLayout();
             this.pnAttManaged.SuspendLayout();
             this.pnAttCustom.SuspendLayout();
+            this.pnAttributeSpacer.SuspendLayout();
             this.gbConstOptions.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -881,7 +884,7 @@
             this.pnAttSearch.Location = new System.Drawing.Point(3, 120);
             this.pnAttSearch.Name = "pnAttSearch";
             this.pnAttSearch.Size = new System.Drawing.Size(481, 26);
-            this.pnAttSearch.TabIndex = 4;
+            this.pnAttSearch.TabIndex = 5;
             // 
             // txtAttSearch
             // 
@@ -924,7 +927,7 @@
             this.pnAttSystem.Location = new System.Drawing.Point(3, 94);
             this.pnAttSystem.Name = "pnAttSystem";
             this.pnAttSystem.Size = new System.Drawing.Size(481, 26);
-            this.pnAttSystem.TabIndex = 3;
+            this.pnAttSystem.TabIndex = 4;
             // 
             // label15
             // 
@@ -967,7 +970,7 @@
             this.pnAttManaged.Location = new System.Drawing.Point(3, 68);
             this.pnAttManaged.Name = "pnAttManaged";
             this.pnAttManaged.Size = new System.Drawing.Size(481, 26);
-            this.pnAttManaged.TabIndex = 2;
+            this.pnAttManaged.TabIndex = 3;
             // 
             // label14
             // 
@@ -1023,7 +1026,7 @@
             this.pnAttCustom.Location = new System.Drawing.Point(3, 42);
             this.pnAttCustom.Name = "pnAttCustom";
             this.pnAttCustom.Size = new System.Drawing.Size(481, 26);
-            this.pnAttCustom.TabIndex = 1;
+            this.pnAttCustom.TabIndex = 2;
             // 
             // label13
             // 
@@ -1071,11 +1074,13 @@
             // 
             // pnAttributeSpacer
             // 
+            this.pnAttributeSpacer.Controls.Add(this.label16);
+            this.pnAttributeSpacer.Controls.Add(this.chkAttCheckAll);
             this.pnAttributeSpacer.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnAttributeSpacer.Location = new System.Drawing.Point(3, 16);
             this.pnAttributeSpacer.Name = "pnAttributeSpacer";
             this.pnAttributeSpacer.Size = new System.Drawing.Size(481, 26);
-            this.pnAttributeSpacer.TabIndex = 5;
+            this.pnAttributeSpacer.TabIndex = 1;
             // 
             // pnRightSpacer
             // 
@@ -1235,6 +1240,25 @@
             this.pnWindowTopSpacer.Size = new System.Drawing.Size(930, 17);
             this.pnWindowTopSpacer.TabIndex = 11;
             // 
+            // chkAttCheckAll
+            // 
+            this.chkAttCheckAll.AutoSize = true;
+            this.chkAttCheckAll.Location = new System.Drawing.Point(129, 6);
+            this.chkAttCheckAll.Name = "chkAttCheckAll";
+            this.chkAttCheckAll.Size = new System.Drawing.Size(267, 17);
+            this.chkAttCheckAll.TabIndex = 0;
+            this.chkAttCheckAll.Text = "Check all visible attributes when checking an entity";
+            this.chkAttCheckAll.UseVisualStyleBackColor = true;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(13, 7);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(49, 13);
+            this.label16.TabIndex = 1;
+            this.label16.Text = "Behavior";
+            // 
             // LCG
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1294,6 +1318,8 @@
             this.pnAttManaged.PerformLayout();
             this.pnAttCustom.ResumeLayout(false);
             this.pnAttCustom.PerformLayout();
+            this.pnAttributeSpacer.ResumeLayout(false);
+            this.pnAttributeSpacer.PerformLayout();
             this.gbConstOptions.ResumeLayout(false);
             this.gbConstOptions.PerformLayout();
             this.ResumeLayout(false);
@@ -1399,5 +1425,7 @@
         private System.Windows.Forms.ToolStripButton btnLoadConfig;
         private System.Windows.Forms.ToolStripButton btnSaveConfig;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.CheckBox chkAttCheckAll;
     }
 }

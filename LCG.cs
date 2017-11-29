@@ -22,9 +22,9 @@ namespace Rappen.XTB.LCG
 
         private List<EntityMetadataProxy> entities;
         private Dictionary<string, int> groupBoxHeights;
+        private bool restoringselection = false;
         private EntityMetadataProxy selectedEntity;
         private string settingsfile;
-        private bool restoringselection = false;
 
         #endregion Private Fields
 
@@ -175,14 +175,7 @@ namespace Rappen.XTB.LCG
             var grid = chk == chkEntAll ? gridEntities : chk == chkAttAll ? gridAttributes : null;
             if (grid != null)
             {
-                foreach (DataGridViewRow row in grid.Rows)
-                {
-                    var metadata = row.DataBoundItem as MetadataProxy;
-                    if (metadata != null)
-                    {
-                        metadata.SetSelected(chk.Checked);
-                    }
-                }
+                SelectAllRows(grid, chk.Checked);
             }
         }
 
@@ -324,6 +317,18 @@ namespace Rappen.XTB.LCG
             }
         }
 
+        private static void SelectAllRows(DataGridView grid, bool select)
+        {
+            foreach (DataGridViewRow row in grid.Rows)
+            {
+                var metadata = row.DataBoundItem as MetadataProxy;
+                if (metadata != null)
+                {
+                    metadata.SetSelected(select);
+                }
+            }
+        }
+
         private void ApplySettings(Settings settings, bool includeselection)
         {
             txtOutputFolder.Text = settings.OutputFolder;
@@ -344,6 +349,7 @@ namespace Rappen.XTB.LCG
             rbEntMgdTrue.Checked = settings.EntityFilter?.ManagedTrue == true;
             rbEntMgdFalse.Checked = settings.EntityFilter?.ManagedFalse == true;
             chkEntIntersect.Checked = settings.EntityFilter?.Intersect == true;
+            chkAttCheckAll.Checked = settings.AttributeFilter?.CheckAll != false;
             rbAttCustomAll.Checked = settings.AttributeFilter?.CustomAll != false;
             rbAttCustomFalse.Checked = settings.AttributeFilter?.CustomFalse == true;
             rbAttCustomTrue.Checked = settings.AttributeFilter?.CustomTrue == true;
@@ -429,6 +435,18 @@ namespace Rappen.XTB.LCG
         private void Entity_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             UpdateEntitiesStatus();
+            var entity = sender as EntityMetadataProxy;
+            if (!restoringselection && chkAttCheckAll.Checked && entity?.Selected == true)
+            {
+                if (entity.Attributes == null)
+                {
+                    LoadAttributes(entity, SelectAllAttributes);
+                }
+                else
+                {
+                    SelectAllAttributes();
+                }
+            }
         }
 
         private void FilterEntities()
@@ -509,6 +527,7 @@ namespace Rappen.XTB.LCG
                 },
                 AttributeFilter = new AttributeFilter
                 {
+                    CheckAll = chkAttCheckAll.Checked,
                     CustomAll = rbAttCustomAll.Checked,
                     CustomFalse = rbAttCustomFalse.Checked,
                     CustomTrue = rbAttCustomTrue.Checked,
@@ -779,6 +798,11 @@ namespace Rappen.XTB.LCG
                 settings = GetSettingsFromUI();
             }
             SettingsManager.Instance.Save(GetType(), settings, connectionname);
+        }
+
+        private void SelectAllAttributes()
+        {
+            SelectAllRows(gridAttributes, true);
         }
 
         private void SetNamespace()
