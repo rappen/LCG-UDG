@@ -24,6 +24,7 @@ namespace Rappen.XTB.LCG
         private Dictionary<string, int> groupBoxHeights;
         private EntityMetadataProxy selectedEntity;
         private string settingsfile;
+        private bool restoringselection = false;
 
         #endregion Private Fields
 
@@ -231,6 +232,10 @@ namespace Rappen.XTB.LCG
 
         private void gridEntities_SelectionChanged(object sender, EventArgs e)
         {
+            if (restoringselection)
+            {
+                return;
+            }
             var newselectedEntity = GetSelectedEntity();
             if (newselectedEntity != null && newselectedEntity != selectedEntity)
             {
@@ -482,8 +487,8 @@ namespace Rappen.XTB.LCG
                 NameSpace = txtNamespace.Text,
                 UseCommonFile = rbFileCommon.Checked,
                 CommonFile = txtCommonFilename.Text,
-                FileName = (NameType)cmbFileName.SelectedIndex,
-                ConstantName = (NameType)cmbConstantName.SelectedIndex,
+                FileName = (NameType)Math.Max(cmbFileName.SelectedIndex, 0),
+                ConstantName = (NameType)Math.Max(cmbConstantName.SelectedIndex, 0),
                 DoStripPrefix = chkConstStripPrefix.Checked,
                 StripPrefix = txtConstStripPrefix.Text.ToLowerInvariant().TrimEnd('_') + "_",
                 OptionSets = chkEnumsInclude.Checked,
@@ -735,6 +740,7 @@ namespace Rappen.XTB.LCG
         {
             if (entities != null && SettingsManager.Instance.TryLoad(GetType(), out Settings settings, ConnectionDetail.ConnectionName))
             {
+                restoringselection = true;
                 foreach (var entitystring in settings.Selection)
                 {
                     var entityname = entitystring.Split(':')[0];
@@ -761,6 +767,8 @@ namespace Rappen.XTB.LCG
                         }
                     }
                 }
+                restoringselection = false;
+                gridEntities_SelectionChanged(null, null);
             }
         }
 
