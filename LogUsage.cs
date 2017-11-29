@@ -13,6 +13,9 @@ namespace Rappen.XTB.LCG
 
         public static async Task DoLog(string action)
         {
+#if DEBUG
+            return;
+#endif
             try
             {
                 var ass = Assembly.GetExecutingAssembly().GetName();
