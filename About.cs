@@ -31,7 +31,7 @@ namespace Rappen.XTB.LCG
         {
             if (Visible && chkStatAllow.Checked)
             {
-                MessageBox.Show("Thank You!\n\nHappy numbering :)\n\n/Jonas", "Statistics", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Thank You!\n\nEnjoy your constants :)\n\n/Jonas", "Statistics", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

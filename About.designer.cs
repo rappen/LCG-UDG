@@ -176,7 +176,6 @@
             this.bgStats.TabIndex = 13;
             this.bgStats.TabStop = false;
             this.bgStats.Text = "Statistics";
-            this.bgStats.Visible = false;
             // 
             // label1
             // 

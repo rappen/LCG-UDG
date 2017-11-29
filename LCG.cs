@@ -25,6 +25,7 @@ namespace Rappen.XTB.LCG
         private bool restoringselection = false;
         private EntityMetadataProxy selectedEntity;
         private string settingsfile;
+        private GeneralSettings generalsettings;
 
         #endregion Private Fields
 
@@ -64,6 +65,7 @@ namespace Rappen.XTB.LCG
 
         public override void ClosingPlugin(PluginCloseInfo info)
         {
+            SettingsManager.Instance.Save(GetType(), generalsettings, "General");
             SaveSettings(ConnectionDetail?.ConnectionName, null);
             LogUse("Close");
             base.ClosingPlugin(info);
@@ -84,20 +86,20 @@ namespace Rappen.XTB.LCG
             var about = new About(this);
             about.StartPosition = FormStartPosition.CenterParent;
             about.lblVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            //about.chkStatAllow.Checked = settings.UseLog != false;
+            about.chkStatAllow.Checked = generalsettings.UseLog != false;
             about.ShowDialog();
-            //if (settings.UseLog != about.chkStatAllow.Checked)
-            //{
-            //    settings.UseLog = about.chkStatAllow.Checked;
-            //    if (settings.UseLog == true)
-            //    {
-            //        LogUse("Accept", true);
-            //    }
-            //    else if (settings.UseLog == false)
-            //    {
-            //        LogUse("Deny", true);
-            //    }
-            //}
+            if (generalsettings.UseLog != about.chkStatAllow.Checked)
+            {
+                generalsettings.UseLog = about.chkStatAllow.Checked;
+                if (generalsettings.UseLog == true)
+                {
+                    LogUse("Accept", true);
+                }
+                else if (generalsettings.UseLog == false)
+                {
+                    LogUse("Deny", true);
+                }
+            }
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -255,6 +257,10 @@ namespace Rappen.XTB.LCG
 
         private void LCG_Load(object sender, EventArgs e)
         {
+            if (generalsettings == null)
+            {
+                LoadGeneralSettings();
+            }
             LogUse("Load");
         }
 
@@ -307,11 +313,11 @@ namespace Rappen.XTB.LCG
 
         internal void LogUse(string action, bool forceLog = false)
         {
-            //if (settings == null)
-            //{
-            //    LoadSettings();
-            //}
-            //if (settings.UseLog == true || forceLog)
+            if (generalsettings == null)
+            {
+                LoadGeneralSettings();
+            }
+            if (generalsettings.UseLog == true || forceLog)
             {
                 LogUsage.DoLog(action);
             }
@@ -674,6 +680,31 @@ namespace Rappen.XTB.LCG
                     });
                 }
             });
+        }
+
+        private void LoadGeneralSettings()
+        {
+            if (!SettingsManager.Instance.TryLoad(GetType(), out generalsettings, "General"))
+            {
+                generalsettings = new GeneralSettings();
+                LogWarning("General Settings not found => created");
+            }
+            else
+            {
+                LogInfo("General Settings found and loaded");
+            }
+            var ass = Assembly.GetExecutingAssembly().GetName();
+            var version = ass.Version.ToString();
+            if (!version.Equals(generalsettings.Version))
+            {
+                // Reset some settings when new version is deployed
+                generalsettings.UseLog = null;
+            }
+            if (generalsettings.UseLog == null)
+            {
+                generalsettings.UseLog = LogUsage.PromptToLog();
+            }
+            generalsettings.Version = version;
         }
 
         private void LoadSettings(string connectionname)

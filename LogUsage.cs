@@ -13,9 +13,6 @@ namespace Rappen.XTB.LCG
 
         public static async Task DoLog(string action)
         {
-#if DEBUG
-            return;
-#endif
             try
             {
                 var ass = Assembly.GetExecutingAssembly().GetName();
@@ -52,7 +49,7 @@ namespace Rappen.XTB.LCG
 
         internal static bool PromptToLog()
         {
-            var msg = "Anonymous statistics will be collected to improve the functionality of Latebound Constant Generator.\n\n" +
+            var msg = "Anonymous statistics will be collected to improve the functionality of Latebound Constants Generator.\n\n" +
                 "If you do not wish to allow this, open the About window and uncheck the 'Allow statistics' checkbox.";
             MessageBox.Show(msg, "Statistics", MessageBoxButtons.OK, MessageBoxIcon.Information);
             return true;
