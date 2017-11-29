@@ -22,15 +22,15 @@ namespace Rappen.XTB.LCG
         public string NameSpace { get; set; }
         public bool UseCommonFile { get; set; }
         public string CommonFile { get; set; }
-        public NameType FileName { get; set; }
-        public NameType ConstantName { get; set; }
+        public NameType FileName { get; set; } = NameType.DisplayName;
+        public NameType ConstantName { get; set; } = NameType.DisplayName;
         public bool DoStripPrefix { get; set; }
         public string StripPrefix { get; set; }
-        public List<string> Selection { get; set; }
+        public List<string> Selection { get; set; } = new List<string>();
         public bool OptionSets { get; set; }
         public bool GlobalOptionSets { get; set; }
-        public EntityFilter EntityFilter { get; set; }
-        public AttributeFilter AttributeFilter { get; set; }
+        public EntityFilter EntityFilter { get; set; } = new EntityFilter();
+        public AttributeFilter AttributeFilter { get; set; } = new AttributeFilter();
     }
 
     public class EntityFilter
