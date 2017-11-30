@@ -41,7 +41,8 @@ namespace Rappen.XTB.LCG
         public string LogicalName { get => Metadata?.LogicalName; }
 
         public AttributeTypeCode? Type { get => Metadata?.AttributeType; }
-        internal string AttributeDescription
+
+        internal string AttributeProperties
         {
             get
             {
@@ -94,6 +95,8 @@ namespace Rappen.XTB.LCG
                     .Select(p => p.Key.Split(':')[0] + ": " + p.Value));
             }
         }
+
+        public string Description { get => Metadata?.Description?.UserLocalizedLabel?.Label; }
 
         #endregion Public Properties
 

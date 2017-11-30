@@ -25,7 +25,7 @@ namespace Rappen.XTB.LCG
 
         private const string namespacetemplate = "namespace {namespace}\n{\n{entities}\n}";
         private const string entitytemplate = "public static class {entity}\n{\npublic const string EntityName = '{logicalname}';\n{attributes}\n{optionsets}\n}";
-        private const string attributetemplate = "\n/// <summary>{xmldoc}</summary>\npublic const string {attribute} = '{logicalname}';";
+        private const string attributetemplate = "\n/// <summary>{xmldoc}</summary>\n{description}\npublic const string {attribute} = '{logicalname}';";
         private const string optionsettemplate = "public enum {name}_OptionSet\n{\n{values}\n}";
         private const string optionsetvaluetemplate = "{name} = {value}";
 
@@ -160,10 +160,16 @@ namespace Rappen.XTB.LCG
             var name = attributemetadata.Metadata.IsPrimaryId == true ? "PrimaryKey" :
                 attributemetadata.Metadata.IsPrimaryName == true ? "PrimaryName" :
                 attributemetadata.GetNameTechnical(settings);
+            var description = attributemetadata.Description;
+            if (!string.IsNullOrEmpty(description))
+            {
+                description = $"/// <remarks>{description}</remarks>";
+            }
             return attributetemplate
                 .Replace("{attribute}", name)
                 .Replace("{logicalname}", attributemetadata.LogicalName)
-                .Replace("{xmldoc}", attributemetadata.AttributeDescription)
+                .Replace("{xmldoc}", attributemetadata.AttributeProperties)
+                .Replace("{description}", description)
                 .Replace("'", "\"");
         }
 
