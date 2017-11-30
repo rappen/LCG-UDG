@@ -14,19 +14,17 @@ namespace Rappen.XTB.LCG
         #region Templates
 
         private const string indentstr = "    ";
-        private const string copy = @"// **********************************************************************
+        private const string header1 = @"// *********************************************************************
 // Created by: Latebound Constant Generator {version} for XrmToolBox
 // Author    : Jonas Rapp http://twitter.com/rappen
 // Repo      : https://github.com/rappen/LateboundConstantGenerator
-// Created   : {timestamp}
-// Location  : {location}
-// Source Org: {organization}
-// *********************************************************************";
+// Source Org: {organization}";
+        private const string header2 = @"// *********************************************************************";
 
         private const string namespacetemplate = "namespace {namespace}\n{\n{entities}\n}";
         private const string entitytemplate = "public static class {entity}\n{\npublic const string EntityName = '{logicalname}';\n{attributes}\n{optionsets}\n}";
         private const string attributetemplate = "\n/// <summary>{xmldoc}</summary>\n{description}\npublic const string {attribute} = '{logicalname}';";
-        private const string optionsettemplate = "public enum {name}_OptionSet\n{\n{values}\n}";
+        private const string optionsettemplate = "public enum {name}\n{\n{values}\n}";
         private const string optionsetvaluetemplate = "{name} = {value}";
 
         #endregion Templates
@@ -44,7 +42,7 @@ namespace Rappen.XTB.LCG
                 {
                     var filename = entitymetadata.GetNameTechnical(settings.FileName, settings.DoStripPrefix, settings.StripPrefix) + ".cs";
                     var entityfile = file.Replace("{entities}", entity);
-                    WriteFile(Path.Combine(settings.OutputFolder, filename), entityfile, orgurl);
+                    WriteFile(Path.Combine(settings.OutputFolder, filename), entityfile, orgurl, settings);
                     savefiles.Add(filename);
                 }
                 else
@@ -57,7 +55,7 @@ namespace Rappen.XTB.LCG
             if (settings.UseCommonFile)
             {
                 var filename = Path.Combine(settings.OutputFolder, settings.CommonFile + ".cs");
-                WriteFile(filename, file, orgurl);
+                WriteFile(filename, file, orgurl, settings);
                 message = $"Saved constants to\n  {filename}";
             }
             else
@@ -67,15 +65,22 @@ namespace Rappen.XTB.LCG
             MessageBox.Show(message, "Latebound Constant Generator", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private static void WriteFile(string filename, string content, string orgurl)
+        private static void WriteFile(string filename, string content, string orgurl, Settings settings)
         {
             content = BeautifyContent(content);
-            content = copy
+            var header = header1
                 .Replace("{version}", Assembly.GetExecutingAssembly().GetName().Version.ToString())
-                .Replace("{timestamp}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
-                .Replace("{location}", filename)
-                .Replace("{organization}", orgurl) + "\r\n\r\n" + content;
-            File.WriteAllText(filename, content);
+                .Replace("{organization}", orgurl);
+            if (settings.commonsettings.HeaderLocalPath)
+            {
+                header += "\r\n// Filename  : " + filename;
+            }
+            if (settings.commonsettings.HeaderTimestamp)
+            {
+                header += "\r\n// Created   : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            }
+            header += "\r\n" + header2;
+            File.WriteAllText(filename, header + "\r\n\r\n" + content);
         }
 
         private static string BeautifyContent(string content)
@@ -160,7 +165,7 @@ namespace Rappen.XTB.LCG
             var name = attributemetadata.Metadata.IsPrimaryId == true ? "PrimaryKey" :
                 attributemetadata.Metadata.IsPrimaryName == true ? "PrimaryName" :
                 attributemetadata.GetNameTechnical(settings);
-            var properties = settings.XmlProperties ? attributemetadata.AttributeProperties : 
+            var properties = settings.XmlProperties ? attributemetadata.AttributeProperties :
                 settings.XmlDescription ? attributemetadata.Description : string.Empty;
             var description = settings.XmlProperties && settings.XmlDescription ? attributemetadata.Description : string.Empty;
             if (!string.IsNullOrEmpty(description))
@@ -177,7 +182,8 @@ namespace Rappen.XTB.LCG
 
         private static string GetOptionSet(AttributeMetadataProxy attributemetadata, Settings settings)
         {
-            var optionset = optionsettemplate.Replace("{name}", attributemetadata.GetNameTechnical(settings));
+            var name = attributemetadata.GetNameTechnical(settings) + settings.commonsettings.OptionSetEnumSuffix;
+            var optionset = optionsettemplate.Replace("{name}", name);
             var options = new List<string>();
             var optionsetmetadata = attributemetadata.Metadata as EnumAttributeMetadata;
             if (optionsetmetadata != null && optionsetmetadata.OptionSet != null)

@@ -29,7 +29,7 @@ namespace Rappen.XTB.LCG
         public EntityFilter EntityFilter { get; set; } = new EntityFilter();
         public AttributeFilter AttributeFilter { get; set; } = new AttributeFilter();
         public List<string> Selection { get; set; } = new List<string>();
-        internal GeneralSettings generalsettings;
+        internal CommonSettings commonsettings;
     }
 
     public class EntityFilter

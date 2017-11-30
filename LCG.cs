@@ -21,11 +21,12 @@ namespace Rappen.XTB.LCG
         #region Private Fields
 
         private List<EntityMetadataProxy> entities;
-        private GeneralSettings generalsettings;
+        private CommonSettings commonsettings;
         private Dictionary<string, int> groupBoxHeights;
         private bool restoringselection = false;
         private EntityMetadataProxy selectedEntity;
         private string settingsfile;
+        private const string commonsettingsfile = "[Common]";
 
         #endregion Private Fields
 
@@ -65,7 +66,7 @@ namespace Rappen.XTB.LCG
 
         public override void ClosingPlugin(PluginCloseInfo info)
         {
-            SettingsManager.Instance.Save(GetType(), generalsettings, "General");
+            SettingsManager.Instance.Save(GetType(), commonsettings, commonsettingsfile);
             SaveSettings(ConnectionDetail?.ConnectionName, null);
             LogUse("Close");
             base.ClosingPlugin(info);
@@ -86,16 +87,16 @@ namespace Rappen.XTB.LCG
             var about = new About(this);
             about.StartPosition = FormStartPosition.CenterParent;
             about.lblVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            about.chkStatAllow.Checked = generalsettings.UseLog != false;
+            about.chkStatAllow.Checked = commonsettings.UseLog != false;
             about.ShowDialog();
-            if (generalsettings.UseLog != about.chkStatAllow.Checked)
+            if (commonsettings.UseLog != about.chkStatAllow.Checked)
             {
-                generalsettings.UseLog = about.chkStatAllow.Checked;
-                if (generalsettings.UseLog == true)
+                commonsettings.UseLog = about.chkStatAllow.Checked;
+                if (commonsettings.UseLog == true)
                 {
                     LogUse("Accept", true);
                 }
-                else if (generalsettings.UseLog == false)
+                else if (commonsettings.UseLog == false)
                 {
                     LogUse("Deny", true);
                 }
@@ -111,7 +112,7 @@ namespace Rappen.XTB.LCG
         {
             LogUse("Generate");
             var settings = GetSettingsFromUI();
-            settings.generalsettings = generalsettings;
+            settings.commonsettings = commonsettings;
             CSharpUtils.GenerateClasses(entities, settings, ConnectionDetail.WebApplicationUrl);
         }
 
@@ -259,9 +260,9 @@ namespace Rappen.XTB.LCG
 
         private void LCG_Load(object sender, EventArgs e)
         {
-            if (generalsettings == null)
+            if (commonsettings == null)
             {
-                LoadGeneralSettings();
+                LoadCommonSettings();
             }
             LogUse("Load");
         }
@@ -315,11 +316,11 @@ namespace Rappen.XTB.LCG
 
         internal void LogUse(string action, bool forceLog = false)
         {
-            if (generalsettings == null)
+            if (commonsettings == null)
             {
-                LoadGeneralSettings();
+                LoadCommonSettings();
             }
-            if (generalsettings.UseLog == true || forceLog)
+            if (commonsettings.UseLog == true || forceLog)
             {
                 LogUsage.DoLog(action);
             }
@@ -359,7 +360,7 @@ namespace Rappen.XTB.LCG
             rbEntMgdTrue.Checked = settings.EntityFilter?.ManagedTrue == true;
             rbEntMgdFalse.Checked = settings.EntityFilter?.ManagedFalse == true;
             chkEntIntersect.Checked = settings.EntityFilter?.Intersect == true;
-            chkEntSelected.Checked = settings.EntityFilter?.SelectedOnly == true;
+            //chkEntSelected.Checked = settings.EntityFilter?.SelectedOnly == true;
             chkAttCheckAll.Checked = settings.AttributeFilter?.CheckAll != false;
             rbAttCustomAll.Checked = settings.AttributeFilter?.CustomAll != false;
             rbAttCustomFalse.Checked = settings.AttributeFilter?.CustomFalse == true;
@@ -690,29 +691,29 @@ namespace Rappen.XTB.LCG
             });
         }
 
-        private void LoadGeneralSettings()
+        private void LoadCommonSettings()
         {
-            if (!SettingsManager.Instance.TryLoad(GetType(), out generalsettings, "General"))
+            if (!SettingsManager.Instance.TryLoad(GetType(), out commonsettings, commonsettingsfile))
             {
-                generalsettings = new GeneralSettings();
-                LogWarning("General Settings not found => created");
+                commonsettings = new CommonSettings();
+                LogWarning("Common Settings not found => created");
             }
             else
             {
-                LogInfo("General Settings found and loaded");
+                LogInfo("Common Settings found and loaded");
             }
             var ass = Assembly.GetExecutingAssembly().GetName();
             var version = ass.Version.ToString();
-            if (!version.Equals(generalsettings.Version))
+            if (!version.Equals(commonsettings.Version))
             {
                 // Reset some settings when new version is deployed
-                generalsettings.UseLog = null;
+                commonsettings.UseLog = null;
             }
-            if (generalsettings.UseLog == null)
+            if (commonsettings.UseLog == null)
             {
-                generalsettings.UseLog = LogUsage.PromptToLog();
+                commonsettings.UseLog = LogUsage.PromptToLog();
             }
-            generalsettings.Version = version;
+            commonsettings.Version = version;
         }
 
         private void LoadSettings(string connectionname)
