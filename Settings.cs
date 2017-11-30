@@ -22,11 +22,14 @@ namespace Rappen.XTB.LCG
         public NameType ConstantName { get; set; } = NameType.DisplayName;
         public bool DoStripPrefix { get; set; }
         public string StripPrefix { get; set; }
-        public List<string> Selection { get; set; } = new List<string>();
+        public bool XmlProperties { get; set; }
+        public bool XmlDescription { get; set; }
         public bool OptionSets { get; set; }
         public bool GlobalOptionSets { get; set; }
         public EntityFilter EntityFilter { get; set; } = new EntityFilter();
         public AttributeFilter AttributeFilter { get; set; } = new AttributeFilter();
+        public List<string> Selection { get; set; } = new List<string>();
+        internal GeneralSettings generalsettings;
     }
 
     public class EntityFilter
@@ -38,6 +41,7 @@ namespace Rappen.XTB.LCG
         public bool ManagedTrue { get; set; }
         public bool ManagedFalse { get; set; }
         public bool Intersect { get; set; }
+        public bool SelectedOnly { get; set; }
     }
 
     public class AttributeFilter

@@ -160,7 +160,9 @@ namespace Rappen.XTB.LCG
             var name = attributemetadata.Metadata.IsPrimaryId == true ? "PrimaryKey" :
                 attributemetadata.Metadata.IsPrimaryName == true ? "PrimaryName" :
                 attributemetadata.GetNameTechnical(settings);
-            var description = attributemetadata.Description;
+            var properties = settings.XmlProperties ? attributemetadata.AttributeProperties : 
+                settings.XmlDescription ? attributemetadata.Description : string.Empty;
+            var description = settings.XmlProperties && settings.XmlDescription ? attributemetadata.Description : string.Empty;
             if (!string.IsNullOrEmpty(description))
             {
                 description = $"/// <remarks>{description}</remarks>";
@@ -168,7 +170,7 @@ namespace Rappen.XTB.LCG
             return attributetemplate
                 .Replace("{attribute}", name)
                 .Replace("{logicalname}", attributemetadata.LogicalName)
-                .Replace("{xmldoc}", attributemetadata.AttributeProperties)
+                .Replace("{xmldoc}", properties)
                 .Replace("{description}", description)
                 .Replace("'", "\"");
         }

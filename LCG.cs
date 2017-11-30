@@ -21,11 +21,11 @@ namespace Rappen.XTB.LCG
         #region Private Fields
 
         private List<EntityMetadataProxy> entities;
+        private GeneralSettings generalsettings;
         private Dictionary<string, int> groupBoxHeights;
         private bool restoringselection = false;
         private EntityMetadataProxy selectedEntity;
         private string settingsfile;
-        private GeneralSettings generalsettings;
 
         #endregion Private Fields
 
@@ -110,7 +110,9 @@ namespace Rappen.XTB.LCG
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             LogUse("Generate");
-            CSharpUtils.GenerateClasses(entities, GetSettingsFromUI(), ConnectionDetail.WebApplicationUrl);
+            var settings = GetSettingsFromUI();
+            settings.generalsettings = generalsettings;
+            CSharpUtils.GenerateClasses(entities, settings, ConnectionDetail.WebApplicationUrl);
         }
 
         private void btnLoadConfig_Click(object sender, EventArgs e)
@@ -346,6 +348,8 @@ namespace Rappen.XTB.LCG
             cmbConstantName.SelectedIndex = (int)settings.ConstantName;
             chkConstStripPrefix.Checked = settings.DoStripPrefix && settings.ConstantName != NameType.DisplayName;
             txtConstStripPrefix.Text = settings.StripPrefix;
+            chkXmlProperties.Checked = settings.XmlProperties;
+            chkXmlDescription.Checked = settings.XmlDescription;
             chkEnumsInclude.Checked = settings.OptionSets;
             chkEnumsGlobal.Checked = settings.GlobalOptionSets;
             rbEntCustomAll.Checked = settings.EntityFilter?.CustomAll != false;
@@ -355,6 +359,7 @@ namespace Rappen.XTB.LCG
             rbEntMgdTrue.Checked = settings.EntityFilter?.ManagedTrue == true;
             rbEntMgdFalse.Checked = settings.EntityFilter?.ManagedFalse == true;
             chkEntIntersect.Checked = settings.EntityFilter?.Intersect == true;
+            chkEntSelected.Checked = settings.EntityFilter?.SelectedOnly == true;
             chkAttCheckAll.Checked = settings.AttributeFilter?.CheckAll != false;
             rbAttCustomAll.Checked = settings.AttributeFilter?.CustomAll != false;
             rbAttCustomFalse.Checked = settings.AttributeFilter?.CustomFalse == true;
@@ -515,6 +520,8 @@ namespace Rappen.XTB.LCG
                 ConstantName = (NameType)Math.Max(cmbConstantName.SelectedIndex, 0),
                 DoStripPrefix = chkConstStripPrefix.Checked,
                 StripPrefix = txtConstStripPrefix.Text.ToLowerInvariant().TrimEnd('_') + "_",
+                XmlProperties = chkXmlProperties.Checked,
+                XmlDescription = chkXmlDescription.Checked,
                 OptionSets = chkEnumsInclude.Checked,
                 GlobalOptionSets = chkEnumsGlobal.Checked,
                 FileOptionsExpanded = gbFileOptions.Height > 20,
@@ -529,7 +536,8 @@ namespace Rappen.XTB.LCG
                     ManagedAll = rbEntMgdAll.Checked,
                     ManagedTrue = rbEntMgdTrue.Checked,
                     ManagedFalse = rbEntMgdFalse.Checked,
-                    Intersect = chkEntIntersect.Checked
+                    Intersect = chkEntIntersect.Checked,
+                    SelectedOnly = chkEntSelected.Checked
                 },
                 AttributeFilter = new AttributeFilter
                 {

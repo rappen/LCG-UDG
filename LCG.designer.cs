@@ -117,6 +117,8 @@
             this.rbAttCustomFalse = new System.Windows.Forms.RadioButton();
             this.rbAttCustomAll = new System.Windows.Forms.RadioButton();
             this.pnAttributeSpacer = new System.Windows.Forms.Panel();
+            this.label16 = new System.Windows.Forms.Label();
+            this.chkAttCheckAll = new System.Windows.Forms.CheckBox();
             this.pnRightSpacer = new System.Windows.Forms.Panel();
             this.gbConstOptions = new System.Windows.Forms.GroupBox();
             this.llConstOptionsExpander = new System.Windows.Forms.LinkLabel();
@@ -133,8 +135,9 @@
             this.tmEntSearch = new System.Windows.Forms.Timer(this.components);
             this.tmAttSearch = new System.Windows.Forms.Timer(this.components);
             this.pnWindowTopSpacer = new System.Windows.Forms.Panel();
-            this.chkAttCheckAll = new System.Windows.Forms.CheckBox();
-            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.chkXmlProperties = new System.Windows.Forms.CheckBox();
+            this.chkXmlDescription = new System.Windows.Forms.CheckBox();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -592,7 +595,9 @@
             this.gbFileOptions.Controls.Add(this.label3);
             this.gbFileOptions.Controls.Add(this.txtOutputFolder);
             this.gbFileOptions.Controls.Add(this.btnOutputFolder);
+            this.gbFileOptions.Controls.Add(this.label5);
             this.gbFileOptions.Controls.Add(this.pnFileCommonName);
+            this.gbFileOptions.Controls.Add(this.txtNamespace);
             this.gbFileOptions.Controls.Add(this.label7);
             this.gbFileOptions.Controls.Add(this.cmbFileName);
             this.gbFileOptions.Controls.Add(this.pnFileStructure);
@@ -695,8 +700,9 @@
             "Logical Name"});
             this.cmbFileName.Location = new System.Drawing.Point(132, 72);
             this.cmbFileName.Name = "cmbFileName";
-            this.cmbFileName.Size = new System.Drawing.Size(239, 21);
+            this.cmbFileName.Size = new System.Drawing.Size(159, 21);
             this.cmbFileName.TabIndex = 12;
+            this.cmbFileName.Visible = false;
             // 
             // pnFileStructure
             // 
@@ -1082,6 +1088,25 @@
             this.pnAttributeSpacer.Size = new System.Drawing.Size(481, 26);
             this.pnAttributeSpacer.TabIndex = 1;
             // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(13, 7);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(49, 13);
+            this.label16.TabIndex = 1;
+            this.label16.Text = "Behavior";
+            // 
+            // chkAttCheckAll
+            // 
+            this.chkAttCheckAll.AutoSize = true;
+            this.chkAttCheckAll.Location = new System.Drawing.Point(129, 6);
+            this.chkAttCheckAll.Name = "chkAttCheckAll";
+            this.chkAttCheckAll.Size = new System.Drawing.Size(267, 17);
+            this.chkAttCheckAll.TabIndex = 0;
+            this.chkAttCheckAll.Text = "Check all visible attributes when checking an entity";
+            this.chkAttCheckAll.UseVisualStyleBackColor = true;
+            // 
             // pnRightSpacer
             // 
             this.pnRightSpacer.Dock = System.Windows.Forms.DockStyle.Top;
@@ -1092,13 +1117,14 @@
             // 
             // gbConstOptions
             // 
+            this.gbConstOptions.Controls.Add(this.chkXmlDescription);
+            this.gbConstOptions.Controls.Add(this.chkXmlProperties);
+            this.gbConstOptions.Controls.Add(this.label17);
             this.gbConstOptions.Controls.Add(this.llConstOptionsExpander);
             this.gbConstOptions.Controls.Add(this.txtConstStripPrefix);
             this.gbConstOptions.Controls.Add(this.label9);
             this.gbConstOptions.Controls.Add(this.label10);
-            this.gbConstOptions.Controls.Add(this.label5);
             this.gbConstOptions.Controls.Add(this.chkConstStripPrefix);
-            this.gbConstOptions.Controls.Add(this.txtNamespace);
             this.gbConstOptions.Controls.Add(this.cmbConstantName);
             this.gbConstOptions.Controls.Add(this.label8);
             this.gbConstOptions.Controls.Add(this.chkEnumsInclude);
@@ -1126,10 +1152,10 @@
             // txtConstStripPrefix
             // 
             this.txtConstStripPrefix.Enabled = false;
-            this.txtConstStripPrefix.Location = new System.Drawing.Point(218, 72);
+            this.txtConstStripPrefix.Location = new System.Drawing.Point(218, 45);
             this.txtConstStripPrefix.Name = "txtConstStripPrefix";
             this.txtConstStripPrefix.Size = new System.Drawing.Size(73, 20);
-            this.txtConstStripPrefix.TabIndex = 15;
+            this.txtConstStripPrefix.TabIndex = 3;
             this.txtConstStripPrefix.Leave += new System.EventHandler(this.txtConstStripPrefix_Leave);
             // 
             // label9
@@ -1144,7 +1170,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(15, 75);
+            this.label10.Location = new System.Drawing.Point(15, 48);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(33, 13);
             this.label10.TabIndex = 14;
@@ -1153,7 +1179,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(15, 21);
+            this.label5.Location = new System.Drawing.Point(12, 102);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(64, 13);
             this.label5.TabIndex = 4;
@@ -1163,19 +1189,21 @@
             // 
             this.chkConstStripPrefix.AutoSize = true;
             this.chkConstStripPrefix.Enabled = false;
-            this.chkConstStripPrefix.Location = new System.Drawing.Point(132, 74);
+            this.chkConstStripPrefix.Location = new System.Drawing.Point(132, 47);
             this.chkConstStripPrefix.Name = "chkConstStripPrefix";
             this.chkConstStripPrefix.Size = new System.Drawing.Size(75, 17);
-            this.chkConstStripPrefix.TabIndex = 13;
+            this.chkConstStripPrefix.TabIndex = 2;
             this.chkConstStripPrefix.Text = "Strip prefix";
             this.chkConstStripPrefix.UseVisualStyleBackColor = true;
             this.chkConstStripPrefix.CheckedChanged += new System.EventHandler(this.chkConstStripPrefix_CheckedChanged);
             // 
             // txtNamespace
             // 
-            this.txtNamespace.Location = new System.Drawing.Point(132, 18);
+            this.txtNamespace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtNamespace.Location = new System.Drawing.Point(132, 99);
             this.txtNamespace.Name = "txtNamespace";
-            this.txtNamespace.Size = new System.Drawing.Size(239, 20);
+            this.txtNamespace.Size = new System.Drawing.Size(299, 20);
             this.txtNamespace.TabIndex = 6;
             // 
             // cmbConstantName
@@ -1186,16 +1214,16 @@
             "Display Name",
             "Schema Name",
             "Logical Name"});
-            this.cmbConstantName.Location = new System.Drawing.Point(132, 45);
+            this.cmbConstantName.Location = new System.Drawing.Point(132, 18);
             this.cmbConstantName.Name = "cmbConstantName";
-            this.cmbConstantName.Size = new System.Drawing.Size(239, 21);
-            this.cmbConstantName.TabIndex = 11;
+            this.cmbConstantName.Size = new System.Drawing.Size(159, 21);
+            this.cmbConstantName.TabIndex = 1;
             this.cmbConstantName.SelectedIndexChanged += new System.EventHandler(this.cmbConstantName_SelectedIndexChanged);
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(15, 48);
+            this.label8.Location = new System.Drawing.Point(15, 21);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(47, 13);
             this.label8.TabIndex = 8;
@@ -1207,7 +1235,7 @@
             this.chkEnumsInclude.Location = new System.Drawing.Point(132, 101);
             this.chkEnumsInclude.Name = "chkEnumsInclude";
             this.chkEnumsInclude.Size = new System.Drawing.Size(70, 17);
-            this.chkEnumsInclude.TabIndex = 8;
+            this.chkEnumsInclude.TabIndex = 6;
             this.chkEnumsInclude.Text = "Attributes";
             this.chkEnumsInclude.UseVisualStyleBackColor = true;
             // 
@@ -1218,7 +1246,7 @@
             this.chkEnumsGlobal.Location = new System.Drawing.Point(218, 101);
             this.chkEnumsGlobal.Name = "chkEnumsGlobal";
             this.chkEnumsGlobal.Size = new System.Drawing.Size(56, 17);
-            this.chkEnumsGlobal.TabIndex = 9;
+            this.chkEnumsGlobal.TabIndex = 7;
             this.chkEnumsGlobal.Text = "Global";
             this.chkEnumsGlobal.UseVisualStyleBackColor = true;
             // 
@@ -1240,24 +1268,34 @@
             this.pnWindowTopSpacer.Size = new System.Drawing.Size(930, 17);
             this.pnWindowTopSpacer.TabIndex = 11;
             // 
-            // chkAttCheckAll
+            // label17
             // 
-            this.chkAttCheckAll.AutoSize = true;
-            this.chkAttCheckAll.Location = new System.Drawing.Point(129, 6);
-            this.chkAttCheckAll.Name = "chkAttCheckAll";
-            this.chkAttCheckAll.Size = new System.Drawing.Size(267, 17);
-            this.chkAttCheckAll.TabIndex = 0;
-            this.chkAttCheckAll.Text = "Check all visible attributes when checking an entity";
-            this.chkAttCheckAll.UseVisualStyleBackColor = true;
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(15, 75);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(102, 13);
+            this.label17.TabIndex = 17;
+            this.label17.Text = "XML documentation";
             // 
-            // label16
+            // chkXmlProperties
             // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(13, 7);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(49, 13);
-            this.label16.TabIndex = 1;
-            this.label16.Text = "Behavior";
+            this.chkXmlProperties.AutoSize = true;
+            this.chkXmlProperties.Location = new System.Drawing.Point(132, 74);
+            this.chkXmlProperties.Name = "chkXmlProperties";
+            this.chkXmlProperties.Size = new System.Drawing.Size(73, 17);
+            this.chkXmlProperties.TabIndex = 4;
+            this.chkXmlProperties.Text = "Properties";
+            this.chkXmlProperties.UseVisualStyleBackColor = true;
+            // 
+            // chkXmlDescription
+            // 
+            this.chkXmlDescription.AutoSize = true;
+            this.chkXmlDescription.Location = new System.Drawing.Point(218, 74);
+            this.chkXmlDescription.Name = "chkXmlDescription";
+            this.chkXmlDescription.Size = new System.Drawing.Size(79, 17);
+            this.chkXmlDescription.TabIndex = 5;
+            this.chkXmlDescription.Text = "Description";
+            this.chkXmlDescription.UseVisualStyleBackColor = true;
             // 
             // LCG
             // 
@@ -1427,5 +1465,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.CheckBox chkAttCheckAll;
+        private System.Windows.Forms.CheckBox chkXmlDescription;
+        private System.Windows.Forms.CheckBox chkXmlProperties;
+        private System.Windows.Forms.Label label17;
     }
 }
