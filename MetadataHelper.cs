@@ -11,9 +11,51 @@ namespace Rappen.XTB.LCG
     {
         #region Public Fields
 
-        public static String[] entityProperties = { "LogicalName", "SchemaName", "DisplayName", "PrimaryIdAttribute", "PrimaryNameAttribute", "ObjectTypeCode", "IsManaged", "IsCustomizable", "IsCustomEntity", "IsIntersect", "IsValidForAdvancedFind", "IsActivity", "IsActivityParty", "IsPrivate", "EntityColor" };
+        public static String[] entityProperties = {
+            "LogicalName",
+            "SchemaName",
+            "DisplayName",
+            "PrimaryIdAttribute",
+            "PrimaryNameAttribute",
+            "ObjectTypeCode",
+            "IsManaged",
+            "IsCustomizable",
+            "IsCustomEntity",
+            "IsIntersect",
+            "IsValidForAdvancedFind",
+            "IsActivity",
+            "IsActivityParty",
+            "IsPrivate",
+            "EntityColor"
+        };
         public static String[] entityDetails = { "Attributes" };
-        public static String[] attributeProperties = { "LogicalName", "SchemaName", "DisplayName", "Description", "AttributeType", "IsManaged", "IsCustomizable", "IsCustomAttribute", "IsValidForCreate", "IsPrimaryId", "IsPrimaryName", "MaxLength", "OptionSet" };
+        public static String[] attributeProperties = {
+            "LogicalName",
+            "SchemaName",
+            "DisplayName",
+            "Description",
+            "AttributeType",
+            "AttributeTypeName",
+            "IsManaged",
+            "IsCustomizable",
+            "IsCustomAttribute",
+            "IsValidForCreate",
+            "IsPrimaryId",
+            "IsPrimaryName",
+            "MaxLength",
+            "OptionSet",
+            "RequiredLevel",
+            "Format",
+            //"AutoNumberFormat",
+            "MinValue",
+            "MaxValue",
+            "Precision",
+            "CalculationOf",
+            "DefaultFormValue",
+            "DefaultValue",
+            "Targets",
+            "DateTimeBehavior"
+        };
 
         #endregion Public Fields
 

@@ -13,31 +13,21 @@ namespace Rappen.XTB.LCG
     {
         #region Templates
 
-        private const string copy = @"// ********************************************************************
-// *** Created by: Latebound Constant Generator {version} for XrmToolBox
-// *** Author    : Jonas Rapp http://twitter.com/rappen
-// *** Repo      : https://github.com/rappen/LateboundConstantGenerator
-// *** Created   : {timestamp}
-// *** Location  : {location}
-// *** Source Org: {organization}
-// *******************************************************************";
+        private const string indentstr = "    ";
+        private const string copy = @"// **********************************************************************
+// Created by: Latebound Constant Generator {version} for XrmToolBox
+// Author    : Jonas Rapp http://twitter.com/rappen
+// Repo      : https://github.com/rappen/LateboundConstantGenerator
+// Created   : {timestamp}
+// Location  : {location}
+// Source Org: {organization}
+// *********************************************************************";
 
-        private const string namespacetemplate = @"namespace {namespace}
-{
-{entities}
-}";
-        private const string entitytemplate = @"    public static class {entity}
-    {
-        public const string EntityName = '{logicalname}';
-{attributes}
-{optionsets}
-    }";
-        private const string attributetemplate = @"        public const string {attribute} = '{logicalname}';    // {type}";
-        private const string optionsettemplate = @"        public enum {name}_OptionSet
-        {
-{values}
-        }";
-        private const string optionsetvaluetemplate = @"            {name} = {value}";
+        private const string namespacetemplate = "namespace {namespace}\n{\n{entities}\n}";
+        private const string entitytemplate = "public static class {entity}\n{\npublic const string EntityName = '{logicalname}';\n{attributes}\n{optionsets}\n}";
+        private const string attributetemplate = "\n/// <summary>{xmldoc}</summary>\npublic const string {attribute} = '{logicalname}';";
+        private const string optionsettemplate = "public enum {name}_OptionSet\n{\n{values}\n}";
+        private const string optionsetvaluetemplate = "{name} = {value}";
 
         #endregion Templates
 
@@ -79,27 +69,42 @@ namespace Rappen.XTB.LCG
 
         private static void WriteFile(string filename, string content, string orgurl)
         {
-            var lines = content.Split('\n').ToList();
-            var fixedcontent = new StringBuilder();
-            var lastline = string.Empty;
-            foreach (var line in lines.Select(l => l.TrimEnd()))
-            {
-                if (!string.IsNullOrEmpty(line))
-                {
-                    if (lastline.Trim().Equals("}") && !line.Trim().Equals("}") && !line.Trim().StartsWith("public enum"))
-                    {
-                        fixedcontent.AppendLine();
-                    }
-                    fixedcontent.AppendLine(line);
-                    lastline = line;
-                }
-            }
+            content = BeautifyContent(content);
             content = copy
                 .Replace("{version}", Assembly.GetExecutingAssembly().GetName().Version.ToString())
                 .Replace("{timestamp}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
                 .Replace("{location}", filename)
-                .Replace("{organization}", orgurl) + "\r\n\r\n" + fixedcontent.ToString();
+                .Replace("{organization}", orgurl) + "\r\n\r\n" + content;
             File.WriteAllText(filename, content);
+        }
+
+        private static string BeautifyContent(string content)
+        {
+            var fixedcontent = new StringBuilder();
+            var lines = content.Split('\n').ToList();
+            var lastline = string.Empty;
+            var indent = 0;
+            foreach (var line in lines.Select(l => l.Trim()))
+            {
+                if (!string.IsNullOrEmpty(line))
+                {
+                    if (lastline.Equals("}") && !line.Equals("}") && !line.StartsWith("public enum"))
+                    {
+                        fixedcontent.AppendLine();
+                    }
+                    if (lastline.Equals("{"))
+                    {
+                        indent++;
+                    }
+                    if (line.Equals("}"))
+                    {
+                        indent--;
+                    }
+                    fixedcontent.AppendLine(string.Concat(Enumerable.Repeat(indentstr, indent)) + line);
+                    lastline = line;
+                }
+            }
+            return fixedcontent.ToString();
         }
 
         private static string GetEntity(EntityMetadataProxy entitymetadata, Settings settings)
@@ -133,8 +138,8 @@ namespace Rappen.XTB.LCG
                     attributes.Add(attribute);
                 }
             }
-            AlignSplitters(attributes, "=");
-            AlignSplitters(attributes, "//");
+            //AlignSplitters(attributes, "=");
+            //AlignSplitters(attributes, "//");
             return string.Join("\r\n", attributes);
         }
 
@@ -160,7 +165,7 @@ namespace Rappen.XTB.LCG
             return attributetemplate
                 .Replace("{attribute}", name)
                 .Replace("{logicalname}", attributemetadata.LogicalName)
-                .Replace("{type}", attributemetadata.Type.ToString())
+                .Replace("{xmldoc}", attributemetadata.AttributeDescription)
                 .Replace("'", "\"");
         }
 
@@ -169,7 +174,7 @@ namespace Rappen.XTB.LCG
             var optionset = optionsettemplate.Replace("{name}", attributemetadata.GetNameTechnical(settings));
             var options = new List<string>();
             var optionsetmetadata = attributemetadata.Metadata as EnumAttributeMetadata;
-            if (optionsetmetadata != null)
+            if (optionsetmetadata != null && optionsetmetadata.OptionSet != null)
             {
                 foreach (var optionmetadata in optionsetmetadata.OptionSet.Options)
                 {
@@ -184,20 +189,20 @@ namespace Rappen.XTB.LCG
                     options.Add(option);
                 }
             }
-            AlignSplitters(options, "=");
+            //AlignSplitters(options, "=");
             optionset = optionset.Replace("{values}", string.Join(",\r\n", options));
             return optionset;
         }
 
-        private static void AlignSplitters(List<string> lines, string splitter)
-        {
-            var attlen = lines.Count > 0 ? lines.Max(a => a.IndexOf(splitter)) : 0;
-            for (var i = 0; i < lines.Count; i++)
-            {
-                var attribute = lines[i];
-                var equal = attribute.IndexOf(splitter);
-                lines[i] = attribute.Substring(0, equal) + new string(' ', attlen - equal) + attribute.Substring(equal);
-            }
-        }
+        //private static void AlignSplitters(List<string> lines, string splitter)
+        //{
+        //    var attlen = lines.Count > 0 ? lines.Max(a => a.IndexOf(splitter)) : 0;
+        //    for (var i = 0; i < lines.Count; i++)
+        //    {
+        //        var attribute = lines[i];
+        //        var equal = attribute.IndexOf(splitter);
+        //        lines[i] = attribute.Substring(0, equal) + new string(' ', attlen - equal) + attribute.Substring(equal);
+        //    }
+        //}
     }
 }

@@ -41,6 +41,7 @@ namespace Rappen.XTB.LCG
                 .Replace(",", "")
                 .Replace(";", "")
                 .Replace(":", "")
+                .Replace("'", "")
                 .Replace("*", "")
                 .Replace("&", "")
                 .Replace("%", "")
