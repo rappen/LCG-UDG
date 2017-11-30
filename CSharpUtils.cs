@@ -138,8 +138,6 @@ namespace Rappen.XTB.LCG
                     attributes.Add(attribute);
                 }
             }
-            //AlignSplitters(attributes, "=");
-            //AlignSplitters(attributes, "//");
             return string.Join("\r\n", attributes);
         }
 
@@ -189,20 +187,19 @@ namespace Rappen.XTB.LCG
                     options.Add(option);
                 }
             }
-            //AlignSplitters(options, "=");
             optionset = optionset.Replace("{values}", string.Join(",\r\n", options));
             return optionset;
         }
 
-        //private static void AlignSplitters(List<string> lines, string splitter)
-        //{
-        //    var attlen = lines.Count > 0 ? lines.Max(a => a.IndexOf(splitter)) : 0;
-        //    for (var i = 0; i < lines.Count; i++)
-        //    {
-        //        var attribute = lines[i];
-        //        var equal = attribute.IndexOf(splitter);
-        //        lines[i] = attribute.Substring(0, equal) + new string(' ', attlen - equal) + attribute.Substring(equal);
-        //    }
-        //}
+        private static void AlignSplitters(List<string> lines, string splitter)
+        {
+            var attlen = lines.Count > 0 ? lines.Max(a => a.IndexOf(splitter)) : 0;
+            for (var i = 0; i < lines.Count; i++)
+            {
+                var attribute = lines[i];
+                var equal = attribute.IndexOf(splitter);
+                lines[i] = attribute.Substring(0, equal) + new string(' ', attlen - equal) + attribute.Substring(equal);
+            }
+        }
     }
 }
