@@ -115,6 +115,7 @@ namespace Rappen.XTB.LCG
         private static string GetEntity(EntityMetadataProxy entitymetadata, Settings settings)
         {
             var name = entitymetadata.GetNameTechnical(settings.ConstantName, settings.DoStripPrefix, settings.StripPrefix);
+            name = settings.commonsettings.EntityPrefix + name + settings.commonsettings.EntitySuffix;
             var description = entitymetadata.Description?.Replace("\n", "\n/// ");
             var summary = settings.XmlProperties ? entitymetadata.GetEntityProperties(settings) : settings.XmlDescription ? description : string.Empty;
             var remarks = settings.XmlProperties && settings.XmlDescription ? description : string.Empty;
@@ -178,7 +179,8 @@ namespace Rappen.XTB.LCG
             var name = attributemetadata.Metadata.IsPrimaryId == true ? "PrimaryKey" :
                 attributemetadata.Metadata.IsPrimaryName == true ? "PrimaryName" :
                 attributemetadata.GetNameTechnical(settings);
-            var description = attributemetadata.Description.Replace("\n", "\n/// ");
+            name = settings.commonsettings.AttributePrefix + name + settings.commonsettings.AttributeSuffix;
+            var description = attributemetadata.Description?.Replace("\n", "\n/// ");
             var summary = settings.XmlProperties ? attributemetadata.AttributeProperties : settings.XmlDescription ? description : string.Empty;
             var remarks = settings.XmlProperties && settings.XmlDescription ? description : string.Empty;
             var attribute = new StringBuilder();
@@ -199,7 +201,7 @@ namespace Rappen.XTB.LCG
 
         private static string GetOptionSet(AttributeMetadataProxy attributemetadata, Settings settings)
         {
-            var name = attributemetadata.GetNameTechnical(settings) + settings.commonsettings.OptionSetEnumSuffix;
+            var name = settings.commonsettings.OptionSetEnumPrefix + attributemetadata.GetNameTechnical(settings) + settings.commonsettings.OptionSetEnumSuffix;
             var optionset = optionsettemplate.Replace("{name}", name);
             var options = new List<string>();
             var optionsetmetadata = attributemetadata.Metadata as EnumAttributeMetadata;
