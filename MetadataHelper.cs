@@ -29,7 +29,6 @@ namespace Rappen.XTB.LCG
             "IsActivity",
             "IsActivityParty",
             "IsPrivate",
-            "IsSLAEnabled",
             "EntityColor"
         };
         public static String[] entityDetails = { "Attributes" };

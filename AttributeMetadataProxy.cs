@@ -96,7 +96,7 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        public string Description { get => Metadata?.Description?.UserLocalizedLabel?.Label; }
+        internal string Description { get => Metadata?.Description?.UserLocalizedLabel?.Label; }
 
         #endregion Public Properties
 
