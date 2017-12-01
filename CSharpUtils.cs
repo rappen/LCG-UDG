@@ -23,7 +23,7 @@ namespace Rappen.XTB.LCG
 
         private const string namespacetemplate = "namespace {namespace}\n{\n{entities}\n}";
         private const string entitytemplate = "public static class {entity}\n{\npublic const string EntityName = '{logicalname}';\n{attributes}\n{optionsets}\n}";
-        private const string attributetemplate = "\n/// <summary>{xmldoc}</summary>\n{description}\npublic const string {attribute} = '{logicalname}';";
+        private const string attributetemplate = "public const string {attribute} = '{logicalname}';";
         private const string optionsettemplate = "public enum {name}\n{\n{values}\n}";
         private const string optionsetvaluetemplate = "{name} = {value}";
 
@@ -165,19 +165,23 @@ namespace Rappen.XTB.LCG
             var name = attributemetadata.Metadata.IsPrimaryId == true ? "PrimaryKey" :
                 attributemetadata.Metadata.IsPrimaryName == true ? "PrimaryName" :
                 attributemetadata.GetNameTechnical(settings);
-            var properties = settings.XmlProperties ? attributemetadata.AttributeProperties :
+            var summary = settings.XmlProperties ? attributemetadata.AttributeProperties :
                 settings.XmlDescription ? attributemetadata.Description : string.Empty;
-            var description = settings.XmlProperties && settings.XmlDescription ? attributemetadata.Description : string.Empty;
-            if (!string.IsNullOrEmpty(description))
+            var remarks = settings.XmlProperties && settings.XmlDescription ? attributemetadata.Description : string.Empty;
+            var attribute = new StringBuilder();
+            if (!string.IsNullOrEmpty(summary))
             {
-                description = $"/// <remarks>{description}</remarks>";
+                attribute.AppendLine($"/// <summary>{summary}</summary>");
             }
-            return attributetemplate
+            if (!string.IsNullOrEmpty(remarks))
+            {
+                attribute.AppendLine($"/// <remarks>{remarks}</remarks>");
+            }
+            attribute.AppendLine(attributetemplate
                 .Replace("{attribute}", name)
                 .Replace("{logicalname}", attributemetadata.LogicalName)
-                .Replace("{xmldoc}", properties)
-                .Replace("{description}", description)
-                .Replace("'", "\"");
+                .Replace("'", "\""));
+            return attribute.ToString();
         }
 
         private static string GetOptionSet(AttributeMetadataProxy attributemetadata, Settings settings)
