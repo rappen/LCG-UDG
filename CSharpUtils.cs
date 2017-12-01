@@ -165,9 +165,9 @@ namespace Rappen.XTB.LCG
             var name = attributemetadata.Metadata.IsPrimaryId == true ? "PrimaryKey" :
                 attributemetadata.Metadata.IsPrimaryName == true ? "PrimaryName" :
                 attributemetadata.GetNameTechnical(settings);
-            var summary = settings.XmlProperties ? attributemetadata.AttributeProperties :
-                settings.XmlDescription ? attributemetadata.Description : string.Empty;
-            var remarks = settings.XmlProperties && settings.XmlDescription ? attributemetadata.Description.Replace("\n", "\n/// ") : string.Empty;
+            var description = attributemetadata.Description.Replace("\n", "\n/// ");
+            var summary = settings.XmlProperties ? attributemetadata.AttributeProperties : settings.XmlDescription ? description : string.Empty;
+            var remarks = settings.XmlProperties && settings.XmlDescription ? description : string.Empty;
             var attribute = new StringBuilder();
             if (!string.IsNullOrEmpty(summary))
             {
