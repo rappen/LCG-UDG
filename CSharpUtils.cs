@@ -115,12 +115,25 @@ namespace Rappen.XTB.LCG
         private static string GetEntity(EntityMetadataProxy entitymetadata, Settings settings)
         {
             var name = entitymetadata.GetNameTechnical(settings.ConstantName, settings.DoStripPrefix, settings.StripPrefix);
-            return entitytemplate
+            var description = entitymetadata.Description?.Replace("\n", "\n/// ");
+            var summary = settings.XmlProperties ? entitymetadata.GetEntityProperties(settings) : settings.XmlDescription ? description : string.Empty;
+            var remarks = settings.XmlProperties && settings.XmlDescription ? description : string.Empty;
+            var entity = new StringBuilder();
+            if (!string.IsNullOrEmpty(summary))
+            {
+                entity.AppendLine($"/// <summary>{summary}</summary>");
+            }
+            if (!string.IsNullOrEmpty(remarks))
+            {
+                entity.AppendLine($"/// <remarks>{remarks}</remarks>");
+            }
+            entity.AppendLine(entitytemplate
                 .Replace("{entity}", name)
                 .Replace("{logicalname}", entitymetadata.LogicalName)
                 .Replace("'", "\"")
                 .Replace("{attributes}", GetAttributes(entitymetadata, settings))
-                .Replace("{optionsets}", GetOptionSets(entitymetadata, settings));
+                .Replace("{optionsets}", GetOptionSets(entitymetadata, settings)));
+            return entity.ToString();
         }
 
         private static string GetAttributes(EntityMetadataProxy entitymetadata, Settings settings)

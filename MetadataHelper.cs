@@ -15,9 +15,12 @@ namespace Rappen.XTB.LCG
             "LogicalName",
             "SchemaName",
             "DisplayName",
+            "Description",
             "PrimaryIdAttribute",
             "PrimaryNameAttribute",
             "ObjectTypeCode",
+            "IntroducedVersion",
+            "OwnershipType",
             "IsManaged",
             "IsCustomizable",
             "IsCustomEntity",
@@ -26,6 +29,7 @@ namespace Rappen.XTB.LCG
             "IsActivity",
             "IsActivityParty",
             "IsPrivate",
+            "IsSLAEnabled",
             "EntityColor"
         };
         public static String[] entityDetails = { "Attributes" };

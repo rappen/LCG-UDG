@@ -25,6 +25,22 @@ namespace Rappen.XTB.LCG
 
         internal AttributeMetadataProxy PrimaryName { get => Attributes?.FirstOrDefault(a => a.Metadata.IsPrimaryName == true); }
 
+        internal string GetEntityProperties(Settings settings)
+        {
+            var properties = new Dictionary<string, object>();
+            if (DisplayName != GetNameTechnical(settings.ConstantName, settings.DoStripPrefix, settings.StripPrefix))
+            {
+                properties.Add("DisplayName", DisplayName);
+            }
+            properties.Add("OwnershipType", Metadata.OwnershipType);
+            properties.Add("IntroducedVersion", Metadata.IntroducedVersion);
+            return string.Join(", ", properties
+                .Where(p => p.Value != null && !string.IsNullOrEmpty(p.Value.ToString()))
+                .Select(p => p.Key.Split(':')[0] + ": " + p.Value));
+        }
+
+        internal string Description { get => Metadata?.Description?.UserLocalizedLabel?.Label; }
+
         #endregion Public Fields
 
         #region Public Constructors
