@@ -167,7 +167,7 @@ namespace Rappen.XTB.LCG
                 attributemetadata.GetNameTechnical(settings);
             var summary = settings.XmlProperties ? attributemetadata.AttributeProperties :
                 settings.XmlDescription ? attributemetadata.Description : string.Empty;
-            var remarks = settings.XmlProperties && settings.XmlDescription ? attributemetadata.Description : string.Empty;
+            var remarks = settings.XmlProperties && settings.XmlDescription ? attributemetadata.Description.Replace("\n", "\n/// ") : string.Empty;
             var attribute = new StringBuilder();
             if (!string.IsNullOrEmpty(summary))
             {
