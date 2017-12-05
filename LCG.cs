@@ -4,6 +4,7 @@ using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Query;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -26,6 +27,7 @@ namespace Rappen.XTB.LCG
         private bool restoringselection = false;
         private EntityMetadataProxy selectedEntity;
         private string settingsfile;
+        private object checkedrow;
         private const string commonsettingsfile = "[Common]";
 
         #endregion Private Fields
@@ -207,10 +209,11 @@ namespace Rappen.XTB.LCG
             if (grid != null && e.ColumnIndex == 0 && e.RowIndex >= 0)
             {
                 var row = grid.Rows[e.RowIndex];
-                var metadata = row.DataBoundItem as MetadataProxy;
-                if (metadata != null)
+                if (row.DataBoundItem is MetadataProxy metadata)
                 {
+                    checkedrow = metadata;
                     metadata.SetSelected(!metadata.IsSelected);
+                    checkedrow = null;
                 }
             }
         }
@@ -376,9 +379,12 @@ namespace Rappen.XTB.LCG
             GroupBoxSetState(llAttributeExpander, settings.AttributeFilterExpanded);
         }
 
-        private void Attribute_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void Attribute_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            UpdateAttributesStatus();
+            if (e.PropertyName.Equals("SetSelected"))
+            {
+                UpdateAttributesStatus();
+            }
         }
 
         private void DisplayAttributes()
@@ -444,20 +450,29 @@ namespace Rappen.XTB.LCG
             });
         }
 
-        private void Entity_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void Entity_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            UpdateEntitiesStatus();
-            var entity = sender as EntityMetadataProxy;
-            if (!restoringselection && chkAttCheckAll.Checked && entity?.Selected == true)
+            if (e.PropertyName.Equals("SetSelected"))
             {
-                if (entity.Attributes == null)
+                UpdateEntitiesStatus();
+                if (checkedrow != null && checkedrow != sender)
                 {
-                    LoadAttributes(entity, SelectAllAttributes);
+                    return;
                 }
-                else
+                checkedrow = sender;
+                var entity = sender as EntityMetadataProxy;
+                if (!restoringselection && chkAttCheckAll.Checked && entity?.Selected == true)
                 {
-                    SelectAllAttributes();
+                    if (entity.Attributes == null)
+                    {
+                        LoadAttributes(entity, SelectAllAttributes);
+                    }
+                    else
+                    {
+                        SelectAllAttributes();
+                    }
                 }
+                checkedrow = null;
             }
         }
 
