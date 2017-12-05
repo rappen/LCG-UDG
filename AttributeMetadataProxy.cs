@@ -142,10 +142,15 @@ namespace Rappen.XTB.LCG
             }
             if (settings.ConstantName != NameType.DisplayName)
             {
-                if (settings.DoStripPrefix && !string.IsNullOrEmpty(settings.StripPrefix) &&
-                    name.ToLowerInvariant().StartsWith(settings.StripPrefix))
+                if (settings.DoStripPrefix && !string.IsNullOrEmpty(settings.StripPrefix))
                 {
-                    name = name.Substring(settings.StripPrefix.Length);
+                    foreach (var prefix in settings.StripPrefix.Split(',').Select(p => p.Trim()).Where(p => !string.IsNullOrEmpty(p)))
+                    {
+                        if (name.ToLowerInvariant().StartsWith(prefix))
+                        {
+                            name = name.Substring(prefix.Length);
+                        }
+                    }
                 }
                 if (settings.ConstantCamelCased)
                 {
