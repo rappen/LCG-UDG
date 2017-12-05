@@ -160,6 +160,57 @@ namespace Rappen.XTB.LCG
             return string.Join("\r\n", attributes);
         }
 
+        internal static string CamelCaseIt(string name)
+        {
+            bool wordBeginOrEnd(string text, int i)
+            {
+                var words = new string[] { "parent", "customer", "owner", "state", "status", "name", "phone", "address", "code", "postal", "mail", "modified", "created", "type", "method", "verson", "number", "first", "last", "middle", "contact", "account", "system", "user", "fullname", "preferred", "process", "annual" };
+                var endwords = new string[] { "id" };
+                var last = text.Substring(0, i).ToLowerInvariant();
+                var next = text.Substring(i).ToLowerInvariant();
+                foreach (var word in words)
+                {
+                    if (last.EndsWith(word) || next.StartsWith(word))
+                    {
+                        return true;
+                    }
+                }
+                foreach (var word in endwords)
+                {
+                    if (next.Equals(word))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            var result = string.Empty;
+            var nextCapital = true;
+            for (var i = 0; i < name.Length; i++)
+            {
+                var chr = name[i];
+                if (chr == '_')
+                {
+                    nextCapital = true;
+                }
+                else
+                {
+                    nextCapital = nextCapital || wordBeginOrEnd(name, i);
+                    if (nextCapital)
+                    {
+                        result += chr.ToString().ToUpperInvariant();
+                    }
+                    else
+                    {
+                        result += chr;
+                    }
+                    nextCapital = false;
+                }
+            }
+            return result;
+        }
+
         private static string GetOptionSets(EntityMetadataProxy entitymetadata, Settings settings)
         {
             var optionsets = new StringBuilder();

@@ -20,6 +20,7 @@ namespace Rappen.XTB.LCG
         public string CommonFile { get; set; }
         public NameType FileName { get; set; } = NameType.DisplayName;
         public NameType ConstantName { get; set; } = NameType.DisplayName;
+        public bool ConstantCamelCased { get; set; }
         public bool DoStripPrefix { get; set; }
         public string StripPrefix { get; set; }
         public bool XmlProperties { get; set; }

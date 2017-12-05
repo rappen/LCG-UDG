@@ -193,6 +193,7 @@ namespace Rappen.XTB.LCG
 
         private void cmbConstantName_SelectedIndexChanged(object sender, EventArgs e)
         {
+            chkConstCamelCased.Visible = cmbConstantName.SelectedIndex != (int)NameType.DisplayName;
             chkConstStripPrefix.Enabled = cmbConstantName.SelectedIndex != (int)NameType.DisplayName;
             txtConstStripPrefix.Enabled = chkConstStripPrefix.Enabled && chkConstStripPrefix.Checked;
         }
@@ -350,6 +351,7 @@ namespace Rappen.XTB.LCG
             txtCommonFilename.Text = settings.CommonFile;
             cmbFileName.SelectedIndex = (int)settings.FileName;
             cmbConstantName.SelectedIndex = (int)settings.ConstantName;
+            chkConstCamelCased.Checked = settings.ConstantCamelCased && settings.ConstantName != NameType.DisplayName;
             chkConstStripPrefix.Checked = settings.DoStripPrefix && settings.ConstantName != NameType.DisplayName;
             txtConstStripPrefix.Text = settings.StripPrefix;
             chkXmlProperties.Checked = settings.XmlProperties;
@@ -534,6 +536,7 @@ namespace Rappen.XTB.LCG
                 CommonFile = txtCommonFilename.Text,
                 FileName = (NameType)Math.Max(cmbFileName.SelectedIndex, 0),
                 ConstantName = (NameType)Math.Max(cmbConstantName.SelectedIndex, 0),
+                ConstantCamelCased = chkConstCamelCased.Checked,
                 DoStripPrefix = chkConstStripPrefix.Checked,
                 StripPrefix = txtConstStripPrefix.Text.ToLowerInvariant().TrimEnd('_') + "_",
                 XmlProperties = chkXmlProperties.Checked,

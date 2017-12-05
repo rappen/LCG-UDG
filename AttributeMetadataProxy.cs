@@ -140,11 +140,17 @@ namespace Rappen.XTB.LCG
                     name = Metadata?.SchemaName;
                     break;
             }
-            if (settings.ConstantName != NameType.DisplayName &&
-                settings.DoStripPrefix && !string.IsNullOrEmpty(settings.StripPrefix) &&
-                name.ToLowerInvariant().StartsWith(settings.StripPrefix))
+            if (settings.ConstantName != NameType.DisplayName)
             {
-                name = name.Substring(settings.StripPrefix.Length);
+                if (settings.DoStripPrefix && !string.IsNullOrEmpty(settings.StripPrefix) &&
+                    name.ToLowerInvariant().StartsWith(settings.StripPrefix))
+                {
+                    name = name.Substring(settings.StripPrefix.Length);
+                }
+                if (settings.ConstantCamelCased)
+                {
+                    name = CSharpUtils.CamelCaseIt(name);
+                }
             }
             return name;
         }

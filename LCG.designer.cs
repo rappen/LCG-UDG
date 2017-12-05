@@ -77,9 +77,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtOutputFolder = new System.Windows.Forms.TextBox();
             this.btnOutputFolder = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
             this.pnFileCommonName = new System.Windows.Forms.Panel();
             this.txtCommonFilename = new System.Windows.Forms.TextBox();
             this.txtCommonFileSuffix = new System.Windows.Forms.TextBox();
+            this.txtNamespace = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.cmbFileName = new System.Windows.Forms.ComboBox();
             this.pnFileStructure = new System.Windows.Forms.Panel();
@@ -121,13 +123,14 @@
             this.chkAttCheckAll = new System.Windows.Forms.CheckBox();
             this.pnRightSpacer = new System.Windows.Forms.Panel();
             this.gbConstOptions = new System.Windows.Forms.GroupBox();
+            this.chkXmlDescription = new System.Windows.Forms.CheckBox();
+            this.chkXmlProperties = new System.Windows.Forms.CheckBox();
+            this.label17 = new System.Windows.Forms.Label();
             this.llConstOptionsExpander = new System.Windows.Forms.LinkLabel();
             this.txtConstStripPrefix = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.chkConstStripPrefix = new System.Windows.Forms.CheckBox();
-            this.txtNamespace = new System.Windows.Forms.TextBox();
             this.cmbConstantName = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.chkEnumsInclude = new System.Windows.Forms.CheckBox();
@@ -135,9 +138,7 @@
             this.tmEntSearch = new System.Windows.Forms.Timer(this.components);
             this.tmAttSearch = new System.Windows.Forms.Timer(this.components);
             this.pnWindowTopSpacer = new System.Windows.Forms.Panel();
-            this.label17 = new System.Windows.Forms.Label();
-            this.chkXmlProperties = new System.Windows.Forms.CheckBox();
-            this.chkXmlDescription = new System.Windows.Forms.CheckBox();
+            this.chkConstCamelCased = new System.Windows.Forms.CheckBox();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -651,6 +652,15 @@
             this.btnOutputFolder.UseVisualStyleBackColor = true;
             this.btnOutputFolder.Click += new System.EventHandler(this.btnOutputFolder_Click);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 102);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(64, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Namespace";
+            // 
             // pnFileCommonName
             // 
             this.pnFileCommonName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -680,6 +690,15 @@
             this.txtCommonFileSuffix.Size = new System.Drawing.Size(38, 20);
             this.txtCommonFileSuffix.TabIndex = 5;
             this.txtCommonFileSuffix.Text = ".cs";
+            // 
+            // txtNamespace
+            // 
+            this.txtNamespace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtNamespace.Location = new System.Drawing.Point(132, 99);
+            this.txtNamespace.Name = "txtNamespace";
+            this.txtNamespace.Size = new System.Drawing.Size(299, 20);
+            this.txtNamespace.TabIndex = 6;
             // 
             // label7
             // 
@@ -1117,6 +1136,7 @@
             // 
             // gbConstOptions
             // 
+            this.gbConstOptions.Controls.Add(this.chkConstCamelCased);
             this.gbConstOptions.Controls.Add(this.chkXmlDescription);
             this.gbConstOptions.Controls.Add(this.chkXmlProperties);
             this.gbConstOptions.Controls.Add(this.label17);
@@ -1137,6 +1157,35 @@
             this.gbConstOptions.TabStop = false;
             this.gbConstOptions.Text = "Constant Options";
             // 
+            // chkXmlDescription
+            // 
+            this.chkXmlDescription.AutoSize = true;
+            this.chkXmlDescription.Location = new System.Drawing.Point(218, 74);
+            this.chkXmlDescription.Name = "chkXmlDescription";
+            this.chkXmlDescription.Size = new System.Drawing.Size(79, 17);
+            this.chkXmlDescription.TabIndex = 60;
+            this.chkXmlDescription.Text = "Description";
+            this.chkXmlDescription.UseVisualStyleBackColor = true;
+            // 
+            // chkXmlProperties
+            // 
+            this.chkXmlProperties.AutoSize = true;
+            this.chkXmlProperties.Location = new System.Drawing.Point(132, 74);
+            this.chkXmlProperties.Name = "chkXmlProperties";
+            this.chkXmlProperties.Size = new System.Drawing.Size(73, 17);
+            this.chkXmlProperties.TabIndex = 50;
+            this.chkXmlProperties.Text = "Properties";
+            this.chkXmlProperties.UseVisualStyleBackColor = true;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(15, 75);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(102, 13);
+            this.label17.TabIndex = 17;
+            this.label17.Text = "XML documentation";
+            // 
             // llConstOptionsExpander
             // 
             this.llConstOptionsExpander.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1155,7 +1204,7 @@
             this.txtConstStripPrefix.Location = new System.Drawing.Point(218, 45);
             this.txtConstStripPrefix.Name = "txtConstStripPrefix";
             this.txtConstStripPrefix.Size = new System.Drawing.Size(73, 20);
-            this.txtConstStripPrefix.TabIndex = 3;
+            this.txtConstStripPrefix.TabIndex = 40;
             this.txtConstStripPrefix.Leave += new System.EventHandler(this.txtConstStripPrefix_Leave);
             // 
             // label9
@@ -1176,15 +1225,6 @@
             this.label10.TabIndex = 14;
             this.label10.Text = "Prefix";
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 102);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(64, 13);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Namespace";
-            // 
             // chkConstStripPrefix
             // 
             this.chkConstStripPrefix.AutoSize = true;
@@ -1192,19 +1232,10 @@
             this.chkConstStripPrefix.Location = new System.Drawing.Point(132, 47);
             this.chkConstStripPrefix.Name = "chkConstStripPrefix";
             this.chkConstStripPrefix.Size = new System.Drawing.Size(75, 17);
-            this.chkConstStripPrefix.TabIndex = 2;
+            this.chkConstStripPrefix.TabIndex = 30;
             this.chkConstStripPrefix.Text = "Strip prefix";
             this.chkConstStripPrefix.UseVisualStyleBackColor = true;
             this.chkConstStripPrefix.CheckedChanged += new System.EventHandler(this.chkConstStripPrefix_CheckedChanged);
-            // 
-            // txtNamespace
-            // 
-            this.txtNamespace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtNamespace.Location = new System.Drawing.Point(132, 99);
-            this.txtNamespace.Name = "txtNamespace";
-            this.txtNamespace.Size = new System.Drawing.Size(299, 20);
-            this.txtNamespace.TabIndex = 6;
             // 
             // cmbConstantName
             // 
@@ -1217,7 +1248,7 @@
             this.cmbConstantName.Location = new System.Drawing.Point(132, 18);
             this.cmbConstantName.Name = "cmbConstantName";
             this.cmbConstantName.Size = new System.Drawing.Size(159, 21);
-            this.cmbConstantName.TabIndex = 1;
+            this.cmbConstantName.TabIndex = 10;
             this.cmbConstantName.SelectedIndexChanged += new System.EventHandler(this.cmbConstantName_SelectedIndexChanged);
             // 
             // label8
@@ -1235,7 +1266,7 @@
             this.chkEnumsInclude.Location = new System.Drawing.Point(132, 101);
             this.chkEnumsInclude.Name = "chkEnumsInclude";
             this.chkEnumsInclude.Size = new System.Drawing.Size(70, 17);
-            this.chkEnumsInclude.TabIndex = 6;
+            this.chkEnumsInclude.TabIndex = 70;
             this.chkEnumsInclude.Text = "Attributes";
             this.chkEnumsInclude.UseVisualStyleBackColor = true;
             // 
@@ -1246,7 +1277,7 @@
             this.chkEnumsGlobal.Location = new System.Drawing.Point(218, 101);
             this.chkEnumsGlobal.Name = "chkEnumsGlobal";
             this.chkEnumsGlobal.Size = new System.Drawing.Size(56, 17);
-            this.chkEnumsGlobal.TabIndex = 7;
+            this.chkEnumsGlobal.TabIndex = 80;
             this.chkEnumsGlobal.Text = "Global";
             this.chkEnumsGlobal.UseVisualStyleBackColor = true;
             // 
@@ -1268,34 +1299,16 @@
             this.pnWindowTopSpacer.Size = new System.Drawing.Size(930, 17);
             this.pnWindowTopSpacer.TabIndex = 11;
             // 
-            // label17
+            // chkConstCamelCased
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(15, 75);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(102, 13);
-            this.label17.TabIndex = 17;
-            this.label17.Text = "XML documentation";
-            // 
-            // chkXmlProperties
-            // 
-            this.chkXmlProperties.AutoSize = true;
-            this.chkXmlProperties.Location = new System.Drawing.Point(132, 74);
-            this.chkXmlProperties.Name = "chkXmlProperties";
-            this.chkXmlProperties.Size = new System.Drawing.Size(73, 17);
-            this.chkXmlProperties.TabIndex = 4;
-            this.chkXmlProperties.Text = "Properties";
-            this.chkXmlProperties.UseVisualStyleBackColor = true;
-            // 
-            // chkXmlDescription
-            // 
-            this.chkXmlDescription.AutoSize = true;
-            this.chkXmlDescription.Location = new System.Drawing.Point(218, 74);
-            this.chkXmlDescription.Name = "chkXmlDescription";
-            this.chkXmlDescription.Size = new System.Drawing.Size(79, 17);
-            this.chkXmlDescription.TabIndex = 5;
-            this.chkXmlDescription.Text = "Description";
-            this.chkXmlDescription.UseVisualStyleBackColor = true;
+            this.chkConstCamelCased.AutoSize = true;
+            this.chkConstCamelCased.Location = new System.Drawing.Point(298, 20);
+            this.chkConstCamelCased.Name = "chkConstCamelCased";
+            this.chkConstCamelCased.Size = new System.Drawing.Size(85, 17);
+            this.chkConstCamelCased.TabIndex = 20;
+            this.chkConstCamelCased.Text = "CamelCased";
+            this.chkConstCamelCased.UseVisualStyleBackColor = true;
+            this.chkConstCamelCased.Visible = false;
             // 
             // LCG
             // 
@@ -1468,5 +1481,6 @@
         private System.Windows.Forms.CheckBox chkXmlDescription;
         private System.Windows.Forms.CheckBox chkXmlProperties;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.CheckBox chkConstCamelCased;
     }
 }
