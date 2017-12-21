@@ -40,7 +40,7 @@ namespace Rappen.XTB.LCG
                 var entity = GetEntity(entitymetadata, settings);
                 if (!settings.UseCommonFile)
                 {
-                    var filename = entitymetadata.GetNameTechnical(settings.FileName, settings.DoStripPrefix, settings.StripPrefix) + ".cs";
+                    var filename = entitymetadata.GetNameTechnical(settings.FileName, settings) + ".cs";
                     var entityfile = file.Replace("{entities}", entity);
                     WriteFile(Path.Combine(settings.OutputFolder, filename), entityfile, orgurl, settings);
                     savefiles.Add(filename);
@@ -114,7 +114,7 @@ namespace Rappen.XTB.LCG
 
         private static string GetEntity(EntityMetadataProxy entitymetadata, Settings settings)
         {
-            var name = entitymetadata.GetNameTechnical(settings.ConstantName, settings.DoStripPrefix, settings.StripPrefix);
+            var name = entitymetadata.GetNameTechnical(settings.ConstantName, settings);
             name = settings.commonsettings.EntityPrefix + name + settings.commonsettings.EntitySuffix;
             var description = entitymetadata.Description?.Replace("\n", "\n/// ");
             var summary = settings.XmlProperties ? entitymetadata.GetEntityProperties(settings) : settings.XmlDescription ? description : string.Empty;
@@ -158,57 +158,6 @@ namespace Rappen.XTB.LCG
                 }
             }
             return string.Join("\r\n", attributes);
-        }
-
-        internal static string CamelCaseIt(string name)
-        {
-            bool wordBeginOrEnd(string text, int i)
-            {
-                var words = new string[] { "parent", "customer", "owner", "state", "status", "name", "phone", "address", "code", "postal", "mail", "modified", "created", "type", "method", "verson", "number", "first", "last", "middle", "contact", "account", "system", "user", "fullname", "preferred", "process", "annual" };
-                var endwords = new string[] { "id" };
-                var last = text.Substring(0, i).ToLowerInvariant();
-                var next = text.Substring(i).ToLowerInvariant();
-                foreach (var word in words)
-                {
-                    if (last.EndsWith(word) || next.StartsWith(word))
-                    {
-                        return true;
-                    }
-                }
-                foreach (var word in endwords)
-                {
-                    if (next.Equals(word))
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            var result = string.Empty;
-            var nextCapital = true;
-            for (var i = 0; i < name.Length; i++)
-            {
-                var chr = name[i];
-                if (chr == '_')
-                {
-                    nextCapital = true;
-                }
-                else
-                {
-                    nextCapital = nextCapital || wordBeginOrEnd(name, i);
-                    if (nextCapital)
-                    {
-                        result += chr.ToString().ToUpperInvariant();
-                    }
-                    else
-                    {
-                        result += chr;
-                    }
-                    nextCapital = false;
-                }
-            }
-            return result;
         }
 
         private static string GetOptionSets(EntityMetadataProxy entitymetadata, Settings settings)
@@ -261,6 +210,10 @@ namespace Rappen.XTB.LCG
                 foreach (var optionmetadata in optionsetmetadata.OptionSet.Options)
                 {
                     var label = MetadataProxy.StringToCSharpIdentifier(optionmetadata.Label.UserLocalizedLabel.Label);
+                    if (settings.ConstantCamelCased)
+                    {
+                        label = CamelCaseIt(label);
+                    }
                     if (string.IsNullOrEmpty(label) || int.TryParse(label[0].ToString(), out int tmp))
                     {
                         label = "_" + label;
@@ -273,6 +226,57 @@ namespace Rappen.XTB.LCG
             }
             optionset = optionset.Replace("{values}", string.Join(",\r\n", options));
             return optionset;
+        }
+
+        internal static string CamelCaseIt(string name)
+        {
+            bool wordBeginOrEnd(string text, int i)
+            {
+                var words = new string[] { "parent", "customer", "owner", "state", "status", "name", "phone", "address", "code", "postal", "mail", "modified", "created", "type", "method", "verson", "number", "first", "last", "middle", "contact", "account", "system", "user", "fullname", "preferred", "processing", "annual", "plugin", "step", "key", "details", "message", "description", "constructor", "execution", "secure", "configuration", "behalf", "count", "percent", "internal", "external" };
+                var endwords = new string[] { "id" };
+                var last = text.Substring(0, i).ToLowerInvariant();
+                var next = text.Substring(i).ToLowerInvariant();
+                foreach (var word in words)
+                {
+                    if (last.EndsWith(word) || next.StartsWith(word))
+                    {
+                        return true;
+                    }
+                }
+                foreach (var word in endwords)
+                {
+                    if (next.Equals(word))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            var result = string.Empty;
+            var nextCapital = true;
+            for (var i = 0; i < name.Length; i++)
+            {
+                var chr = name[i];
+                if (chr == '_')
+                {
+                    nextCapital = true;
+                }
+                else
+                {
+                    nextCapital = nextCapital || wordBeginOrEnd(name, i);
+                    if (nextCapital)
+                    {
+                        result += chr.ToString().ToUpperInvariant();
+                    }
+                    else
+                    {
+                        result += chr;
+                    }
+                    nextCapital = false;
+                }
+            }
+            return result;
         }
 
         private static void AlignSplitters(List<string> lines, string splitter)

@@ -28,7 +28,7 @@ namespace Rappen.XTB.LCG
         internal string GetEntityProperties(Settings settings)
         {
             var properties = new Dictionary<string, object>();
-            if (DisplayName != GetNameTechnical(settings.ConstantName, settings.DoStripPrefix, settings.StripPrefix))
+            if (DisplayName != GetNameTechnical(settings.ConstantName, settings))
             {
                 properties.Add("DisplayName", DisplayName);
             }
@@ -67,7 +67,7 @@ namespace Rappen.XTB.LCG
             return base.ToString();
         }
 
-        public string GetNameTechnical(NameType nametype, bool dostripprefix, string stripprefix)
+        public string GetNameTechnical(NameType nametype, Settings settings)
         {
             var name = string.Empty;
             switch (nametype)
@@ -82,11 +82,22 @@ namespace Rappen.XTB.LCG
                     name = Metadata?.SchemaName;
                     break;
             }
-            if (nametype != NameType.DisplayName &&
-                dostripprefix && !string.IsNullOrEmpty(stripprefix) &&
-                name.ToLowerInvariant().StartsWith(stripprefix))
+            if (nametype != NameType.DisplayName)
             {
-                name = name.Substring(stripprefix.Length);
+                if (settings.DoStripPrefix && !string.IsNullOrEmpty(settings.StripPrefix))
+                {
+                    foreach (var prefix in settings.StripPrefix.Split(',').Select(p => p.Trim()).Where(p => !string.IsNullOrEmpty(p)))
+                    {
+                        if (name.ToLowerInvariant().StartsWith(prefix))
+                        {
+                            name = name.Substring(prefix.Length);
+                        }
+                    }
+                }
+                if (settings.ConstantCamelCased)
+                {
+                    name = CSharpUtils.CamelCaseIt(name);
+                }
             }
             return name;
         }
