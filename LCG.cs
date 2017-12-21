@@ -134,7 +134,7 @@ namespace Rappen.XTB.LCG
                     var document = new XmlDocument();
                     document.Load(settingsfile);
                     var settings = (Settings)XmlSerializerHelper.Deserialize(document.OuterXml, typeof(Settings));
-                    SaveSettings(ConnectionDetail.ConnectionName, settings);
+                    ApplySettings(settings);
                     RestoreSelectedEntities();
                 }
             }
@@ -342,7 +342,7 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        private void ApplySettings(Settings settings, bool includeselection)
+        private void ApplySettings(Settings settings)
         {
             txtOutputFolder.Text = settings.OutputFolder;
             txtNamespace.Text = settings.NameSpace;
@@ -738,7 +738,7 @@ namespace Rappen.XTB.LCG
         {
             if (SettingsManager.Instance.TryLoad(GetType(), out Settings settings, connectionname))
             {
-                ApplySettings(settings, false);
+                ApplySettings(settings);
             }
         }
 
