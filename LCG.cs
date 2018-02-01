@@ -24,7 +24,7 @@ namespace Rappen.XTB.LCG
         private const string aiEndpoint = "https://dc.services.visualstudio.com/v2/track";
         //private const string aiKey = "cc7cb081-b489-421d-bb61-2ee53495c336";    // jonas@rappen.net tenant, TestAI 
         private const string aiKey = "eed73022-2444-45fd-928b-5eebd8fa46a6";    // jonas@rappen.net tenant, XrmToolBox
-        private AppInsights ai;
+        private AppInsights ai = new AppInsights(new AiConfig(aiEndpoint, aiKey) { PluginName = "Latebound Constants Generator" });
 
         private List<EntityMetadataProxy> entities;
         private CommonSettings commonsettings;
@@ -65,10 +65,6 @@ namespace Rappen.XTB.LCG
             {
                 groupBoxHeights.Add(gb.Name, gb.Height);
             }
-            ai = new AppInsights(new AiConfig(aiEndpoint, aiKey)
-            {
-                PluginName = "Latebound Constants Generator"
-            });
         }
 
         #endregion Public Constructors
@@ -98,20 +94,7 @@ namespace Rappen.XTB.LCG
             var about = new About(this);
             about.StartPosition = FormStartPosition.CenterParent;
             about.lblVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            about.chkStatAllow.Checked = commonsettings.UseLog != false;
             about.ShowDialog();
-            if (commonsettings.UseLog != about.chkStatAllow.Checked)
-            {
-                commonsettings.UseLog = about.chkStatAllow.Checked;
-                if (commonsettings.UseLog == true)
-                {
-                    LogUse("Accept", true);
-                }
-                else if (commonsettings.UseLog == false)
-                {
-                    LogUse("Deny", true);
-                }
-            }
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -735,7 +718,7 @@ namespace Rappen.XTB.LCG
             if (!version.Equals(commonsettings.Version))
             {
                 // Reset some settings when new version is deployed
-                commonsettings.UseLog = null;
+                commonsettings.UseLog = true;
             }
             if (commonsettings.UseLog == null)
             {

@@ -27,14 +27,6 @@ namespace Rappen.XTB.LCG
 
         #region Private Methods
 
-        private void chkStatAllow_CheckedChanged(object sender, EventArgs e)
-        {
-            if (Visible && chkStatAllow.Checked)
-            {
-                MessageBox.Show("Thank You!\n\nEnjoy your constants :)\n\n/Jonas", "Statistics", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             lcg.LogUse("About-OpenHomepage");
@@ -94,6 +86,15 @@ namespace Rappen.XTB.LCG
                 assemblyName.Contains("Innofactor") ? "AAAAAAAAAAAE" :
                 assemblyName.Contains("Cinteros") ? "AAAAAAAAAAAF" :
                 assemblyName;
+        }
+
+        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MessageBox.Show(@"The evolution of Latebound Constants Generator is based on feedback issues and anonymous statistics collected about usage.
+The statistics are a valuable source of information for continuing the development to make the tool even easier to use and improve the most popular features.
+
+Thank You,
+Jonas", "Anonymous statistics", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         #endregion Private Methods

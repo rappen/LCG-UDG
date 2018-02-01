@@ -428,11 +428,4 @@
         YII=
 </value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Latebound Constant Generator can collect anonymous statistics.
-This is mainly used to get an indication on which features are most popular.
-The statistics help improve the tool even more.
-No information regarding connected CRM or any kind of data is collected!
-Allowing the application to send statistict is greatly appreciated!</value>
-  </data>
 </root>
