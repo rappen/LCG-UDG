@@ -21,6 +21,11 @@ namespace Rappen.XTB.LCG
     {
         #region Private Fields
 
+        private const string aiEndpoint = "https://dc.services.visualstudio.com/v2/track";
+        //private const string aiKey = "cc7cb081-b489-421d-bb61-2ee53495c336";    // jonas@rappen.net tenant, TestAI 
+        private const string aiKey = "eed73022-2444-45fd-928b-5eebd8fa46a6";    // jonas@rappen.net tenant, XrmToolBox
+        private AppInsights ai;
+
         private List<EntityMetadataProxy> entities;
         private CommonSettings commonsettings;
         private Dictionary<string, int> groupBoxHeights;
@@ -60,6 +65,10 @@ namespace Rappen.XTB.LCG
             {
                 groupBoxHeights.Add(gb.Name, gb.Height);
             }
+            ai = new AppInsights(new AiConfig(aiEndpoint, aiKey)
+            {
+                PluginName = "Latebound Constants Generator"
+            });
         }
 
         #endregion Public Constructors
@@ -320,6 +329,7 @@ namespace Rappen.XTB.LCG
 
         internal void LogUse(string action, bool forceLog = false)
         {
+            ai.WriteEvent(action);
             if (commonsettings == null)
             {
                 LoadCommonSettings();
