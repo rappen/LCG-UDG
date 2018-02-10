@@ -11,7 +11,7 @@ namespace Rappen.XTB.LCG
     {
         public static void WriteFile(this string content, string filename, string orgurl, Settings settings)
         {
-            content = BeautifyContent(content);
+            content = content.BeautifyContent();
             var header = CSharpUtils.Template.Header1
                 .Replace("{version}", Assembly.GetExecutingAssembly().GetName().Version.ToString())
                 .Replace("{organization}", orgurl);
