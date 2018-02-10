@@ -1,0 +1,39 @@
+﻿using System.Collections.Generic;
+using FakeItEasy;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Xrm.Sdk.Metadata;
+using Rappen.XTB.LCG;
+
+namespace LateboundConstantGeneratorTests
+{
+    [TestClass]
+    public class CSharpUtilTests
+    {
+        [TestMethod]
+        public void GenerateClasses_ForEmptyMetadata_Should_GenerateLogicalName()
+        {
+            // Arrange
+            var metadata = new EntityMetadataProxy(new EntityMetadata
+            {
+                LogicalName = "uber_entity"
+            });
+            metadata.SetSelected(true);
+            var values = new List<EntityMetadataProxy> { metadata };
+            var settings = new Settings();
+            settings.InitalizeCommonSettings();
+            var fakeWriter = A.Fake<IConstantFileWriter>();
+            string entity = null;
+            var config = A.CallTo(() => fakeWriter.WriteEntity(null, null, null))
+                .WithAnyArguments()
+                .Invokes((Settings s, string e, string f) => { entity = e; });
+            
+            // Act
+            CSharpUtils.GenerateClasses(values, settings, fakeWriter);
+
+            // Assert
+            config.MustHaveHappened();
+            Assert.IsTrue(entity.Contains("public const string EntityName = \"uber_entity\";"));
+            
+        }
+    }
+}
