@@ -31,6 +31,18 @@ namespace Rappen.XTB.LCG
         public AttributeFilter AttributeFilter { get; set; } = new AttributeFilter();
         public List<string> Selection { get; set; } = new List<string>();
         internal CommonSettings commonsettings;
+
+        public IConstantFileWriter GetWriter(string orgUrl)
+        {
+            return UseCommonFile
+                ? (IConstantFileWriter) new CommonFileWriter(orgUrl)
+                : new SeperateFileWriter(orgUrl);
+        }
+
+        public void InitalizeCommonSettings()
+        {
+            commonsettings = new CommonSettings();
+        }
     }
 
     public class EntityFilter

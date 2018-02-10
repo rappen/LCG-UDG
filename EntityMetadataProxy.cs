@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Rappen.XTB.LCG
 {
-    internal class EntityMetadataProxy : MetadataProxy
+    public class EntityMetadataProxy : MetadataProxy
     {
         #region Public Fields
 
@@ -96,7 +96,7 @@ namespace Rappen.XTB.LCG
                 }
                 if (settings.ConstantCamelCased)
                 {
-                    name = CSharpUtils.CamelCaseIt(name);
+                    name = name.CamelCaseIt();
                 }
             }
             return name;

@@ -107,7 +107,8 @@ namespace Rappen.XTB.LCG
             LogUse("Generate");
             var settings = GetSettingsFromUI();
             settings.commonsettings = commonsettings;
-            CSharpUtils.GenerateClasses(entities, settings, ConnectionDetail.WebApplicationUrl);
+            var message = CSharpUtils.GenerateClasses(entities, settings, settings.GetWriter(ConnectionDetail.WebApplicationUrl));
+            MessageBox.Show(message, "Latebound Constant Generator", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnLoadConfig_Click(object sender, EventArgs e)

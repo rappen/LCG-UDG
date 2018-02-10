@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Rappen.XTB.LCG
 {
-    internal class AttributeMetadataProxy : MetadataProxy
+    public class AttributeMetadataProxy : MetadataProxy
     {
         #region Public Fields
 
@@ -32,71 +32,73 @@ namespace Rappen.XTB.LCG
         #region Public Properties
 
         [DisplayName(" \n ")]
-        public bool Selected { get => IsSelected; }
+        public bool Selected => IsSelected;
 
         [DisplayName("Name")]
-        public string DisplayName { get => Metadata?.DisplayName?.UserLocalizedLabel?.Label ?? Metadata?.LogicalName; }
+        public string DisplayName => Metadata?.DisplayName?.UserLocalizedLabel?.Label ?? Metadata?.LogicalName;
 
         [DisplayName("Logical Name")]
-        public string LogicalName { get => Metadata?.LogicalName; }
+        public string LogicalName => Metadata?.LogicalName;
 
-        public AttributeTypeCode? Type { get => Metadata?.AttributeType; }
+        public AttributeTypeCode? Type => Metadata?.AttributeType;
 
         internal string AttributeProperties
         {
             get
             {
-                var properties = new Dictionary<string, object>();
-                // General properties
-                properties.Add("Type", Type);
-                properties.Add("RequiredLevel", Metadata?.RequiredLevel?.Value);
-                // String properties
-                properties.Add("MaxLength:string", (Metadata as StringAttributeMetadata)?.MaxLength);
-                properties.Add("Format:string", (Metadata as StringAttributeMetadata)?.Format);
-                properties.Add("AutoNumberFormat:string", (Metadata as StringAttributeMetadata)?.AutoNumberFormat);
-                // Memo properties
-                properties.Add("MaxLength::memo", (Metadata as MemoAttributeMetadata)?.MaxLength);
-                // Integer properties
-                properties.Add("MinValue:integer", (Metadata as IntegerAttributeMetadata)?.MinValue);
-                properties.Add("MaxValue:integer", (Metadata as IntegerAttributeMetadata)?.MaxValue);
-                // BigInt properties
-                properties.Add("MinValue:bigint", (Metadata as BigIntAttributeMetadata)?.MinValue);
-                properties.Add("MaxValue:bigint", (Metadata as BigIntAttributeMetadata)?.MaxValue);
-                // Decimal properties
-                properties.Add("MinValue:decimal", (Metadata as DecimalAttributeMetadata)?.MinValue);
-                properties.Add("MaxValue:decimal", (Metadata as DecimalAttributeMetadata)?.MaxValue);
-                properties.Add("Precision:decimal", (Metadata as DecimalAttributeMetadata)?.Precision);
-                // Double properties
-                properties.Add("MinValue:double", (Metadata as DoubleAttributeMetadata)?.MinValue);
-                properties.Add("MaxValue:double", (Metadata as DoubleAttributeMetadata)?.MaxValue);
-                properties.Add("Precision:double", (Metadata as DoubleAttributeMetadata)?.Precision);
-                // Money properties
-                properties.Add("MinValue:money", (Metadata as MoneyAttributeMetadata)?.MinValue);
-                properties.Add("MaxValue:money", (Metadata as MoneyAttributeMetadata)?.MaxValue);
-                properties.Add("Precision:money", (Metadata as MoneyAttributeMetadata)?.Precision);
-                properties.Add("CalculationOf:money", (Metadata as MoneyAttributeMetadata)?.CalculationOf);
-                // Enum general properties
-                properties.Add("DisplayName:enum", (Metadata as EnumAttributeMetadata)?.OptionSet?.DisplayName?.UserLocalizedLabel?.Label);
-                properties.Add("OptionSetType:enum", (Metadata as EnumAttributeMetadata)?.OptionSet?.OptionSetType);
-                // Picklist properties
-                properties.Add("DefaultFormValue:picklist", (Metadata as PicklistAttributeMetadata)?.DefaultFormValue);
-                // Boolean properties
-                properties.Add("True:bool", (Metadata as BooleanAttributeMetadata)?.OptionSet?.TrueOption?.Value);
-                properties.Add("False:bool", (Metadata as BooleanAttributeMetadata)?.OptionSet?.FalseOption?.Value);
-                properties.Add("DefaultValue:bool", (Metadata as BooleanAttributeMetadata)?.DefaultValue);
-                // Lookup properties
-                properties.Add("Targets:bool", string.Join(",", (Metadata as LookupAttributeMetadata)?.Targets ?? new string[0]));
-                // DateTime properties
-                properties.Add("Format:datetime", (Metadata as DateTimeAttributeMetadata)?.Format);
-                properties.Add("DateTimeBehavior:datetime", (Metadata as DateTimeAttributeMetadata)?.DateTimeBehavior?.Value);
+                var properties = new Dictionary<string, object>
+                {
+                    // General properties
+                    {"Type", Type},
+                    {"RequiredLevel", Metadata?.RequiredLevel?.Value},
+                    // String properties
+                    {"MaxLength:string", (Metadata as StringAttributeMetadata)?.MaxLength},
+                    {"Format:string", (Metadata as StringAttributeMetadata)?.Format},
+                    {"AutoNumberFormat:string", (Metadata as StringAttributeMetadata)?.AutoNumberFormat},
+                    // Memo properties
+                    {"MaxLength::memo", (Metadata as MemoAttributeMetadata)?.MaxLength},
+                    // Integer properties
+                    {"MinValue:integer", (Metadata as IntegerAttributeMetadata)?.MinValue},
+                    {"MaxValue:integer", (Metadata as IntegerAttributeMetadata)?.MaxValue},
+                    // BigInt properties
+                    {"MinValue:bigint", (Metadata as BigIntAttributeMetadata)?.MinValue},
+                    {"MaxValue:bigint", (Metadata as BigIntAttributeMetadata)?.MaxValue},
+                    // Decimal properties
+                    {"MinValue:decimal", (Metadata as DecimalAttributeMetadata)?.MinValue},
+                    {"MaxValue:decimal", (Metadata as DecimalAttributeMetadata)?.MaxValue},
+                    {"Precision:decimal", (Metadata as DecimalAttributeMetadata)?.Precision},
+                    // Double properties
+                    {"MinValue:double", (Metadata as DoubleAttributeMetadata)?.MinValue},
+                    {"MaxValue:double", (Metadata as DoubleAttributeMetadata)?.MaxValue},
+                    {"Precision:double", (Metadata as DoubleAttributeMetadata)?.Precision},
+                    // Money properties
+                    {"MinValue:money", (Metadata as MoneyAttributeMetadata)?.MinValue},
+                    {"MaxValue:money", (Metadata as MoneyAttributeMetadata)?.MaxValue},
+                    {"Precision:money", (Metadata as MoneyAttributeMetadata)?.Precision},
+                    {"CalculationOf:money", (Metadata as MoneyAttributeMetadata)?.CalculationOf},
+                    // Enum general properties
+                    {"DisplayName:enum", (Metadata as EnumAttributeMetadata)?.OptionSet?.DisplayName?.UserLocalizedLabel?.Label},
+                    {"OptionSetType:enum", (Metadata as EnumAttributeMetadata)?.OptionSet?.OptionSetType},
+                    // Picklist properties
+                    {"DefaultFormValue:picklist", (Metadata as PicklistAttributeMetadata)?.DefaultFormValue},
+                    // Boolean properties
+                    {"True:bool", (Metadata as BooleanAttributeMetadata)?.OptionSet?.TrueOption?.Value},
+                    {"False:bool", (Metadata as BooleanAttributeMetadata)?.OptionSet?.FalseOption?.Value},
+                    {"DefaultValue:bool", (Metadata as BooleanAttributeMetadata)?.DefaultValue},
+                    // Lookup properties
+                    {"Targets:bool", string.Join(",", (Metadata as LookupAttributeMetadata)?.Targets ?? new string[0])},
+                    // DateTime properties
+                    {"Format:datetime", (Metadata as DateTimeAttributeMetadata)?.Format},
+                    {"DateTimeBehavior:datetime", (Metadata as DateTimeAttributeMetadata)?.DateTimeBehavior?.Value}
+                };
 
                 return string.Join(", ", properties
-                    .Where(p => p.Value != null && !string.IsNullOrEmpty(p.Value.ToString()))
+                    .Where(p => !string.IsNullOrEmpty(p.Value?.ToString()))
                     .Select(p => p.Key.Split(':')[0] + ": " + p.Value));
             }
         }
 
-        internal string Description { get => Metadata?.Description?.UserLocalizedLabel?.Label; }
+        internal string Description => Metadata?.Description?.UserLocalizedLabel?.Label;
 
         #endregion Public Properties
 
@@ -134,29 +136,33 @@ namespace Rappen.XTB.LCG
                     name = StringToCSharpIdentifier(DisplayName);
                     break;
                 case NameType.LogicalName:
-                    name = Metadata?.LogicalName;
+                    name = GetNonDisplayName(settings, Metadata?.LogicalName);
                     break;
                 case NameType.SchemaName:
-                    name = Metadata?.SchemaName;
+                    name = GetNonDisplayName(settings, Metadata?.SchemaName);
                     break;
             }
-            if (settings.ConstantName != NameType.DisplayName)
+            return name;
+        }
+
+        private static string GetNonDisplayName(Settings settings, string name)
+        {
+            if (settings.DoStripPrefix && !string.IsNullOrEmpty(settings.StripPrefix))
             {
-                if (settings.DoStripPrefix && !string.IsNullOrEmpty(settings.StripPrefix))
+                foreach (var prefix in settings.StripPrefix.Split(',')
+                                               .Select(p => p.Trim())
+                                               .Where(p => !string.IsNullOrWhiteSpace(p) 
+                                                      && name.ToLowerInvariant().StartsWith(p)))
                 {
-                    foreach (var prefix in settings.StripPrefix.Split(',').Select(p => p.Trim()).Where(p => !string.IsNullOrEmpty(p)))
-                    {
-                        if (name.ToLowerInvariant().StartsWith(prefix))
-                        {
-                            name = name.Substring(prefix.Length);
-                        }
-                    }
-                }
-                if (settings.ConstantCamelCased)
-                {
-                    name = CSharpUtils.CamelCaseIt(name);
+                    name = name.Substring(prefix.Length);
                 }
             }
+
+            if (settings.ConstantCamelCased)
+            {
+                name = name.CamelCaseIt();
+            }
+
             return name;
         }
 
