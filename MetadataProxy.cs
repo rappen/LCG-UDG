@@ -13,7 +13,7 @@ namespace Rappen.XTB.LCG
         public event PropertyChangedEventHandler PropertyChanged;
 
         [Browsable(false)]
-        public bool IsSelected { get => selected; }
+        public bool IsSelected => selected;
 
         public virtual void SetSelected(bool value)
         {
