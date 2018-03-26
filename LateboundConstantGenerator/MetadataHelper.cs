@@ -2,7 +2,6 @@
 using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Metadata;
 using Microsoft.Xrm.Sdk.Metadata.Query;
-using System;
 using System.Collections.Generic;
 
 namespace Rappen.XTB.LCG
@@ -11,60 +10,60 @@ namespace Rappen.XTB.LCG
     {
         #region Public Fields
 
-        public static String[] entityProperties = {
-            "LogicalName",
-            "SchemaName",
-            "DisplayName",
+        public static string[] entityProperties = {
             "Description",
-            "PrimaryIdAttribute",
-            "PrimaryNameAttribute",
-            "ObjectTypeCode",
+            "DisplayName",
+            "EntityColor",
             "IntroducedVersion",
-            "OwnershipType",
-            "IsManaged",
-            "IsCustomizable",
-            "IsCustomEntity",
-            "IsIntersect",
-            "IsValidForAdvancedFind",
             "IsActivity",
             "IsActivityParty",
+            "IsCustomEntity",
+            "IsCustomizable",
+            "IsIntersect",
+            "IsManaged",
             "IsPrivate",
-            "EntityColor"
-        };
-        public static String[] entityDetails = { "Attributes" };
-        public static String[] attributeProperties = {
+            "IsValidForAdvancedFind",
             "LogicalName",
-            "SchemaName",
-            "DisplayName",
-            "Description",
+            "ObjectTypeCode",
+            "OwnershipType",
+            "PrimaryIdAttribute",
+            "PrimaryNameAttribute",
+            "SchemaName"
+        };
+        public static string[] entityDetails = { "Attributes" };
+        public static string[] attributeProperties = {
             "AttributeType",
             "AttributeTypeName",
-            "IsManaged",
-            "IsCustomizable",
-            "IsCustomAttribute",
-            "IsValidForCreate",
-            "IsPrimaryId",
-            "IsPrimaryName",
-            "MaxLength",
-            "OptionSet",
-            "RequiredLevel",
-            "Format",
             //"AutoNumberFormat",
-            "MinValue",
-            "MaxValue",
-            "Precision",
             "CalculationOf",
+            "DateTimeBehavior",
             "DefaultFormValue",
             "DefaultValue",
+            "Description",
+            "DisplayName",
+            "Format",
+            "IsCustomAttribute",
+            "IsCustomizable",
+            "IsManaged",
+            "IsPrimaryId",
+            "IsPrimaryName",
+            "IsValidForCreate",
+            "LogicalName",
+            "MaxLength",
+            "MaxValue",
+            "MinValue",
+            "OptionSet",
+            "Precision",
+            "RequiredLevel",
+            "SchemaName",
             "Targets",
-            "DateTimeBehavior"
         };
 
         #endregion Public Fields
 
         #region Private Fields
 
-        private static Dictionary<string, EntityMetadata> entities = new Dictionary<string, EntityMetadata>();
+        private static readonly Dictionary<string, EntityMetadata> entities = new Dictionary<string, EntityMetadata>();
 
         #endregion Private Fields
 
@@ -83,28 +82,24 @@ namespace Rappen.XTB.LCG
 
         public static AttributeMetadata GetAttribute(IOrganizationService service, string entity, string attribute)
         {
-            if (!entities.ContainsKey(entity))
+            GetEntityMetadataFromServer(service, entity);
+            return entities.GetAttribute(entity, attribute);
+        }
+
+        private static void GetEntityMetadataFromServer(IOrganizationService service, string entity)
+        {
+            if (entities.ContainsKey(entity))
             {
-                var response = LoadEntityDetails(service, entity);
-                if (response != null && response.EntityMetadata != null && response.EntityMetadata.Count == 1 && response.EntityMetadata[0].LogicalName == entity)
-                {
-                    entities.Add(entity, response.EntityMetadata[0]);
-                }
+                return;
             }
-            if (entities != null && entities.ContainsKey(entity))
+
+            var response = LoadEntityDetails(service, entity);
+            if (response?.EntityMetadata != null
+                && response.EntityMetadata.Count == 1
+                && response.EntityMetadata[0].LogicalName == entity)
             {
-                if (entities[entity].Attributes != null)
-                {
-                    foreach (var metaattribute in entities[entity].Attributes)
-                    {
-                        if (metaattribute.LogicalName == attribute)
-                        {
-                            return metaattribute;
-                        }
-                    }
-                }
+                entities.Add(entity, response.EntityMetadata[0]);
             }
-            return null;
         }
 
         public static RetrieveMetadataChangesResponse LoadEntities(IOrganizationService service, int majorversion)
@@ -113,8 +108,12 @@ namespace Rappen.XTB.LCG
             {
                 return null;
             }
-            var eqe = new EntityQueryExpression();
-            eqe.Properties = new MetadataPropertiesExpression(entityProperties);
+
+            var eqe = new EntityQueryExpression
+            {
+                Properties = new MetadataPropertiesExpression(entityProperties)
+            };
+
             if (majorversion > 5)
             {
                 eqe.Criteria.Conditions.Add(new MetadataConditionExpression("IsPrivate", MetadataConditionOperator.NotEquals, true));
@@ -133,15 +132,20 @@ namespace Rappen.XTB.LCG
             {
                 return null;
             }
-            var eqe = new EntityQueryExpression();
-            eqe.Properties = new MetadataPropertiesExpression(entityProperties);
+
+            var eqe = new EntityQueryExpression
+            {
+                Properties = new MetadataPropertiesExpression(entityProperties)
+            };
             eqe.Properties.PropertyNames.AddRange(entityDetails);
             eqe.Criteria.Conditions.Add(new MetadataConditionExpression("LogicalName", MetadataConditionOperator.Equals, entityName));
-            var aqe = new AttributeQueryExpression();
-            aqe.Properties = new MetadataPropertiesExpression(attributeProperties);
+            var aqe = new AttributeQueryExpression
+            {
+                Properties = new MetadataPropertiesExpression(attributeProperties)
+            };
             aqe.Criteria.Conditions.Add(new MetadataConditionExpression("IsLogical", MetadataConditionOperator.NotEquals, true));
             eqe.AttributeQuery = aqe;
-            var req = new RetrieveMetadataChangesRequest()
+            var req = new RetrieveMetadataChangesRequest
             {
                 Query = eqe,
                 ClientVersionStamp = null

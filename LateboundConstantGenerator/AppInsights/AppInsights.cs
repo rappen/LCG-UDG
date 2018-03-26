@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 public class AppInsights
 {
@@ -80,12 +81,25 @@ public class AppInsights
 
     private async void SendToAi(string json, Action<string> handleresult = null)
     {
+        var isDebug = false;
         var result = string.Empty;
 #if DEBUG
-#else
+        isDebug = true;
+#endif
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+        if (!isDebug)
+        {
+            result = await SendToAiSafe(json, handleresult);
+        }
+        handleresult?.Invoke(result);
+    }
+
+    private async Task<string> SendToAiSafe(string json, Action<string> handleresult = null)
+    {
+        string result = string.Empty;
         try
         {
-            using (HttpClient client = HttpHelper.GetHttpClient())
+            using (var client = HttpHelper.GetHttpClient())
             {
                 var content = new StringContent(json, Encoding.UTF8, "application/x-json-stream");
                 var response = await client.PostAsync(_aiConfig.AiEndpoint, content);
@@ -100,8 +114,8 @@ public class AppInsights
         {
             result = e.ToString();
         }
-#endif
-        handleresult?.Invoke(result);
+
+        return result;
     }
 
     private AiLogRequest GetLogRequest(string action)
