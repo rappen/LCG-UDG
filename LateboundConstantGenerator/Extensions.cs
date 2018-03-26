@@ -1,14 +1,29 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Microsoft.Xrm.Sdk.Metadata;
 
 namespace Rappen.XTB.LCG
 {
     public static class Extensions
     {
+        public static AttributeMetadata GetAttribute(this Dictionary<string, EntityMetadata> entities, string entity, string attribute)
+        {
+            if (entities == null
+                || !entities.TryGetValue(entity, out var metadata)
+                || metadata.Attributes == null)
+            {
+                return null;
+            }
+
+            return metadata.Attributes.FirstOrDefault(metaattribute => metaattribute.LogicalName == attribute);
+        }
+
+
         public static void WriteFile(this string content, string filename, string orgurl, Settings settings)
         {
             content = content.BeautifyContent();

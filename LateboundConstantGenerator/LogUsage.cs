@@ -13,9 +13,16 @@ namespace Rappen.XTB.LCG
 
         public static async Task DoLog(string action)
         {
+#pragma warning disable 162
 #if DEBUG
             return;
 #endif
+            await DoLogSafe(action);
+#pragma warning restore 162
+        }
+
+        private static async Task DoLogSafe(string action)
+        {
             try
             {
                 var ass = Assembly.GetExecutingAssembly().GetName();
@@ -23,13 +30,13 @@ namespace Rappen.XTB.LCG
                 var name = ass.Name.Replace(" ", "");
                 action = "LCG-" + action;
 
-                var query = "t.php" +
-                    "?sc_project=10396418" +
-                    "&security=95f631d9" +
-                    "&java=1" +
-                    "&invisible=1" +
-                    "&u={2}" +
-                    "&camefrom={0} {1}";
+                const string query = "t.php" +
+                                     "?sc_project=10396418" +
+                                     "&security=95f631d9" +
+                                     "&java=1" +
+                                     "&invisible=1" +
+                                     "&u={2}" +
+                                     "&camefrom={0} {1}";
 
                 using (var client = new HttpClient())
                 {
@@ -39,11 +46,14 @@ namespace Rappen.XTB.LCG
                     response.EnsureSuccessStatusCode();
                     if (response.IsSuccessStatusCode)
                     {
-                        response.Content.ReadAsStringAsync();
+                        var keepGoing = response.Content.ReadAsStringAsync();
                     }
                 }
             }
-            catch { }
+            catch
+            {
+                // Ok Not to throw an execption because this is attempt to log something
+            }
         }
 
         #endregion Public Methods

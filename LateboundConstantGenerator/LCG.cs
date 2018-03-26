@@ -53,7 +53,7 @@ namespace Rappen.XTB.LCG
         {
             IEnumerable<Control> GetAll(Control control, Type type)
             {
-                var controls = control.Controls.Cast<Control>();
+                var controls = control.Controls.Cast<Control>().ToArray();
                 return controls.SelectMany(ctrl => GetAll(ctrl, type))
                                           .Concat(controls)
                                           .Where(c => c.GetType() == type);
@@ -91,9 +91,11 @@ namespace Rappen.XTB.LCG
         private void btnAbout_Click(object sender, EventArgs e)
         {
             LogUse("OpenAbout");
-            var about = new About(this);
-            about.StartPosition = FormStartPosition.CenterParent;
-            about.lblVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            var about = new About(this)
+            {
+                StartPosition = FormStartPosition.CenterParent,
+                lblVersion = {Text = Assembly.GetExecutingAssembly().GetName().Version.ToString()}
+            };
             about.ShowDialog();
         }
 
@@ -199,8 +201,7 @@ namespace Rappen.XTB.LCG
 
         private void grid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            var grid = sender as DataGridView;
-            if (grid != null && e.ColumnIndex == 0 && e.RowIndex >= 0)
+            if (sender is DataGridView grid && e.ColumnIndex == 0 && e.RowIndex >= 0)
             {
                 var row = grid.Rows[e.RowIndex];
                 if (row.DataBoundItem is MetadataProxy metadata)
@@ -214,14 +215,12 @@ namespace Rappen.XTB.LCG
 
         private void gridEntities_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.ColumnIndex == 0)
+            if (e.ColumnIndex == 0 
+                && sender is DataGridView dgv 
+                && dgv.Rows[e.RowIndex].DataBoundItem is EntityMetadataProxy data 
+                && !string.IsNullOrEmpty(data.Metadata.EntityColor))
             {
-                DataGridView dgv = sender as DataGridView;
-                var data = dgv.Rows[e.RowIndex].DataBoundItem as EntityMetadataProxy;
-                if (!string.IsNullOrEmpty(data.Metadata.EntityColor))
-                {
-                    e.CellStyle.BackColor = ColorTranslator.FromHtml(data.Metadata.EntityColor);
-                }
+                e.CellStyle.BackColor = ColorTranslator.FromHtml(data.Metadata.EntityColor);
             }
         }
 
@@ -320,19 +319,18 @@ namespace Rappen.XTB.LCG
             }
             if (commonsettings.UseLog == true || forceLog)
             {
-                LogUsage.DoLog(action);
+                var keepGoing = LogUsage.DoLog(action);
             }
         }
 
         private static void SelectAllRows(DataGridView grid, bool select)
         {
-            foreach (DataGridViewRow row in grid.Rows)
+            foreach (var metadata in grid.Rows
+                .Cast<DataGridViewRow>()
+                .Select(r => r.DataBoundItem)
+                .OfType<MetadataProxy>())
             {
-                var metadata = row.DataBoundItem as MetadataProxy;
-                if (metadata != null)
-                {
-                    metadata.SetSelected(select);
-                }
+                metadata.SetSelected(select);
             }
         }
 
@@ -395,36 +393,18 @@ namespace Rappen.XTB.LCG
 
         private void DisplayFilteredAttributes()
         {
-            if (selectedEntity != null && selectedEntity.Attributes != null && selectedEntity.Attributes.Count > 0)
+            if (selectedEntity?.Attributes != null && selectedEntity.Attributes.Count > 0)
             {
-                var filteredattributes = new SortableBindingList<AttributeMetadataProxy>(
-                    selectedEntity.Attributes
-                    .Where(e => (rbAttCustomAll.Checked ||
-                         (rbAttCustomTrue.Checked && e.Metadata.IsCustomAttribute.Value) ||
-                         (rbAttCustomFalse.Checked && !e.Metadata.IsCustomAttribute.Value)))
-                    .Where(e => (rbAttMgdAll.Checked ||
-                         (rbAttMgdTrue.Checked && e.Metadata.IsManaged.Value) ||
-                         (rbAttMgdFalse.Checked && !e.Metadata.IsManaged.Value)))
-                    .Where(e => string.IsNullOrWhiteSpace(txtAttSearch.Text) ||
-                        e.Metadata.LogicalName.ToLowerInvariant().Contains(txtAttSearch.Text) ||
-                        e.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtAttSearch.Text) == true));
+                var filteredAttributes = GetFilter();
                 if (chkAttPrimaryAttribute.Checked)
                 {
-                    var primaryatt = selectedEntity.Attributes.FirstOrDefault(a => a.LogicalName == selectedEntity.Metadata.PrimaryNameAttribute);
-                    if (primaryatt != null && !filteredattributes.Contains(primaryatt))
-                    {
-                        filteredattributes.Insert(0, primaryatt);
-                    }
+                    AddToFilteredAttributes(filteredAttributes, selectedEntity.Metadata.PrimaryNameAttribute);
                 }
                 if (chkAttPrimaryKey.Checked)
                 {
-                    var primarykey = selectedEntity.Attributes.FirstOrDefault(a => a.LogicalName == selectedEntity.Metadata.PrimaryIdAttribute);
-                    if (primarykey != null && !filteredattributes.Contains(primarykey))
-                    {
-                        filteredattributes.Insert(0, primarykey);
-                    }
+                    AddToFilteredAttributes(filteredAttributes, selectedEntity.Metadata.PrimaryIdAttribute);
                 }
-                gridAttributes.DataSource = filteredattributes;
+                gridAttributes.DataSource = filteredAttributes;
                 if (gridAttributes.Columns.Count > 0)
                 {
                     gridAttributes.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader);
@@ -438,6 +418,45 @@ namespace Rappen.XTB.LCG
             UpdateAttributesStatus();
         }
 
+        private void AddToFilteredAttributes(SortableBindingList<AttributeMetadataProxy> filteredAttributes, string attributeName)
+        {
+            var att = selectedEntity.Attributes.FirstOrDefault(a => a.LogicalName == attributeName);
+            if (att != null && !filteredAttributes.Contains(att))
+            {
+                filteredAttributes.Insert(0, att);
+            }
+        }
+
+        private SortableBindingList<AttributeMetadataProxy> GetFilter()
+        {
+            return new SortableBindingList<AttributeMetadataProxy>(
+                selectedEntity.Attributes
+                    .Where(
+                        e => GetCustomFilter(e)
+                           && GetManagedFilter(e)
+                           && GetSearchFilter(e)));
+        }
+
+        private bool GetCustomFilter(AttributeMetadataProxy e)
+        {
+            return rbAttCustomAll.Checked ||
+                   rbAttCustomTrue.Checked && e.Metadata.IsCustomAttribute.GetValueOrDefault() ||
+                   rbAttCustomFalse.Checked && !e.Metadata.IsCustomAttribute.GetValueOrDefault();
+        }
+        private bool GetManagedFilter(AttributeMetadataProxy e)
+        {
+            return rbAttMgdAll.Checked ||
+                   rbAttMgdTrue.Checked && e.Metadata.IsManaged.GetValueOrDefault() ||
+                   rbAttMgdFalse.Checked && !e.Metadata.IsManaged.GetValueOrDefault();
+        }
+
+        private bool GetSearchFilter(AttributeMetadataProxy e)
+        {
+            return string.IsNullOrWhiteSpace(txtAttSearch.Text) ||
+                   e.Metadata.LogicalName.ToLowerInvariant().Contains(txtAttSearch.Text) ||
+                   e.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtAttSearch.Text) == true;
+        }
+
         private void EnableControls(bool enabled)
         {
             UpdateUI(() =>
@@ -448,48 +467,37 @@ namespace Rappen.XTB.LCG
 
         private void Entity_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName.Equals("SetSelected"))
+            if (!e.PropertyName.Equals("SetSelected"))
             {
-                UpdateEntitiesStatus();
-                if (checkedrow != null && checkedrow != sender)
-                {
-                    return;
-                }
-                checkedrow = sender;
-                var entity = sender as EntityMetadataProxy;
-                if (!restoringselection && chkAttCheckAll.Checked && entity?.Selected == true)
-                {
-                    if (entity.Attributes == null)
-                    {
-                        LoadAttributes(entity, SelectAllAttributes);
-                    }
-                    else
-                    {
-                        SelectAllAttributes();
-                    }
-                }
-                checkedrow = null;
+                return;
             }
+
+            UpdateEntitiesStatus();
+            if (checkedrow != null && checkedrow != sender)
+            {
+                return;
+            }
+            checkedrow = sender;
+            var entity = sender as EntityMetadataProxy;
+            if (!restoringselection && chkAttCheckAll.Checked && entity?.Selected == true)
+            {
+                if (entity.Attributes == null)
+                {
+                    LoadAttributes(entity, SelectAllAttributes);
+                }
+                else
+                {
+                    SelectAllAttributes();
+                }
+            }
+            checkedrow = null;
         }
 
         private void FilterEntities()
         {
             if (entities != null && entities.Count > 0)
             {
-                var filteredentities =
-                    entities
-                    .Where(e => !e.Metadata.IsPrivate.Value)
-                    .Where(e => !chkEntSelected.Checked || e.IsSelected)
-                    .Where(e => (rbEntCustomAll.Checked ||
-                         (rbEntCustomTrue.Checked && e.Metadata.IsCustomEntity.Value) ||
-                         (rbEntCustomFalse.Checked && !e.Metadata.IsCustomEntity.Value)))
-                    .Where(e => (rbEntMgdAll.Checked ||
-                         (rbEntMgdTrue.Checked && e.Metadata.IsManaged.Value) ||
-                         (rbEntMgdFalse.Checked && !e.Metadata.IsManaged.Value)))
-                    .Where(e => !e.Metadata.IsIntersect.Value || chkEntIntersect.Checked)
-                    .Where(e => string.IsNullOrWhiteSpace(txtEntSearch.Text) ||
-                        e.Metadata.LogicalName.ToLowerInvariant().Contains(txtEntSearch.Text) ||
-                        e.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtEntSearch.Text) == true);
+                var filteredentities = GetFilteredEntities();
                 if (cmbSolution.SelectedItem is SolutionProxy solution)
                 {
                     if (solution.Entities == null)
@@ -508,6 +516,45 @@ namespace Rappen.XTB.LCG
                 gridEntities.DataSource = null;
             }
             UpdateEntitiesStatus();
+        }
+
+        private IEnumerable<EntityMetadataProxy> GetFilteredEntities()
+        {
+            var filteredentities = entities.Where(
+                e => IsNotPrivate(e)
+                     && GetSelectedFilter(e)
+                     && GetCustomFilter(e)
+                     && GetManagedFilter(e)
+                     && GetIntersectFilter(e)
+                     && GetSearchFilter(e));
+            return filteredentities;
+        }
+
+        private bool GetSearchFilter(EntityMetadataProxy e)
+        {
+            return string.IsNullOrWhiteSpace(txtEntSearch.Text) ||
+                   e.Metadata.LogicalName.ToLowerInvariant().Contains(txtEntSearch.Text) ||
+                   e.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtEntSearch.Text) == true;
+        }
+
+        private bool GetIntersectFilter(EntityMetadataProxy e) { return !e.Metadata.IsIntersect.GetValueOrDefault() || chkEntIntersect.Checked; }
+
+        private static bool IsNotPrivate(EntityMetadataProxy e) { return !e.Metadata.IsPrivate.GetValueOrDefault(); }
+
+        private bool GetSelectedFilter(EntityMetadataProxy e) { return !chkEntSelected.Checked || e.IsSelected; }
+
+        private bool GetManagedFilter(EntityMetadataProxy e)
+        {
+            return rbEntMgdAll.Checked ||
+                   rbEntMgdTrue.Checked && e.Metadata.IsManaged.GetValueOrDefault() ||
+                   rbEntMgdFalse.Checked && !e.Metadata.IsManaged.GetValueOrDefault();
+        }
+
+        private bool GetCustomFilter(EntityMetadataProxy e)
+        {
+            return rbEntCustomAll.Checked ||
+                   rbEntCustomTrue.Checked && e.Metadata.IsCustomEntity.GetValueOrDefault() ||
+                   rbEntCustomFalse.Checked && !e.Metadata.IsCustomEntity.GetValueOrDefault();
         }
 
         private EntityMetadataProxy GetSelectedEntity()
@@ -621,30 +668,29 @@ namespace Rappen.XTB.LCG
                 {
                     args.Result = MetadataHelper.LoadEntityDetails(Service, entity.LogicalName);
                 },
-                PostWorkCallBack = (completedargs) =>
+                PostWorkCallBack = (completedArgs) =>
                 {
-                    if (completedargs.Error != null)
+                    if (completedArgs.Error != null)
                     {
-                        MessageBox.Show(completedargs.Error.Message);
+                        MessageBox.Show(completedArgs.Error.Message);
                     }
-                    else
+                    else if (completedArgs.Result is RetrieveMetadataChangesResponse response)
                     {
-                        if (completedargs.Result is RetrieveMetadataChangesResponse)
+                        var metaresponse = response.EntityMetadata;
+                        if (metaresponse.Count == 1)
                         {
-                            var metaresponse = ((RetrieveMetadataChangesResponse)completedargs.Result).EntityMetadata;
-                            if (metaresponse.Count == 1)
-                            {
-                                entity.Attributes = new List<AttributeMetadataProxy>(
-                                    metaresponse[0].Attributes
+                            entity.Attributes = new List<AttributeMetadataProxy>(
+                                metaresponse[0]
+                                    .Attributes
                                     .Select(m => new AttributeMetadataProxy(entity, m))
                                     .OrderBy(a => a.ToString()));
-                                foreach (var attribute in entity.Attributes)
-                                {
-                                    attribute.PropertyChanged += Attribute_PropertyChanged;
-                                }
+                            foreach (var attribute in entity.Attributes)
+                            {
+                                attribute.PropertyChanged += Attribute_PropertyChanged;
                             }
                         }
                     }
+
                     UpdateUI(() =>
                     {
                         callback?.Invoke();
@@ -671,19 +717,16 @@ namespace Rappen.XTB.LCG
                     {
                         MessageBox.Show(args.Error.Message);
                     }
-                    else
+                    else if (args.Result is RetrieveMetadataChangesResponse response)
                     {
-                        if (args.Result is RetrieveMetadataChangesResponse)
-                        {
-                            var metaresponse = ((RetrieveMetadataChangesResponse)args.Result).EntityMetadata;
-                            entities = new List<EntityMetadataProxy>(
-                                metaresponse
+                        var metaresponse = response.EntityMetadata;
+                        entities = new List<EntityMetadataProxy>(
+                            metaresponse
                                 .Select(m => new EntityMetadataProxy(m))
                                 .OrderBy(e => e.ToString()));
-                            foreach (var entity in entities)
-                            {
-                                entity.PropertyChanged += Entity_PropertyChanged;
-                            }
+                        foreach (var entity in entities)
+                        {
+                            entity.PropertyChanged += Entity_PropertyChanged;
                         }
                     }
                     UpdateUI(() =>
@@ -742,13 +785,13 @@ namespace Rappen.XTB.LCG
             {
                 Message = "Loading solution entities...",
                 Work = (worker, args) =>
-                  {
-                      var qx = new QueryExpression("solutioncomponent");
-                      qx.ColumnSet.AddColumns("objectid");
-                      qx.Criteria.AddCondition("componenttype", ConditionOperator.Equal, 1);
-                      qx.Criteria.AddCondition("solutionid", ConditionOperator.Equal, solution.Solution.Id);
-                      args.Result = Service.RetrieveMultiple(qx);
-                  },
+                {
+                    var qx = new QueryExpression("solutioncomponent");
+                    qx.ColumnSet.AddColumns("objectid");
+                    qx.Criteria.AddCondition("componenttype", ConditionOperator.Equal, 1);
+                    qx.Criteria.AddCondition("solutionid", ConditionOperator.Equal, solution.Solution.Id);
+                    args.Result = Service.RetrieveMultiple(qx);
+                },
                 PostWorkCallBack = (args) =>
                 {
                     if (args.Error != null)
@@ -794,12 +837,11 @@ namespace Rappen.XTB.LCG
                     }
                     else
                     {
-                        if (completedargs.Result is EntityCollection)
+                        if (completedargs.Result is EntityCollection solutions)
                         {
-                            var solutions = (EntityCollection)completedargs.Result;
                             var proxiedsolutions = solutions.Entities.Select(s => new SolutionProxy(s)).OrderBy(s => s.ToString());
                             cmbSolution.Items.Add("");
-                            cmbSolution.Items.AddRange(proxiedsolutions.ToArray());
+                            cmbSolution.Items.AddRange(proxiedsolutions.Cast<object>().ToArray());
                         }
                     }
                     EnableControls(true);
@@ -809,38 +851,43 @@ namespace Rappen.XTB.LCG
 
         private void RestoreSelectedEntities()
         {
-            if (entities != null && SettingsManager.Instance.TryLoad(GetType(), out Settings settings, ConnectionDetail.ConnectionName))
+            if (entities == null
+                || !SettingsManager.Instance.TryLoad(GetType(), out Settings settings, ConnectionDetail.ConnectionName))
             {
-                restoringselection = true;
-                foreach (var entitystring in settings.Selection)
+                return;
+            }
+
+            restoringselection = true;
+            foreach (var entitystring in settings.Selection)
+            {
+                var entityname = entitystring.Split(':')[0];
+                var attributes = entitystring.Split(':')[1].Split(',').ToList();
+                var entity = entities.FirstOrDefault(e => e.LogicalName == entityname);
+                if (entity == null)
                 {
-                    var entityname = entitystring.Split(':')[0];
-                    var attributes = entitystring.Split(':')[1].Split(',').ToList();
-                    var entity = entities.FirstOrDefault(e => e.LogicalName == entityname);
-                    if (entity != null)
+                    continue;
+                }
+                if (!entity.Selected)
+                {
+                    entity.SetSelected(true);
+                }
+
+                foreach (var attributename in attributes)
+                {
+                    if (entity.Attributes == null)
                     {
-                        if (!entity.Selected)
-                        {
-                            entity.SetSelected(true);
-                        }
-                        foreach (var attributename in attributes)
-                        {
-                            if (entity.Attributes == null)
-                            {
-                                LoadAttributes(entity, RestoreSelectedEntities);
-                                return;
-                            }
-                            var attribute = entity.Attributes.FirstOrDefault(a => a.LogicalName == attributename);
-                            if (attribute != null && !attribute.Selected)
-                            {
-                                attribute.SetSelected(true);
-                            }
-                        }
+                        LoadAttributes(entity, RestoreSelectedEntities);
+                        return;
+                    }
+                    var attribute = entity.Attributes.FirstOrDefault(a => a.LogicalName == attributename);
+                    if (attribute != null && !attribute.Selected)
+                    {
+                        attribute.SetSelected(true);
                     }
                 }
-                restoringselection = false;
-                gridEntities_SelectionChanged(null, null);
             }
+            restoringselection = false;
+            gridEntities_SelectionChanged(null, null);
         }
 
         private void SaveSettings(string connectionname, Settings settings)
@@ -898,20 +945,18 @@ namespace Rappen.XTB.LCG
 
         private void UpdateUI(Action action)
         {
-            MethodInvoker mi = delegate
-            {
-                action();
-            };
+            void Mi() { action(); }
+
             if (InvokeRequired)
             {
-                //                if (!Disposing)
-                {
-                    Invoke(mi);
-                }
+                //if (!Disposing)
+                //{
+                    Invoke((MethodInvoker) Mi);
+                //}
             }
             else
             {
-                mi();
+                Mi();
             }
         }
 
