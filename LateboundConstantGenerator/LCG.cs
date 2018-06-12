@@ -88,7 +88,7 @@ namespace Rappen.XTB.LCG
             DisplayFilteredAttributes();
         }
 
-        private void btnAbout_Click(object sender, EventArgs e)
+        private void tslAbout_Click(object sender, EventArgs e)
         {
             LogUse("OpenAbout");
             var about = new About(this)
