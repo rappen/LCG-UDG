@@ -4,7 +4,7 @@
     <id>Rappen.XrmToolBox.LateboundConstantsGenerator</id>
     <version>1.0.0</version>
     <title>Latebound Constants Generator for XrmToolBox</title>
-    <authors>Jonas Rapp, Sweden</authors>
+    <authors>Jonas Rapp</authors>
     <owners>rappen</owners>
     <projectUrl>https://github.com/rappen/LateboundConstantGenerator</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/rappen/LateboundConstantGenerator/master/images/LCG-150-transp.png</iconUrl>
