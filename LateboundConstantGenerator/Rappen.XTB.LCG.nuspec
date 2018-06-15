@@ -12,8 +12,8 @@
     <description>An XrmToolBox plugin to Generate constant classes from metadata for late bound development on Microsoft Dynamics 365/CRM.</description>
     <summary>An XrmToolBox plugin to Generate constant classes from metadata for late bound development on Microsoft Dynamics 365/CRM.</summary>
     <releaseNotes>
-* Improved CamelCasing
-* Azure Application Insights for anonymous usage statistics
+Refactoring from Raise the Bar with Daryl LaBar
+Rebranded
     </releaseNotes>
     <copyright>Copyright 2017-2018 Jonas Rapp</copyright>
     <tags>XrmToolBox Plugins LateboundConstantsGenerator</tags>
