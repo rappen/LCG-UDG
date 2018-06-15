@@ -9,8 +9,8 @@
     <projectUrl>https://github.com/rappen/LateboundConstantGenerator</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/rappen/LateboundConstantGenerator/master/images/LCG-150-tsp.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>An XrmToolBox plugin to Generate constant classes from metadata for late bound development on Microsoft Dynamics 365/CRM.</description>
-    <summary>An XrmToolBox plugin to Generate constant classes from metadata for late bound development on Microsoft Dynamics 365/CRM.</summary>
+    <description>Generate constant classes from metadata for late bound development on Microsoft Dynamics 365/CRM.</description>
+    <summary>Generate constant classes from metadata for late bound development on Microsoft Dynamics 365/CRM.</summary>
     <releaseNotes>
 Refactoring from Raise the Bar with Daryl LaBar
 Rebranded
