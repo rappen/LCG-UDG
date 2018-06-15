@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Jonas Rapp, Sweden")]
 [assembly: AssemblyProduct("LateboundConstantsGenerator")]
-[assembly: AssemblyCopyright("Copyright © Jonas Rapp 2017")]
+[assembly: AssemblyCopyright("Copyright © Jonas Rapp 2017-2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
