@@ -18,8 +18,8 @@ namespace Rappen.XTB.LCG
 // Repo      : https://github.com/rappen/LateboundConstantGenerator
 // Source Org: {organization}";
 
-            public const string Header2 = @"// *********************************************************************";
-            public const string Namespace = @"namespace {namespace}{\n{entities}\n}";
+            public const string Header2 = "// *********************************************************************";
+            public const string Namespace = "namespace {namespace}\n{\n{entities}\n}";
             public const string Entity = "public static class {entity}\n{\npublic const string EntityName = '{logicalname}';\n{attributes}\n{optionsets}\n}";
             public const string Attribute = "public const string {attribute} = '{logicalname}';";
             public const string OptionSet = "public enum {name}\n{\n{values}\n}";
