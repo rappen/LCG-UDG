@@ -25,6 +25,8 @@ namespace Rappen.XTB.LCG
         public string StripPrefix { get; set; }
         public bool XmlProperties { get; set; }
         public bool XmlDescription { get; set; }
+        public bool Regions { get; set; } = true;
+        public bool RelationShips { get; set; }
         public bool OptionSets { get; set; }
         public bool GlobalOptionSets { get; set; }
         public EntityFilter EntityFilter { get; set; } = new EntityFilter();

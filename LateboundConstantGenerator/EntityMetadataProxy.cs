@@ -10,6 +10,7 @@ namespace Rappen.XTB.LCG
         #region Public Fields
 
         public List<AttributeMetadataProxy> Attributes;
+        public List<RelationshipMetadataProxy> Relationships;
         public EntityMetadata Metadata;
 
         [DisplayName(" \n ")]

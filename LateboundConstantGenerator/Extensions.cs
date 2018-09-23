@@ -23,7 +23,6 @@ namespace Rappen.XTB.LCG
             return metadata.Attributes.FirstOrDefault(metaattribute => metaattribute.LogicalName == attribute);
         }
 
-
         public static void WriteFile(this string content, string filename, string orgurl, Settings settings)
         {
             content = content.BeautifyContent();
@@ -50,7 +49,7 @@ namespace Rappen.XTB.LCG
             var indent = 0;
             foreach (var line in lines.Select(l => l.Trim()).Where(l => !string.IsNullOrEmpty(l)))
             {
-                if (lastline.Equals("}") && !line.Equals("}") && !line.StartsWith("public enum"))
+                if (AddBlankLineBetween(lastline, line))
                 {
                     fixedcontent.AppendLine();
                 }
@@ -68,12 +67,33 @@ namespace Rappen.XTB.LCG
             return fixedcontent.ToString();
         }
 
+        private static bool AddBlankLineBetween(string lastline, string line)
+        {
+            if (string.IsNullOrWhiteSpace(lastline))
+            {   // Never two empty lines after each other
+                return false;
+            }
+            if (lastline.StartsWith("#region") || line.StartsWith("#region") || line.StartsWith("#endregion"))
+            {   // Empty lines around region statements
+                return true;
+            }
+            if (line.StartsWith("public enum"))
+            {   // Never empty line before enums, we keep it compact
+                return false;
+            }
+            if (lastline.Equals("}") && !line.Equals("}") && !string.IsNullOrWhiteSpace(line))
+            {   // Never empty line between end blocks
+                return true;
+            }
+            return false;
+        }
+
         public static string CamelCaseIt(this string name)
         {
             bool WordBeginOrEnd(string text, int i)
             {
-                var words = new [] { "parent", "customer", "owner", "state", "status", "name", "phone", "address", "code", "postal", "mail", "modified", "created", "type", "method", "verson", "number", "first", "last", "middle", "contact", "account", "system", "user", "fullname", "preferred", "processing", "annual", "plugin", "step", "key", "details", "message", "description", "constructor", "execution", "secure", "configuration", "behalf", "count", "percent", "internal", "external", "trace", "entity", "primary", "secondary" };
-                var endwords = new [] { "id" };
+                var words = new[] { "parent", "customer", "owner", "state", "status", "name", "phone", "address", "code", "postal", "mail", "modified", "created", "type", "method", "verson", "number", "first", "last", "middle", "contact", "account", "system", "user", "fullname", "preferred", "processing", "annual", "plugin", "step", "key", "details", "message", "description", "constructor", "execution", "secure", "configuration", "behalf", "count", "percent", "internal", "external", "trace", "entity", "primary", "secondary" };
+                var endwords = new[] { "id" };
                 var last = text.Substring(0, i).ToLowerInvariant();
                 var next = text.Substring(i).ToLowerInvariant();
                 foreach (var word in words)
@@ -119,5 +139,23 @@ namespace Rappen.XTB.LCG
             return result;
         }
 
+        public static string GetNonDisplayName(this Settings settings, string name)
+        {
+            if (settings.DoStripPrefix && !string.IsNullOrEmpty(settings.StripPrefix))
+            {
+                foreach (var prefix in settings.StripPrefix.Split(',')
+                                               .Select(p => p.Trim())
+                                               .Where(p => !string.IsNullOrWhiteSpace(p)
+                                                      && name.ToLowerInvariant().StartsWith(p)))
+                {
+                    name = name.Substring(prefix.Length);
+                }
+            }
+            if (settings.ConstantCamelCased)
+            {
+                name = name.CamelCaseIt();
+            }
+            return name;
+        }
     }
 }

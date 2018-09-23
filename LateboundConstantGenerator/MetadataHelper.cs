@@ -13,6 +13,7 @@ namespace Rappen.XTB.LCG
         public static string[] entityProperties = {
             "Description",
             "DisplayName",
+            "DisplayCollectionName",
             "EntityColor",
             "IntroducedVersion",
             "IsActivity",
@@ -28,7 +29,10 @@ namespace Rappen.XTB.LCG
             "OwnershipType",
             "PrimaryIdAttribute",
             "PrimaryNameAttribute",
-            "SchemaName"
+            "SchemaName",
+            "OneToManyRelationships",
+            "ManyToOneRelationships",
+            "ManyToManyRelationships"
         };
         public static string[] entityDetails = { "Attributes" };
         public static string[] attributeProperties = {

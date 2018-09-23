@@ -136,33 +136,12 @@ namespace Rappen.XTB.LCG
                     name = StringToCSharpIdentifier(DisplayName);
                     break;
                 case NameType.LogicalName:
-                    name = GetNonDisplayName(settings, Metadata?.LogicalName);
+                    name = settings.GetNonDisplayName(Metadata?.LogicalName);
                     break;
                 case NameType.SchemaName:
-                    name = GetNonDisplayName(settings, Metadata?.SchemaName);
+                    name = settings.GetNonDisplayName(Metadata?.SchemaName);
                     break;
             }
-            return name;
-        }
-
-        private static string GetNonDisplayName(Settings settings, string name)
-        {
-            if (settings.DoStripPrefix && !string.IsNullOrEmpty(settings.StripPrefix))
-            {
-                foreach (var prefix in settings.StripPrefix.Split(',')
-                                               .Select(p => p.Trim())
-                                               .Where(p => !string.IsNullOrWhiteSpace(p) 
-                                                      && name.ToLowerInvariant().StartsWith(p)))
-                {
-                    name = name.Substring(prefix.Length);
-                }
-            }
-
-            if (settings.ConstantCamelCased)
-            {
-                name = name.CamelCaseIt();
-            }
-
             return name;
         }
 

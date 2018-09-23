@@ -9,6 +9,9 @@
         public string EntitySuffix { get; set; } = string.Empty;
         public string AttributePrefix { get; set; } = string.Empty;
         public string AttributeSuffix { get; set; } = string.Empty;
+        public string OneManyRelationshipPrefix { get; set; } = "Rel1M_";
+        public string ManyOneRelationshipPrefix { get; set; } = "RelM1_";
+        public string ManyManyRelationshipPrefix { get; set; } = "RelMM_";
         public string OptionSetEnumPrefix { get; set; } = string.Empty;
         public string OptionSetEnumSuffix { get; set; } = "_OptionSet";
         public bool HeaderTimestamp { get; set; } = true;

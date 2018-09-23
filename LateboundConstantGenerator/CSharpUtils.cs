@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xrm.Sdk.Metadata;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,19 +21,22 @@ namespace Rappen.XTB.LCG
 
             public const string Header2 = "// *********************************************************************";
             public const string Namespace = "namespace {namespace}\n{\n{entities}\n}";
-            public const string Entity = "public static class {entity}\n{\npublic const string EntityName = '{logicalname}';\n{attributes}\n{optionsets}\n}";
+            public const string Entity = "public static class {entity}\n{\npublic const string EntityName = '{logicalname}';\n{attributes}\n{relationships}\n{optionsets}\n}";
             public const string Attribute = "public const string {attribute} = '{logicalname}';";
+            public const string Relationship = "public const string {relationship} = '{schemaname}';";
             public const string OptionSet = "public enum {name}\n{\n{values}\n}";
             public const string OptionSetValue = "{name} = {value}";
+            public const string Region = "#region {region}\n{content}\n#endregion {region}";
         }
 
         #endregion Templates
 
         public static string GenerateClasses(List<EntityMetadataProxy> entitiesmetadata, Settings settings, IConstantFileWriter fileWriter)
         {
-            foreach (var entitymetadata in entitiesmetadata.Where(e => e.Selected))
+            var selectedentities = entitiesmetadata.Where(e => e.Selected).ToList();
+            foreach (var entitymetadata in selectedentities)
             {
-                var entity = GetEntity(settings, entitymetadata);
+                var entity = GetEntity(selectedentities, entitymetadata, settings);
                 var fileName = entitymetadata.GetNameTechnical(settings.FileName, settings) + ".cs";
                 fileWriter.WriteEntity(settings, entity, fileName);
             }
@@ -46,7 +50,7 @@ namespace Rappen.XTB.LCG
                 .Replace("{entities}", classes);
         }
 
-        private static string GetEntity(Settings settings, EntityMetadataProxy entitymetadata)
+        private static string GetEntity(List<EntityMetadataProxy> selectedentities, EntityMetadataProxy entitymetadata, Settings settings)
         {
             var name = entitymetadata.GetNameTechnical(settings.ConstantName, settings);
             name = settings.commonsettings.EntityPrefix + name + settings.commonsettings.EntitySuffix;
@@ -67,6 +71,7 @@ namespace Rappen.XTB.LCG
                 .Replace("{logicalname}", entitymetadata.LogicalName)
                 .Replace("'", "\"")
                 .Replace("{attributes}", GetAttributes(entitymetadata, settings))
+                .Replace("{relationships}", GetRelationships(entitymetadata, selectedentities, settings))
                 .Replace("{optionsets}", GetOptionSets(entitymetadata, settings)));
             return entity.ToString();
         }
@@ -91,21 +96,89 @@ namespace Rappen.XTB.LCG
                     attributes.Add(attribute);
                 }
             }
-            return string.Join("\r\n", attributes);
+            DeduplicateIdentifiers(ref attributes);
+            var result = string.Join("\r\n", attributes);
+            if (settings.Regions && attributes.Count > 0)
+            {
+                return Template.Region.Replace("{region}", "Attributes").Replace("{content}", result);
+            }
+            return result;
+        }
+
+        private static string GetRelationships(EntityMetadataProxy entitymetadata, List<EntityMetadataProxy> includedentities, Settings settings)
+        {
+            var relationships = new List<string>();
+            if (settings.RelationShips)
+            {
+                if (entitymetadata?.Metadata?.ManyToOneRelationships != null)
+                {
+                    foreach (var relationship in entitymetadata.Relationships.Where(r => r.Parent != entitymetadata && includedentities.Contains(r.Parent)).Distinct())
+                    {
+                        relationships.Add(GetRelationShip(relationship, settings, settings.commonsettings.ManyOneRelationshipPrefix));
+                    }
+                    foreach (var relationship in entitymetadata.Relationships.Where(r => r.Parent == entitymetadata && includedentities.Contains(r.Child)).Distinct())
+                    {
+                        relationships.Add(GetRelationShip(relationship, settings, settings.commonsettings.OneManyRelationshipPrefix));
+                    }
+                }
+            }
+            DeduplicateIdentifiers(ref relationships);
+            var result = string.Join("\r\n", relationships);
+            if (settings.Regions && !string.IsNullOrEmpty(result))
+            {
+                return Template.Region.Replace("{region}", "Relationships").Replace("{content}", result);
+            }
+            return result;
+        }
+
+        private static void DeduplicateIdentifiers(ref List<string> constantdeclarations)
+        {
+            var identifiers = new List<string>();
+            var l = 0;
+            var newlist = new List<string>();
+            foreach (var line in constantdeclarations)
+            {
+                var newline = line;
+                if (line.Contains("="))
+                {
+                    var identifier = line.Split('=')[0].Trim();
+                    var identorig = identifier;
+                    var value = line.Split('=')[1].Trim();
+                    var i = 0;
+                    while (identifiers.Contains(identifier))
+                    {
+                        i++;
+                        identifier = identorig + i.ToString();
+                    }
+                    if (i > 0)
+                    {
+                        newline = identifier + " = " + value;
+                    }
+                    identifiers.Add(identifier);
+                }
+                newlist.Add(newline);
+            }
+            constantdeclarations = newlist;
         }
 
         private static string GetOptionSets(EntityMetadataProxy entitymetadata, Settings settings)
         {
-            var optionsets = new StringBuilder();
+            var optionsets = new List<string>();
             if (settings.OptionSets && entitymetadata.Attributes != null)
             {
                 foreach (var attributemetadata in entitymetadata.Attributes.Where(a => a.Selected && (a.Metadata is EnumAttributeMetadata)))
                 {
-                    string optionset = GetOptionSet(attributemetadata, settings);
-                    optionsets.AppendLine(optionset);
+                    var optionset = GetOptionSet(attributemetadata, settings);
+                    optionsets.Add(optionset);
                 }
             }
-            return optionsets.ToString();
+            DeduplicateIdentifiers(ref optionsets);
+            var result = string.Join("\r\n", optionsets);
+            if (settings.Regions && !string.IsNullOrEmpty(result))
+            {
+                return Template.Region.Replace("{region}", "OptionSets").Replace("{content}", result);
+            }
+            return result;
         }
 
         private static string GetAttribute(AttributeMetadataProxy attributemetadata, Settings settings)
@@ -131,6 +204,20 @@ namespace Rappen.XTB.LCG
                 .Replace("{logicalname}", attributemetadata.LogicalName)
                 .Replace("'", "\""));
             return attribute.ToString();
+        }
+
+        private static string GetRelationShip(RelationshipMetadataProxy relationship, Settings settings, string prefix)
+        {
+            if (relationship.Child?.Attributes == null)
+            {
+                return string.Empty;
+            }
+            var name = prefix + relationship.GetNameTechnical(settings);
+            var relationstr = Template.Relationship
+                .Replace("{relationship}", name)
+                .Replace("{schemaname}", relationship.Metadata.SchemaName)
+                .Replace("'", "\"");
+            return relationstr;
         }
 
         private static string GetOptionSet(AttributeMetadataProxy attributemetadata, Settings settings)
@@ -161,16 +248,5 @@ namespace Rappen.XTB.LCG
             optionset = optionset.Replace("{values}", string.Join(",\r\n", options));
             return optionset;
         }
-
-        //rivate static void AlignSplitters(List<string> lines, string splitter)
-        //
-        //   var attlen = lines.Count > 0 ? lines.Max(a => a.IndexOf(splitter)) : 0;
-        //   for (var i = 0; i < lines.Count; i++)
-        //   {
-        //       var attribute = lines[i];
-        //       var equal = attribute.IndexOf(splitter);
-        //       lines[i] = attribute.Substring(0, equal) + new string(' ', attlen - equal) + attribute.Substring(equal);
-        //   }
-        //
     }
 }

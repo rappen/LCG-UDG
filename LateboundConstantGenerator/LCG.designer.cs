@@ -123,6 +123,7 @@
             this.chkAttCheckAll = new System.Windows.Forms.CheckBox();
             this.pnRightSpacer = new System.Windows.Forms.Panel();
             this.gbConstOptions = new System.Windows.Forms.GroupBox();
+            this.chkRelationships = new System.Windows.Forms.CheckBox();
             this.chkConstCamelCased = new System.Windows.Forms.CheckBox();
             this.chkXmlDescription = new System.Windows.Forms.CheckBox();
             this.chkXmlProperties = new System.Windows.Forms.CheckBox();
@@ -140,6 +141,7 @@
             this.tmAttSearch = new System.Windows.Forms.Timer(this.components);
             this.pnWindowTopSpacer = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.chkRegions = new System.Windows.Forms.CheckBox();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -1137,6 +1139,8 @@
             // 
             // gbConstOptions
             // 
+            this.gbConstOptions.Controls.Add(this.chkRegions);
+            this.gbConstOptions.Controls.Add(this.chkRelationships);
             this.gbConstOptions.Controls.Add(this.chkConstCamelCased);
             this.gbConstOptions.Controls.Add(this.chkXmlDescription);
             this.gbConstOptions.Controls.Add(this.chkXmlProperties);
@@ -1158,6 +1162,16 @@
             this.gbConstOptions.TabStop = false;
             this.gbConstOptions.Text = "Constant Options";
             // 
+            // chkRelationships
+            // 
+            this.chkRelationships.AutoSize = true;
+            this.chkRelationships.Location = new System.Drawing.Point(132, 101);
+            this.chkRelationships.Name = "chkRelationships";
+            this.chkRelationships.Size = new System.Drawing.Size(89, 17);
+            this.chkRelationships.TabIndex = 65;
+            this.chkRelationships.Text = "Relationships";
+            this.chkRelationships.UseVisualStyleBackColor = true;
+            // 
             // chkConstCamelCased
             // 
             this.chkConstCamelCased.AutoSize = true;
@@ -1172,7 +1186,7 @@
             // chkXmlDescription
             // 
             this.chkXmlDescription.AutoSize = true;
-            this.chkXmlDescription.Location = new System.Drawing.Point(218, 74);
+            this.chkXmlDescription.Location = new System.Drawing.Point(227, 74);
             this.chkXmlDescription.Name = "chkXmlDescription";
             this.chkXmlDescription.Size = new System.Drawing.Size(79, 17);
             this.chkXmlDescription.TabIndex = 60;
@@ -1194,9 +1208,9 @@
             this.label17.AutoSize = true;
             this.label17.Location = new System.Drawing.Point(15, 75);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(102, 13);
+            this.label17.Size = new System.Drawing.Size(50, 13);
             this.label17.TabIndex = 17;
-            this.label17.Text = "XML documentation";
+            this.label17.Text = "Docs etc";
             // 
             // llConstOptionsExpander
             // 
@@ -1213,7 +1227,7 @@
             // txtConstStripPrefix
             // 
             this.txtConstStripPrefix.Enabled = false;
-            this.txtConstStripPrefix.Location = new System.Drawing.Point(218, 45);
+            this.txtConstStripPrefix.Location = new System.Drawing.Point(227, 45);
             this.txtConstStripPrefix.Name = "txtConstStripPrefix";
             this.txtConstStripPrefix.Size = new System.Drawing.Size(163, 20);
             this.txtConstStripPrefix.TabIndex = 40;
@@ -1226,9 +1240,9 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(15, 102);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(59, 13);
+            this.label9.Size = new System.Drawing.Size(33, 13);
             this.label9.TabIndex = 10;
-            this.label9.Text = "OptionSets";
+            this.label9.Text = "Other";
             // 
             // label10
             // 
@@ -1277,22 +1291,22 @@
             // chkEnumsInclude
             // 
             this.chkEnumsInclude.AutoSize = true;
-            this.chkEnumsInclude.Location = new System.Drawing.Point(132, 101);
+            this.chkEnumsInclude.Location = new System.Drawing.Point(227, 101);
             this.chkEnumsInclude.Name = "chkEnumsInclude";
-            this.chkEnumsInclude.Size = new System.Drawing.Size(70, 17);
+            this.chkEnumsInclude.Size = new System.Drawing.Size(107, 17);
             this.chkEnumsInclude.TabIndex = 70;
-            this.chkEnumsInclude.Text = "Attributes";
+            this.chkEnumsInclude.Text = "Entity OptionSets";
             this.chkEnumsInclude.UseVisualStyleBackColor = true;
             // 
             // chkEnumsGlobal
             // 
             this.chkEnumsGlobal.AutoSize = true;
             this.chkEnumsGlobal.Enabled = false;
-            this.chkEnumsGlobal.Location = new System.Drawing.Point(218, 101);
+            this.chkEnumsGlobal.Location = new System.Drawing.Point(340, 101);
             this.chkEnumsGlobal.Name = "chkEnumsGlobal";
-            this.chkEnumsGlobal.Size = new System.Drawing.Size(56, 17);
+            this.chkEnumsGlobal.Size = new System.Drawing.Size(111, 17);
             this.chkEnumsGlobal.TabIndex = 80;
-            this.chkEnumsGlobal.Text = "Global";
+            this.chkEnumsGlobal.Text = "Global OptionSets";
             this.toolTip1.SetToolTip(this.chkEnumsGlobal, "This option is unfortunately not available yet.\r\nCheck for updates to LCG!");
             this.chkEnumsGlobal.UseVisualStyleBackColor = true;
             // 
@@ -1313,6 +1327,16 @@
             this.pnWindowTopSpacer.Name = "pnWindowTopSpacer";
             this.pnWindowTopSpacer.Size = new System.Drawing.Size(930, 17);
             this.pnWindowTopSpacer.TabIndex = 11;
+            // 
+            // chkRegions
+            // 
+            this.chkRegions.AutoSize = true;
+            this.chkRegions.Location = new System.Drawing.Point(340, 74);
+            this.chkRegions.Name = "chkRegions";
+            this.chkRegions.Size = new System.Drawing.Size(65, 17);
+            this.chkRegions.TabIndex = 62;
+            this.chkRegions.Text = "Regions";
+            this.chkRegions.UseVisualStyleBackColor = true;
             // 
             // LCG
             // 
@@ -1488,5 +1512,7 @@
         private System.Windows.Forms.CheckBox chkConstCamelCased;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolStripLabel tslAbout;
+        private System.Windows.Forms.CheckBox chkRelationships;
+        private System.Windows.Forms.CheckBox chkRegions;
     }
 }

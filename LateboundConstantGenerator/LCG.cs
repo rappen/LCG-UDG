@@ -28,6 +28,7 @@ namespace Rappen.XTB.LCG
 
         private List<EntityMetadataProxy> entities;
         private CommonSettings commonsettings;
+        private Settings settings;
         private Dictionary<string, int> groupBoxHeights;
         private bool restoringselection = false;
         private EntityMetadataProxy selectedEntity;
@@ -99,7 +100,7 @@ namespace Rappen.XTB.LCG
             var about = new About(this)
             {
                 StartPosition = FormStartPosition.CenterParent,
-                lblVersion = {Text = Assembly.GetExecutingAssembly().GetName().Version.ToString()}
+                lblVersion = { Text = Assembly.GetExecutingAssembly().GetName().Version.ToString() }
             };
             about.ShowDialog();
         }
@@ -133,8 +134,8 @@ namespace Rappen.XTB.LCG
                 {
                     var document = new XmlDocument();
                     document.Load(settingsfile);
-                    var settings = (Settings)XmlSerializerHelper.Deserialize(document.OuterXml, typeof(Settings));
-                    ApplySettings(settings);
+                    settings = (Settings)XmlSerializerHelper.Deserialize(document.OuterXml, typeof(Settings));
+                    ApplySettings();
                     RestoreSelectedEntities();
                 }
             }
@@ -220,9 +221,9 @@ namespace Rappen.XTB.LCG
 
         private void gridEntities_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.ColumnIndex == 0 
-                && sender is DataGridView dgv 
-                && dgv.Rows[e.RowIndex].DataBoundItem is EntityMetadataProxy data 
+            if (e.ColumnIndex == 0
+                && sender is DataGridView dgv
+                && dgv.Rows[e.RowIndex].DataBoundItem is EntityMetadataProxy data
                 && !string.IsNullOrEmpty(data.Metadata.EntityColor))
             {
                 e.CellStyle.BackColor = ColorTranslator.FromHtml(data.Metadata.EntityColor);
@@ -339,7 +340,7 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        private void ApplySettings(Settings settings)
+        private void ApplySettings()
         {
             txtOutputFolder.Text = settings.OutputFolder;
             txtNamespace.Text = settings.NameSpace;
@@ -353,6 +354,8 @@ namespace Rappen.XTB.LCG
             txtConstStripPrefix.Text = settings.StripPrefix;
             chkXmlProperties.Checked = settings.XmlProperties;
             chkXmlDescription.Checked = settings.XmlDescription;
+            chkRegions.Checked = settings.Regions;
+            chkRelationships.Checked = settings.RelationShips;
             chkEnumsInclude.Checked = settings.OptionSets;
             chkEnumsGlobal.Checked = settings.GlobalOptionSets;
             rbEntCustomAll.Checked = settings.EntityFilter?.CustomAll != false;
@@ -587,6 +590,8 @@ namespace Rappen.XTB.LCG
                 StripPrefix = txtConstStripPrefix.Text.ToLowerInvariant().TrimEnd('_') + "_",
                 XmlProperties = chkXmlProperties.Checked,
                 XmlDescription = chkXmlDescription.Checked,
+                Regions = chkRegions.Checked,
+                RelationShips = chkRelationships.Checked,
                 OptionSets = chkEnumsInclude.Checked,
                 GlobalOptionSets = chkEnumsGlobal.Checked,
                 FileOptionsExpanded = gbFileOptions.Height > 20,
@@ -732,6 +737,12 @@ namespace Rappen.XTB.LCG
                         foreach (var entity in entities)
                         {
                             entity.PropertyChanged += Entity_PropertyChanged;
+                            entity.Relationships = new List<RelationshipMetadataProxy>(
+                                entity.Metadata.ManyToOneRelationships.Select(m => new RelationshipMetadataProxy(entities, m)));
+                            entity.Relationships.AddRange(
+                                entity.Metadata.OneToManyRelationships
+                                    .Where(r => !entity.Metadata.ManyToOneRelationships.Select(r1m => r1m.SchemaName).Contains(r.SchemaName))
+                                    .Select(r => new RelationshipMetadataProxy(entities, r)));
                         }
                     }
                     UpdateUI(() =>
@@ -778,9 +789,9 @@ namespace Rappen.XTB.LCG
 
         private void LoadSettings(string connectionname)
         {
-            if (SettingsManager.Instance.TryLoad(GetType(), out Settings settings, connectionname))
+            if (SettingsManager.Instance.TryLoad(GetType(), out settings, connectionname))
             {
-                ApplySettings(settings);
+                ApplySettings();
             }
         }
 
@@ -856,8 +867,11 @@ namespace Rappen.XTB.LCG
 
         private void RestoreSelectedEntities()
         {
-            if (entities == null
-                || !SettingsManager.Instance.TryLoad(GetType(), out Settings settings, ConnectionDetail.ConnectionName))
+            if (entities == null)
+            {
+                return;
+            }
+            if (settings == null && !SettingsManager.Instance.TryLoad(GetType(), out settings, ConnectionDetail.ConnectionName))
             {
                 return;
             }
@@ -954,10 +968,7 @@ namespace Rappen.XTB.LCG
 
             if (InvokeRequired)
             {
-                //if (!Disposing)
-                //{
-                    Invoke((MethodInvoker) Mi);
-                //}
+                Invoke((MethodInvoker)Mi);
             }
             else
             {
