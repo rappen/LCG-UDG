@@ -35,5 +35,19 @@ namespace LateboundConstantGeneratorTests
             Assert.IsTrue(entity.Contains("public const string EntityName = \"uber_entity\";"));
             
         }
+
+        [TestMethod]
+        public void CamelCaseTest1()
+        {
+            var settings = new Settings();
+            settings.InitalizeCommonSettings();
+            var identifier = "theaccountnamecountid";
+            var camelcased = identifier.CamelCaseIt(settings);
+            Assert.AreEqual("TheAccountNameCountId", camelcased);
+
+            identifier = "Accounting";
+            camelcased = identifier.CamelCaseIt(settings);
+            Assert.AreEqual("AccountIng", camelcased);
+        }
     }
 }
