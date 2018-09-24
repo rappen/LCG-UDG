@@ -97,7 +97,7 @@ namespace Rappen.XTB.LCG
                 }
                 if (settings.ConstantCamelCased)
                 {
-                    name = name.CamelCaseIt();
+                    name = name.CamelCaseIt(settings);
                 }
             }
             return name;

@@ -88,19 +88,34 @@ namespace Rappen.XTB.LCG
             return false;
         }
 
-        public static string CamelCaseIt(this string name)
+        public static string CamelCaseIt(this string name, Settings settings)
         {
+            var words = settings.commonsettings.CamelCaseWords.Split(',').Select(w => w.Trim());
+            var endwords = settings.commonsettings.CamelCaseWordEnds.Split(',').Select(w => w.Trim());
+
             bool WordBeginOrEnd(string text, int i)
             {
-                var words = new[] { "parent", "customer", "owner", "state", "status", "name", "phone", "address", "code", "postal", "mail", "modified", "created", "type", "method", "verson", "number", "first", "last", "middle", "contact", "account", "system", "user", "fullname", "preferred", "processing", "annual", "plugin", "step", "key", "details", "message", "description", "constructor", "execution", "secure", "configuration", "behalf", "count", "percent", "internal", "external", "trace", "entity", "primary", "secondary" };
-                var endwords = new[] { "id" };
                 var last = text.Substring(0, i).ToLowerInvariant();
                 var next = text.Substring(i).ToLowerInvariant();
                 foreach (var word in words)
                 {
                     if (last.EndsWith(word) || next.StartsWith(word))
-                    {
-                        return true;
+                    {   // Found a "word" in the string (for example "count"
+                        var isunbreakable = false;
+                        foreach (var unbreak in words)
+                        {   // Check that this word is not also part of a bigger word (for example "account"
+                            var len = unbreak.Length;
+                            var pos = text.ToLowerInvariant().IndexOf(unbreak);
+                            if (pos >= 0 && pos < i & pos + len > i)
+                            {   // Found word appears to split a bigger valid word, prevent that
+                                isunbreakable = true;
+                                break;
+                            }
+                        }
+                        if (!isunbreakable)
+                        {
+                            return true;
+                        }
                     }
                 }
                 foreach (var word in endwords)
@@ -118,9 +133,14 @@ namespace Rappen.XTB.LCG
             for (var i = 0; i < name.Length; i++)
             {
                 var chr = name[i];
-                if (chr == '_')
-                {
+                if ((chr < 'a') &&
+                    (chr < 'A' || chr > 'Z') &&
+                    (chr < '0' || chr > '9'))
+                {   // Any non-letters/numbers are treated as word separators
                     nextCapital = true;
+                }
+                else if (chr > 'z')
+                {   // Just ignore special character
                 }
                 else
                 {
@@ -153,7 +173,7 @@ namespace Rappen.XTB.LCG
             }
             if (settings.ConstantCamelCased)
             {
-                name = name.CamelCaseIt();
+                name = name.CamelCaseIt(settings);
             }
             return name;
         }
