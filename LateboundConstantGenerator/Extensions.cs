@@ -69,7 +69,7 @@ namespace Rappen.XTB.LCG
 
         private static bool AddBlankLineBetween(string lastline, string line)
         {
-            if (string.IsNullOrWhiteSpace(lastline))
+            if (string.IsNullOrWhiteSpace(lastline) || lastline.Equals("{"))
             {   // Never two empty lines after each other
                 return false;
             }

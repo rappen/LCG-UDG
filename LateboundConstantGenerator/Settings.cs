@@ -29,6 +29,7 @@ namespace Rappen.XTB.LCG
         public bool RelationShips { get; set; }
         public bool OptionSets { get; set; }
         public bool GlobalOptionSets { get; set; }
+        public CommonAttributesType CommonAttributes { get; set; } = CommonAttributesType.None;
         public EntityFilter EntityFilter { get; set; } = new EntityFilter();
         public AttributeFilter AttributeFilter { get; set; } = new AttributeFilter();
         public List<string> Selection { get; set; } = new List<string>();
@@ -37,7 +38,7 @@ namespace Rappen.XTB.LCG
         public IConstantFileWriter GetWriter(string orgUrl)
         {
             return UseCommonFile
-                ? (IConstantFileWriter) new CommonFileWriter(orgUrl)
+                ? (IConstantFileWriter)new CommonFileWriter(orgUrl)
                 : new SeperateFileWriter(orgUrl);
         }
 
@@ -77,5 +78,12 @@ namespace Rappen.XTB.LCG
         DisplayName = 0,
         SchemaName = 1,
         LogicalName = 2
+    }
+
+    public enum CommonAttributesType
+    {
+        None = 0,
+        CommonInAny = 1,
+        CommonInAll = 2
     }
 }

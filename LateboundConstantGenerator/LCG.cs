@@ -349,6 +349,7 @@ namespace Rappen.XTB.LCG
             txtCommonFilename.Text = settings.CommonFile;
             cmbFileName.SelectedIndex = (int)settings.FileName;
             cmbConstantName.SelectedIndex = (int)settings.ConstantName;
+            cmbCommonAttributes.SelectedIndex = (int)settings.CommonAttributes;
             chkConstCamelCased.Checked = settings.ConstantCamelCased && settings.ConstantName != NameType.DisplayName;
             chkConstStripPrefix.Checked = settings.DoStripPrefix && settings.ConstantName != NameType.DisplayName;
             txtConstStripPrefix.Text = settings.StripPrefix;
@@ -585,6 +586,7 @@ namespace Rappen.XTB.LCG
                 CommonFile = txtCommonFilename.Text,
                 FileName = (NameType)Math.Max(cmbFileName.SelectedIndex, 0),
                 ConstantName = (NameType)Math.Max(cmbConstantName.SelectedIndex, 0),
+                CommonAttributes = (CommonAttributesType)Math.Max(cmbCommonAttributes.SelectedIndex, 0),
                 ConstantCamelCased = chkConstCamelCased.Checked,
                 DoStripPrefix = chkConstStripPrefix.Checked,
                 StripPrefix = txtConstStripPrefix.Text.ToLowerInvariant().TrimEnd('_') + "_",

@@ -92,13 +92,18 @@ namespace Rappen.XTB.LCG
                     {"DateTimeBehavior:datetime", (Metadata as DateTimeAttributeMetadata)?.DateTimeBehavior?.Value}
                 };
 
-                return string.Join(", ", properties
+                return (string.Join(", ", properties
                     .Where(p => !string.IsNullOrEmpty(p.Value?.ToString()))
-                    .Select(p => p.Key.Split(':')[0] + ": " + p.Value));
+                    .Select(p => p.Key.Split(':')[0] + ": " + p.Value)) + 
+                    "\n" + AdditionalProperties).Trim();
             }
         }
 
         internal string Description => Metadata?.Description?.UserLocalizedLabel?.Label;
+
+        internal EntityMetadataProxy Entity => entity;
+
+        internal string AdditionalProperties;
 
         #endregion Public Properties
 

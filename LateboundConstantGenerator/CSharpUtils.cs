@@ -1,5 +1,7 @@
-﻿using Microsoft.Xrm.Sdk.Metadata;
+﻿using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk.Metadata;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +23,8 @@ namespace Rappen.XTB.LCG
 
             public const string Header2 = "// *********************************************************************";
             public const string Namespace = "namespace {namespace}\n{\n{entities}\n}";
-            public const string Entity = "public static class {entity}\n{\npublic const string EntityName = '{logicalname}';\n{attributes}\n{relationships}\n{optionsets}\n}";
+            public const string Class = "public static class {classname}\n{\n{entity}\n{attributes}\n{relationships}\n{optionsets}\n}";
+            public const string Entity = "public const string EntityName = '{logicalname}';";
             public const string Attribute = "public const string {attribute} = '{logicalname}';";
             public const string Relationship = "public const string {relationship} = '{schemaname}';";
             public const string OptionSet = "public enum {name}\n{\n{values}\n}";
@@ -34,13 +37,79 @@ namespace Rappen.XTB.LCG
         public static string GenerateClasses(List<EntityMetadataProxy> entitiesmetadata, Settings settings, IConstantFileWriter fileWriter)
         {
             var selectedentities = entitiesmetadata.Where(e => e.Selected).ToList();
+            var commonentity = GetCommonEntity(selectedentities, settings);
+            if (commonentity != null)
+            {
+                var entity = GetClass(selectedentities, commonentity, null, settings);
+                var fileName = commonentity.GetNameTechnical(settings.FileName, settings) + ".cs";
+                fileWriter.WriteEntity(settings, entity, fileName);
+            }
             foreach (var entitymetadata in selectedentities)
             {
-                var entity = GetEntity(selectedentities, entitymetadata, settings);
+                var entity = GetClass(selectedentities, entitymetadata, commonentity, settings);
                 var fileName = entitymetadata.GetNameTechnical(settings.FileName, settings) + ".cs";
                 fileWriter.WriteEntity(settings, entity, fileName);
             }
             return fileWriter.GetCompleteMessage(settings);
+        }
+
+        private static EntityMetadataProxy GetCommonEntity(List<EntityMetadataProxy> selectedentities, Settings settings)
+        {
+            if (settings.CommonAttributes == CommonAttributesType.None)
+            {
+                return null;
+            }
+            var attributes = new List<AttributeMetadataProxy>();
+            var selectedentitiesattributes = selectedentities.Select(e => e.Attributes?.Where(a => a.IsSelected && a.Metadata.IsPrimaryId != true && a.Metadata.IsPrimaryName != true));
+            switch (settings.CommonAttributes)
+            {
+                case CommonAttributesType.CommonInAny:
+                    {
+                        var alluniqueattributes = new List<string>();
+                        foreach (var entityattributes in selectedentitiesattributes)
+                        {
+                            attributes.AddRange(entityattributes.Where(a => !attributes.Select(a2 => a2.LogicalName).Contains(a.LogicalName) && alluniqueattributes.Contains(a.LogicalName)));
+                            alluniqueattributes.AddRange(entityattributes.Select(a => a.LogicalName).Where(a => !alluniqueattributes.Contains(a)));
+                        }
+                        break;
+                    }
+                case CommonAttributesType.CommonInAll:
+                    {
+                        attributes = selectedentitiesattributes.SelectMany(a => a).GroupBy(a => a.LogicalName).Select(a => a.First()).ToList();
+                        foreach (var entityattributes in selectedentitiesattributes)
+                        {
+                            var entityattributenames = entityattributes.Select(a => a.LogicalName);
+                            var pos = 0;
+                            while (pos < attributes.Count)
+                            {
+                                if (entityattributenames.Contains(attributes[pos].LogicalName))
+                                {
+                                    pos++;
+                                }
+                                else
+                                {
+                                    attributes.RemoveAt(pos);
+                                }
+                            }
+                        }
+                        break;
+                    }
+            }
+            var allselectedattributes = selectedentitiesattributes.SelectMany(a => a).ToList();
+            foreach (var attribute in attributes)
+            {
+                var entities = string.Join(", ", allselectedattributes.Where(a => a.IsSelected && a.LogicalName == attribute.LogicalName).Select(a => a.Entity.LogicalName));
+                attribute.AdditionalProperties = "Used by entities: " + entities;
+            }
+            var result = new EntityMetadataProxy(new EntityMetadata
+            {
+                LogicalName = "[common]"
+            })
+            {
+                Attributes = attributes.OrderBy(a => a.LogicalName).ToList()
+            };
+
+            return result;
         }
 
         public static string GetFile(Settings settings, string classes)
@@ -50,13 +119,13 @@ namespace Rappen.XTB.LCG
                 .Replace("{entities}", classes);
         }
 
-        private static string GetEntity(List<EntityMetadataProxy> selectedentities, EntityMetadataProxy entitymetadata, Settings settings)
+        private static string GetClass(List<EntityMetadataProxy> selectedentities, EntityMetadataProxy entitymetadata, EntityMetadataProxy commonentity, Settings settings)
         {
             var name = entitymetadata.GetNameTechnical(settings.ConstantName, settings);
             name = settings.commonsettings.EntityPrefix + name + settings.commonsettings.EntitySuffix;
             var description = entitymetadata.Description?.Replace("\n", "\n/// ");
-            var summary = settings.XmlProperties ? entitymetadata.GetEntityProperties(settings) : settings.XmlDescription ? description : string.Empty;
-            var remarks = settings.XmlProperties && settings.XmlDescription ? description : string.Empty;
+            var summary = settings.XmlProperties && entitymetadata.LogicalName != "[common]" ? entitymetadata.GetEntityProperties(settings) : settings.XmlDescription ? description : string.Empty;
+            var remarks = settings.XmlProperties && entitymetadata.LogicalName != "[common]" && settings.XmlDescription ? description : string.Empty;
             var entity = new StringBuilder();
             if (!string.IsNullOrEmpty(summary))
             {
@@ -66,17 +135,26 @@ namespace Rappen.XTB.LCG
             {
                 entity.AppendLine($"/// <remarks>{remarks}</remarks>");
             }
-            entity.AppendLine(Template.Entity
-                .Replace("{entity}", name)
-                .Replace("{logicalname}", entitymetadata.LogicalName)
+            entity.AppendLine(Template.Class
+                .Replace("{classname}", name)
+                .Replace("{entity}", GetEntity(entitymetadata))
                 .Replace("'", "\"")
-                .Replace("{attributes}", GetAttributes(entitymetadata, settings))
+                .Replace("{attributes}", GetAttributes(entitymetadata, commonentity, settings))
                 .Replace("{relationships}", GetRelationships(entitymetadata, selectedentities, settings))
                 .Replace("{optionsets}", GetOptionSets(entitymetadata, settings)));
             return entity.ToString();
         }
 
-        private static string GetAttributes(EntityMetadataProxy entitymetadata, Settings settings)
+        private static string GetEntity(EntityMetadataProxy entitymetadata)
+        {
+            if (entitymetadata.LogicalName == "[common]")
+            {
+                return string.Empty;
+            }
+            return Template.Entity.Replace("{logicalname}", entitymetadata.LogicalName);
+        }
+
+        private static string GetAttributes(EntityMetadataProxy entitymetadata, EntityMetadataProxy commonentity, Settings settings)
         {
             var attributes = new List<string>();
             if (entitymetadata.Attributes != null)
@@ -89,8 +167,9 @@ namespace Rappen.XTB.LCG
                 {   // Then Primary Name
                     attributes.Add(GetAttribute(entitymetadata.PrimaryName, settings));
                 }
+                var commonattributes = commonentity?.Attributes?.Select(a => a.LogicalName) ?? new List<string>();
                 foreach (var attributemetadata in entitymetadata.Attributes
-                    .Where(a => a.Selected && a.Metadata.IsPrimaryId != true && a.Metadata.IsPrimaryName != true))
+                    .Where(a => (entitymetadata.LogicalName == "[common]") || (a.Selected && !commonattributes.Contains(a.LogicalName) && a.Metadata.IsPrimaryId != true && a.Metadata.IsPrimaryName != true)))
                 {   // Then all the rest
                     var attribute = GetAttribute(attributemetadata, settings);
                     attributes.Add(attribute);
@@ -163,6 +242,10 @@ namespace Rappen.XTB.LCG
 
         private static string GetOptionSets(EntityMetadataProxy entitymetadata, Settings settings)
         {
+            if (entitymetadata.LogicalName == "[common]")
+            {
+                return string.Empty;
+            }
             var optionsets = new List<string>();
             if (settings.OptionSets && entitymetadata.Attributes != null)
             {
@@ -189,6 +272,7 @@ namespace Rappen.XTB.LCG
             name = settings.commonsettings.AttributePrefix + name + settings.commonsettings.AttributeSuffix;
             var description = attributemetadata.Description?.Replace("\n", "\n/// ");
             var summary = settings.XmlProperties ? attributemetadata.AttributeProperties : settings.XmlDescription ? description : string.Empty;
+            summary= summary?.Replace("\n", "\n/// ");
             var remarks = settings.XmlProperties && settings.XmlDescription ? description : string.Empty;
             var attribute = new StringBuilder();
             if (!string.IsNullOrEmpty(summary))
