@@ -315,6 +315,10 @@ namespace Rappen.XTB.LCG
                 foreach (var optionmetadata in optionsetmetadata.OptionSet.Options)
                 {
                     var label = MetadataProxy.StringToCSharpIdentifier(optionmetadata.Label.UserLocalizedLabel.Label);
+                    if (settings.ConstantCamelCased)
+                    {
+                        label = label.CamelCaseIt(settings);
+                    }
                     if (string.IsNullOrEmpty(label) || int.TryParse(label[0].ToString(), out int tmp))
                     {
                         label = "_" + label;
