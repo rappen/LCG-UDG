@@ -16,8 +16,14 @@ namespace Rappen.XTB.LCG
         {
             var filename = Path.Combine(settings.OutputFolder, settings.CommonFile + ".cs");
             var file = CSharpUtils.GetFile(settings, _entities.ToString());
-            file.WriteFile(filename, OrgUrl, settings);
-            return $"Saved constants to\n  {filename}";
+            if (file.WriteFile(filename, OrgUrl, settings))
+            {
+                return $"Saved constants to\n  {filename}";
+            }
+            else
+            {
+                return "Error";
+            }
         }
 
         public void WriteEntity(Settings settings, string entity, string fileName)

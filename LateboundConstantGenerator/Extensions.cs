@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Windows.Forms;
 using Microsoft.Xrm.Sdk.Metadata;
 
 namespace Rappen.XTB.LCG
@@ -23,7 +24,7 @@ namespace Rappen.XTB.LCG
             return metadata.Attributes.FirstOrDefault(metaattribute => metaattribute.LogicalName == attribute);
         }
 
-        public static void WriteFile(this string content, string filename, string orgurl, Settings settings)
+        public static bool WriteFile(this string content, string filename, string orgurl, Settings settings)
         {
             content = content.BeautifyContent();
             var header = CSharpUtils.Template.Header1
@@ -38,7 +39,16 @@ namespace Rappen.XTB.LCG
                 header += "\r\n// Created   : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             }
             header += "\r\n" + CSharpUtils.Template.Header2;
-            File.WriteAllText(filename, header + "\r\n\r\n" + content);
+            try
+            {
+                File.WriteAllText(filename, header + "\r\n\r\n" + content);
+                return true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Generate constants", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
         }
 
         public static string BeautifyContent(this string content)
