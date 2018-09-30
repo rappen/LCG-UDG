@@ -297,11 +297,17 @@ namespace Rappen.XTB.LCG
                 return string.Empty;
             }
             var name = prefix + relationship.GetNameTechnical(settings);
-            var relationstr = Template.Relationship
+            var summary = settings.XmlProperties ? relationship.Summary(settings) : string.Empty;
+            var relation = new StringBuilder();
+            if (!string.IsNullOrEmpty(summary))
+            {
+                relation.AppendLine($"/// <summary>{summary}</summary>");
+            }
+            relation.AppendLine(Template.Relationship
                 .Replace("{relationship}", name)
                 .Replace("{schemaname}", relationship.Metadata.SchemaName)
-                .Replace("'", "\"");
-            return relationstr;
+                .Replace("'", "\""));
+            return relation.ToString();
         }
 
         private static string GetOptionSet(AttributeMetadataProxy attributemetadata, Settings settings)

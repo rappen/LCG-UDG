@@ -45,6 +45,14 @@ namespace Rappen.XTB.LCG
             }
         }
 
+        public string Summary(Settings settings)
+        {
+            return
+                $"Parent: \"{Parent?.GetNameTechnical(settings.ConstantName, settings)}\" " +
+                $"Child: \"{Child?.GetNameTechnical(settings.ConstantName, settings)}\" " +
+                $"Lookup: \"{LookupAttribute?.GetNameTechnical(settings)}\"";
+        }
+
         #endregion Public Properties
 
         #region Public Methods
