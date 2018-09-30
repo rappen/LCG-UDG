@@ -12,8 +12,12 @@
     <description>Generate constant classes from metadata for late bound development on Microsoft Dynamics 365/CRM.</description>
     <summary>Generate constant classes from metadata for late bound development on Microsoft Dynamics 365/CRM.</summary>
     <releaseNotes>
-Refactoring from Raise the Bar with Daryl LaBar
-Rebranded
+#16 Generate constants for relationships
+#21 Option to create separate common class for attributes used by multiple entities
+#19 Improved CamelCasing
+#24 Add XML documentation for relationship constants
+#25 Gently forgive file write errors instead of throwing exception
+Template line break bug fixed
     </releaseNotes>
     <copyright>Copyright 2017-2018 Jonas Rapp</copyright>
     <tags>XrmToolBox Plugins LateboundConstantsGenerator</tags>
