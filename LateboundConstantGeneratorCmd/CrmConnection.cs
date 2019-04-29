@@ -3,7 +3,6 @@ using Microsoft.Xrm.Sdk.Client;
 using Microsoft.Xrm.Tooling.Connector;
 using System;
 using System.Net;
-using System.Runtime.CompilerServices;
 using System.ServiceModel.Description;
 
 namespace Rappen.XTB.LCG.Cmd

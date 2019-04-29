@@ -12,17 +12,25 @@ namespace Rappen.XTB.LCG.Cmd
                     var lcgHelper = new LCGHelper();
                     lcgHelper.LoadSettingsFromFile(o.SettingsFilePath);
 
-                    var credentials = new CrmCredentials
+                    if (o.ConnectionString != null)
                     {
-                        Domain = o.Domain,
-                        OrgUnit = o.OrgUnit,
-                        ServerName = o.ServerName,
-                        Password = o.Password,
-                        Protocol = o.Protocol,
-                        User = o.User
-                    };
+                        lcgHelper.ConnectCrm(o.ConnectionString);
+                    }
+                    else
+                    {
+                        var credentials = new CrmCredentials
+                        {
+                            Domain = o.Domain,
+                            OrgUnit = o.OrgUnit,
+                            ServerName = o.ServerName,
+                            Password = o.Password,
+                            Protocol = o.Protocol,
+                            User = o.User
+                        };
 
-                    lcgHelper.ConnectCrm(credentials);
+                        lcgHelper.ConnectCrm(credentials);
+                    }
+
                     lcgHelper.GenerateConstants();
                 });
         }

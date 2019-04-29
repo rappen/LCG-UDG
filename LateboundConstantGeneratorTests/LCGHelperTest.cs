@@ -59,7 +59,7 @@ namespace LateboundConstantGeneratorTests
             var lcgHelper = new LCGHelper();
             lcgHelper.LoadSettingsFromFile("LateboundConstantsGeneratorConfiguration.xml");
             var filename = $"constants_{Guid.NewGuid()}.cs";
-            var connectionString = $"AuthType=AD; Url=https://d365-dev.nexplore.ch/indibeDev; Domain=nexplore; Username=nxd365-admin-dev; Password=Abc1234";
+            var connectionString = $"MyCrmConnectionString";
 
             lcgHelper.ConnectCrm(connectionString);
 
