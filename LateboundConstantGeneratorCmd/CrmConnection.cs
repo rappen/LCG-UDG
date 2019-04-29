@@ -1,39 +1,39 @@
-﻿using Microsoft.Xrm.Sdk.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.ServiceModel.Description;
-using System.Text;
-using System.Threading.Tasks;
-using McTools.Xrm.Connection;
-using Microsoft.Xrm.Sdk;
+﻿using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk.Client;
 using Microsoft.Xrm.Tooling.Connector;
+using System;
+using System.Net;
+using System.Runtime.CompilerServices;
+using System.ServiceModel.Description;
 
 namespace Rappen.XTB.LCG.Cmd
 {
     public class CrmConnection
     {
-        private CrmServiceClient crmServiceClient;
-
-        public IOrganizationService OrganizationService { get; private set; }
+        private readonly CrmServiceClient crmServiceClient;
         public string WebApplicationUrl { get; }
 
-        public int OrganizationMajorVersion
-        {
-            get
-            {
-                return int.Parse(crmServiceClient.ConnectedOrgVersion.ToString().Split('.')[0]);
-            }
-        }
+        public IOrganizationService OrganizationService => this.crmServiceClient.OrganizationServiceProxy;
+
+        public int OrganizationMajorVersion => int.Parse(crmServiceClient.ConnectedOrgVersion.ToString().Split('.')[0]);
 
         private CrmConnection(OrganizationServiceProxy organizationService, string webApplicationUrl)
         {
-            this.OrganizationService = organizationService;
             this.crmServiceClient = new CrmServiceClient(organizationService);
             this.WebApplicationUrl = webApplicationUrl;
         }
 
+        private CrmConnection(CrmServiceClient crmServiceClient)
+        {
+            this.crmServiceClient = crmServiceClient;
+            this.WebApplicationUrl = crmServiceClient.CrmConnectOrgUriActual.ToString();
+        }
+
+        public static CrmConnection ConnectCrm(string connectionString)
+        {
+            var crmServiceClient = new CrmServiceClient(connectionString);
+            return new CrmConnection(crmServiceClient);
+        }
 
         public static CrmConnection ConnectCrm(CrmCredentials credentials)
         {

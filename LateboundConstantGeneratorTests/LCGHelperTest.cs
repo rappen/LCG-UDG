@@ -50,5 +50,24 @@ namespace LateboundConstantGeneratorTests
             // Assert
             Assert.IsTrue(File.Exists(Path.Combine(lcgHelper.Settings.OutputFolder, lcgHelper.Settings.CommonFile + ".cs")));
         }
+
+        [TestMethod, TestCategory("Integration")]
+        [DeploymentItem(@"testdata\LateboundConstantsGeneratorConfiguration.xml")]
+        public void GenerateConstants_usingConnectionString_Should_GenerateConstantsFileClass()
+        {
+            // Arrange
+            var lcgHelper = new LCGHelper();
+            lcgHelper.LoadSettingsFromFile("LateboundConstantsGeneratorConfiguration.xml");
+            var filename = $"constants_{Guid.NewGuid()}.cs";
+            var connectionString = $"AuthType=AD; Url=https://d365-dev.nexplore.ch/indibeDev; Domain=nexplore; Username=nxd365-admin-dev; Password=Abc1234";
+
+            lcgHelper.ConnectCrm(connectionString);
+
+            // Act
+            lcgHelper.GenerateConstants();
+
+            // Assert
+            Assert.IsTrue(File.Exists(Path.Combine(lcgHelper.Settings.OutputFolder, lcgHelper.Settings.CommonFile + ".cs")));
+        }
     }
 }

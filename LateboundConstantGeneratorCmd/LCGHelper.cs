@@ -20,6 +20,11 @@ namespace Rappen.XTB.LCG.Cmd
             this.crmConnection = CrmConnection.ConnectCrm(credentials);
         }
 
+        public void ConnectCrm(string connectionString)
+        {
+            this.crmConnection = CrmConnection.ConnectCrm(connectionString);
+        }
+
         public void LoadSettingsFromFile(string path)
         {
             if (File.Exists(path))
