@@ -26,8 +26,8 @@ namespace Rappen.XTB.LCG
 
         public static bool WriteFile(this string content, string filename, string orgurl, Settings settings)
         {
-            content = content.BeautifyContent();
-            var header = CSharpUtils.Template.Header1
+            content = content.BeautifyContent(settings.commonsettings.Template.IndentStr);
+            var header = settings.commonsettings.Template.Header1
                 .Replace("{version}", Assembly.GetExecutingAssembly().GetName().Version.ToString())
                 .Replace("{organization}", orgurl);
             if (settings.commonsettings.HeaderLocalPath)
@@ -38,7 +38,7 @@ namespace Rappen.XTB.LCG
             {
                 header += "\r\n// Created   : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             }
-            header += "\r\n" + CSharpUtils.Template.Header2;
+            header += "\r\n" + settings.commonsettings.Template.Header2;
             try
             {
                 File.WriteAllText(filename, header + "\r\n\r\n" + content);
@@ -51,7 +51,7 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        public static string BeautifyContent(this string content)
+        public static string BeautifyContent(this string content, string indentstr)
         {
             var fixedcontent = new StringBuilder();
             var lines = content.Split('\n').ToList();
@@ -71,7 +71,7 @@ namespace Rappen.XTB.LCG
                 {
                     indent--;
                 }
-                fixedcontent.AppendLine(string.Concat(Enumerable.Repeat(CSharpUtils.Template.IndentStr, indent)) + line);
+                fixedcontent.AppendLine(string.Concat(Enumerable.Repeat(indentstr, indent)) + line);
                 lastline = line;
             }
             return fixedcontent.ToString();
