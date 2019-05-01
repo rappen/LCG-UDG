@@ -25,6 +25,7 @@ namespace Rappen.XTB.LCG
             "IsPrivate",
             "IsValidForAdvancedFind",
             "LogicalName",
+            "LogicalCollectionName",
             "ObjectTypeCode",
             "OwnershipType",
             "PrimaryIdAttribute",

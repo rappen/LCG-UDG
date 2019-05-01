@@ -87,6 +87,10 @@ namespace Rappen.XTB.LCG
             {   // Empty lines around region statements
                 return true;
             }
+            if (lastline.StartsWith("using ")&& !line.StartsWith("using "))
+            {   // Empty lines after usings
+                return true;
+            }
             if (line.StartsWith("public enum"))
             {   // Never empty line before enums, we keep it compact
                 return false;

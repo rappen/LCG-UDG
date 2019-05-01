@@ -22,6 +22,9 @@ namespace Rappen.XTB.LCG
         [DisplayName("Logical Name")]
         public string LogicalName { get => Metadata?.LogicalName; }
 
+        [DisplayName("Logical Collection Name")]
+        public string LogicalCollectionName { get => Metadata?.LogicalCollectionName; }
+
         internal AttributeMetadataProxy PrimaryKey { get => Attributes?.FirstOrDefault(a => a.Metadata.IsPrimaryId == true); }
 
         internal AttributeMetadataProxy PrimaryName { get => Attributes?.FirstOrDefault(a => a.Metadata.IsPrimaryName == true); }

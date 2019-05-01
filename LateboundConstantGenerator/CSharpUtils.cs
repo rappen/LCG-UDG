@@ -24,7 +24,7 @@ namespace Rappen.XTB.LCG
             public const string Header2 = "// *********************************************************************";
             public const string Namespace = "namespace {namespace}\n{\n{entities}\n}";
             public const string Class = "public static class {classname}\n{\n{entity}\n{attributes}\n{relationships}\n{optionsets}\n}";
-            public const string Entity = "public const string EntityName = '{logicalname}';";
+            public const string Entity = "public const string LogicalName = '{logicalname}';\npublic const string LogicalCollectionName = '{logicalcollectionname}';";
             public const string Attribute = "public const string {attribute} = '{logicalname}';";
             public const string Relationship = "public const string {relationship} = '{schemaname}';";
             public const string OptionSet = "public enum {name}\n{\n{values}\n}";
@@ -151,7 +151,7 @@ namespace Rappen.XTB.LCG
             {
                 return string.Empty;
             }
-            return Template.Entity.Replace("{logicalname}", entitymetadata.LogicalName);
+            return Template.Entity.Replace("{logicalname}", entitymetadata.LogicalName).Replace("{logicalcollectionname}", entitymetadata.LogicalCollectionName);
         }
 
         private static string GetAttributes(EntityMetadataProxy entitymetadata, EntityMetadataProxy commonentity, Settings settings)
