@@ -3,12 +3,12 @@ using System.IO;
 
 namespace Rappen.XTB.LCG
 {
-    public class SeperateFileWriter : IConstantFileWriter
+    public class SeparateFileWriter : IConstantFileWriter
     {
         public string OrgUrl { get; set; }
         private readonly List<string> _savedFiles = new List<string>();
 
-        public SeperateFileWriter(string orgUrl) { OrgUrl = orgUrl; }
+        public SeparateFileWriter(string orgUrl) { OrgUrl = orgUrl; }
 
         #region Implementation of IConstantFileWriter
 

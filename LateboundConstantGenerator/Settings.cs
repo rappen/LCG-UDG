@@ -39,7 +39,7 @@ namespace Rappen.XTB.LCG
         {
             return UseCommonFile
                 ? (IConstantFileWriter)new CommonFileWriter(orgUrl)
-                : new SeperateFileWriter(orgUrl);
+                : new SeparateFileWriter(orgUrl);
         }
 
         public void InitalizeCommonSettings()
