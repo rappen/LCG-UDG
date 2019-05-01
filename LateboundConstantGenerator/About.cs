@@ -30,7 +30,7 @@ namespace Rappen.XTB.LCG
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             lcg.LogUse("About-OpenHomepage");
-            System.Diagnostics.Process.Start("http://xtb.jonasrapp.net");
+            System.Diagnostics.Process.Start("https://jonasrapp.net");
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

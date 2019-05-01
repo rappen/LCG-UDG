@@ -55,11 +55,10 @@
             this.linkLabel1.Location = new System.Drawing.Point(557, 205);
             this.linkLabel1.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(180, 22);
+            this.linkLabel1.Size = new System.Drawing.Size(220, 22);
             this.linkLabel1.TabIndex = 2;
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "xtb.jonasrapp.net";
-            this.linkLabel1.Visible = false;
+            this.linkLabel1.Text = "https://jonasrapp.net";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // label2
