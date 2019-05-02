@@ -51,6 +51,12 @@
     <Reference Include="FakeItEasy, Version=5.0.0.0, Culture=neutral, PublicKeyToken=eff28e2146d5fd2c, processorArchitecture=MSIL">
       <HintPath>..\packages\FakeItEasy.5.1.1\lib\net45\FakeItEasy.dll</HintPath>
     </Reference>
+    <Reference Include="McTools.Xrm.Connection, Version=1.2019.2.22, Culture=neutral, PublicKeyToken=96037217801d9658, processorArchitecture=MSIL">
+      <HintPath>..\packages\MscrmTools.Xrm.Connection.1.2019.2.22\lib\net462\McTools.Xrm.Connection.dll</HintPath>
+    </Reference>
+    <Reference Include="McTools.Xrm.Connection.WinForms, Version=1.2019.2.22, Culture=neutral, PublicKeyToken=f1559f79cf894e27, processorArchitecture=MSIL">
+      <HintPath>..\packages\MscrmTools.Xrm.Connection.1.2019.2.22\lib\net462\McTools.Xrm.Connection.WinForms.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Crm.Sdk.Proxy, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.9.0.2.12\lib\net462\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
     </Reference>
@@ -114,6 +120,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="testdata\LateboundConstantsGeneratorConfiguration.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\LateboundConstantGeneratorCmd\LateboundConstantGeneratorCmd.csproj">
       <Project>{e97ab142-2d93-467c-80b2-58140ac25b79}</Project>
       <Name>LateboundConstantGeneratorCmd</Name>
@@ -122,11 +133,6 @@
       <Project>{78225251-a3a4-471f-9066-00d7eb90f3fa}</Project>
       <Name>LateboundConstantGenerator</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="testdata\LateboundConstantsGeneratorConfiguration.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

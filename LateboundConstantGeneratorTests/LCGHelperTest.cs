@@ -22,11 +22,11 @@ namespace LateboundConstantGeneratorTests
             Assert.IsNotNull(lcgHelper.Settings);
             Assert.AreEqual("LateboundConstantGeneratorTests", lcgHelper.Settings.NameSpace);
             Assert.AreEqual(3, lcgHelper.Settings.Selection.Count);
-            Assert.AreEqual("contact:", lcgHelper.Settings.Selection[0]);
+            Assert.AreEqual("contact", lcgHelper.Settings.Selection[0].Split(':')[0]);
         }
 
-        [TestMethod, TestCategory("Integration")]
-        [DeploymentItem(@"testdata\LateboundConstantsGeneratorConfiguration.xml")]
+        //[TestMethod, TestCategory("Integration")]
+        //[DeploymentItem(@"testdata\LateboundConstantsGeneratorConfiguration.xml")]
         public void GenerateConstants_Should_GenerateConstantsFileClass()
         {
             // Arrange
@@ -51,8 +51,8 @@ namespace LateboundConstantGeneratorTests
             Assert.IsTrue(File.Exists(Path.Combine(lcgHelper.Settings.OutputFolder, lcgHelper.Settings.CommonFile + ".cs")));
         }
 
-        [TestMethod, TestCategory("Integration")]
-        [DeploymentItem(@"testdata\LateboundConstantsGeneratorConfiguration.xml")]
+        //[TestMethod, TestCategory("Integration")]
+        //[DeploymentItem(@"testdata\LateboundConstantsGeneratorConfiguration.xml")]
         public void GenerateConstants_usingConnectionString_Should_GenerateConstantsFileClass()
         {
             // Arrange
