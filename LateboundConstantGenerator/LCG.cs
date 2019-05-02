@@ -745,6 +745,8 @@ namespace Rappen.XTB.LCG
                                 entity.Metadata.OneToManyRelationships
                                     .Where(r => !entity.Metadata.ManyToOneRelationships.Select(r1m => r1m.SchemaName).Contains(r.SchemaName))
                                     .Select(r => new RelationshipMetadataProxy(entities, r)));
+                            entity.Relationships.AddRange(
+                                entity.Metadata.ManyToManyRelationships.Select(m => new RelationshipMetadataProxy(entities, m)));
                         }
                     }
                     UpdateUI(() =>

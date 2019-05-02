@@ -167,16 +167,15 @@ namespace Rappen.XTB.LCG
             var relationships = new List<string>();
             if (settings.RelationShips)
             {
-                if (entitymetadata?.Metadata?.ManyToOneRelationships != null)
+                foreach (var relationship in entitymetadata.Relationships.Where(r => r.Parent != entitymetadata && includedentities.Contains(r.Parent)).Distinct())
                 {
-                    foreach (var relationship in entitymetadata.Relationships.Where(r => r.Parent != entitymetadata && includedentities.Contains(r.Parent)).Distinct())
-                    {
-                        relationships.Add(GetRelationShip(relationship, settings, settings.commonsettings.ManyOneRelationshipPrefix));
-                    }
-                    foreach (var relationship in entitymetadata.Relationships.Where(r => r.Parent == entitymetadata && includedentities.Contains(r.Child)).Distinct())
-                    {
-                        relationships.Add(GetRelationShip(relationship, settings, settings.commonsettings.OneManyRelationshipPrefix));
-                    }
+                    relationships.Add(GetRelationShip(relationship, settings, 
+                        (relationship.Metadata is ManyToManyRelationshipMetadata) ? settings.commonsettings.ManyManyRelationshipPrefix : settings.commonsettings.ManyOneRelationshipPrefix));
+                }
+                foreach (var relationship in entitymetadata.Relationships.Where(r => r.Parent == entitymetadata && includedentities.Contains(r.Child)).Distinct())
+                {
+                    relationships.Add(GetRelationShip(relationship, settings,
+                        (relationship.Metadata is ManyToManyRelationshipMetadata) ? settings.commonsettings.ManyManyRelationshipPrefix : settings.commonsettings.OneManyRelationshipPrefix));
                 }
             }
             DeduplicateIdentifiers(ref relationships);
@@ -250,7 +249,7 @@ namespace Rappen.XTB.LCG
             name = settings.commonsettings.AttributePrefix + name + settings.commonsettings.AttributeSuffix;
             var description = attributemetadata.Description?.Replace("\n", "\n/// ");
             var summary = settings.XmlProperties ? attributemetadata.AttributeProperties : settings.XmlDescription ? description : string.Empty;
-            summary= summary?.Replace("\n", "\n/// ");
+            summary = summary?.Replace("\n", "\n/// ");
             var remarks = settings.XmlProperties && settings.XmlDescription ? description : string.Empty;
             var attribute = new StringBuilder();
             if (!string.IsNullOrEmpty(summary))
