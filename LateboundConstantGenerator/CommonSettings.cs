@@ -35,7 +35,7 @@ namespace Rappen.XTB.LCG
         internal string Header2 = "// *********************************************************************";
         internal string Namespace = "namespace {namespace}\n{\n{entities}\n}";
         public string Class { get; set; } = "public static class {classname}\n{\n{entity}\n{attributes}\n{relationships}\n{optionsets}\n}";
-        public string Entity { get; set; } = "public const string LogicalName = '{logicalname}';\npublic const string LogicalCollectionName = '{logicalcollectionname}';";
+        public string Entity { get; set; } = "public const string EntityName = '{logicalname}';\npublic const string EntityCollectionName = '{logicalcollectionname}';";
         public string Attribute { get; set; } = "public const string {attribute} = '{logicalname}';";
         public string Relationship { get; set; } = "public const string {relationship} = '{schemaname}';";
         public string OptionSet { get; set; } = "public enum {name}\n{\n{values}\n}";
