@@ -50,7 +50,7 @@ namespace Rappen.XTB.LCG
                 .Replace("/", "_")
                 .Replace("\\", "_")
                 .Replace("[", "_")
-                .Replace("]", "_"); 
+                .Replace("]", "_");
         }
     }
 }
