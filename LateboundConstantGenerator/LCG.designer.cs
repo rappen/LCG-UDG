@@ -142,6 +142,7 @@
             this.tmAttSearch = new System.Windows.Forms.Timer(this.components);
             this.pnWindowTopSpacer = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.chkAttLogical = new System.Windows.Forms.CheckBox();
             this.label18 = new System.Windows.Forms.Label();
             this.cmbCommonAttributes = new System.Windows.Forms.ComboBox();
             this.label19 = new System.Windows.Forms.Label();
@@ -953,6 +954,7 @@
             // 
             // pnAttSystem
             // 
+            this.pnAttSystem.Controls.Add(this.chkAttLogical);
             this.pnAttSystem.Controls.Add(this.label15);
             this.pnAttSystem.Controls.Add(this.chkAttPrimaryAttribute);
             this.pnAttSystem.Controls.Add(this.chkAttPrimaryKey);
@@ -969,16 +971,16 @@
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(42, 13);
             this.label15.TabIndex = 2;
-            this.label15.Text = "Special";
+            this.label15.Text = "Include";
             // 
             // chkAttPrimaryAttribute
             // 
             this.chkAttPrimaryAttribute.AutoSize = true;
-            this.chkAttPrimaryAttribute.Location = new System.Drawing.Point(295, 5);
+            this.chkAttPrimaryAttribute.Location = new System.Drawing.Point(216, 5);
             this.chkAttPrimaryAttribute.Name = "chkAttPrimaryAttribute";
-            this.chkAttPrimaryAttribute.Size = new System.Drawing.Size(139, 17);
+            this.chkAttPrimaryAttribute.Size = new System.Drawing.Size(90, 17);
             this.chkAttPrimaryAttribute.TabIndex = 1;
-            this.chkAttPrimaryAttribute.Text = "Include Primary attribute";
+            this.chkAttPrimaryAttribute.Text = "Primary Attrib.";
             this.chkAttPrimaryAttribute.UseVisualStyleBackColor = true;
             this.chkAttPrimaryAttribute.CheckedChanged += new System.EventHandler(this.attributeFilter_Changed);
             // 
@@ -987,9 +989,9 @@
             this.chkAttPrimaryKey.AutoSize = true;
             this.chkAttPrimaryKey.Location = new System.Drawing.Point(129, 5);
             this.chkAttPrimaryKey.Name = "chkAttPrimaryKey";
-            this.chkAttPrimaryKey.Size = new System.Drawing.Size(118, 17);
+            this.chkAttPrimaryKey.Size = new System.Drawing.Size(81, 17);
             this.chkAttPrimaryKey.TabIndex = 0;
-            this.chkAttPrimaryKey.Text = "Include Primary key";
+            this.chkAttPrimaryKey.Text = "Primary Key";
             this.chkAttPrimaryKey.UseVisualStyleBackColor = true;
             this.chkAttPrimaryKey.CheckedChanged += new System.EventHandler(this.attributeFilter_Changed);
             // 
@@ -1017,7 +1019,7 @@
             // rbAttMgdFalse
             // 
             this.rbAttMgdFalse.AutoSize = true;
-            this.rbAttMgdFalse.Location = new System.Drawing.Point(295, 5);
+            this.rbAttMgdFalse.Location = new System.Drawing.Point(313, 5);
             this.rbAttMgdFalse.Name = "rbAttMgdFalse";
             this.rbAttMgdFalse.Size = new System.Drawing.Size(83, 17);
             this.rbAttMgdFalse.TabIndex = 2;
@@ -1028,7 +1030,7 @@
             // rbAttMgdTrue
             // 
             this.rbAttMgdTrue.AutoSize = true;
-            this.rbAttMgdTrue.Location = new System.Drawing.Point(212, 5);
+            this.rbAttMgdTrue.Location = new System.Drawing.Point(216, 5);
             this.rbAttMgdTrue.Name = "rbAttMgdTrue";
             this.rbAttMgdTrue.Size = new System.Drawing.Size(70, 17);
             this.rbAttMgdTrue.TabIndex = 1;
@@ -1073,7 +1075,7 @@
             // rbAttCustomTrue
             // 
             this.rbAttCustomTrue.AutoSize = true;
-            this.rbAttCustomTrue.Location = new System.Drawing.Point(295, 5);
+            this.rbAttCustomTrue.Location = new System.Drawing.Point(313, 5);
             this.rbAttCustomTrue.Name = "rbAttCustomTrue";
             this.rbAttCustomTrue.Size = new System.Drawing.Size(60, 17);
             this.rbAttCustomTrue.TabIndex = 2;
@@ -1084,7 +1086,7 @@
             // rbAttCustomFalse
             // 
             this.rbAttCustomFalse.AutoSize = true;
-            this.rbAttCustomFalse.Location = new System.Drawing.Point(212, 5);
+            this.rbAttCustomFalse.Location = new System.Drawing.Point(216, 5);
             this.rbAttCustomFalse.Name = "rbAttCustomFalse";
             this.rbAttCustomFalse.Size = new System.Drawing.Size(59, 17);
             this.rbAttCustomFalse.TabIndex = 1;
@@ -1171,7 +1173,7 @@
             // chkRegions
             // 
             this.chkRegions.AutoSize = true;
-            this.chkRegions.Location = new System.Drawing.Point(298, 128);
+            this.chkRegions.Location = new System.Drawing.Point(316, 127);
             this.chkRegions.Name = "chkRegions";
             this.chkRegions.Size = new System.Drawing.Size(65, 17);
             this.chkRegions.TabIndex = 100;
@@ -1191,7 +1193,7 @@
             // chkConstCamelCased
             // 
             this.chkConstCamelCased.AutoSize = true;
-            this.chkConstCamelCased.Location = new System.Drawing.Point(298, 20);
+            this.chkConstCamelCased.Location = new System.Drawing.Point(316, 19);
             this.chkConstCamelCased.Name = "chkConstCamelCased";
             this.chkConstCamelCased.Size = new System.Drawing.Size(85, 17);
             this.chkConstCamelCased.TabIndex = 20;
@@ -1202,7 +1204,7 @@
             // chkXmlDescription
             // 
             this.chkXmlDescription.AutoSize = true;
-            this.chkXmlDescription.Location = new System.Drawing.Point(298, 74);
+            this.chkXmlDescription.Location = new System.Drawing.Point(316, 73);
             this.chkXmlDescription.Name = "chkXmlDescription";
             this.chkXmlDescription.Size = new System.Drawing.Size(79, 17);
             this.chkXmlDescription.TabIndex = 60;
@@ -1291,7 +1293,7 @@
             "Logical Name"});
             this.cmbConstantName.Location = new System.Drawing.Point(132, 18);
             this.cmbConstantName.Name = "cmbConstantName";
-            this.cmbConstantName.Size = new System.Drawing.Size(159, 21);
+            this.cmbConstantName.Size = new System.Drawing.Size(178, 21);
             this.cmbConstantName.TabIndex = 10;
             this.cmbConstantName.SelectedIndexChanged += new System.EventHandler(this.cmbConstantName_SelectedIndexChanged);
             // 
@@ -1318,7 +1320,7 @@
             // 
             this.chkEnumsGlobal.AutoSize = true;
             this.chkEnumsGlobal.Enabled = false;
-            this.chkEnumsGlobal.Location = new System.Drawing.Point(298, 101);
+            this.chkEnumsGlobal.Location = new System.Drawing.Point(316, 100);
             this.chkEnumsGlobal.Name = "chkEnumsGlobal";
             this.chkEnumsGlobal.Size = new System.Drawing.Size(111, 17);
             this.chkEnumsGlobal.TabIndex = 80;
@@ -1355,7 +1357,7 @@
             // 
             // cmbCommonAttributes
             // 
-            this.cmbCommonAttributes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.cmbCommonAttributes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbCommonAttributes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCommonAttributes.FormattingEnabled = true;
@@ -1376,6 +1378,17 @@
             this.label19.Size = new System.Drawing.Size(59, 13);
             this.label19.TabIndex = 81;
             this.label19.Text = "OptionSets";
+            // 
+            // chkAttLogical
+            // 
+            this.chkAttLogical.AutoSize = true;
+            this.chkAttLogical.Location = new System.Drawing.Point(313, 5);
+            this.chkAttLogical.Name = "chkAttLogical";
+            this.chkAttLogical.Size = new System.Drawing.Size(107, 17);
+            this.chkAttLogical.TabIndex = 3;
+            this.chkAttLogical.Text = "Logical Attributes";
+            this.chkAttLogical.UseVisualStyleBackColor = true;
+            this.chkAttLogical.CheckedChanged += new System.EventHandler(this.attributeFilter_Changed);
             // 
             // LCG
             // 
@@ -1556,5 +1569,6 @@
         private System.Windows.Forms.ComboBox cmbCommonAttributes;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.CheckBox chkAttLogical;
     }
 }

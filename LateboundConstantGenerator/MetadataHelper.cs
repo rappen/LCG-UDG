@@ -62,6 +62,7 @@ namespace Rappen.XTB.LCG
             "RequiredLevel",
             "SchemaName",
             "Targets",
+            "IsLogical"
         };
 
         #endregion Public Fields
@@ -148,7 +149,6 @@ namespace Rappen.XTB.LCG
             {
                 Properties = new MetadataPropertiesExpression(attributeProperties)
             };
-            aqe.Criteria.Conditions.Add(new MetadataConditionExpression("IsLogical", MetadataConditionOperator.NotEquals, true));
             eqe.AttributeQuery = aqe;
             var req = new RetrieveMetadataChangesRequest
             {

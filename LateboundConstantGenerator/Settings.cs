@@ -71,6 +71,7 @@ namespace Rappen.XTB.LCG
         public bool ManagedFalse { get; set; }
         public bool PrimaryKey { get; set; }
         public bool PrimaryAttribute { get; set; }
+        public bool Logical { get; set; }
     }
 
     public enum NameType

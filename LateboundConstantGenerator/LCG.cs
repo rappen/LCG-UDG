@@ -376,6 +376,7 @@ namespace Rappen.XTB.LCG
             rbAttMgdFalse.Checked = settings.AttributeFilter?.ManagedFalse == true;
             chkAttPrimaryKey.Checked = settings.AttributeFilter?.PrimaryKey == true;
             chkAttPrimaryAttribute.Checked = settings.AttributeFilter?.PrimaryAttribute == true;
+            chkAttLogical.Checked = settings.AttributeFilter?.Logical == true;
             GroupBoxSetState(llFileOptionsExpander, settings.FileOptionsExpanded);
             GroupBoxSetState(llConstOptionsExpander, settings.ConstantOptionsExpanded);
             GroupBoxSetState(llEntityExpander, settings.EntityFilterExpanded);
@@ -443,7 +444,8 @@ namespace Rappen.XTB.LCG
                     .Where(
                         e => GetCustomFilter(e)
                            && GetManagedFilter(e)
-                           && GetSearchFilter(e)));
+                           && GetSearchFilter(e)
+                           && GetLogicalFilter(e)));
         }
 
         private bool GetCustomFilter(AttributeMetadataProxy e)
@@ -464,6 +466,12 @@ namespace Rappen.XTB.LCG
             return string.IsNullOrWhiteSpace(txtAttSearch.Text) ||
                    e.Metadata.LogicalName.ToLowerInvariant().Contains(txtAttSearch.Text) ||
                    e.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtAttSearch.Text) == true;
+        }
+
+        private bool GetLogicalFilter(AttributeMetadataProxy e)
+        {
+            return chkAttLogical.Checked ||
+                   e.Metadata.IsLogical != true;
         }
 
         private void EnableControls(bool enabled)
@@ -621,7 +629,8 @@ namespace Rappen.XTB.LCG
                     ManagedTrue = rbAttMgdTrue.Checked,
                     ManagedFalse = rbAttMgdFalse.Checked,
                     PrimaryKey = chkAttPrimaryKey.Checked,
-                    PrimaryAttribute = chkAttPrimaryAttribute.Checked
+                    PrimaryAttribute = chkAttPrimaryAttribute.Checked,
+                    Logical = chkAttLogical.Checked
                 }
             };
             if (entities != null)

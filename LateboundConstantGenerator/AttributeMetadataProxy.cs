@@ -92,6 +92,11 @@ namespace Rappen.XTB.LCG
                     {"DateTimeBehavior:datetime", (Metadata as DateTimeAttributeMetadata)?.DateTimeBehavior?.Value}
                 };
 
+                if (Metadata.IsLogical == true && properties.ContainsKey("Type"))
+                {
+                    properties["Type"] += " (Logical)";
+                }
+
                 return (string.Join(", ", properties
                     .Where(p => !string.IsNullOrEmpty(p.Value?.ToString()))
                     .Select(p => p.Key.Split(':')[0] + ": " + p.Value)) + 
