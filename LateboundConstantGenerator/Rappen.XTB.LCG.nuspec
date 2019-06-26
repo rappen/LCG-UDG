@@ -12,6 +12,15 @@
     <description>Generate constant classes from metadata for late bound development on Microsoft Dynamics 365/CRM.</description>
     <summary>Generate constant classes from metadata for late bound development on Microsoft Dynamics 365/CRM.</summary>
     <releaseNotes>
+Latest version:
+
+#33 Add option to include logical attributes
+This will make "non-real" attributes like owneridname and address fields on contact and account etc available.
+
+---
+
+Version 1.2019.5.2:
+
 #22 Many-to-Many relationships included
 #26 EntityCollectionName included
 #27 CLI support for build automation
@@ -19,6 +28,17 @@
 Rebranded with 2019 design
 
 * NOTE! #26 introduces a breaking change where constant EntityName is changed to LogicalName. This can be reverted with the introduction of #29.
+
+---
+
+Version 1.2018.9.2:
+
+#16 Generate constants for relationships
+#21 Option to create separate common class for attributes used by multiple entities
+#19 Improved CamelCasing
+#24 Add XML documentation for relationship constants
+#25 Gently forgive file write errors instead of throwing exception
+Template line break bug fixed
     </releaseNotes>
     <copyright>Copyright 2017-2019 Jonas Rapp</copyright>
     <tags>XrmToolBox Plugins LateboundConstantsGenerator</tags>
