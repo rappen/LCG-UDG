@@ -14,6 +14,7 @@
     <releaseNotes>
 Latest version:
 
+#30 Enum texts containing [ or ] now created correctly. Thanks to @DerekHAu!
 #33 Add option to include logical attributes
 This will make "non-real" attributes like owneridname and address fields on contact and account etc available.
 
