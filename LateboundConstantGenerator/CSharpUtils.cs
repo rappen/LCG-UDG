@@ -190,7 +190,6 @@ namespace Rappen.XTB.LCG
         private static void DeduplicateIdentifiers(ref List<string> constantdeclarations)
         {
             var identifiers = new List<string>();
-            var l = 0;
             var newlist = new List<string>();
             foreach (var line in constantdeclarations)
             {
@@ -199,16 +198,19 @@ namespace Rappen.XTB.LCG
                 {
                     var identifier = line.Split('=')[0].Trim();
                     var identorig = identifier;
+                    identifier = (identifier.Contains('>') ? identifier.Split('>')[identifier.Split('>').Length - 1] : identifier);
+                    var newIdenitifier = identorig;
                     var value = line.Split('=')[1].Trim();
                     var i = 0;
                     while (identifiers.Contains(identifier))
                     {
                         i++;
-                        identifier = identorig + i.ToString();
+                        newIdenitifier = identorig + i.ToString();
+                        identifier += i.ToString();
                     }
                     if (i > 0)
                     {
-                        newline = identifier + " = " + value;
+                        newline = newIdenitifier + " = " + value;
                     }
                     identifiers.Add(identifier);
                 }
