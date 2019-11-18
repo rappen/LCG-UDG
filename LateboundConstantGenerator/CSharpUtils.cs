@@ -198,7 +198,7 @@ namespace Rappen.XTB.LCG
                 {
                     var identifier = line.Split('=')[0].Trim();
                     var identorig = identifier;
-                    identifier = (identifier.Contains('>') ? identifier.Split('>')[identifier.Split('>').Length - 1] : identifier);
+                    identifier = identifier.Split('\n').LastOrDefault();
                     var newIdenitifier = identorig;
                     var value = line.Split('=')[1].Trim();
                     var i = 0;
