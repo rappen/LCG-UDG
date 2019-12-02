@@ -52,7 +52,7 @@ Template line break bug fixed
     <copyright>Copyright 2017-2019 Jonas Rapp</copyright>
     <tags>XrmToolBox Plugins LateboundConstantsGenerator</tags>
     <dependencies>
-      <dependency id="XrmToolBox" version="1.2018.6.25" />
+      <dependency id="XrmToolBox" version="1.2019.11.35" />
     </dependencies>
   </metadata>
   <files>
