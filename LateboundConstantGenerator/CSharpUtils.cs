@@ -169,7 +169,7 @@ namespace Rappen.XTB.LCG
             {
                 foreach (var relationship in entitymetadata.Relationships.Where(r => r.Parent != entitymetadata && includedentities.Contains(r.Parent)).Distinct())
                 {
-                    relationships.Add(GetRelationShip(relationship, settings, 
+                    relationships.Add(GetRelationShip(relationship, settings,
                         (relationship.Metadata is ManyToManyRelationshipMetadata) ? settings.commonsettings.ManyManyRelationshipPrefix : settings.commonsettings.ManyOneRelationshipPrefix));
                 }
                 foreach (var relationship in entitymetadata.Relationships.Where(r => r.Parent == entitymetadata && includedentities.Contains(r.Child)).Distinct())
@@ -198,7 +198,8 @@ namespace Rappen.XTB.LCG
                 {
                     var identifier = line.Split('=')[0].Trim();
                     var identorig = identifier;
-                    identifier = identifier.Split('\n').LastOrDefault();
+                    // This removes possible comment lines in the "identifier"
+                    identifier = string.Join("\n", identifier.Split('\n').Where(l => !l.Trim().StartsWith("//")));
                     var newIdenitifier = identorig;
                     var value = line.Split('=')[1].Trim();
                     var i = 0;
