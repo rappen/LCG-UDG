@@ -38,7 +38,7 @@ namespace Rappen.XTB.LCG
                 return null;
             }
             var attributes = new List<AttributeMetadataProxy>();
-            var selectedentitiesattributes = selectedentities.Select(e => e.Attributes?.Where(a => a.IsSelected && a.Metadata.IsPrimaryId != true && a.Metadata.IsPrimaryName != true));
+            var selectedentitiesattributes = selectedentities.Select(e => e.Attributes?.Where(a => a.IsSelected && a != e.PrimaryKey && a != e.PrimaryName));
             switch (settings.CommonAttributes)
             {
                 case CommonAttributesType.CommonInAny:
@@ -147,7 +147,7 @@ namespace Rappen.XTB.LCG
                 }
                 var commonattributes = commonentity?.Attributes?.Select(a => a.LogicalName) ?? new List<string>();
                 foreach (var attributemetadata in entitymetadata.Attributes
-                    .Where(a => (entitymetadata.LogicalName == "[common]") || (a.Selected && !commonattributes.Contains(a.LogicalName) && a.Metadata.IsPrimaryId != true && a.Metadata.IsPrimaryName != true)))
+                    .Where(a => (entitymetadata.LogicalName == "[common]") || (a.Selected && !commonattributes.Contains(a.LogicalName) && a != entitymetadata.PrimaryKey && a != entitymetadata.PrimaryName)))
                 {   // Then all the rest
                     var attribute = GetAttribute(attributemetadata, settings);
                     attributes.Add(attribute);
@@ -246,8 +246,8 @@ namespace Rappen.XTB.LCG
 
         private static string GetAttribute(AttributeMetadataProxy attributemetadata, Settings settings)
         {
-            var name = attributemetadata.Metadata.IsPrimaryId == true ? "PrimaryKey" :
-                attributemetadata.Metadata.IsPrimaryName == true ? "PrimaryName" :
+            var name = attributemetadata == attributemetadata.Entity.PrimaryKey ? "PrimaryKey" :
+                attributemetadata == attributemetadata.Entity.PrimaryName ? "PrimaryName" :
                 attributemetadata.GetNameTechnical(settings);
             name = settings.commonsettings.AttributePrefix + name + settings.commonsettings.AttributeSuffix;
             var entityname = attributemetadata.Entity.GetNameTechnical(settings.ConstantName, settings);
