@@ -14,6 +14,14 @@
     <releaseNotes>
 Latest version:
 
+#35 Fixed primary key issue with logical attributes, thanks @maerger!
+#38 Fixed de-duplication routine that was confused by comment lines
+Fixed issue with Common Class when including relationships
+
+---
+
+Version 1.2019.6.2:
+
 #30 Enum texts containing [ or ] now created correctly. Thanks to @DerekHAu!
 #33 Add option to include logical attributes
 This will make "non-real" attributes like owneridname and address fields on contact and account etc available.
