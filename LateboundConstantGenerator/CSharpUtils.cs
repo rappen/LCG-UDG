@@ -250,6 +250,11 @@ namespace Rappen.XTB.LCG
                 attributemetadata.Metadata.IsPrimaryName == true ? "PrimaryName" :
                 attributemetadata.GetNameTechnical(settings);
             name = settings.commonsettings.AttributePrefix + name + settings.commonsettings.AttributeSuffix;
+            var entityname = attributemetadata.Entity.GetNameTechnical(settings.ConstantName, settings);
+            if (name.Equals(entityname))
+            {
+                name += "_";
+            }
             var description = attributemetadata.Description?.Replace("\n", "\n/// ");
             var summary = settings.XmlProperties ? attributemetadata.AttributeProperties : settings.XmlDescription ? description : string.Empty;
             summary = summary?.Replace("\n", "\n/// ");
