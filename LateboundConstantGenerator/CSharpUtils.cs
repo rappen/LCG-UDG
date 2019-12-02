@@ -165,7 +165,7 @@ namespace Rappen.XTB.LCG
         private static string GetRelationships(EntityMetadataProxy entitymetadata, List<EntityMetadataProxy> includedentities, Settings settings)
         {
             var relationships = new List<string>();
-            if (settings.RelationShips)
+            if (settings.RelationShips && entitymetadata.Relationships != null)
             {
                 foreach (var relationship in entitymetadata.Relationships.Where(r => r.Parent != entitymetadata && includedentities.Contains(r.Parent)).Distinct())
                 {
