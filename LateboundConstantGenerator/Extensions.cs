@@ -24,10 +24,13 @@ namespace Rappen.XTB.LCG
             return metadata.Attributes.FirstOrDefault(metaattribute => metaattribute.LogicalName == attribute);
         }
 
-        public static bool WriteFile(this string content, string filename, string orgurl, Settings settings)
+        public static bool WriteFile(this string entities, Template template, string filename, string orgurl, Settings settings)
         {
-            content = content.BeautifyContent(settings.commonsettings.Template.IndentStr);
-            var header = settings.commonsettings.Template.Header1
+            var content = template.Namespace
+                .Replace("{namespace}", settings.NameSpace)
+                .Replace("{entities}", entities);
+            content = content.BeautifyContent(template.IndentStr);
+            var header = template.Header1
                 .Replace("{version}", Assembly.GetExecutingAssembly().GetName().Version.ToString())
                 .Replace("{organization}", orgurl);
             if (settings.commonsettings.HeaderLocalPath)
@@ -38,7 +41,7 @@ namespace Rappen.XTB.LCG
             {
                 header += "\r\n// Created   : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             }
-            header += "\r\n" + settings.commonsettings.Template.Header2;
+            header += "\r\n" + template.Header2;
             try
             {
                 File.WriteAllText(filename, header + "\r\n\r\n" + content);
@@ -51,7 +54,7 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        public static string BeautifyContent(this string content, string indentstr)
+        private static string BeautifyContent(this string content, string indentstr)
         {
             var fixedcontent = new StringBuilder();
             var lines = content.Split('\n').ToList();
@@ -63,11 +66,11 @@ namespace Rappen.XTB.LCG
                 {
                     fixedcontent.AppendLine();
                 }
-                if (lastline.Equals("{"))
+                if (lastline.EndsWith("{"))
                 {
                     indent++;
                 }
-                if (line.Equals("}"))
+                if (line.Equals("}") && indent > 0)
                 {
                     indent--;
                 }
@@ -87,7 +90,7 @@ namespace Rappen.XTB.LCG
             {   // Empty lines around region statements
                 return true;
             }
-            if (lastline.StartsWith("using ")&& !line.StartsWith("using "))
+            if (lastline.StartsWith("using ") && !line.StartsWith("using "))
             {   // Empty lines after usings
                 return true;
             }
@@ -97,6 +100,14 @@ namespace Rappen.XTB.LCG
             }
             if (lastline.Equals("}") && !line.Equals("}") && !string.IsNullOrWhiteSpace(line))
             {   // Never empty line between end blocks
+                return true;
+            }
+            if (line.Equals("@startuml") || lastline.Equals("@startuml") || line.Equals("@enduml"))
+            {
+                return true;
+            }
+            if (line.StartsWith("entity "))
+            {
                 return true;
             }
             return false;

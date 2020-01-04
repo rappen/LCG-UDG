@@ -158,6 +158,8 @@
     </Compile>
     <Compile Include="AttributeMetadataProxy.cs" />
     <Compile Include="CommonFileWriter.cs" />
+    <Compile Include="UMLDescription.cs" />
+    <Compile Include="UMLUtils.cs" />
     <Compile Include="CSharpUtils.cs" />
     <Compile Include="EntityMetadataProxy.cs" />
     <Compile Include="CommonSettings.cs" />

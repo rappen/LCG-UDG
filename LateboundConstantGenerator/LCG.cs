@@ -24,7 +24,7 @@ namespace Rappen.XTB.LCG
         private const string aiEndpoint = "https://dc.services.visualstudio.com/v2/track";
         //private const string aiKey = "cc7cb081-b489-421d-bb61-2ee53495c336";    // jonas@rappen.net tenant, TestAI 
         private const string aiKey = "eed73022-2444-45fd-928b-5eebd8fa46a6";    // jonas@rappen.net tenant, XrmToolBox
-        private AppInsights ai = new AppInsights(new AiConfig(aiEndpoint, aiKey) { PluginName = "Latebound Constants Generator" });
+        private AppInsights ai;
 
         private List<EntityMetadataProxy> entities;
         private CommonSettings commonsettings;
@@ -35,15 +35,16 @@ namespace Rappen.XTB.LCG
         private string settingsfile;
         private object checkedrow;
         private const string commonsettingsfile = "[Common]";
+        private readonly bool isUML = false;
+        private readonly string toolname = "Latebound Constants Generator";
 
         #endregion Private Fields
 
         #region Interface implementations
 
-        public string DonationDescription => "LCG Fan Club";
+        public string DonationDescription => "LCG and UDG Fan Club";
         public string EmailAccount => "jonas@rappen.net";
         public string RepositoryName => "LateboundConstantGenerator";
-
         public string UserName => "rappen";
 
         public void ShowAboutDialog()
@@ -55,8 +56,14 @@ namespace Rappen.XTB.LCG
 
         #region Public Constructors
 
-        public LCG()
+        public LCG(bool isuml)
         {
+            isUML = isuml;
+            if (isUML)
+            {
+                toolname = "UML Diagram Generator";
+            }
+            ai = new AppInsights(new AiConfig(aiEndpoint, aiKey) { PluginName = toolname });
             IEnumerable<Control> GetAll(Control control, Type type)
             {
                 var controls = control.Controls.Cast<Control>().ToArray();
@@ -70,6 +77,10 @@ namespace Rappen.XTB.LCG
             foreach (var gb in GetAll(this, typeof(GroupBox)))
             {
                 groupBoxHeights.Add(gb.Name, gb.Height);
+            }
+            if (isUML)
+            {
+                FixFormForUML();
             }
         }
 
@@ -115,8 +126,11 @@ namespace Rappen.XTB.LCG
             LogUse("Generate");
             var settings = GetSettingsFromUI();
             settings.commonsettings = commonsettings;
-            var message = CSharpUtils.GenerateClasses(entities, settings, settings.GetWriter(ConnectionDetail.WebApplicationUrl));
-            MessageBox.Show(message, "Latebound Constant Generator", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            var filewriter = settings.GetWriter(ConnectionDetail.WebApplicationUrl);
+            var message = !isUML ? 
+                CSharpUtils.GenerateClasses(entities, settings, filewriter) :
+                UMLUtils.GenerateClasses(entities, settings, filewriter);
+            MessageBox.Show(message, toolname, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnLoadConfig_Click(object sender, EventArgs e)
@@ -316,6 +330,15 @@ namespace Rappen.XTB.LCG
 
         #region Private Methods
 
+        private void FixFormForUML()
+        {
+            btnGenerate.Text = "Generate UML";
+            pnFileStructure.Visible = false;
+            txtCommonFileSuffix.Text = ".plantuml";
+            pnCommonAttributes.Visible = false;
+            pnConstantDetails.Visible = false;
+        }
+
         internal void LogUse(string action, bool forceLog = false)
         {
             ai.WriteEvent(action);
@@ -454,6 +477,7 @@ namespace Rappen.XTB.LCG
                    rbAttCustomTrue.Checked && e.Metadata.IsCustomAttribute.GetValueOrDefault() ||
                    rbAttCustomFalse.Checked && !e.Metadata.IsCustomAttribute.GetValueOrDefault();
         }
+
         private bool GetManagedFilter(AttributeMetadataProxy e)
         {
             return rbAttMgdAll.Checked ||
@@ -779,12 +803,17 @@ namespace Rappen.XTB.LCG
         {
             if (!SettingsManager.Instance.TryLoad(GetType(), out commonsettings, commonsettingsfile))
             {
-                commonsettings = new CommonSettings();
+                commonsettings = new CommonSettings(isUML);
                 LogWarning("Common Settings not found => created");
             }
             else
             {
                 LogInfo("Common Settings found and loaded");
+            }
+            if (commonsettings.Template.Version != new Template(isUML).Version)
+            {
+                MessageBox.Show("Template has been updated.\nAny customizations will need to be recreated.", "Template", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                commonsettings.Template = new Template(isUML);
             }
             var ass = Assembly.GetExecutingAssembly().GetName();
             var version = ass.Version.ToString();

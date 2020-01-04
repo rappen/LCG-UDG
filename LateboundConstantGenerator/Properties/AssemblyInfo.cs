@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Latebound Constants Generator")]
-[assembly: AssemblyDescription("Generate constant classes from metadata for late bound development on Microsoft Dynamics 365")]
+[assembly: AssemblyTitle("Latebound Constants Generator and UML Diagram Generator")]
+[assembly: AssemblyDescription("Generate constant classes from metadata for late bound development on Microsoft Dynamics 365 and create UML diagrams based on the open PlantUML standard")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Jonas Rapp, Sweden")]
 [assembly: AssemblyProduct("LateboundConstantsGenerator")]
-[assembly: AssemblyCopyright("Copyright © Jonas Rapp 2017-2018")]
+[assembly: AssemblyCopyright("Copyright © Jonas Rapp 2017-2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

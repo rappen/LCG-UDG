@@ -2,7 +2,7 @@
 {
     public interface IConstantFileWriter
     {
-        string GetCompleteMessage(Settings settings);
         void WriteEntity(Settings settings, string entity, string filename);
+        string Finalize(Settings settings, string suffix);
     }
 }

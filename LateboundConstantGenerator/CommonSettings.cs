@@ -5,6 +5,11 @@ namespace Rappen.XTB.LCG
 {
     public class CommonSettings
     {
+        public CommonSettings(bool isUML)
+        {
+            Template = new Template(isUML);
+        }
+
         public bool? UseLog { get; set; } = null;
         public string Version { get; set; }
 
@@ -21,15 +26,51 @@ namespace Rappen.XTB.LCG
         public bool HeaderLocalPath { get; set; } = true;
         public string CamelCaseWords { get; set; } = "parent, customer, owner, state, status, name, phone, address, code, postal, mail, modified, created, type, method, verson, number, first, last, middle, contact, account, system, user, fullname, preferred, processing, annual, plugin, step, key, details, message, description, constructor, execution, secure, configuration, behalf, count, percent, internal, external, trace, entity, primary, secondary, lastused, credit, credited, donot, exchange, import, invoke, invoked, private, market, marketing, revenue, business, price, level, pricelevel, territory, version, conversion, workorder, team";
         public string CamelCaseWordEnds { get; set; } = "id";
-        public Template Template { get; set; } = new Template();
+        public Template Template { get; set; }
     }
 
     public class Template
     {
+        public Template(bool isUML)
+        {
+            if (isUML)
+            {
+                Version = 105;   // Change this when template is updated!
+                Header1 = "/'\n" + Header1;
+                Header2 = Header2 + "\n'/";
+                Namespace = @"@startuml {namespace}
+hide circle
+skinparam linetype ortho
+
+entity **Legend** #DDFFDD {
+    (PK) = Primary Key
+    --
+    (PA) = Primary Attribute
+    * Required
+    + Recommended
+    Standard
+    <color:blue>Custom</color>
+}
+
+{entities}
+'{relationships}
+
+@enduml";
+                Class = "entity {classname}\n{\n{attributes}\n}";
+                Attribute = "{required}{attribute}: {type}";
+                Relationship = "{entity1} {relationtype} {entity2} {description}";
+                Entity = string.Empty;
+                OptionSet = string.Empty;
+                OptionSetValue = string.Empty;
+                Region = string.Empty;
+            }
+        }
+
+        public int Version { get; set; } = 1;   // Change this when template is updated to revert customizations
         internal string IndentStr = "    ";
         internal string Header1 = @"// *********************************************************************
 // Created by: Latebound Constant Generator {version} for XrmToolBox
-// Author    : Jonas Rapp http://twitter.com/rappen
+// Author    : Jonas Rapp https://twitter.com/rappen
 // Repo      : https://github.com/rappen/LateboundConstantGenerator
 // Source Org: {organization}";
         internal string Header2 = "// *********************************************************************";

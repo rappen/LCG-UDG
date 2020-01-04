@@ -28,7 +28,7 @@ namespace Rappen.XTB.LCG
                 var fileName = entitymetadata.GetNameTechnical(settings.FileName, settings) + ".cs";
                 fileWriter.WriteEntity(settings, entity, fileName);
             }
-            return fileWriter.GetCompleteMessage(settings);
+            return fileWriter.Finalize(settings, ".cs");
         }
 
         private static EntityMetadataProxy GetCommonEntity(List<EntityMetadataProxy> selectedentities, Settings settings)
@@ -88,13 +88,6 @@ namespace Rappen.XTB.LCG
             };
 
             return result;
-        }
-
-        public static string GetFile(Settings settings, string classes)
-        {
-            return Template.Namespace
-                .Replace("{namespace}", settings.NameSpace)
-                .Replace("{entities}", classes);
         }
 
         private static string GetClass(List<EntityMetadataProxy> selectedentities, EntityMetadataProxy entitymetadata, EntityMetadataProxy commonentity, Settings settings)

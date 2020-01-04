@@ -6,21 +6,25 @@ namespace Rappen.XTB.LCG
     public class SeparateFileWriter : IConstantFileWriter
     {
         public string OrgUrl { get; set; }
+        private Template template;
         private readonly List<string> _savedFiles = new List<string>();
 
-        public SeparateFileWriter(string orgUrl) { OrgUrl = orgUrl; }
+        public SeparateFileWriter(Template template, string orgUrl)
+        {
+            this.template = template;
+            OrgUrl = orgUrl;
+        }
 
         #region Implementation of IConstantFileWriter
 
-        public string GetCompleteMessage(Settings settings)
+        public string Finalize(Settings settings, string suffix = null)
         {
             return $"Saved files\n  {string.Join("\n  ", _savedFiles)}\nto folder\n  {settings.OutputFolder}";
         }
 
         public void WriteEntity(Settings settings, string entity, string filename)
         {
-            var entityfile = CSharpUtils.GetFile(settings, entity);
-            entityfile.WriteFile(Path.Combine(settings.OutputFolder, filename), OrgUrl, settings);
+            entity.WriteFile(template, Path.Combine(settings.OutputFolder, filename), OrgUrl, settings);
             _savedFiles.Add(filename);
         }
 

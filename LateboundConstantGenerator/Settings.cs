@@ -38,13 +38,13 @@ namespace Rappen.XTB.LCG
         public IConstantFileWriter GetWriter(string orgUrl)
         {
             return UseCommonFile
-                ? (IConstantFileWriter)new CommonFileWriter(orgUrl)
-                : new SeparateFileWriter(orgUrl);
+                ? (IConstantFileWriter)new CommonFileWriter(commonsettings.Template, orgUrl)
+                : new SeparateFileWriter(commonsettings.Template, orgUrl);
         }
 
-        public void InitalizeCommonSettings()
+        public void InitalizeCommonSettings(bool isUML)
         {
-            commonsettings = new CommonSettings();
+            commonsettings = new CommonSettings(isUML);
         }
     }
 
