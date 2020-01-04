@@ -37,28 +37,30 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.lblVersion = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBoxLCG = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.listAssemblies = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.linkLabel5 = new System.Windows.Forms.LinkLabel();
             this.label6 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.pictureBoxUML = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLCG)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUML)).BeginInit();
             this.SuspendLayout();
             // 
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabel1.Location = new System.Drawing.Point(557, 205);
+            this.linkLabel1.Location = new System.Drawing.Point(557, 207);
             this.linkLabel1.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(220, 22);
+            this.linkLabel1.Size = new System.Drawing.Size(200, 22);
             this.linkLabel1.TabIndex = 2;
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "https://jonasrapp.net";
+            this.linkLabel1.Text = "https://jonasr.app/";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // label2
@@ -131,14 +133,14 @@
             this.lblVersion.TabIndex = 11;
             this.lblVersion.Text = "1.0";
             // 
-            // pictureBox1
+            // pictureBoxLCG
             // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(55, 27);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(407, 502);
-            this.pictureBox1.TabIndex = 12;
-            this.pictureBox1.TabStop = false;
+            this.pictureBoxLCG.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxLCG.Image")));
+            this.pictureBoxLCG.Location = new System.Drawing.Point(55, 27);
+            this.pictureBoxLCG.Name = "pictureBoxLCG";
+            this.pictureBoxLCG.Size = new System.Drawing.Size(407, 502);
+            this.pictureBoxLCG.TabIndex = 12;
+            this.pictureBoxLCG.TabStop = false;
             // 
             // groupBox1
             // 
@@ -158,6 +160,7 @@
             this.listAssemblies.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listAssemblies.FullRowSelect = true;
             this.listAssemblies.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.listAssemblies.HideSelection = false;
             this.listAssemblies.Location = new System.Drawing.Point(3, 16);
             this.listAssemblies.Name = "listAssemblies";
             this.listAssemblies.ShowGroups = false;
@@ -196,6 +199,15 @@
             this.label6.TabIndex = 19;
             this.label6.Text = "Statistics:";
             // 
+            // pictureBoxUML
+            // 
+            this.pictureBoxUML.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxUML.Image")));
+            this.pictureBoxUML.Location = new System.Drawing.Point(55, 27);
+            this.pictureBoxUML.Name = "pictureBoxUML";
+            this.pictureBoxUML.Size = new System.Drawing.Size(287, 240);
+            this.pictureBoxUML.TabIndex = 21;
+            this.pictureBoxUML.TabStop = false;
+            // 
             // About
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -203,10 +215,11 @@
             this.BackColor = System.Drawing.Color.White;
             this.CancelButton = this.button1;
             this.ClientSize = new System.Drawing.Size(904, 556);
+            this.Controls.Add(this.pictureBoxUML);
             this.Controls.Add(this.linkLabel5);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.pictureBoxLCG);
             this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.linkLabel4);
@@ -220,8 +233,9 @@
             this.MinimumSize = new System.Drawing.Size(500, 400);
             this.Name = "About";
             this.Text = "About";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLCG)).EndInit();
             this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUML)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -236,12 +250,13 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         internal System.Windows.Forms.Label lblVersion;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBoxLCG;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ListView listAssemblies;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.LinkLabel linkLabel5;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.PictureBox pictureBoxUML;
     }
 }

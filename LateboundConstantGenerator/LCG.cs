@@ -34,9 +34,9 @@ namespace Rappen.XTB.LCG
         private EntityMetadataProxy selectedEntity;
         private string settingsfile;
         private object checkedrow;
-        private const string commonsettingsfile = "[Common]";
-        private readonly bool isUML = false;
-        private readonly string toolname = "Latebound Constants Generator";
+        private readonly string commonsettingsfile = "[Common]";
+        internal readonly bool isUML = false;
+        internal readonly string toolname = "Latebound Constants Generator";
 
         #endregion Private Fields
 
@@ -61,6 +61,7 @@ namespace Rappen.XTB.LCG
             isUML = isuml;
             if (isUML)
             {
+                commonsettingsfile = "[CommonUML]";
                 toolname = "UML Diagram Generator";
             }
             ai = new AppInsights(new AiConfig(aiEndpoint, aiKey) { PluginName = toolname });
@@ -339,17 +340,9 @@ namespace Rappen.XTB.LCG
             pnConstantDetails.Visible = false;
         }
 
-        internal void LogUse(string action, bool forceLog = false)
+        internal void LogUse(string action)
         {
             ai.WriteEvent(action);
-            if (commonsettings == null)
-            {
-                LoadCommonSettings();
-            }
-            if (commonsettings.UseLog == true || forceLog)
-            {
-                var keepGoing = LogUsage.DoLog(action);
-            }
         }
 
         private static void SelectAllRows(DataGridView grid, bool select)
@@ -815,18 +808,6 @@ namespace Rappen.XTB.LCG
                 MessageBox.Show("Template has been updated.\nAny customizations will need to be recreated.", "Template", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 commonsettings.Template = new Template(isUML);
             }
-            var ass = Assembly.GetExecutingAssembly().GetName();
-            var version = ass.Version.ToString();
-            if (!version.Equals(commonsettings.Version))
-            {
-                // Reset some settings when new version is deployed
-                commonsettings.UseLog = true;
-            }
-            if (commonsettings.UseLog == null)
-            {
-                commonsettings.UseLog = LogUsage.PromptToLog();
-            }
-            commonsettings.Version = version;
         }
 
         private void LoadSettings(string connectionname)

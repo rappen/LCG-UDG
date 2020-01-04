@@ -172,7 +172,6 @@
     <Compile Include="LCG.designer.cs">
       <DependentUpon>LCG.cs</DependentUpon>
     </Compile>
-    <Compile Include="LogUsage.cs" />
     <Compile Include="MetadataHelper.cs" />
     <Compile Include="MetadataProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

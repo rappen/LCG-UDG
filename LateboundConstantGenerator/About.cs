@@ -20,6 +20,8 @@ namespace Rappen.XTB.LCG
         {
             InitializeComponent();
             this.lcg = lcg;
+            pictureBoxLCG.Visible = !lcg.isUML;
+            pictureBoxUML.Visible = lcg.isUML;
             PopulateAssemblies();
         }
 
@@ -30,19 +32,19 @@ namespace Rappen.XTB.LCG
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             lcg.LogUse("About-OpenHomepage");
-            System.Diagnostics.Process.Start("https://jonasrapp.net");
+            System.Diagnostics.Process.Start("https://jonasr.app/");
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             lcg.LogUse("About-OpenBlog");
-            System.Diagnostics.Process.Start("http://jonasrapp.net");
+            System.Diagnostics.Process.Start("http://jonasr.app/");
         }
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             lcg.LogUse("About-OpenTwitter");
-            System.Diagnostics.Process.Start("http://twitter.com/rappen");
+            System.Diagnostics.Process.Start("https://twitter.com/rappen");
         }
 
         private void PopulateAssemblies()
@@ -84,7 +86,7 @@ namespace Rappen.XTB.LCG
 
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MessageBox.Show(@"The evolution of Latebound Constants Generator is based on feedback issues and anonymous statistics collected about usage.
+            MessageBox.Show($@"The evolution of {lcg.toolname} is based on feedback issues and anonymous statistics collected about usage.
 The statistics are a valuable source of information for continuing the development to make the tool even easier to use and improve the most popular features.
 
 Thank You,

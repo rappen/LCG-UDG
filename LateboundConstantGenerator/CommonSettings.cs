@@ -5,14 +5,14 @@ namespace Rappen.XTB.LCG
 {
     public class CommonSettings
     {
+        public CommonSettings() : this(false) { }
+
         public CommonSettings(bool isUML)
         {
             Template = new Template(isUML);
         }
 
-        public bool? UseLog { get; set; } = null;
         public string Version { get; set; }
-
         public string EntityPrefix { get; set; } = string.Empty;
         public string EntitySuffix { get; set; } = string.Empty;
         public string AttributePrefix { get; set; } = string.Empty;
@@ -31,6 +31,8 @@ namespace Rappen.XTB.LCG
 
     public class Template
     {
+        public Template() : this(false) { }
+
         public Template(bool isUML)
         {
             if (isUML)
