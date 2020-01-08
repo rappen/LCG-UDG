@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace Rappen.XTB.LCG
+﻿namespace Rappen.XTB.LCG
 {
     public class CommonSettings
     {
@@ -37,52 +34,98 @@ namespace Rappen.XTB.LCG
         {
             if (isUML)
             {
-                Version = 105;   // Change this when template is updated!
-                Header1 = "/'\n" + Header1;
-                Header2 = Header2 + "\n'/";
-                Namespace = @"@startuml {namespace}
-hide circle
-skinparam linetype ortho
+                TemplateVersion = 109;   // Change this when template is updated!
+                EntityContainer = "entity {entityname} <<{type}>>\n{\n{attributes}\n}";
+                Attribute = "{attribute}: {type}";
+                Relationship = "{entity1} {relationtype} {entity2} {relationship}";
+                PrimaryKeyName = "{attribute} (PK)";
+                PrimaryAttributeName = "{attribute} (PN)";
+                CustomAttribute = "<color:blue>{attribute}</color>";
+                RequiredLevelRequired = "*{attribute}";
+                RequiredLevelRecommended = "+{attribute}";
+            }
+        }
 
-entity **Legend** #DDFFDD {
+        public int TemplateVersion { get; set; } = 4;   // Change this when template is updated to revert customizations
+        internal string IndentStr = "    ";
+        internal string ToolName = LCG.toolnameLCG;
+        internal string FileSuffix = ".cs";
+        internal string FileContainer = "{header}\n{data}";
+        internal string FileHeader = @"// *********************************************************************
+// Created by : {toolname} {version} for XrmToolBox
+// Author     : Jonas Rapp https://twitter.com/rappen
+// GitHub     : https://github.com/rappen/LateboundConstantGenerator
+// Source Org : {organization}
+{filedetails}
+// *********************************************************************";
+        internal string AttributeSeparatorAfterPK = string.Empty;
+        public string DataContainer { get; set; } = "namespace {namespace}\n{\n{data}\n}";
+        public string EntityContainer { get; set; } = "{summary}\n{remarks}\npublic static class {entityname}\n{\n{entitydetail}\n{attributes}\n{relationships}\n{optionsets}\n}";
+        public string EntityDetail { get; set; } = "public const string EntityName = '{logicalname}';\npublic const string EntityCollectionName = '{logicalcollectionname}';";
+        public string Attribute { get; set; } = "{summary}\n{remarks}\npublic const string {attribute} = '{logicalname}';";
+        public string Relationship { get; set; } = "{summary}\npublic const string {relationship} = '{schemaname}';";
+        public string OptionSet { get; set; } = "public enum {name}\n{\n{values}\n}";
+        public string OptionSetValue { get; set; } = "{name} = {value}";
+        public string Region { get; set; } = "#region {region}\n{content}\n#endregion {region}";
+        public string Summary { get; set; } = "/// <summary>{summary}</summary>";
+        public string Remarks { get; set; } = "/// <remarks>{remarks}</remarks>";
+        public string PrimaryKeyName { get; set; } = "PrimaryKey";
+        public string PrimaryAttributeName { get; set; } = "PrimaryName";
+        public string CustomAttribute { get; set; } = string.Empty;
+        public string RequiredLevelRequired { get; set; } = string.Empty;
+        public string RequiredLevelRecommended { get; set; } = string.Empty;
+        public string RequiredLevelNone { get; set; } = string.Empty;
+        internal void InitializeUML()
+        {
+            ToolName = LCG.toolnameUDG;
+            FileSuffix = ".plantuml";
+            FileHeader = FileHeader.Replace("// ***", "/' ***") + @"'/
+@startuml {namespace}
+hide circle
+hide stereotype
+skinparam linetype ortho
+skinparam class {
+    BorderColor<<standard>> Black
+    BorderColor<<custom>> Blue
+}
+entity **Legend** <<standard>> #CCFFEE {
     (PK) = Primary Key
     --
-    (PA) = Primary Attribute
+    (PN) = Primary Name
     * Required
     + Recommended
     Standard
     <color:blue>Custom</color>
-}
-
-{entities}
+}";
+            DataContainer = @"
+title {namespace} Entity Model
+footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
+{data}
+!include Relationships.plantuml
 '{relationships}
-
 @enduml";
-                Class = "entity {classname}\n{\n{attributes}\n}";
-                Attribute = "{required}{attribute}: {type}";
-                Relationship = "{entity1} {relationtype} {entity2} {description}";
-                Entity = string.Empty;
-                OptionSet = string.Empty;
-                OptionSetValue = string.Empty;
-                Region = string.Empty;
-            }
+            AttributeSeparatorAfterPK = "--";
+            EntityDetail = string.Empty;
+            OptionSet = string.Empty;
+            OptionSetValue = string.Empty;
+            Region = string.Empty;
+            Summary = string.Empty;
+            Remarks = string.Empty;
         }
-
-        public int Version { get; set; } = 1;   // Change this when template is updated to revert customizations
-        internal string IndentStr = "    ";
-        internal string Header1 = @"// *********************************************************************
-// Created by: Latebound Constant Generator {version} for XrmToolBox
-// Author    : Jonas Rapp https://twitter.com/rappen
-// Repo      : https://github.com/rappen/LateboundConstantGenerator
-// Source Org: {organization}";
-        internal string Header2 = "// *********************************************************************";
-        internal string Namespace = "namespace {namespace}\n{\n{entities}\n}";
-        public string Class { get; set; } = "public static class {classname}\n{\n{entity}\n{attributes}\n{relationships}\n{optionsets}\n}";
-        public string Entity { get; set; } = "public const string EntityName = '{logicalname}';\npublic const string EntityCollectionName = '{logicalcollectionname}';";
-        public string Attribute { get; set; } = "public const string {attribute} = '{logicalname}';";
-        public string Relationship { get; set; } = "public const string {relationship} = '{schemaname}';";
-        public string OptionSet { get; set; } = "public enum {name}\n{\n{values}\n}";
-        public string OptionSetValue { get; set; } = "{name} = {value}";
-        public string Region { get; set; } = "#region {region}\n{content}\n#endregion {region}";
     }
 }
+
+/*
+ 
+    FileContainer
+        FileHeader
+        DataContainer
+            EntityContainer
+                EntityDetails
+                Attributes
+                Relationships
+                OptionSets
+                    OptionSetValues
+
+
+  */

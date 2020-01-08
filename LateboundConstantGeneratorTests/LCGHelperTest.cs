@@ -20,7 +20,7 @@ namespace LateboundConstantGeneratorTests
 
             // Assert
             Assert.IsNotNull(lcgHelper.Settings);
-            Assert.AreEqual("LateboundConstantGeneratorTests", lcgHelper.Settings.NameSpace);
+            Assert.AreEqual("LateboundConstantGeneratorTests", lcgHelper.Settings.FileSettings.NameSpace);
             Assert.AreEqual(3, lcgHelper.Settings.Selection.Count);
             Assert.AreEqual("contact", lcgHelper.Settings.Selection[0].Split(':')[0]);
         }
@@ -48,7 +48,7 @@ namespace LateboundConstantGeneratorTests
             lcgHelper.GenerateConstants();
 
             // Assert
-            Assert.IsTrue(File.Exists(Path.Combine(lcgHelper.Settings.OutputFolder, lcgHelper.Settings.CommonFile + ".cs")));
+            Assert.IsTrue(File.Exists(Path.Combine(lcgHelper.Settings.FileSettings.OutputFolder, lcgHelper.Settings.FileSettings.CommonFile + ".cs")));
         }
 
         //[TestMethod, TestCategory("Integration")]
@@ -67,7 +67,7 @@ namespace LateboundConstantGeneratorTests
             lcgHelper.GenerateConstants();
 
             // Assert
-            Assert.IsTrue(File.Exists(Path.Combine(lcgHelper.Settings.OutputFolder, lcgHelper.Settings.CommonFile + ".cs")));
+            Assert.IsTrue(File.Exists(Path.Combine(lcgHelper.Settings.FileSettings.OutputFolder, lcgHelper.Settings.FileSettings.CommonFile + ".cs")));
         }
     }
 }

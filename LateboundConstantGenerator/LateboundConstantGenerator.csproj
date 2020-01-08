@@ -158,8 +158,25 @@
     </Compile>
     <Compile Include="AttributeMetadataProxy.cs" />
     <Compile Include="CommonFileWriter.cs" />
+    <Compile Include="GenerateDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerateDialog.Designer.cs">
+      <DependentUpon>GenerateDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OptionsDialogUML.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OptionsDialogUML.Designer.cs">
+      <DependentUpon>OptionsDialogUML.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OptionsDialogLCG.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OptionsDialogLCG.Designer.cs">
+      <DependentUpon>OptionsDialogLCG.cs</DependentUpon>
+    </Compile>
     <Compile Include="UMLDescription.cs" />
-    <Compile Include="UMLUtils.cs" />
     <Compile Include="CSharpUtils.cs" />
     <Compile Include="EntityMetadataProxy.cs" />
     <Compile Include="CommonSettings.cs" />
@@ -175,11 +192,6 @@
     <Compile Include="MetadataHelper.cs" />
     <Compile Include="MetadataProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="RelationshipMetadataProxy.cs" />
     <Compile Include="SeparateFileWriter.cs" />
     <Compile Include="Settings.cs" />
@@ -202,9 +214,14 @@
     <EmbeddedResource Include="LCG.resx">
       <DependentUpon>LCG.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    <EmbeddedResource Include="GenerateDialog.resx">
+      <DependentUpon>GenerateDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptionsDialogUML.resx">
+      <DependentUpon>OptionsDialogUML.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptionsDialogLCG.resx">
+      <DependentUpon>OptionsDialogLCG.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,7 +1,4 @@
-﻿using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Metadata;
-using System;
-using System.Collections;
+﻿using Microsoft.Xrm.Sdk.Metadata;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,25 +7,23 @@ namespace Rappen.XTB.LCG
 {
     public class CSharpUtils
     {
-        private static Template Template;
         public static string GenerateClasses(List<EntityMetadataProxy> entitiesmetadata, Settings settings, IConstantFileWriter fileWriter)
         {
-            Template = settings.commonsettings.Template;
             var selectedentities = entitiesmetadata.Where(e => e.Selected).ToList();
             var commonentity = GetCommonEntity(selectedentities, settings);
             if (commonentity != null)
             {
                 var entity = GetClass(selectedentities, commonentity, null, settings);
-                var fileName = commonentity.GetNameTechnical(settings.FileName, settings) + ".cs";
+                var fileName = commonentity.GetNameTechnical(settings.FileName, settings) + settings.commonsettings.Template.FileSuffix;
                 fileWriter.WriteEntity(settings, entity, fileName);
             }
             foreach (var entitymetadata in selectedentities)
             {
                 var entity = GetClass(selectedentities, entitymetadata, commonentity, settings);
-                var fileName = entitymetadata.GetNameTechnical(settings.FileName, settings) + ".cs";
+                var fileName = entitymetadata.GetNameTechnical(settings.FileName, settings) + settings.commonsettings.Template.FileSuffix;
                 fileWriter.WriteEntity(settings, entity, fileName);
             }
-            return fileWriter.Finalize(settings, ".cs");
+            return fileWriter.Finalize(settings);
         }
 
         private static EntityMetadataProxy GetCommonEntity(List<EntityMetadataProxy> selectedentities, Settings settings)
@@ -92,37 +87,40 @@ namespace Rappen.XTB.LCG
 
         private static string GetClass(List<EntityMetadataProxy> selectedentities, EntityMetadataProxy entitymetadata, EntityMetadataProxy commonentity, Settings settings)
         {
+            var template = settings.commonsettings.Template;
             var name = entitymetadata.GetNameTechnical(settings.ConstantName, settings);
             name = settings.commonsettings.EntityPrefix + name + settings.commonsettings.EntitySuffix;
             var description = entitymetadata.Description?.Replace("\n", "\n/// ");
             var summary = settings.XmlProperties && entitymetadata.LogicalName != "[common]" ? entitymetadata.GetEntityProperties(settings) : settings.XmlDescription ? description : string.Empty;
             var remarks = settings.XmlProperties && entitymetadata.LogicalName != "[common]" && settings.XmlDescription ? description : string.Empty;
-            var entity = new StringBuilder();
             if (!string.IsNullOrEmpty(summary))
             {
-                entity.AppendLine($"/// <summary>{summary}</summary>");
+                summary = template.Summary.Replace("{summary}", summary);
             }
             if (!string.IsNullOrEmpty(remarks))
             {
-                entity.AppendLine($"/// <remarks>{remarks}</remarks>");
+                remarks = template.Remarks.Replace("{remarks}", remarks);
             }
-            entity.AppendLine(Template.Class
-                .Replace("{classname}", name)
-                .Replace("{entity}", GetEntity(entitymetadata))
+            var entity = template.EntityContainer
+                .Replace("{entityname}", name)
+                .Replace("{entitydetail}", GetEntity(entitymetadata, template))
+                .Replace("{type}", entitymetadata.Metadata.IsCustomEntity.Value ? "custom" : "standard")
+                .Replace("{summary}", summary)
+                .Replace("{remarks}", remarks)
                 .Replace("'", "\"")
                 .Replace("{attributes}", GetAttributes(entitymetadata, commonentity, settings))
                 .Replace("{relationships}", GetRelationships(entitymetadata, selectedentities, settings))
-                .Replace("{optionsets}", GetOptionSets(entitymetadata, settings)));
-            return entity.ToString();
+                .Replace("{optionsets}", GetOptionSets(entitymetadata, settings));
+            return entity;
         }
 
-        private static string GetEntity(EntityMetadataProxy entitymetadata)
+        private static string GetEntity(EntityMetadataProxy entitymetadata, Template template)
         {
             if (entitymetadata.LogicalName == "[common]")
             {
                 return string.Empty;
             }
-            return Template.Entity.Replace("{logicalname}", entitymetadata.LogicalName).Replace("{logicalcollectionname}", entitymetadata.LogicalCollectionName);
+            return template.EntityDetail.Replace("{logicalname}", entitymetadata.LogicalName).Replace("{logicalcollectionname}", entitymetadata.LogicalCollectionName);
         }
 
         private static string GetAttributes(EntityMetadataProxy entitymetadata, EntityMetadataProxy commonentity, Settings settings)
@@ -134,6 +132,7 @@ namespace Rappen.XTB.LCG
                 {   // First Primary Key
                     attributes.Add(GetAttribute(entitymetadata.PrimaryKey, settings));
                 }
+                attributes.Add(settings.commonsettings.Template.AttributeSeparatorAfterPK);
                 if (entitymetadata.PrimaryName?.IsSelected == true)
                 {   // Then Primary Name
                     attributes.Add(GetAttribute(entitymetadata.PrimaryName, settings));
@@ -141,6 +140,8 @@ namespace Rappen.XTB.LCG
                 var commonattributes = commonentity?.Attributes?.Select(a => a.LogicalName) ?? new List<string>();
                 foreach (var attributemetadata in entitymetadata.Attributes
                     .Where(a => (entitymetadata.LogicalName == "[common]") || (a.Selected && !commonattributes.Contains(a.LogicalName) && a != entitymetadata.PrimaryKey && a != entitymetadata.PrimaryName)))
+                    //.OrderBy(a => a.GetNameTechnical(settings))
+                    //.OrderBy(OrderByRequiredLevel))
                 {   // Then all the rest
                     var attribute = GetAttribute(attributemetadata, settings);
                     attributes.Add(attribute);
@@ -150,9 +151,23 @@ namespace Rappen.XTB.LCG
             var result = string.Join("\r\n", attributes);
             if (settings.Regions && attributes.Count > 0)
             {
-                return Template.Region.Replace("{region}", "Attributes").Replace("{content}", result);
+                return settings.commonsettings.Template.Region.ReplaceIfNotEmpty("{region}", "Attributes").Replace("{content}", result);
             }
             return result;
+        }
+
+        private static int OrderByRequiredLevel(AttributeMetadataProxy attribute)
+        {
+            switch (attribute.Metadata.RequiredLevel.Value)
+            {
+                case AttributeRequiredLevel.ApplicationRequired:
+                case AttributeRequiredLevel.SystemRequired:
+                    return 10;
+                case AttributeRequiredLevel.Recommended:
+                    return 20;
+                default:
+                    return 100;
+            }
         }
 
         private static string GetRelationships(EntityMetadataProxy entitymetadata, List<EntityMetadataProxy> includedentities, Settings settings)
@@ -175,7 +190,7 @@ namespace Rappen.XTB.LCG
             var result = string.Join("\r\n", relationships);
             if (settings.Regions && !string.IsNullOrEmpty(result))
             {
-                return Template.Region.Replace("{region}", "Relationships").Replace("{content}", result);
+                return settings.commonsettings.Template.Region.Replace("{region}", "Relationships").Replace("{content}", result);
             }
             return result;
         }
@@ -232,44 +247,71 @@ namespace Rappen.XTB.LCG
             var result = string.Join("\r\n", optionsets);
             if (settings.Regions && !string.IsNullOrEmpty(result))
             {
-                return Template.Region.Replace("{region}", "OptionSets").Replace("{content}", result);
+                return settings.commonsettings.Template.Region.Replace("{region}", "OptionSets").Replace("{content}", result);
             }
             return result;
         }
 
         private static string GetAttribute(AttributeMetadataProxy attributemetadata, Settings settings)
         {
-            var name = attributemetadata == attributemetadata.Entity.PrimaryKey ? "PrimaryKey" :
-                attributemetadata == attributemetadata.Entity.PrimaryName ? "PrimaryName" :
-                attributemetadata.GetNameTechnical(settings);
+            var template = settings.commonsettings.Template;
+            var name = attributemetadata.GetNameTechnical(settings);
+            if (attributemetadata == attributemetadata.Entity.PrimaryKey)
+            {
+                name = template.PrimaryKeyName.Replace("{attribute}", name);
+            }
+            if (attributemetadata == attributemetadata.Entity.PrimaryName)
+            {
+                name = template.PrimaryAttributeName.Replace("{attribute}", name);
+            }
             name = settings.commonsettings.AttributePrefix + name + settings.commonsettings.AttributeSuffix;
             var entityname = attributemetadata.Entity.GetNameTechnical(settings.ConstantName, settings);
             if (name.Equals(entityname))
             {
                 name += "_";
             }
+            if (attributemetadata.Metadata.IsCustomAttribute.Value)
+            {
+                name = template.CustomAttribute.ReplaceIfNotEmpty("{attribute}", name);
+            }
+            switch (attributemetadata.Metadata.RequiredLevel.Value)
+            {
+                case AttributeRequiredLevel.ApplicationRequired:
+                case AttributeRequiredLevel.SystemRequired:
+                    name = template.RequiredLevelRequired.ReplaceIfNotEmpty("{attribute}", name);
+                    break;
+                case AttributeRequiredLevel.Recommended:
+                    name = template.RequiredLevelRecommended.ReplaceIfNotEmpty("{attribute}", name);
+                    break;
+                case AttributeRequiredLevel.None:
+                    name = template.RequiredLevelNone.ReplaceIfNotEmpty("{attribute}", name);
+                    break;
+            }
             var description = attributemetadata.Description?.Replace("\n", "\n/// ");
             var summary = settings.XmlProperties ? attributemetadata.AttributeProperties : settings.XmlDescription ? description : string.Empty;
             summary = summary?.Replace("\n", "\n/// ");
             var remarks = settings.XmlProperties && settings.XmlDescription ? description : string.Empty;
-            var attribute = new StringBuilder();
             if (!string.IsNullOrEmpty(summary))
             {
-                attribute.AppendLine($"/// <summary>{summary}</summary>");
+                summary = template.Summary.Replace("{summary}", summary);
             }
             if (!string.IsNullOrEmpty(remarks))
             {
-                attribute.AppendLine($"/// <remarks>{remarks}</remarks>");
+                remarks = template.Remarks.Replace("{remarks}", remarks);
             }
-            attribute.AppendLine(Template.Attribute
+            var attribute = template.Attribute
                 .Replace("{attribute}", name)
                 .Replace("{logicalname}", attributemetadata.LogicalName)
-                .Replace("'", "\""));
-            return attribute.ToString();
+                .Replace("{type}", attributemetadata.Type.ToString())
+                .Replace("{summary}", summary)
+                .Replace("{remarks}", remarks)
+                .Replace("'", "\"");
+            return attribute;
         }
 
         private static string GetRelationShip(RelationshipMetadataProxy relationship, Settings settings, string prefix)
         {
+            var template = settings.commonsettings.Template;
             if (relationship.Child?.Attributes == null)
             {
                 return string.Empty;
@@ -279,11 +321,12 @@ namespace Rappen.XTB.LCG
             var relation = new StringBuilder();
             if (!string.IsNullOrEmpty(summary))
             {
-                relation.AppendLine($"/// <summary>{summary}</summary>");
+                summary = template.Summary.Replace("{summary}", summary);
             }
-            relation.AppendLine(Template.Relationship
+            relation.AppendLine(template.Relationship
                 .Replace("{relationship}", name)
                 .Replace("{schemaname}", relationship.Metadata.SchemaName)
+                .Replace("{summary}", summary)
                 .Replace("'", "\""));
             return relation.ToString();
         }
@@ -291,7 +334,7 @@ namespace Rappen.XTB.LCG
         private static string GetOptionSet(AttributeMetadataProxy attributemetadata, Settings settings)
         {
             var name = settings.commonsettings.OptionSetEnumPrefix + attributemetadata.GetNameTechnical(settings) + settings.commonsettings.OptionSetEnumSuffix;
-            var optionset = Template.OptionSet.Replace("{name}", name);
+            var optionset = settings.commonsettings.Template.OptionSet.Replace("{name}", name);
             var options = new List<string>();
             var optionsetmetadata = attributemetadata.Metadata as EnumAttributeMetadata;
             if (optionsetmetadata != null && optionsetmetadata.OptionSet != null)
@@ -307,7 +350,7 @@ namespace Rappen.XTB.LCG
                     {
                         label = "_" + label;
                     }
-                    var option = Template.OptionSetValue
+                    var option = settings.commonsettings.Template.OptionSetValue
                         .Replace("{name}", label)
                         .Replace("{value}", optionmetadata.Value.ToString());
                     options.Add(option);

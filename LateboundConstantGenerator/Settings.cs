@@ -10,15 +10,58 @@ namespace Rappen.XTB.LCG
     /// </remarks>
     public class Settings
     {
-        public bool FileOptionsExpanded { get; set; } = true;
-        public bool ConstantOptionsExpanded { get; set; } = true;
         public bool EntityFilterExpanded { get; set; } = true;
         public bool AttributeFilterExpanded { get; set; } = true;
+        public FileSettings FileSettings { get; set; } = new FileSettings();
+        public GenerationSettings GenerationSettings { get; set; } = new GenerationSettings();
+        public EntityFilter EntityFilter { get; set; } = new EntityFilter();
+        public AttributeFilter AttributeFilter { get; set; } = new AttributeFilter();
+        public List<string> Selection { get; set; } = new List<string>();
+
+        internal CommonSettings commonsettings;
+
+        internal string OutputFolder => FileSettings.OutputFolder;
+        internal string NameSpace => FileSettings.NameSpace;
+        internal bool UseCommonFile => FileSettings.UseCommonFile;
+        internal string CommonFile => FileSettings.CommonFile;
+        internal NameType FileName  = NameType.DisplayName;
+        internal CommonAttributesType CommonAttributes  = CommonAttributesType.None;
+        internal NameType ConstantName => GenerationSettings.ConstantName;
+        internal bool ConstantCamelCased => GenerationSettings.ConstantCamelCased;
+        internal bool DoStripPrefix => GenerationSettings.DoStripPrefix;
+        internal string StripPrefix => GenerationSettings.StripPrefix;
+        internal bool XmlProperties => GenerationSettings.XmlProperties;
+        internal bool XmlDescription => GenerationSettings.XmlDescription;
+        internal bool Regions => GenerationSettings.Regions;
+        internal bool RelationShips => GenerationSettings.RelationShips;
+        internal bool OptionSets => GenerationSettings.OptionSets;
+        internal bool GlobalOptionSets => GenerationSettings.GlobalOptionSets;
+
+        public IConstantFileWriter GetWriter(string orgUrl)
+        {
+            return UseCommonFile
+                ? (IConstantFileWriter)new CommonFileWriter(orgUrl)
+                : new SeparateFileWriter(orgUrl);
+        }
+
+        public void InitalizeCommonSettings(bool isUML)
+        {
+            commonsettings = new CommonSettings(isUML);
+        }
+    }
+
+    public class FileSettings
+    {
         public string OutputFolder { get; set; }
         public string NameSpace { get; set; }
         public bool UseCommonFile { get; set; }
         public string CommonFile { get; set; }
         public NameType FileName { get; set; } = NameType.DisplayName;
+        public CommonAttributesType CommonAttributes { get; set; } = CommonAttributesType.None;
+    }
+
+    public class GenerationSettings
+    {
         public NameType ConstantName { get; set; } = NameType.DisplayName;
         public bool ConstantCamelCased { get; set; }
         public bool DoStripPrefix { get; set; }
@@ -29,23 +72,6 @@ namespace Rappen.XTB.LCG
         public bool RelationShips { get; set; }
         public bool OptionSets { get; set; }
         public bool GlobalOptionSets { get; set; }
-        public CommonAttributesType CommonAttributes { get; set; } = CommonAttributesType.None;
-        public EntityFilter EntityFilter { get; set; } = new EntityFilter();
-        public AttributeFilter AttributeFilter { get; set; } = new AttributeFilter();
-        public List<string> Selection { get; set; } = new List<string>();
-        internal CommonSettings commonsettings;
-
-        public IConstantFileWriter GetWriter(string orgUrl)
-        {
-            return UseCommonFile
-                ? (IConstantFileWriter)new CommonFileWriter(commonsettings.Template, orgUrl)
-                : new SeparateFileWriter(commonsettings.Template, orgUrl);
-        }
-
-        public void InitalizeCommonSettings(bool isUML)
-        {
-            commonsettings = new CommonSettings(isUML);
-        }
     }
 
     public class EntityFilter

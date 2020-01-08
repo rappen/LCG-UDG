@@ -41,8 +41,6 @@
             this.tssSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnLoadEntities = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnLoadConfig = new System.Windows.Forms.ToolStripButton();
-            this.btnSaveConfig = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnGenerate = new System.Windows.Forms.ToolStripButton();
             this.tslAbout = new System.Windows.Forms.ToolStripLabel();
@@ -71,25 +69,6 @@
             this.pnEntSolution = new System.Windows.Forms.Panel();
             this.cmbSolution = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.pnLeftSpacer = new System.Windows.Forms.Panel();
-            this.gbFileOptions = new System.Windows.Forms.GroupBox();
-            this.cmbCommonAttributes = new System.Windows.Forms.ComboBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.llFileOptionsExpander = new System.Windows.Forms.LinkLabel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtOutputFolder = new System.Windows.Forms.TextBox();
-            this.btnOutputFolder = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.pnFileCommonName = new System.Windows.Forms.Panel();
-            this.txtCommonFilename = new System.Windows.Forms.TextBox();
-            this.txtCommonFileSuffix = new System.Windows.Forms.TextBox();
-            this.txtNamespace = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.cmbFileName = new System.Windows.Forms.ComboBox();
-            this.pnFileStructure = new System.Windows.Forms.Panel();
-            this.rbFilePerEntity = new System.Windows.Forms.RadioButton();
-            this.rbFileCommon = new System.Windows.Forms.RadioButton();
-            this.label6 = new System.Windows.Forms.Label();
             this.statusEntities = new System.Windows.Forms.StatusStrip();
             this.statusEntitiesShowing = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusEntitiesSelected = new System.Windows.Forms.ToolStripStatusLabel();
@@ -124,31 +103,14 @@
             this.pnAttributeSpacer = new System.Windows.Forms.Panel();
             this.label16 = new System.Windows.Forms.Label();
             this.chkAttCheckAll = new System.Windows.Forms.CheckBox();
-            this.pnRightSpacer = new System.Windows.Forms.Panel();
-            this.gbConstOptions = new System.Windows.Forms.GroupBox();
-            this.label19 = new System.Windows.Forms.Label();
-            this.chkRegions = new System.Windows.Forms.CheckBox();
-            this.chkRelationships = new System.Windows.Forms.CheckBox();
-            this.chkConstCamelCased = new System.Windows.Forms.CheckBox();
-            this.chkXmlDescription = new System.Windows.Forms.CheckBox();
-            this.chkXmlProperties = new System.Windows.Forms.CheckBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.llConstOptionsExpander = new System.Windows.Forms.LinkLabel();
-            this.txtConstStripPrefix = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.chkConstStripPrefix = new System.Windows.Forms.CheckBox();
-            this.cmbConstantName = new System.Windows.Forms.ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.chkEnumsInclude = new System.Windows.Forms.CheckBox();
-            this.chkEnumsGlobal = new System.Windows.Forms.CheckBox();
             this.tmEntSearch = new System.Windows.Forms.Timer(this.components);
             this.tmAttSearch = new System.Windows.Forms.Timer(this.components);
             this.pnWindowTopSpacer = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.pnNamespace = new System.Windows.Forms.Panel();
-            this.pnCommonAttributes = new System.Windows.Forms.Panel();
-            this.pnConstantDetails = new System.Windows.Forms.Panel();
+            this.btnOptions = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.btnLoadConfig = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnSaveConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -162,9 +124,6 @@
             this.pnEntManaged.SuspendLayout();
             this.pnEntCustom.SuspendLayout();
             this.pnEntSolution.SuspendLayout();
-            this.gbFileOptions.SuspendLayout();
-            this.pnFileCommonName.SuspendLayout();
-            this.pnFileStructure.SuspendLayout();
             this.statusEntities.SuspendLayout();
             this.pnAttributeGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridAttributes)).BeginInit();
@@ -175,10 +134,6 @@
             this.pnAttManaged.SuspendLayout();
             this.pnAttCustom.SuspendLayout();
             this.pnAttributeSpacer.SuspendLayout();
-            this.gbConstOptions.SuspendLayout();
-            this.pnNamespace.SuspendLayout();
-            this.pnCommonAttributes.SuspendLayout();
-            this.pnConstantDetails.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripMenu
@@ -189,8 +144,8 @@
             this.tssSeparator1,
             this.btnLoadEntities,
             this.toolStripSeparator1,
-            this.btnLoadConfig,
-            this.btnSaveConfig,
+            this.toolStripDropDownButton1,
+            this.btnOptions,
             this.toolStripSeparator2,
             this.btnGenerate,
             this.tslAbout});
@@ -227,26 +182,6 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
-            // btnLoadConfig
-            // 
-            this.btnLoadConfig.Enabled = false;
-            this.btnLoadConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnLoadConfig.Image")));
-            this.btnLoadConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnLoadConfig.Name = "btnLoadConfig";
-            this.btnLoadConfig.Size = new System.Drawing.Size(136, 28);
-            this.btnLoadConfig.Text = "Load configuration";
-            this.btnLoadConfig.Click += new System.EventHandler(this.btnLoadConfig_Click);
-            // 
-            // btnSaveConfig
-            // 
-            this.btnSaveConfig.Enabled = false;
-            this.btnSaveConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveConfig.Image")));
-            this.btnSaveConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnSaveConfig.Name = "btnSaveConfig";
-            this.btnSaveConfig.Size = new System.Drawing.Size(134, 28);
-            this.btnSaveConfig.Text = "Save configuration";
-            this.btnSaveConfig.Click += new System.EventHandler(this.btnSaveConfig_Click);
-            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
@@ -282,8 +217,6 @@
             // 
             this.splitContainer1.Panel1.Controls.Add(this.pnEntityGrid);
             this.splitContainer1.Panel1.Controls.Add(this.gbEntities);
-            this.splitContainer1.Panel1.Controls.Add(this.pnLeftSpacer);
-            this.splitContainer1.Panel1.Controls.Add(this.gbFileOptions);
             this.splitContainer1.Panel1.Controls.Add(this.statusEntities);
             // 
             // splitContainer1.Panel2
@@ -291,8 +224,6 @@
             this.splitContainer1.Panel2.Controls.Add(this.pnAttributeGrid);
             this.splitContainer1.Panel2.Controls.Add(this.statusAttributes);
             this.splitContainer1.Panel2.Controls.Add(this.gbAttributes);
-            this.splitContainer1.Panel2.Controls.Add(this.pnRightSpacer);
-            this.splitContainer1.Panel2.Controls.Add(this.gbConstOptions);
             this.splitContainer1.Size = new System.Drawing.Size(930, 546);
             this.splitContainer1.SplitterDistance = 439;
             this.splitContainer1.TabIndex = 2;
@@ -302,9 +233,9 @@
             this.pnEntityGrid.Controls.Add(this.chkEntAll);
             this.pnEntityGrid.Controls.Add(this.gridEntities);
             this.pnEntityGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnEntityGrid.Location = new System.Drawing.Point(0, 318);
+            this.pnEntityGrid.Location = new System.Drawing.Point(0, 148);
             this.pnEntityGrid.Name = "pnEntityGrid";
-            this.pnEntityGrid.Size = new System.Drawing.Size(439, 206);
+            this.pnEntityGrid.Size = new System.Drawing.Size(439, 376);
             this.pnEntityGrid.TabIndex = 3;
             // 
             // chkEntAll
@@ -355,7 +286,7 @@
             this.gridEntities.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.gridEntities.RowHeadersVisible = false;
             this.gridEntities.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridEntities.Size = new System.Drawing.Size(439, 206);
+            this.gridEntities.Size = new System.Drawing.Size(439, 376);
             this.gridEntities.TabIndex = 2;
             this.gridEntities.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             this.gridEntities.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridEntities_CellFormatting);
@@ -370,7 +301,7 @@
             this.gbEntities.Controls.Add(this.pnEntCustom);
             this.gbEntities.Controls.Add(this.pnEntSolution);
             this.gbEntities.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbEntities.Location = new System.Drawing.Point(0, 170);
+            this.gbEntities.Location = new System.Drawing.Point(0, 0);
             this.gbEntities.Name = "gbEntities";
             this.gbEntities.Size = new System.Drawing.Size(439, 148);
             this.gbEntities.TabIndex = 2;
@@ -595,215 +526,6 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "Solution";
             // 
-            // pnLeftSpacer
-            // 
-            this.pnLeftSpacer.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnLeftSpacer.Location = new System.Drawing.Point(0, 153);
-            this.pnLeftSpacer.Name = "pnLeftSpacer";
-            this.pnLeftSpacer.Size = new System.Drawing.Size(439, 17);
-            this.pnLeftSpacer.TabIndex = 10;
-            // 
-            // gbFileOptions
-            // 
-            this.gbFileOptions.Controls.Add(this.pnCommonAttributes);
-            this.gbFileOptions.Controls.Add(this.pnNamespace);
-            this.gbFileOptions.Controls.Add(this.llFileOptionsExpander);
-            this.gbFileOptions.Controls.Add(this.label3);
-            this.gbFileOptions.Controls.Add(this.txtOutputFolder);
-            this.gbFileOptions.Controls.Add(this.btnOutputFolder);
-            this.gbFileOptions.Controls.Add(this.pnFileCommonName);
-            this.gbFileOptions.Controls.Add(this.label7);
-            this.gbFileOptions.Controls.Add(this.cmbFileName);
-            this.gbFileOptions.Controls.Add(this.pnFileStructure);
-            this.gbFileOptions.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbFileOptions.Location = new System.Drawing.Point(0, 0);
-            this.gbFileOptions.Name = "gbFileOptions";
-            this.gbFileOptions.Size = new System.Drawing.Size(439, 153);
-            this.gbFileOptions.TabIndex = 1;
-            this.gbFileOptions.TabStop = false;
-            this.gbFileOptions.Text = "File Options";
-            // 
-            // cmbCommonAttributes
-            // 
-            this.cmbCommonAttributes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbCommonAttributes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbCommonAttributes.FormattingEnabled = true;
-            this.cmbCommonAttributes.Items.AddRange(new object[] {
-            "None",
-            "Attributes shared by more than one entity",
-            "Attributes shared by all selected entities"});
-            this.cmbCommonAttributes.Location = new System.Drawing.Point(126, 1);
-            this.cmbCommonAttributes.Name = "cmbCommonAttributes";
-            this.cmbCommonAttributes.Size = new System.Drawing.Size(299, 21);
-            this.cmbCommonAttributes.TabIndex = 15;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(6, 5);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(76, 13);
-            this.label18.TabIndex = 14;
-            this.label18.Text = "Common Class";
-            // 
-            // llFileOptionsExpander
-            // 
-            this.llFileOptionsExpander.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.llFileOptionsExpander.AutoSize = true;
-            this.llFileOptionsExpander.Location = new System.Drawing.Point(404, 0);
-            this.llFileOptionsExpander.Name = "llFileOptionsExpander";
-            this.llFileOptionsExpander.Size = new System.Drawing.Size(29, 13);
-            this.llFileOptionsExpander.TabIndex = 13;
-            this.llFileOptionsExpander.TabStop = true;
-            this.llFileOptionsExpander.Text = "Hide";
-            this.llFileOptionsExpander.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 21);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(68, 13);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "Output folder";
-            // 
-            // txtOutputFolder
-            // 
-            this.txtOutputFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtOutputFolder.Location = new System.Drawing.Point(132, 18);
-            this.txtOutputFolder.Name = "txtOutputFolder";
-            this.txtOutputFolder.Size = new System.Drawing.Size(261, 20);
-            this.txtOutputFolder.TabIndex = 1;
-            // 
-            // btnOutputFolder
-            // 
-            this.btnOutputFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOutputFolder.Image = ((System.Drawing.Image)(resources.GetObject("btnOutputFolder.Image")));
-            this.btnOutputFolder.Location = new System.Drawing.Point(399, 17);
-            this.btnOutputFolder.Name = "btnOutputFolder";
-            this.btnOutputFolder.Size = new System.Drawing.Size(32, 24);
-            this.btnOutputFolder.TabIndex = 2;
-            this.btnOutputFolder.UseVisualStyleBackColor = true;
-            this.btnOutputFolder.Click += new System.EventHandler(this.btnOutputFolder_Click);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 5);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(64, 13);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Namespace";
-            // 
-            // pnFileCommonName
-            // 
-            this.pnFileCommonName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnFileCommonName.Controls.Add(this.txtCommonFilename);
-            this.pnFileCommonName.Controls.Add(this.txtCommonFileSuffix);
-            this.pnFileCommonName.Location = new System.Drawing.Point(132, 68);
-            this.pnFileCommonName.Name = "pnFileCommonName";
-            this.pnFileCommonName.Size = new System.Drawing.Size(299, 26);
-            this.pnFileCommonName.TabIndex = 5;
-            // 
-            // txtCommonFilename
-            // 
-            this.txtCommonFilename.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCommonFilename.Location = new System.Drawing.Point(0, 4);
-            this.txtCommonFilename.Name = "txtCommonFilename";
-            this.txtCommonFilename.Size = new System.Drawing.Size(253, 20);
-            this.txtCommonFilename.TabIndex = 4;
-            // 
-            // txtCommonFileSuffix
-            // 
-            this.txtCommonFileSuffix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCommonFileSuffix.Location = new System.Drawing.Point(251, 4);
-            this.txtCommonFileSuffix.Name = "txtCommonFileSuffix";
-            this.txtCommonFileSuffix.ReadOnly = true;
-            this.txtCommonFileSuffix.Size = new System.Drawing.Size(48, 20);
-            this.txtCommonFileSuffix.TabIndex = 5;
-            this.txtCommonFileSuffix.Text = ".cs";
-            // 
-            // txtNamespace
-            // 
-            this.txtNamespace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtNamespace.Location = new System.Drawing.Point(126, 1);
-            this.txtNamespace.Name = "txtNamespace";
-            this.txtNamespace.Size = new System.Drawing.Size(299, 20);
-            this.txtNamespace.TabIndex = 6;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 75);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(52, 13);
-            this.label7.TabIndex = 3;
-            this.label7.Text = "File name";
-            // 
-            // cmbFileName
-            // 
-            this.cmbFileName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbFileName.FormattingEnabled = true;
-            this.cmbFileName.Items.AddRange(new object[] {
-            "Display Name",
-            "Schema Name",
-            "Logical Name"});
-            this.cmbFileName.Location = new System.Drawing.Point(132, 72);
-            this.cmbFileName.Name = "cmbFileName";
-            this.cmbFileName.Size = new System.Drawing.Size(159, 21);
-            this.cmbFileName.TabIndex = 12;
-            this.cmbFileName.Visible = false;
-            // 
-            // pnFileStructure
-            // 
-            this.pnFileStructure.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnFileStructure.Controls.Add(this.rbFilePerEntity);
-            this.pnFileStructure.Controls.Add(this.rbFileCommon);
-            this.pnFileStructure.Controls.Add(this.label6);
-            this.pnFileStructure.Location = new System.Drawing.Point(6, 43);
-            this.pnFileStructure.Name = "pnFileStructure";
-            this.pnFileStructure.Size = new System.Drawing.Size(426, 26);
-            this.pnFileStructure.TabIndex = 3;
-            // 
-            // rbFilePerEntity
-            // 
-            this.rbFilePerEntity.AutoSize = true;
-            this.rbFilePerEntity.Location = new System.Drawing.Point(289, 3);
-            this.rbFilePerEntity.Name = "rbFilePerEntity";
-            this.rbFilePerEntity.Size = new System.Drawing.Size(107, 17);
-            this.rbFilePerEntity.TabIndex = 2;
-            this.rbFilePerEntity.Text = "One file per entity";
-            this.rbFilePerEntity.UseVisualStyleBackColor = true;
-            this.rbFilePerEntity.CheckedChanged += new System.EventHandler(this.rbFileCommon_CheckedChanged);
-            // 
-            // rbFileCommon
-            // 
-            this.rbFileCommon.AutoSize = true;
-            this.rbFileCommon.Checked = true;
-            this.rbFileCommon.Location = new System.Drawing.Point(126, 3);
-            this.rbFileCommon.Name = "rbFileCommon";
-            this.rbFileCommon.Size = new System.Drawing.Size(104, 17);
-            this.rbFileCommon.TabIndex = 1;
-            this.rbFileCommon.TabStop = true;
-            this.rbFileCommon.Text = "One common file";
-            this.rbFileCommon.UseVisualStyleBackColor = true;
-            this.rbFileCommon.CheckedChanged += new System.EventHandler(this.rbFileCommon_CheckedChanged);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 5);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(67, 13);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "File structure";
-            // 
             // statusEntities
             // 
             this.statusEntities.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -832,9 +554,9 @@
             this.pnAttributeGrid.Controls.Add(this.chkAttAll);
             this.pnAttributeGrid.Controls.Add(this.gridAttributes);
             this.pnAttributeGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnAttributeGrid.Location = new System.Drawing.Point(0, 318);
+            this.pnAttributeGrid.Location = new System.Drawing.Point(0, 148);
             this.pnAttributeGrid.Name = "pnAttributeGrid";
-            this.pnAttributeGrid.Size = new System.Drawing.Size(487, 206);
+            this.pnAttributeGrid.Size = new System.Drawing.Size(487, 376);
             this.pnAttributeGrid.TabIndex = 3;
             // 
             // chkAttAll
@@ -885,7 +607,7 @@
             this.gridAttributes.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.gridAttributes.RowHeadersVisible = false;
             this.gridAttributes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridAttributes.Size = new System.Drawing.Size(487, 206);
+            this.gridAttributes.Size = new System.Drawing.Size(487, 376);
             this.gridAttributes.TabIndex = 2;
             this.gridAttributes.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             // 
@@ -933,7 +655,7 @@
             this.gbAttributes.Controls.Add(this.pnAttCustom);
             this.gbAttributes.Controls.Add(this.pnAttributeSpacer);
             this.gbAttributes.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbAttributes.Location = new System.Drawing.Point(0, 170);
+            this.gbAttributes.Location = new System.Drawing.Point(0, 0);
             this.gbAttributes.Name = "gbAttributes";
             this.gbAttributes.Size = new System.Drawing.Size(487, 148);
             this.gbAttributes.TabIndex = 2;
@@ -1177,199 +899,6 @@
             this.chkAttCheckAll.Text = "Check all visible attributes when checking an entity";
             this.chkAttCheckAll.UseVisualStyleBackColor = true;
             // 
-            // pnRightSpacer
-            // 
-            this.pnRightSpacer.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnRightSpacer.Location = new System.Drawing.Point(0, 153);
-            this.pnRightSpacer.Name = "pnRightSpacer";
-            this.pnRightSpacer.Size = new System.Drawing.Size(487, 17);
-            this.pnRightSpacer.TabIndex = 11;
-            // 
-            // gbConstOptions
-            // 
-            this.gbConstOptions.Controls.Add(this.pnConstantDetails);
-            this.gbConstOptions.Controls.Add(this.chkConstCamelCased);
-            this.gbConstOptions.Controls.Add(this.llConstOptionsExpander);
-            this.gbConstOptions.Controls.Add(this.txtConstStripPrefix);
-            this.gbConstOptions.Controls.Add(this.label10);
-            this.gbConstOptions.Controls.Add(this.chkConstStripPrefix);
-            this.gbConstOptions.Controls.Add(this.cmbConstantName);
-            this.gbConstOptions.Controls.Add(this.label8);
-            this.gbConstOptions.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbConstOptions.Location = new System.Drawing.Point(0, 0);
-            this.gbConstOptions.Name = "gbConstOptions";
-            this.gbConstOptions.Size = new System.Drawing.Size(487, 153);
-            this.gbConstOptions.TabIndex = 1;
-            this.gbConstOptions.TabStop = false;
-            this.gbConstOptions.Text = "Constant Options";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(3, 30);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(59, 13);
-            this.label19.TabIndex = 81;
-            this.label19.Text = "OptionSets";
-            // 
-            // chkRegions
-            // 
-            this.chkRegions.AutoSize = true;
-            this.chkRegions.Location = new System.Drawing.Point(304, 55);
-            this.chkRegions.Name = "chkRegions";
-            this.chkRegions.Size = new System.Drawing.Size(65, 17);
-            this.chkRegions.TabIndex = 100;
-            this.chkRegions.Text = "Regions";
-            this.chkRegions.UseVisualStyleBackColor = true;
-            // 
-            // chkRelationships
-            // 
-            this.chkRelationships.AutoSize = true;
-            this.chkRelationships.Location = new System.Drawing.Point(120, 56);
-            this.chkRelationships.Name = "chkRelationships";
-            this.chkRelationships.Size = new System.Drawing.Size(89, 17);
-            this.chkRelationships.TabIndex = 90;
-            this.chkRelationships.Text = "Relationships";
-            this.chkRelationships.UseVisualStyleBackColor = true;
-            // 
-            // chkConstCamelCased
-            // 
-            this.chkConstCamelCased.AutoSize = true;
-            this.chkConstCamelCased.Location = new System.Drawing.Point(316, 19);
-            this.chkConstCamelCased.Name = "chkConstCamelCased";
-            this.chkConstCamelCased.Size = new System.Drawing.Size(85, 17);
-            this.chkConstCamelCased.TabIndex = 20;
-            this.chkConstCamelCased.Text = "CamelCased";
-            this.chkConstCamelCased.UseVisualStyleBackColor = true;
-            this.chkConstCamelCased.Visible = false;
-            // 
-            // chkXmlDescription
-            // 
-            this.chkXmlDescription.AutoSize = true;
-            this.chkXmlDescription.Location = new System.Drawing.Point(304, 1);
-            this.chkXmlDescription.Name = "chkXmlDescription";
-            this.chkXmlDescription.Size = new System.Drawing.Size(79, 17);
-            this.chkXmlDescription.TabIndex = 60;
-            this.chkXmlDescription.Text = "Description";
-            this.chkXmlDescription.UseVisualStyleBackColor = true;
-            // 
-            // chkXmlProperties
-            // 
-            this.chkXmlProperties.AutoSize = true;
-            this.chkXmlProperties.Location = new System.Drawing.Point(120, 2);
-            this.chkXmlProperties.Name = "chkXmlProperties";
-            this.chkXmlProperties.Size = new System.Drawing.Size(73, 17);
-            this.chkXmlProperties.TabIndex = 50;
-            this.chkXmlProperties.Text = "Properties";
-            this.chkXmlProperties.UseVisualStyleBackColor = true;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(3, 3);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(50, 13);
-            this.label17.TabIndex = 17;
-            this.label17.Text = "Docs etc";
-            // 
-            // llConstOptionsExpander
-            // 
-            this.llConstOptionsExpander.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.llConstOptionsExpander.AutoSize = true;
-            this.llConstOptionsExpander.Location = new System.Drawing.Point(452, 0);
-            this.llConstOptionsExpander.Name = "llConstOptionsExpander";
-            this.llConstOptionsExpander.Size = new System.Drawing.Size(29, 13);
-            this.llConstOptionsExpander.TabIndex = 16;
-            this.llConstOptionsExpander.TabStop = true;
-            this.llConstOptionsExpander.Text = "Hide";
-            this.llConstOptionsExpander.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
-            // 
-            // txtConstStripPrefix
-            // 
-            this.txtConstStripPrefix.Enabled = false;
-            this.txtConstStripPrefix.Location = new System.Drawing.Point(227, 45);
-            this.txtConstStripPrefix.Name = "txtConstStripPrefix";
-            this.txtConstStripPrefix.Size = new System.Drawing.Size(163, 20);
-            this.txtConstStripPrefix.TabIndex = 40;
-            this.toolTip1.SetToolTip(this.txtConstStripPrefix, "Enter prefix to exclude from attributes.\r\nTo use multiple prefixes, separate them" +
-        " by comma and make sure a later prefix does not begin with a previous prefix.");
-            this.txtConstStripPrefix.Leave += new System.EventHandler(this.txtConstStripPrefix_Leave);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(3, 56);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(33, 13);
-            this.label9.TabIndex = 10;
-            this.label9.Text = "Other";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(15, 48);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(33, 13);
-            this.label10.TabIndex = 14;
-            this.label10.Text = "Prefix";
-            // 
-            // chkConstStripPrefix
-            // 
-            this.chkConstStripPrefix.AutoSize = true;
-            this.chkConstStripPrefix.Enabled = false;
-            this.chkConstStripPrefix.Location = new System.Drawing.Point(132, 47);
-            this.chkConstStripPrefix.Name = "chkConstStripPrefix";
-            this.chkConstStripPrefix.Size = new System.Drawing.Size(86, 17);
-            this.chkConstStripPrefix.TabIndex = 30;
-            this.chkConstStripPrefix.Text = "Skip prefixes";
-            this.chkConstStripPrefix.UseVisualStyleBackColor = true;
-            this.chkConstStripPrefix.CheckedChanged += new System.EventHandler(this.chkConstStripPrefix_CheckedChanged);
-            // 
-            // cmbConstantName
-            // 
-            this.cmbConstantName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbConstantName.FormattingEnabled = true;
-            this.cmbConstantName.Items.AddRange(new object[] {
-            "Display Name",
-            "Schema Name",
-            "Logical Name"});
-            this.cmbConstantName.Location = new System.Drawing.Point(132, 18);
-            this.cmbConstantName.Name = "cmbConstantName";
-            this.cmbConstantName.Size = new System.Drawing.Size(178, 21);
-            this.cmbConstantName.TabIndex = 10;
-            this.cmbConstantName.SelectedIndexChanged += new System.EventHandler(this.cmbConstantName_SelectedIndexChanged);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(15, 21);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(47, 13);
-            this.label8.TabIndex = 8;
-            this.label8.Text = "Identifier";
-            // 
-            // chkEnumsInclude
-            // 
-            this.chkEnumsInclude.AutoSize = true;
-            this.chkEnumsInclude.Location = new System.Drawing.Point(120, 29);
-            this.chkEnumsInclude.Name = "chkEnumsInclude";
-            this.chkEnumsInclude.Size = new System.Drawing.Size(107, 17);
-            this.chkEnumsInclude.TabIndex = 70;
-            this.chkEnumsInclude.Text = "Entity OptionSets";
-            this.chkEnumsInclude.UseVisualStyleBackColor = true;
-            // 
-            // chkEnumsGlobal
-            // 
-            this.chkEnumsGlobal.AutoSize = true;
-            this.chkEnumsGlobal.Enabled = false;
-            this.chkEnumsGlobal.Location = new System.Drawing.Point(304, 28);
-            this.chkEnumsGlobal.Name = "chkEnumsGlobal";
-            this.chkEnumsGlobal.Size = new System.Drawing.Size(111, 17);
-            this.chkEnumsGlobal.TabIndex = 80;
-            this.chkEnumsGlobal.Text = "Global OptionSets";
-            this.toolTip1.SetToolTip(this.chkEnumsGlobal, "This option is unfortunately not available yet.\r\nCheck for updates to LCG!");
-            this.chkEnumsGlobal.UseVisualStyleBackColor = true;
-            // 
             // tmEntSearch
             // 
             this.tmEntSearch.Interval = 500;
@@ -1388,43 +917,43 @@
             this.pnWindowTopSpacer.Size = new System.Drawing.Size(930, 17);
             this.pnWindowTopSpacer.TabIndex = 11;
             // 
-            // pnNamespace
+            // btnOptions
             // 
-            this.pnNamespace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnNamespace.Controls.Add(this.label5);
-            this.pnNamespace.Controls.Add(this.txtNamespace);
-            this.pnNamespace.Location = new System.Drawing.Point(6, 97);
-            this.pnNamespace.Name = "pnNamespace";
-            this.pnNamespace.Size = new System.Drawing.Size(426, 26);
-            this.pnNamespace.TabIndex = 16;
+            this.btnOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnOptions.Image")));
+            this.btnOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnOptions.Name = "btnOptions";
+            this.btnOptions.Size = new System.Drawing.Size(77, 28);
+            this.btnOptions.Text = "Options";
+            this.btnOptions.Click += new System.EventHandler(this.btnOptions_Click);
             // 
-            // pnCommonAttributes
+            // toolStripDropDownButton1
             // 
-            this.pnCommonAttributes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnCommonAttributes.Controls.Add(this.label18);
-            this.pnCommonAttributes.Controls.Add(this.cmbCommonAttributes);
-            this.pnCommonAttributes.Location = new System.Drawing.Point(6, 124);
-            this.pnCommonAttributes.Name = "pnCommonAttributes";
-            this.pnCommonAttributes.Size = new System.Drawing.Size(426, 26);
-            this.pnCommonAttributes.TabIndex = 17;
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnLoadConfig,
+            this.btnSaveConfig});
+            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(81, 28);
+            this.toolStripDropDownButton1.Text = "Project";
             // 
-            // pnConstantDetails
+            // btnLoadConfig
             // 
-            this.pnConstantDetails.Controls.Add(this.label19);
-            this.pnConstantDetails.Controls.Add(this.label17);
-            this.pnConstantDetails.Controls.Add(this.chkRegions);
-            this.pnConstantDetails.Controls.Add(this.chkEnumsGlobal);
-            this.pnConstantDetails.Controls.Add(this.chkRelationships);
-            this.pnConstantDetails.Controls.Add(this.chkEnumsInclude);
-            this.pnConstantDetails.Controls.Add(this.label9);
-            this.pnConstantDetails.Controls.Add(this.chkXmlDescription);
-            this.pnConstantDetails.Controls.Add(this.chkXmlProperties);
-            this.pnConstantDetails.Location = new System.Drawing.Point(12, 72);
-            this.pnConstantDetails.Name = "pnConstantDetails";
-            this.pnConstantDetails.Size = new System.Drawing.Size(422, 78);
-            this.pnConstantDetails.TabIndex = 101;
+            this.btnLoadConfig.Enabled = false;
+            this.btnLoadConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnLoadConfig.Image")));
+            this.btnLoadConfig.Name = "btnLoadConfig";
+            this.btnLoadConfig.Size = new System.Drawing.Size(188, 30);
+            this.btnLoadConfig.Text = "Load project...";
+            this.btnLoadConfig.Click += new System.EventHandler(this.btnLoadConfig_Click);
+            // 
+            // btnSaveConfig
+            // 
+            this.btnSaveConfig.Enabled = false;
+            this.btnSaveConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveConfig.Image")));
+            this.btnSaveConfig.Name = "btnSaveConfig";
+            this.btnSaveConfig.Size = new System.Drawing.Size(188, 30);
+            this.btnSaveConfig.Text = "Save project...";
+            this.btnSaveConfig.Click += new System.EventHandler(this.btnSaveConfig_Click);
             // 
             // LCG
             // 
@@ -1463,12 +992,6 @@
             this.pnEntCustom.PerformLayout();
             this.pnEntSolution.ResumeLayout(false);
             this.pnEntSolution.PerformLayout();
-            this.gbFileOptions.ResumeLayout(false);
-            this.gbFileOptions.PerformLayout();
-            this.pnFileCommonName.ResumeLayout(false);
-            this.pnFileCommonName.PerformLayout();
-            this.pnFileStructure.ResumeLayout(false);
-            this.pnFileStructure.PerformLayout();
             this.statusEntities.ResumeLayout(false);
             this.statusEntities.PerformLayout();
             this.pnAttributeGrid.ResumeLayout(false);
@@ -1488,14 +1011,6 @@
             this.pnAttCustom.PerformLayout();
             this.pnAttributeSpacer.ResumeLayout(false);
             this.pnAttributeSpacer.PerformLayout();
-            this.gbConstOptions.ResumeLayout(false);
-            this.gbConstOptions.PerformLayout();
-            this.pnNamespace.ResumeLayout(false);
-            this.pnNamespace.PerformLayout();
-            this.pnCommonAttributes.ResumeLayout(false);
-            this.pnCommonAttributes.PerformLayout();
-            this.pnConstantDetails.ResumeLayout(false);
-            this.pnConstantDetails.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1531,9 +1046,6 @@
         private System.Windows.Forms.CheckBox chkEntAll;
         private System.Windows.Forms.CheckBox chkAttAll;
         private System.Windows.Forms.ToolStripButton btnGenerate;
-        private System.Windows.Forms.Button btnOutputFolder;
-        private System.Windows.Forms.TextBox txtOutputFolder;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolStripStatusLabel statusAttributesShowing;
         private System.Windows.Forms.ToolStripStatusLabel statusAttributesSelected;
         private System.Windows.Forms.LinkLabel llEntityExpander;
@@ -1557,37 +1069,12 @@
         private System.Windows.Forms.RadioButton rbEntCustomAll;
         private System.Windows.Forms.Timer tmEntSearch;
         private System.Windows.Forms.Timer tmAttSearch;
-        private System.Windows.Forms.TextBox txtNamespace;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Panel pnFileStructure;
-        private System.Windows.Forms.TextBox txtCommonFilename;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.RadioButton rbFilePerEntity;
-        private System.Windows.Forms.RadioButton rbFileCommon;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox txtCommonFileSuffix;
-        private System.Windows.Forms.Panel pnFileCommonName;
         private System.Windows.Forms.Panel pnAttSystem;
         private System.Windows.Forms.CheckBox chkAttPrimaryAttribute;
         private System.Windows.Forms.CheckBox chkAttPrimaryKey;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.CheckBox chkEnumsGlobal;
-        private System.Windows.Forms.CheckBox chkEnumsInclude;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox cmbConstantName;
-        private System.Windows.Forms.ComboBox cmbFileName;
-        private System.Windows.Forms.TextBox txtConstStripPrefix;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.CheckBox chkConstStripPrefix;
         private System.Windows.Forms.Panel pnAttributeSpacer;
-        private System.Windows.Forms.Panel pnLeftSpacer;
-        private System.Windows.Forms.GroupBox gbFileOptions;
-        private System.Windows.Forms.LinkLabel llFileOptionsExpander;
         private System.Windows.Forms.Panel pnAttributeGrid;
-        private System.Windows.Forms.Panel pnRightSpacer;
-        private System.Windows.Forms.GroupBox gbConstOptions;
         private System.Windows.Forms.Panel pnEntityGrid;
-        private System.Windows.Forms.LinkLabel llConstOptionsExpander;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label15;
@@ -1595,25 +1082,15 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Panel pnWindowTopSpacer;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton btnLoadConfig;
-        private System.Windows.Forms.ToolStripButton btnSaveConfig;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.CheckBox chkAttCheckAll;
-        private System.Windows.Forms.CheckBox chkXmlDescription;
-        private System.Windows.Forms.CheckBox chkXmlProperties;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.CheckBox chkConstCamelCased;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolStripLabel tslAbout;
-        private System.Windows.Forms.CheckBox chkRelationships;
-        private System.Windows.Forms.CheckBox chkRegions;
-        private System.Windows.Forms.ComboBox cmbCommonAttributes;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label19;
         private System.Windows.Forms.CheckBox chkAttLogical;
-        private System.Windows.Forms.Panel pnCommonAttributes;
-        private System.Windows.Forms.Panel pnNamespace;
-        private System.Windows.Forms.Panel pnConstantDetails;
+        private System.Windows.Forms.ToolStripButton btnOptions;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripMenuItem btnLoadConfig;
+        private System.Windows.Forms.ToolStripMenuItem btnSaveConfig;
     }
 }

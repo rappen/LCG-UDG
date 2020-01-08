@@ -3,6 +3,6 @@
     public interface IConstantFileWriter
     {
         void WriteEntity(Settings settings, string entity, string filename);
-        string Finalize(Settings settings, string suffix);
+        string Finalize(Settings settings);
     }
 }

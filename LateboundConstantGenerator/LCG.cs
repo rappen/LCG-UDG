@@ -36,7 +36,9 @@ namespace Rappen.XTB.LCG
         private object checkedrow;
         private readonly string commonsettingsfile = "[Common]";
         internal readonly bool isUML = false;
-        internal readonly string toolname = "Latebound Constants Generator";
+        internal static string toolnameLCG = "Latebound Constants Generator";
+        internal static string toolnameUDG = "UML Diagram Generator";
+        internal readonly string toolname = toolnameLCG;
 
         #endregion Private Fields
 
@@ -59,11 +61,7 @@ namespace Rappen.XTB.LCG
         public LCG(bool isuml)
         {
             isUML = isuml;
-            if (isUML)
-            {
-                commonsettingsfile = "[CommonUML]";
-                toolname = "UML Diagram Generator";
-            }
+            toolname = isUML ? toolnameUDG : toolnameLCG;
             ai = new AppInsights(new AiConfig(aiEndpoint, aiKey) { PluginName = toolname });
             IEnumerable<Control> GetAll(Control control, Type type)
             {
@@ -91,7 +89,7 @@ namespace Rappen.XTB.LCG
 
         public override void ClosingPlugin(PluginCloseInfo info)
         {
-            SettingsManager.Instance.Save(GetType(), commonsettings, commonsettingsfile);
+            SettingsManager.Instance.Save(GetType(), commonsettings, SettingsFileName(commonsettingsfile));
             SaveSettings(ConnectionDetail?.ConnectionName, null);
             LogUse("Close");
             base.ClosingPlugin(info);
@@ -125,12 +123,15 @@ namespace Rappen.XTB.LCG
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             LogUse("Generate");
-            var settings = GetSettingsFromUI();
-            settings.commonsettings = commonsettings;
+            settings = GetSettingsFromUI();
+            var filesettings = GenerateDialog.GetSettings(this, settings);
+            if (filesettings == null)
+            {
+                return;
+            }
+            settings.FileSettings = filesettings;
             var filewriter = settings.GetWriter(ConnectionDetail.WebApplicationUrl);
-            var message = !isUML ? 
-                CSharpUtils.GenerateClasses(entities, settings, filewriter) :
-                UMLUtils.GenerateClasses(entities, settings, filewriter);
+            var message = CSharpUtils.GenerateClasses(entities, settings, filewriter);
             MessageBox.Show(message, toolname, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -161,17 +162,18 @@ namespace Rappen.XTB.LCG
             ExecuteMethod(LoadEntities);
         }
 
-        private void btnOutputFolder_Click(object sender, EventArgs e)
+        private void btnOptions_Click(object sender, EventArgs e)
         {
-            var fldr = new FolderBrowserDialog
+            var gensettings = isUML ?
+                OptionsDialogUML.GetSettings(this, settings) :
+                OptionsDialogLCG.GetSettings(this, settings);
+            if (gensettings != null)
             {
-                Description = "Select folder where generated constant files will be generated.",
-                SelectedPath = txtOutputFolder.Text,
-                ShowNewFolderButton = true
-            };
-            if (fldr.ShowDialog(this) == DialogResult.OK)
-            {
-                txtOutputFolder.Text = fldr.SelectedPath;
+                if (settings == null)
+                {
+                    settings = new Settings();
+                }
+                settings.GenerationSettings = gensettings;
             }
         }
 
@@ -202,22 +204,9 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        private void chkConstStripPrefix_CheckedChanged(object sender, EventArgs e)
-        {
-            txtConstStripPrefix.Enabled = chkConstStripPrefix.Enabled && chkConstStripPrefix.Checked;
-        }
-
-        private void cmbConstantName_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            chkConstCamelCased.Visible = cmbConstantName.SelectedIndex != (int)NameType.DisplayName;
-            chkConstStripPrefix.Enabled = cmbConstantName.SelectedIndex != (int)NameType.DisplayName;
-            txtConstStripPrefix.Enabled = chkConstStripPrefix.Enabled && chkConstStripPrefix.Checked;
-        }
-
         private void entityFilter_Changed(object sender, EventArgs e)
         {
             FilterEntities();
-            SetNamespace();
         }
 
         private void grid_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -289,12 +278,6 @@ namespace Rappen.XTB.LCG
             GroupBoxToggle(sender as LinkLabel);
         }
 
-        private void rbFileCommon_CheckedChanged(object sender, EventArgs e)
-        {
-            pnFileCommonName.Visible = rbFileCommon.Checked;
-            cmbFileName.Visible = rbFilePerEntity.Checked;
-        }
-
         private void tmAttSearch_Tick(object sender, EventArgs e)
         {
             tmAttSearch.Stop();
@@ -313,14 +296,6 @@ namespace Rappen.XTB.LCG
             tmAttSearch.Start();
         }
 
-        private void txtConstStripPrefix_Leave(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(txtConstStripPrefix.Text))
-            {
-                txtConstStripPrefix.Text = txtConstStripPrefix.Text.ToLowerInvariant().TrimEnd('_') + "_";
-            }
-        }
-
         private void txtEntSearch_TextChanged(object sender, EventArgs e)
         {
             tmEntSearch.Stop();
@@ -331,13 +306,14 @@ namespace Rappen.XTB.LCG
 
         #region Private Methods
 
+        private string SettingsFileName(string name)
+        {
+            return (isUML ? "UDG_" : "") + name;
+        }
+
         private void FixFormForUML()
         {
             btnGenerate.Text = "Generate UML";
-            pnFileStructure.Visible = false;
-            txtCommonFileSuffix.Text = ".plantuml";
-            pnCommonAttributes.Visible = false;
-            pnConstantDetails.Visible = false;
         }
 
         internal void LogUse(string action)
@@ -358,23 +334,6 @@ namespace Rappen.XTB.LCG
 
         private void ApplySettings()
         {
-            txtOutputFolder.Text = settings.OutputFolder;
-            txtNamespace.Text = settings.NameSpace;
-            rbFileCommon.Checked = settings.UseCommonFile;
-            rbFilePerEntity.Checked = !settings.UseCommonFile;
-            txtCommonFilename.Text = settings.CommonFile;
-            cmbFileName.SelectedIndex = (int)settings.FileName;
-            cmbConstantName.SelectedIndex = (int)settings.ConstantName;
-            cmbCommonAttributes.SelectedIndex = (int)settings.CommonAttributes;
-            chkConstCamelCased.Checked = settings.ConstantCamelCased && settings.ConstantName != NameType.DisplayName;
-            chkConstStripPrefix.Checked = settings.DoStripPrefix && settings.ConstantName != NameType.DisplayName;
-            txtConstStripPrefix.Text = settings.StripPrefix;
-            chkXmlProperties.Checked = settings.XmlProperties;
-            chkXmlDescription.Checked = settings.XmlDescription;
-            chkRegions.Checked = settings.Regions;
-            chkRelationships.Checked = settings.RelationShips;
-            chkEnumsInclude.Checked = settings.OptionSets;
-            chkEnumsGlobal.Checked = settings.GlobalOptionSets;
             rbEntCustomAll.Checked = settings.EntityFilter?.CustomAll != false;
             rbEntCustomFalse.Checked = settings.EntityFilter?.CustomFalse == true;
             rbEntCustomTrue.Checked = settings.EntityFilter?.CustomTrue == true;
@@ -393,8 +352,6 @@ namespace Rappen.XTB.LCG
             chkAttPrimaryKey.Checked = settings.AttributeFilter?.PrimaryKey == true;
             chkAttPrimaryAttribute.Checked = settings.AttributeFilter?.PrimaryAttribute == true;
             chkAttLogical.Checked = settings.AttributeFilter?.Logical == true;
-            GroupBoxSetState(llFileOptionsExpander, settings.FileOptionsExpanded);
-            GroupBoxSetState(llConstOptionsExpander, settings.ConstantOptionsExpanded);
             GroupBoxSetState(llEntityExpander, settings.EntityFilterExpanded);
             GroupBoxSetState(llAttributeExpander, settings.AttributeFilterExpanded);
         }
@@ -603,52 +560,36 @@ namespace Rappen.XTB.LCG
 
         private Settings GetSettingsFromUI()
         {
-            var settings = new Settings
+            if (settings == null)
             {
-                OutputFolder = txtOutputFolder.Text,
-                NameSpace = txtNamespace.Text,
-                UseCommonFile = rbFileCommon.Checked,
-                CommonFile = txtCommonFilename.Text,
-                FileName = (NameType)Math.Max(cmbFileName.SelectedIndex, 0),
-                ConstantName = (NameType)Math.Max(cmbConstantName.SelectedIndex, 0),
-                CommonAttributes = (CommonAttributesType)Math.Max(cmbCommonAttributes.SelectedIndex, 0),
-                ConstantCamelCased = chkConstCamelCased.Checked,
-                DoStripPrefix = chkConstStripPrefix.Checked,
-                StripPrefix = txtConstStripPrefix.Text.ToLowerInvariant().TrimEnd('_') + "_",
-                XmlProperties = chkXmlProperties.Checked,
-                XmlDescription = chkXmlDescription.Checked,
-                Regions = chkRegions.Checked,
-                RelationShips = chkRelationships.Checked,
-                OptionSets = chkEnumsInclude.Checked,
-                GlobalOptionSets = chkEnumsGlobal.Checked,
-                FileOptionsExpanded = gbFileOptions.Height > 20,
-                ConstantOptionsExpanded = gbConstOptions.Height > 20,
-                EntityFilterExpanded = gbEntities.Height > 20,
-                AttributeFilterExpanded = gbAttributes.Height > 20,
-                EntityFilter = new EntityFilter
-                {
-                    CustomAll = rbEntCustomAll.Checked,
-                    CustomFalse = rbEntCustomFalse.Checked,
-                    CustomTrue = rbEntCustomTrue.Checked,
-                    ManagedAll = rbEntMgdAll.Checked,
-                    ManagedTrue = rbEntMgdTrue.Checked,
-                    ManagedFalse = rbEntMgdFalse.Checked,
-                    Intersect = chkEntIntersect.Checked,
-                    SelectedOnly = chkEntSelected.Checked
-                },
-                AttributeFilter = new AttributeFilter
-                {
-                    CheckAll = chkAttCheckAll.Checked,
-                    CustomAll = rbAttCustomAll.Checked,
-                    CustomFalse = rbAttCustomFalse.Checked,
-                    CustomTrue = rbAttCustomTrue.Checked,
-                    ManagedAll = rbAttMgdAll.Checked,
-                    ManagedTrue = rbAttMgdTrue.Checked,
-                    ManagedFalse = rbAttMgdFalse.Checked,
-                    PrimaryKey = chkAttPrimaryKey.Checked,
-                    PrimaryAttribute = chkAttPrimaryAttribute.Checked,
-                    Logical = chkAttLogical.Checked
-                }
+                settings = new Settings();
+            }
+            settings.commonsettings = commonsettings;
+            settings.EntityFilterExpanded = gbEntities.Height > 20;
+            settings.AttributeFilterExpanded = gbAttributes.Height > 20;
+            settings.EntityFilter = new EntityFilter
+            {
+                CustomAll = rbEntCustomAll.Checked,
+                CustomFalse = rbEntCustomFalse.Checked,
+                CustomTrue = rbEntCustomTrue.Checked,
+                ManagedAll = rbEntMgdAll.Checked,
+                ManagedTrue = rbEntMgdTrue.Checked,
+                ManagedFalse = rbEntMgdFalse.Checked,
+                Intersect = chkEntIntersect.Checked,
+                SelectedOnly = chkEntSelected.Checked
+            };
+            settings.AttributeFilter = new AttributeFilter
+            {
+                CheckAll = chkAttCheckAll.Checked,
+                CustomAll = rbAttCustomAll.Checked,
+                CustomFalse = rbAttCustomFalse.Checked,
+                CustomTrue = rbAttCustomTrue.Checked,
+                ManagedAll = rbAttMgdAll.Checked,
+                ManagedTrue = rbAttMgdTrue.Checked,
+                ManagedFalse = rbAttMgdFalse.Checked,
+                PrimaryKey = chkAttPrimaryKey.Checked,
+                PrimaryAttribute = chkAttPrimaryAttribute.Checked,
+                Logical = chkAttLogical.Checked
             };
             if (entities != null)
             {
@@ -794,7 +735,7 @@ namespace Rappen.XTB.LCG
 
         private void LoadCommonSettings()
         {
-            if (!SettingsManager.Instance.TryLoad(GetType(), out commonsettings, commonsettingsfile))
+            if (!SettingsManager.Instance.TryLoad(GetType(), out commonsettings, SettingsFileName(commonsettingsfile)))
             {
                 commonsettings = new CommonSettings(isUML);
                 LogWarning("Common Settings not found => created");
@@ -803,7 +744,11 @@ namespace Rappen.XTB.LCG
             {
                 LogInfo("Common Settings found and loaded");
             }
-            if (commonsettings.Template.Version != new Template(isUML).Version)
+            if (isUML)
+            {
+                commonsettings.Template.InitializeUML();
+            }
+            if (commonsettings.Template.TemplateVersion != new Template(isUML).TemplateVersion)
             {
                 MessageBox.Show("Template has been updated.\nAny customizations will need to be recreated.", "Template", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 commonsettings.Template = new Template(isUML);
@@ -812,7 +757,7 @@ namespace Rappen.XTB.LCG
 
         private void LoadSettings(string connectionname)
         {
-            if (SettingsManager.Instance.TryLoad(GetType(), out settings, connectionname))
+            if (SettingsManager.Instance.TryLoad(GetType(), out settings, SettingsFileName(connectionname)))
             {
                 ApplySettings();
             }
@@ -894,7 +839,7 @@ namespace Rappen.XTB.LCG
             {
                 return;
             }
-            if (settings == null && !SettingsManager.Instance.TryLoad(GetType(), out settings, ConnectionDetail.ConnectionName))
+            if (settings == null && !SettingsManager.Instance.TryLoad(GetType(), out settings, SettingsFileName(ConnectionDetail.ConnectionName)))
             {
                 return;
             }
@@ -938,20 +883,12 @@ namespace Rappen.XTB.LCG
             {
                 settings = GetSettingsFromUI();
             }
-            SettingsManager.Instance.Save(GetType(), settings, connectionname);
+            SettingsManager.Instance.Save(GetType(), settings, SettingsFileName(connectionname));
         }
 
         private void SelectAllAttributes()
         {
             SelectAllRows(gridAttributes, true);
-        }
-
-        private void SetNamespace()
-        {
-            if (cmbSolution.SelectedItem is SolutionProxy solution && string.IsNullOrWhiteSpace(txtNamespace.Text))
-            {
-                txtNamespace.Text = solution.UniqueName;
-            }
         }
 
         private void UpdateAttributesStatus()
