@@ -3,9 +3,9 @@ using System.Windows.Forms;
 
 namespace Rappen.XTB.LCG
 {
-    public partial class GenerateDialog : Form
+    public partial class FileDialogLCG : Form
     {
-        public GenerateDialog()
+        public FileDialogLCG()
         {
             InitializeComponent();
         }
@@ -13,12 +13,8 @@ namespace Rappen.XTB.LCG
         internal static FileSettings GetSettings(LCG lcg, Settings settings)
         {
             FileSettings result = null;
-            using (var settingdlg = new GenerateDialog())
+            using (var settingdlg = new FileDialogLCG())
             {
-                settingdlg.pnFileStructure.Visible = !lcg.isUML;
-                settingdlg.pnCommonAttributes.Visible = !lcg.isUML;
-                settingdlg.txtCommonFileSuffix.Text = lcg.isUML ? ".plantuml" : ".cs";
-                settingdlg.lblNamespace.Text = lcg.isUML ? "Header" : "Namespace";
                 settingdlg.txtOutputFolder.Text = settings.OutputFolder;
                 settingdlg.txtNamespace.Text = settings.NameSpace;
                 settingdlg.rbFileCommon.Checked = lcg.isUML || settings.UseCommonFile;

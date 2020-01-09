@@ -71,6 +71,7 @@
         public string Remarks { get; set; } = "/// <remarks>{remarks}</remarks>";
         public string PrimaryKeyName { get; set; } = "PrimaryKey";
         public string PrimaryAttributeName { get; set; } = "PrimaryName";
+        public string StandardAttribute { get; set; } = string.Empty;
         public string CustomAttribute { get; set; } = string.Empty;
         public string RequiredLevelRequired { get; set; } = string.Empty;
         public string RequiredLevelRecommended { get; set; } = string.Empty;

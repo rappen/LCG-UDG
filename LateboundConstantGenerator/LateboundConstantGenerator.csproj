@@ -158,11 +158,17 @@
     </Compile>
     <Compile Include="AttributeMetadataProxy.cs" />
     <Compile Include="CommonFileWriter.cs" />
-    <Compile Include="GenerateDialog.cs">
+    <Compile Include="FileDialogUML.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GenerateDialog.Designer.cs">
-      <DependentUpon>GenerateDialog.cs</DependentUpon>
+    <Compile Include="FileDialogUML.Designer.cs">
+      <DependentUpon>FileDialogUML.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FileDialogLCG.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FileDialogLCG.Designer.cs">
+      <DependentUpon>FileDialogLCG.cs</DependentUpon>
     </Compile>
     <Compile Include="OptionsDialogUML.cs">
       <SubType>Form</SubType>
@@ -211,11 +217,14 @@
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FileDialogUML.resx">
+      <DependentUpon>FileDialogUML.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LCG.resx">
       <DependentUpon>LCG.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GenerateDialog.resx">
-      <DependentUpon>GenerateDialog.cs</DependentUpon>
+    <EmbeddedResource Include="FileDialogLCG.resx">
+      <DependentUpon>FileDialogLCG.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OptionsDialogUML.resx">
       <DependentUpon>OptionsDialogUML.cs</DependentUpon>

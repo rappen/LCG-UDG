@@ -140,8 +140,8 @@ namespace Rappen.XTB.LCG
                 var commonattributes = commonentity?.Attributes?.Select(a => a.LogicalName) ?? new List<string>();
                 foreach (var attributemetadata in entitymetadata.Attributes
                     .Where(a => (entitymetadata.LogicalName == "[common]") || (a.Selected && !commonattributes.Contains(a.LogicalName) && a != entitymetadata.PrimaryKey && a != entitymetadata.PrimaryName)))
-                    //.OrderBy(a => a.GetNameTechnical(settings))
-                    //.OrderBy(OrderByRequiredLevel))
+                //.OrderBy(a => a.GetNameTechnical(settings))
+                //.OrderBy(OrderByRequiredLevel))
                 {   // Then all the rest
                     var attribute = GetAttribute(attributemetadata, settings);
                     attributes.Add(attribute);
@@ -270,10 +270,9 @@ namespace Rappen.XTB.LCG
             {
                 name += "_";
             }
-            if (attributemetadata.Metadata.IsCustomAttribute.Value)
-            {
-                name = template.CustomAttribute.ReplaceIfNotEmpty("{attribute}", name);
-            }
+            name = attributemetadata.Metadata.IsCustomAttribute.Value ?
+                template.CustomAttribute.ReplaceIfNotEmpty("{attribute}", name) :
+                template.StandardAttribute.ReplaceIfNotEmpty("{attribute}", name);
             switch (attributemetadata.Metadata.RequiredLevel.Value)
             {
                 case AttributeRequiredLevel.ApplicationRequired:
@@ -289,11 +288,10 @@ namespace Rappen.XTB.LCG
             }
             var description = attributemetadata.Description?.Replace("\n", "\n/// ");
             var summary = settings.XmlProperties ? attributemetadata.AttributeProperties : settings.XmlDescription ? description : string.Empty;
-            summary = summary?.Replace("\n", "\n/// ");
             var remarks = settings.XmlProperties && settings.XmlDescription ? description : string.Empty;
             if (!string.IsNullOrEmpty(summary))
             {
-                summary = template.Summary.Replace("{summary}", summary);
+                summary = template.Summary.Replace("{summary}", summary.Replace("\n", "\n/// "));
             }
             if (!string.IsNullOrEmpty(remarks))
             {

@@ -124,12 +124,10 @@ namespace Rappen.XTB.LCG
         {
             LogUse("Generate");
             settings = GetSettingsFromUI();
-            var filesettings = GenerateDialog.GetSettings(this, settings);
-            if (filesettings == null)
+            if (!GetFileSettings())
             {
                 return;
             }
-            settings.FileSettings = filesettings;
             var filewriter = settings.GetWriter(ConnectionDetail.WebApplicationUrl);
             var message = CSharpUtils.GenerateClasses(entities, settings, filewriter);
             MessageBox.Show(message, toolname, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -164,6 +162,7 @@ namespace Rappen.XTB.LCG
 
         private void btnOptions_Click(object sender, EventArgs e)
         {
+            settings = GetSettingsFromUI();
             var gensettings = isUML ?
                 OptionsDialogUML.GetSettings(this, settings) :
                 OptionsDialogLCG.GetSettings(this, settings);
@@ -179,6 +178,7 @@ namespace Rappen.XTB.LCG
 
         private void btnSaveConfig_Click(object sender, EventArgs e)
         {
+            settings = GetSettingsFromUI();
             var sfd = new SaveFileDialog
             {
                 Title = "Save settings and selections",
@@ -188,7 +188,6 @@ namespace Rappen.XTB.LCG
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 settingsfile = sfd.FileName;
-                var settings = GetSettingsFromUI();
                 XmlSerializerHelper.SerializeToFile(settings, settingsfile);
                 MessageBox.Show("Settings and selections saved.", "Save configuration", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -598,7 +597,24 @@ namespace Rappen.XTB.LCG
                     .Select(e => e.LogicalName + ":" + (e.Attributes != null ? string.Join(",", e.Attributes.Where(a => a.Selected).Select(a => a.LogicalName)) : string.Empty))
                     .ToList();
             }
+            if (string.IsNullOrWhiteSpace(settings.OutputFolder))
+            {
+                GetFileSettings();
+            }
             return settings;
+        }
+
+        private bool GetFileSettings()
+        {
+            var filesettings = isUML ?
+                FileDialogUML.GetSettings(this, settings) :
+                FileDialogLCG.GetSettings(this, settings);
+            if (filesettings != null)
+            {
+                settings.FileSettings = filesettings;
+                return true;
+            }
+            return false;
         }
 
         private void GroupBoxCollapse(LinkLabel link)
