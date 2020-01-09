@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2008
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29521.150
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LateboundConstantGenerator", "LateboundConstantGenerator\LateboundConstantGenerator.csproj", "{78225251-A3A4-471F-9066-00D7EB90F3FA}"
 EndProject
@@ -9,24 +9,46 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LateboundConstantGeneratorT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LateboundConstantGeneratorCmd", "LateboundConstantGeneratorCmd\LateboundConstantGeneratorCmd.csproj", "{E97AB142-2D93-467C-80B2-58140AC25B79}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LCG-UDG-Common", "LCG-UDG-Common\LCG-UDG-Common.shproj", "{0A8CC35A-5563-4AAE-A744-B4FC343C528F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UMLDiagramGenerator", "UMLDiagramGenerator\UMLDiagramGenerator.csproj", "{31EAEFF2-3188-45DB-B040-CDCF435B1083}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		LCG-UDG-Common\LCG-UDG-Common.projitems*{0a8cc35a-5563-4aae-a744-b4fc343c528f}*SharedItemsImports = 13
+		LCG-UDG-Common\LCG-UDG-Common.projitems*{31eaeff2-3188-45db-b040-cdcf435b1083}*SharedItemsImports = 4
+		LCG-UDG-Common\LCG-UDG-Common.projitems*{78225251-a3a4-471f-9066-00d7eb90f3fa}*SharedItemsImports = 4
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		Test|Any CPU = Test|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{78225251-A3A4-471F-9066-00D7EB90F3FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{78225251-A3A4-471F-9066-00D7EB90F3FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78225251-A3A4-471F-9066-00D7EB90F3FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78225251-A3A4-471F-9066-00D7EB90F3FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78225251-A3A4-471F-9066-00D7EB90F3FA}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{78225251-A3A4-471F-9066-00D7EB90F3FA}.Test|Any CPU.Build.0 = Test|Any CPU
 		{4F684FFE-CF62-4719-B076-DA9961FAC997}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4F684FFE-CF62-4719-B076-DA9961FAC997}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F684FFE-CF62-4719-B076-DA9961FAC997}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F684FFE-CF62-4719-B076-DA9961FAC997}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F684FFE-CF62-4719-B076-DA9961FAC997}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{4F684FFE-CF62-4719-B076-DA9961FAC997}.Test|Any CPU.Build.0 = Test|Any CPU
 		{E97AB142-2D93-467C-80B2-58140AC25B79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E97AB142-2D93-467C-80B2-58140AC25B79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E97AB142-2D93-467C-80B2-58140AC25B79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E97AB142-2D93-467C-80B2-58140AC25B79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E97AB142-2D93-467C-80B2-58140AC25B79}.Test|Any CPU.ActiveCfg = Release|Any CPU
+		{E97AB142-2D93-467C-80B2-58140AC25B79}.Test|Any CPU.Build.0 = Release|Any CPU
+		{31EAEFF2-3188-45DB-B040-CDCF435B1083}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31EAEFF2-3188-45DB-B040-CDCF435B1083}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31EAEFF2-3188-45DB-B040-CDCF435B1083}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31EAEFF2-3188-45DB-B040-CDCF435B1083}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31EAEFF2-3188-45DB-B040-CDCF435B1083}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{31EAEFF2-3188-45DB-B040-CDCF435B1083}.Test|Any CPU.Build.0 = Test|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

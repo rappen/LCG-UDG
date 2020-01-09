@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Rappen.XrmToolBox.LateboundConstantsGenerator</id>
+    <version>1.0.0</version>
+    <title>Latebound Constants Generator for XrmToolBox</title>
+    <authors>Jonas Rapp</authors>
+    <owners>rappen</owners>
+    <projectUrl>https://github.com/rappen/LateboundConstantGenerator</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/rappen/LateboundConstantGenerator/master/images/LCG-150-tsp.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Generate constant classes from metadata for late bound development on Microsoft Dynamics 365/CRM.</description>
+    <summary>Generate constant classes from metadata for late bound development on Microsoft Dynamics 365/CRM.</summary>
+    <releaseNotes>
+Latest version:
+
+#35 Fixed primary key issue with logical attributes, thanks @maerger!
+#38 Fixed de-duplication routine that was confused by comment lines
+Fixed issue with Common Class when including relationships
+
+---
+
+Version 1.2019.6.2:
+
+#30 Enum texts containing [ or ] now created correctly. Thanks to @DerekHAu!
+#33 Add option to include logical attributes
+This will make "non-real" attributes like owneridname and address fields on contact and account etc available.
+
+---
+
+Version 1.2019.5.2:
+
+#22 Many-to-Many relationships included
+#26 EntityCollectionName included
+#27 CLI support for build automation
+#29 Exposing file template for customization of generated file
+Rebranded with 2019 design
+
+* NOTE! #26 introduces a breaking change where constant EntityName is changed to LogicalName. This can be reverted with the introduction of #29.
+
+---
+
+Version 1.2018.9.2:
+
+#16 Generate constants for relationships
+#21 Option to create separate common class for attributes used by multiple entities
+#19 Improved CamelCasing
+#24 Add XML documentation for relationship constants
+#25 Gently forgive file write errors instead of throwing exception
+Template line break bug fixed
+    </releaseNotes>
+    <copyright>Copyright 2017-2019 Jonas Rapp</copyright>
+    <tags>XrmToolBox Plugins LateboundConstantsGenerator</tags>
+    <dependencies>
+      <dependency id="XrmToolBox" version="1.2019.11.35" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\Rappen.XTB.LCG.dll" target="lib\net452\Plugins" />
+  </files>
+</package>

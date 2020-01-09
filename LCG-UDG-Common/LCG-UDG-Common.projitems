@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>0a8cc35a-5563-4aae-a744-b4fc343c528f</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>LCG_UDG_Common</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)About.designer.cs">
+      <DependentUpon>About.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)AttributeMetadataProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CommonFileWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CommonSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CSharpUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EntityMetadataProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileDialogLCG.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)FileDialogLCG.Designer.cs">
+      <DependentUpon>FileDialogLCG.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)FileDialogUML.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)FileDialogUML.Designer.cs">
+      <DependentUpon>FileDialogUML.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)IConstantFileWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LCG.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)LCG.designer.cs">
+      <DependentUpon>LCG.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)MetadataHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MetadataProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OptionsDialogLCG.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)OptionsDialogLCG.Designer.cs">
+      <DependentUpon>OptionsDialogLCG.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)OptionsDialogUML.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)OptionsDialogUML.Designer.cs">
+      <DependentUpon>OptionsDialogUML.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)RelationshipMetadataProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SeparateFileWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SolutionProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SortableBindingList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XTBAppInsights.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)FileDialogLCG.resx">
+      <DependentUpon>FileDialogLCG.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)FileDialogUML.resx">
+      <DependentUpon>FileDialogUML.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)LCG.resx">
+      <DependentUpon>LCG.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)OptionsDialogLCG.resx">
+      <DependentUpon>OptionsDialogLCG.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)OptionsDialogUML.resx">
+      <DependentUpon>OptionsDialogUML.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

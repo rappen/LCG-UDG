@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Latebound Constants Generator for XrmToolBox")]
-[assembly: AssemblyDescription("Generate constant classes from metadata for late bound development on Microsoft Power Platform CDS")]
+[assembly: AssemblyTitle("UML Diagram Generator for XrmToolBox")]
+[assembly: AssemblyDescription("Create UML diagrams based on the open PlantUML standard")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Jonas Rapp, Sweden")]
-[assembly: AssemblyProduct("LateboundConstantsGenerator")]
-[assembly: AssemblyCopyright("Copyright © Jonas Rapp 2017-2020")]
+[assembly: AssemblyProduct("UMLDiagramGenerator")]
+[assembly: AssemblyCopyright("Copyright © Jonas Rapp 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.2020.1.1003")]
-[assembly: AssemblyFileVersion("1.2020.1.1003")]
+[assembly: AssemblyVersion("1.2020.1.1001")]
+[assembly: AssemblyFileVersion("1.2020.1.1001")]
