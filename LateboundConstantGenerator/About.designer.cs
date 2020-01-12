@@ -204,7 +204,7 @@
             this.pictureBoxUML.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxUML.Image")));
             this.pictureBoxUML.Location = new System.Drawing.Point(55, 27);
             this.pictureBoxUML.Name = "pictureBoxUML";
-            this.pictureBoxUML.Size = new System.Drawing.Size(287, 240);
+            this.pictureBoxUML.Size = new System.Drawing.Size(407, 502);
             this.pictureBoxUML.TabIndex = 21;
             this.pictureBoxUML.TabStop = false;
             // 
@@ -215,7 +215,6 @@
             this.BackColor = System.Drawing.Color.White;
             this.CancelButton = this.button1;
             this.ClientSize = new System.Drawing.Size(904, 556);
-            this.Controls.Add(this.pictureBoxUML);
             this.Controls.Add(this.linkLabel5);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.groupBox1);
@@ -228,6 +227,7 @@
             this.Controls.Add(this.linkLabel2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.linkLabel1);
+            this.Controls.Add(this.pictureBoxUML);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MinimumSize = new System.Drawing.Size(500, 400);

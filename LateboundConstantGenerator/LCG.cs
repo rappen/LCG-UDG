@@ -312,7 +312,10 @@ namespace Rappen.XTB.LCG
 
         private void FixFormForUML()
         {
-            btnGenerate.Text = "Generate UML";
+            TabIcon = Properties.Resources.UDG16;
+            PluginIcon = Properties.Resources.UDG16ico;
+            tslAbout.Image = Properties.Resources.UDG24;
+            btnGenerate.Text = "Generate PlantUML";
         }
 
         internal void LogUse(string action)
