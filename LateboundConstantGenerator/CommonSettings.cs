@@ -32,21 +32,10 @@
 
         public Template(bool isUML)
         {
-            if (isUML)
-            {
-                TemplateVersion = 109;   // Change this when template is updated!
-                EntityContainer = "entity {entityname} <<{type}>>\n{\n{attributes}\n}";
-                Attribute = "{attribute}: {type}";
-                Relationship = "{entity1} {relationtype} {entity2} {relationship}";
-                PrimaryKeyName = "{attribute} (PK)";
-                PrimaryAttributeName = "{attribute} (PN)";
-                CustomAttribute = "<color:blue>{attribute}</color>";
-                RequiredLevelRequired = "*{attribute}";
-                RequiredLevelRecommended = "+{attribute}";
-            }
+            SetDefaults(isUML);
         }
 
-        public int TemplateVersion { get; set; } = 4;   // Change this when template is updated to revert customizations
+        public int TemplateVersion { get; set; }
         internal string IndentStr = "    ";
         internal string ToolName = LCG.toolnameLCG;
         internal string FileSuffix = ".cs";
@@ -76,11 +65,42 @@
         public string RequiredLevelRequired { get; set; } = string.Empty;
         public string RequiredLevelRecommended { get; set; } = string.Empty;
         public string RequiredLevelNone { get; set; } = string.Empty;
-        internal void InitializeUML()
+
+        private void SetDefaults(bool isUML)
         {
-            ToolName = LCG.toolnameUDG;
-            FileSuffix = ".plantuml";
-            FileHeader = FileHeader.Replace("// ***", "/' ***") + @"'/
+            if (!isUML)
+            {
+                TemplateVersion = 1;    // Change this when LCG template is updated to revert customizations
+            }
+            else
+            {
+                TemplateVersion = 1;    // Change this when UML template is updated to revert customizations
+                EntityContainer = "entity {entityname} <<{type}>>\n{\n{attributes}\n}";
+                Attribute = "{attribute}: {type}";
+                Relationship = "{entity1} {relationtype} {entity2} {relationship}";
+                PrimaryKeyName = "{attribute} (PK)";
+                PrimaryAttributeName = "{attribute} (PN)";
+                CustomAttribute = "<color:blue>{attribute}</color>";
+                RequiredLevelRequired = "*{attribute}";
+                RequiredLevelRecommended = "+{attribute}";
+            }
+        }
+
+        internal void SetFixedValues(bool isUML)
+        {
+            if (!isUML)
+            {
+                StandardAttribute = string.Empty;
+                CustomAttribute = string.Empty;
+                RequiredLevelRequired = string.Empty;
+                RequiredLevelRecommended = string.Empty;
+                RequiredLevelNone = string.Empty;
+            }
+            else
+            {
+                ToolName = LCG.toolnameUDG;
+                FileSuffix = ".plantuml";
+                FileHeader = FileHeader.Replace("// ***", "/' ***") + @"'/
 @startuml {namespace}
 hide circle
 hide stereotype
@@ -98,20 +118,21 @@ entity **Legend** <<standard>> #CCFFEE {
     Standard
     <color:blue>Custom</color>
 }";
-            DataContainer = @"
+                DataContainer = @"
 title {namespace} Entity Model
 footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
 {data}
 !include Relationships.plantuml
 '{relationships}
 @enduml";
-            AttributeSeparatorAfterPK = "--";
-            EntityDetail = string.Empty;
-            OptionSet = string.Empty;
-            OptionSetValue = string.Empty;
-            Region = string.Empty;
-            Summary = string.Empty;
-            Remarks = string.Empty;
+                AttributeSeparatorAfterPK = "--";
+                EntityDetail = string.Empty;
+                OptionSet = string.Empty;
+                OptionSetValue = string.Empty;
+                Region = string.Empty;
+                Summary = string.Empty;
+                Remarks = string.Empty;
+            }
         }
     }
 }

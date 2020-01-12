@@ -123,7 +123,7 @@ namespace Rappen.XTB.LCG
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             LogUse("Generate");
-            settings = GetSettingsFromUI();
+            settings = GetSettingsFromUI(false);
             if (!GetFileSettings())
             {
                 return;
@@ -162,7 +162,7 @@ namespace Rappen.XTB.LCG
 
         private void btnOptions_Click(object sender, EventArgs e)
         {
-            settings = GetSettingsFromUI();
+            settings = GetSettingsFromUI(false);
             var gensettings = isUML ?
                 OptionsDialogUML.GetSettings(this, settings) :
                 OptionsDialogLCG.GetSettings(this, settings);
@@ -178,7 +178,7 @@ namespace Rappen.XTB.LCG
 
         private void btnSaveConfig_Click(object sender, EventArgs e)
         {
-            settings = GetSettingsFromUI();
+            settings = GetSettingsFromUI(false);
             var sfd = new SaveFileDialog
             {
                 Title = "Save settings and selections",
@@ -557,7 +557,7 @@ namespace Rappen.XTB.LCG
             return null;
         }
 
-        private Settings GetSettingsFromUI()
+        private Settings GetSettingsFromUI(bool noprompt)
         {
             if (settings == null)
             {
@@ -597,7 +597,7 @@ namespace Rappen.XTB.LCG
                     .Select(e => e.LogicalName + ":" + (e.Attributes != null ? string.Join(",", e.Attributes.Where(a => a.Selected).Select(a => a.LogicalName)) : string.Empty))
                     .ToList();
             }
-            if (string.IsNullOrWhiteSpace(settings.OutputFolder))
+            if (string.IsNullOrWhiteSpace(settings.OutputFolder) && !noprompt)
             {
                 GetFileSettings();
             }
@@ -760,10 +760,7 @@ namespace Rappen.XTB.LCG
             {
                 LogInfo("Common Settings found and loaded");
             }
-            if (isUML)
-            {
-                commonsettings.Template.InitializeUML();
-            }
+            commonsettings.Template.SetFixedValues(isUML);
             if (commonsettings.Template.TemplateVersion != new Template(isUML).TemplateVersion)
             {
                 MessageBox.Show("Template has been updated.\nAny customizations will need to be recreated.", "Template", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -897,7 +894,7 @@ namespace Rappen.XTB.LCG
         {
             if (settings == null)
             {
-                settings = GetSettingsFromUI();
+                settings = GetSettingsFromUI(true);
             }
             SettingsManager.Instance.Save(GetType(), settings, SettingsFileName(connectionname));
         }

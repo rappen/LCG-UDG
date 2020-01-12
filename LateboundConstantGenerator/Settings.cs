@@ -20,12 +20,13 @@ namespace Rappen.XTB.LCG
 
         internal CommonSettings commonsettings;
 
+        #region Shortcuts
         internal string OutputFolder => FileSettings.OutputFolder;
         internal string NameSpace => FileSettings.NameSpace;
         internal bool UseCommonFile => FileSettings.UseCommonFile;
         internal string CommonFile => FileSettings.CommonFile;
-        internal NameType FileName  = NameType.DisplayName;
-        internal CommonAttributesType CommonAttributes  = CommonAttributesType.None;
+        internal NameType FileName => FileSettings.FileName;
+        internal CommonAttributesType CommonAttributes => FileSettings.CommonAttributes;
         internal NameType ConstantName => GenerationSettings.ConstantName;
         internal bool ConstantCamelCased => GenerationSettings.ConstantCamelCased;
         internal bool DoStripPrefix => GenerationSettings.DoStripPrefix;
@@ -36,6 +37,7 @@ namespace Rappen.XTB.LCG
         internal bool RelationShips => GenerationSettings.RelationShips;
         internal bool OptionSets => GenerationSettings.OptionSets;
         internal bool GlobalOptionSets => GenerationSettings.GlobalOptionSets;
+        #endregion Shortcuts
 
         public IConstantFileWriter GetWriter(string orgUrl)
         {
@@ -66,11 +68,11 @@ namespace Rappen.XTB.LCG
         public bool ConstantCamelCased { get; set; }
         public bool DoStripPrefix { get; set; }
         public string StripPrefix { get; set; }
-        public bool XmlProperties { get; set; }
+        public bool XmlProperties { get; set; } = true;
         public bool XmlDescription { get; set; }
         public bool Regions { get; set; } = true;
-        public bool RelationShips { get; set; }
-        public bool OptionSets { get; set; }
+        public bool RelationShips { get; set; } = true;
+        public bool OptionSets { get; set; } = true;
         public bool GlobalOptionSets { get; set; }
     }
 

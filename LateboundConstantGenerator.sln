@@ -1,13 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2008
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29521.150
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LateboundConstantGenerator", "LateboundConstantGenerator\LateboundConstantGenerator.csproj", "{78225251-A3A4-471F-9066-00D7EB90F3FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LCG-UDG-Common", "LateboundConstantGenerator\LCG-UDG-Common.csproj", "{78225251-A3A4-471F-9066-00D7EB90F3FA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LateboundConstantGeneratorTests", "LateboundConstantGeneratorTests\LateboundConstantGeneratorTests.csproj", "{4F684FFE-CF62-4719-B076-DA9961FAC997}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LateboundConstantGeneratorCmd", "LateboundConstantGeneratorCmd\LateboundConstantGeneratorCmd.csproj", "{E97AB142-2D93-467C-80B2-58140AC25B79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UDG", "UDG\UDG.csproj", "{2257E924-19EF-496D-8F03-7E07A82C20C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LCG", "LCG\LCG.csproj", "{9F7A2F95-25F0-405F-9013-CA21A3EC1146}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{E97AB142-2D93-467C-80B2-58140AC25B79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E97AB142-2D93-467C-80B2-58140AC25B79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E97AB142-2D93-467C-80B2-58140AC25B79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2257E924-19EF-496D-8F03-7E07A82C20C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2257E924-19EF-496D-8F03-7E07A82C20C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2257E924-19EF-496D-8F03-7E07A82C20C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2257E924-19EF-496D-8F03-7E07A82C20C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F7A2F95-25F0-405F-9013-CA21A3EC1146}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F7A2F95-25F0-405F-9013-CA21A3EC1146}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F7A2F95-25F0-405F-9013-CA21A3EC1146}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F7A2F95-25F0-405F-9013-CA21A3EC1146}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
