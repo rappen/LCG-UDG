@@ -68,12 +68,19 @@ namespace Rappen.XTB.LCG
         public bool ConstantCamelCased { get; set; }
         public bool DoStripPrefix { get; set; }
         public string StripPrefix { get; set; }
+        public AttributeSortMode AttributeSortMode { get; set; } = AttributeSortMode.None;
         public bool XmlProperties { get; set; } = true;
         public bool XmlDescription { get; set; }
         public bool Regions { get; set; } = true;
         public bool RelationShips { get; set; } = true;
         public bool OptionSets { get; set; } = true;
         public bool GlobalOptionSets { get; set; }
+
+        internal void SetDefaults(bool isUML)
+        {
+            AttributeSortMode = isUML ? AttributeSortMode.AlphabeticalAndRequired : AttributeSortMode.None;
+        }
+
     }
 
     public class EntityFilter
@@ -114,5 +121,12 @@ namespace Rappen.XTB.LCG
         None = 0,
         CommonInAny = 1,
         CommonInAll = 2
+    }
+
+    public enum AttributeSortMode
+    {
+        None = 0,
+        Alphabetical = 1,
+        AlphabeticalAndRequired = 2
     }
 }

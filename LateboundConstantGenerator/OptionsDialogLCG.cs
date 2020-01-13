@@ -38,7 +38,8 @@ namespace Rappen.XTB.LCG
                         Regions = settingdlg.chkRegions.Checked,
                         RelationShips = settingdlg.chkRelationships.Checked,
                         OptionSets = settingdlg.chkEnumsInclude.Checked,
-                        GlobalOptionSets = settingdlg.chkEnumsGlobal.Checked
+                        GlobalOptionSets = settingdlg.chkEnumsGlobal.Checked,
+                        AttributeSortMode = AttributeSortMode.None
                     };
                 }
             }

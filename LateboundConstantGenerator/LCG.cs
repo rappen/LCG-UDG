@@ -773,10 +773,12 @@ namespace Rappen.XTB.LCG
 
         private void LoadSettings(string connectionname)
         {
-            if (SettingsManager.Instance.TryLoad(GetType(), out settings, SettingsFileName(connectionname)))
+            if (!SettingsManager.Instance.TryLoad(GetType(), out settings, SettingsFileName(connectionname)))
             {
-                ApplySettings();
+                settings = new Settings();
+                settings.GenerationSettings.SetDefaults(isUML);
             }
+            ApplySettings();
         }
 
         private void LoadSolutionEntities(SolutionProxy solution, Action callback)

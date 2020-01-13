@@ -36,6 +36,8 @@
             this.label8 = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
+            this.cmbSortAttributes = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // chkConstCamelCased
@@ -126,6 +128,28 @@
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             // 
+            // cmbSortAttributes
+            // 
+            this.cmbSortAttributes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSortAttributes.FormattingEnabled = true;
+            this.cmbSortAttributes.Items.AddRange(new object[] {
+            "No sorting",
+            "Alphabetically",
+            "Required Level and Alphabetically"});
+            this.cmbSortAttributes.Location = new System.Drawing.Point(129, 67);
+            this.cmbSortAttributes.Name = "cmbSortAttributes";
+            this.cmbSortAttributes.Size = new System.Drawing.Size(178, 21);
+            this.cmbSortAttributes.TabIndex = 103;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 70);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(86, 13);
+            this.label1.TabIndex = 104;
+            this.label1.Text = "Sort attributes by";
+            // 
             // OptionsDialogUML
             // 
             this.AcceptButton = this.btnOK;
@@ -134,6 +158,8 @@
             this.BackColor = System.Drawing.SystemColors.Window;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(467, 200);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.cmbSortAttributes);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.chkConstCamelCased);
@@ -164,5 +190,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.ComboBox cmbSortAttributes;
+        private System.Windows.Forms.Label label1;
     }
 }

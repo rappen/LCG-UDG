@@ -19,6 +19,7 @@ namespace Rappen.XTB.LCG
                 settingdlg.chkConstCamelCased.Checked = settings.ConstantCamelCased && settings.ConstantName != NameType.DisplayName;
                 settingdlg.chkConstStripPrefix.Checked = settings.DoStripPrefix && settings.ConstantName != NameType.DisplayName;
                 settingdlg.txtConstStripPrefix.Text = settings.StripPrefix;
+                settingdlg.cmbSortAttributes.SelectedIndex = (int)settings.GenerationSettings.AttributeSortMode;
                 if (settingdlg.ShowDialog(lcg) == DialogResult.OK)
                 {
                     result = new GenerationSettings
@@ -27,6 +28,7 @@ namespace Rappen.XTB.LCG
                         ConstantCamelCased = settingdlg.chkConstCamelCased.Checked,
                         DoStripPrefix = settingdlg.chkConstStripPrefix.Checked,
                         StripPrefix = settingdlg.txtConstStripPrefix.Text.ToLowerInvariant().TrimEnd('_') + "_",
+                        AttributeSortMode = (AttributeSortMode)Math.Max(settingdlg.cmbSortAttributes.SelectedIndex, 0),
                         XmlProperties = false,
                         XmlDescription = false,
                         Regions = false,

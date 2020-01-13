@@ -138,10 +138,20 @@ namespace Rappen.XTB.LCG
                     attributes.Add(GetAttribute(entitymetadata.PrimaryName, settings));
                 }
                 var commonattributes = commonentity?.Attributes?.Select(a => a.LogicalName) ?? new List<string>();
-                foreach (var attributemetadata in entitymetadata.Attributes
-                    .Where(a => (entitymetadata.LogicalName == "[common]") || (a.Selected && !commonattributes.Contains(a.LogicalName) && a != entitymetadata.PrimaryKey && a != entitymetadata.PrimaryName)))
-                //.OrderBy(a => a.GetNameTechnical(settings))
-                //.OrderBy(OrderByRequiredLevel))
+                var entityattributes = entitymetadata.Attributes
+                    .Where(a => (entitymetadata.LogicalName == "[common]") || (a.Selected && !commonattributes.Contains(a.LogicalName) && a != entitymetadata.PrimaryKey && a != entitymetadata.PrimaryName));
+                switch (settings.GenerationSettings.AttributeSortMode)
+                {
+                    case AttributeSortMode.Alphabetical:
+                        entityattributes = entityattributes.OrderBy(a => a.GetNameTechnical(settings));
+                        break;
+                    case AttributeSortMode.AlphabeticalAndRequired:
+                        entityattributes = entityattributes
+                            .OrderBy(a => a.GetNameTechnical(settings))
+                            .OrderBy(OrderByRequiredLevel);
+                        break;
+                }
+                foreach (var attributemetadata in entityattributes)
                 {   // Then all the rest
                     var attribute = GetAttribute(attributemetadata, settings);
                     attributes.Add(attribute);
@@ -324,9 +334,30 @@ namespace Rappen.XTB.LCG
             relation.AppendLine(template.Relationship
                 .Replace("{relationship}", name)
                 .Replace("{schemaname}", relationship.Metadata.SchemaName)
+                .Replace("{entity1}", relationship.Parent.GetNameTechnical(settings.ConstantName, settings))
+                .Replace("{entity2}", relationship.Child.GetNameTechnical(settings.ConstantName, settings))
+                .Replace("{relationtype}", GetRelationUMLNotation(relationship))
                 .Replace("{summary}", summary)
                 .Replace("'", "\""));
             return relation.ToString();
+        }
+
+        private static string GetRelationUMLNotation(RelationshipMetadataProxy relationship)
+        {
+            if (relationship.Metadata is ManyToManyRelationshipMetadata relationmm)
+            {
+                return "}--{";
+            }
+            else if (relationship.Metadata is OneToManyRelationshipMetadata relation1m)
+            {
+                if (relationship.LookupAttribute.Metadata.RequiredLevel.Value== AttributeRequiredLevel.ApplicationRequired||
+                    relationship.LookupAttribute.Metadata.RequiredLevel.Value == AttributeRequiredLevel.SystemRequired)
+                {
+                    return "||--{";
+                }
+                return "--{";
+            }
+            return "--";
         }
 
         private static string GetOptionSet(AttributeMetadataProxy attributemetadata, Settings settings)
