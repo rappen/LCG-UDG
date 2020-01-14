@@ -73,6 +73,7 @@ namespace Rappen.XTB.LCG
         public bool XmlDescription { get; set; }
         public bool Regions { get; set; } = true;
         public bool RelationShips { get; set; } = true;
+        public bool RelationshipLabels { get; set; } = false;
         public bool OptionSets { get; set; } = true;
         public bool GlobalOptionSets { get; set; }
 
@@ -80,7 +81,6 @@ namespace Rappen.XTB.LCG
         {
             AttributeSortMode = isUML ? AttributeSortMode.AlphabeticalAndRequired : AttributeSortMode.None;
         }
-
     }
 
     public class EntityFilter

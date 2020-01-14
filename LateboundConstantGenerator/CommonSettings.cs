@@ -75,16 +75,18 @@
             }
             else
             {
-                TemplateVersion = 2;    // Change this when UML template is updated to revert customizations
+                TemplateVersion = 3;    // Change this when UML template is updated to revert customizations
                 DataContainer = @"
 @startuml {namespace}
 hide circle
 hide stereotype
 skinparam linetype ortho
-skinparam class {
-    BorderColor<<standard>> Black
-    BorderColor<<custom>> Blue
-}
+skinparam RoundCorner 5
+skinparam Padding 1
+skinparam ArrowFontSize 12
+skinparam ClassBorderColor Black
+skinparam ClassBorderColor<<custom>> Blue
+
 entity **Legend** <<standard>> #CCFFEE {
     (PK) = Primary Key
     --

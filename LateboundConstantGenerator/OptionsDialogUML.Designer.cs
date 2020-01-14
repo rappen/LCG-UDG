@@ -38,6 +38,8 @@
             this.btnOK = new System.Windows.Forms.Button();
             this.cmbSortAttributes = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.chkRelationshipLabels = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // chkConstCamelCased
@@ -150,6 +152,25 @@
             this.label1.TabIndex = 104;
             this.label1.Text = "Sort attributes by";
             // 
+            // chkRelationshipLabels
+            // 
+            this.chkRelationshipLabels.AutoSize = true;
+            this.chkRelationshipLabels.Location = new System.Drawing.Point(129, 96);
+            this.chkRelationshipLabels.Name = "chkRelationshipLabels";
+            this.chkRelationshipLabels.Size = new System.Drawing.Size(130, 17);
+            this.chkRelationshipLabels.TabIndex = 106;
+            this.chkRelationshipLabels.Text = "Include lookup names";
+            this.chkRelationshipLabels.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 97);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(70, 13);
+            this.label2.TabIndex = 105;
+            this.label2.Text = "Relationships";
+            // 
             // OptionsDialogUML
             // 
             this.AcceptButton = this.btnOK;
@@ -158,6 +179,8 @@
             this.BackColor = System.Drawing.SystemColors.Window;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(467, 200);
+            this.Controls.Add(this.chkRelationshipLabels);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmbSortAttributes);
             this.Controls.Add(this.btnOK);
@@ -192,5 +215,7 @@
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.ComboBox cmbSortAttributes;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox chkRelationshipLabels;
+        private System.Windows.Forms.Label label2;
     }
 }

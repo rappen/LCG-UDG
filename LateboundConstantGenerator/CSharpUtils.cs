@@ -25,7 +25,7 @@ namespace Rappen.XTB.LCG
                 fileWriter.WriteBlock(settings, entity, fileName);
                 if (settings.commonsettings.Template.AddAllRelationshipsAfterEntities)
                 {
-                    allrelationships.Append(GetRelationships(entitymetadata, selectedentities, settings));
+                    allrelationships.AppendLine(GetRelationships(entitymetadata, selectedentities, settings, true));
                 }
             }
             if (settings.commonsettings.Template.AddAllRelationshipsAfterEntities)
@@ -118,7 +118,7 @@ namespace Rappen.XTB.LCG
                 .Replace("{remarks}", remarks)
                 .Replace("'", "\"")
                 .Replace("{attributes}", GetAttributes(entitymetadata, commonentity, settings))
-                .Replace("{relationships}", GetRelationships(entitymetadata, selectedentities, settings))
+                .Replace("{relationships}", GetRelationships(entitymetadata, selectedentities, settings, false))
                 .Replace("{optionsets}", GetOptionSets(entitymetadata, settings));
             return entity;
         }
@@ -189,15 +189,18 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        private static string GetRelationships(EntityMetadataProxy entitymetadata, List<EntityMetadataProxy> includedentities, Settings settings)
+        private static string GetRelationships(EntityMetadataProxy entitymetadata, List<EntityMetadataProxy> includedentities, Settings settings, bool onlyprimaryentity)
         {
             var relationships = new List<string>();
             if (settings.RelationShips && entitymetadata.Relationships != null)
             {
-                foreach (var relationship in entitymetadata.Relationships.Where(r => r.Parent != entitymetadata && includedentities.Contains(r.Parent)).Distinct())
+                if (!onlyprimaryentity)
                 {
-                    relationships.Add(GetRelationShip(relationship, settings,
-                        (relationship.Metadata is ManyToManyRelationshipMetadata) ? settings.commonsettings.ManyManyRelationshipPrefix : settings.commonsettings.ManyOneRelationshipPrefix));
+                    foreach (var relationship in entitymetadata.Relationships.Where(r => r.Parent != entitymetadata && includedentities.Contains(r.Parent)).Distinct())
+                    {
+                        relationships.Add(GetRelationShip(relationship, settings,
+                            (relationship.Metadata is ManyToManyRelationshipMetadata) ? settings.commonsettings.ManyManyRelationshipPrefix : settings.commonsettings.ManyOneRelationshipPrefix));
+                    }
                 }
                 foreach (var relationship in entitymetadata.Relationships.Where(r => r.Parent == entitymetadata && includedentities.Contains(r.Child)).Distinct())
                 {
@@ -345,7 +348,7 @@ namespace Rappen.XTB.LCG
                 .Replace("{entity1}", relationship.Parent.GetNameTechnical(settings.ConstantName, settings))
                 .Replace("{entity2}", relationship.Child.GetNameTechnical(settings.ConstantName, settings))
                 .Replace("{relationtype}", GetRelationUMLNotation(relationship))
-                .Replace("{lookup}", relationship.LookupAttribute?.GetNameTechnical(settings))
+                .Replace("{lookup}", settings.GenerationSettings.RelationshipLabels ? relationship.LookupAttribute?.GetNameTechnical(settings) : "")
                 .Replace("{summary}", summary)
                 .Replace("'", "\"")
                 .TrimEnd(' ', ':');

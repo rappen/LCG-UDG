@@ -20,6 +20,7 @@ namespace Rappen.XTB.LCG
                 settingdlg.chkConstStripPrefix.Checked = settings.DoStripPrefix && settings.ConstantName != NameType.DisplayName;
                 settingdlg.txtConstStripPrefix.Text = settings.StripPrefix;
                 settingdlg.cmbSortAttributes.SelectedIndex = (int)settings.GenerationSettings.AttributeSortMode;
+                settingdlg.chkRelationshipLabels.Checked = settings.GenerationSettings.RelationshipLabels;
                 if (settingdlg.ShowDialog(lcg) == DialogResult.OK)
                 {
                     result = new GenerationSettings
@@ -29,6 +30,7 @@ namespace Rappen.XTB.LCG
                         DoStripPrefix = settingdlg.chkConstStripPrefix.Checked,
                         StripPrefix = settingdlg.txtConstStripPrefix.Text.ToLowerInvariant().TrimEnd('_') + "_",
                         AttributeSortMode = (AttributeSortMode)Math.Max(settingdlg.cmbSortAttributes.SelectedIndex, 0),
+                        RelationshipLabels = settingdlg.chkRelationshipLabels.Checked,
                         XmlProperties = false,
                         XmlDescription = false,
                         Regions = false,
