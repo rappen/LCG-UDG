@@ -65,6 +65,7 @@
         public string RequiredLevelRequired { get; set; } = string.Empty;
         public string RequiredLevelRecommended { get; set; } = string.Empty;
         public string RequiredLevelNone { get; set; } = string.Empty;
+        public bool AddAllRelationshipsAfterEntities { get; set; } = false;
 
         private void SetDefaults(bool isUML)
         {
@@ -74,10 +75,32 @@
             }
             else
             {
-                TemplateVersion = 1;    // Change this when UML template is updated to revert customizations
+                TemplateVersion = 2;    // Change this when UML template is updated to revert customizations
+                DataContainer = @"
+@startuml {namespace}
+hide circle
+hide stereotype
+skinparam linetype ortho
+skinparam class {
+    BorderColor<<standard>> Black
+    BorderColor<<custom>> Blue
+}
+entity **Legend** <<standard>> #CCFFEE {
+    (PK) = Primary Key
+    --
+    (PN) = Primary Name
+    * Required
+    + Recommended
+    Standard
+    <color:blue>Custom</color>
+}
+title {namespace} Entity Model
+footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
+{data}
+@enduml";
                 EntityContainer = "entity {entityname} <<{type}>>\n{\n{attributes}\n}";
                 Attribute = "{attribute}: {type}";
-                Relationship = "{entity1} {relationtype} {entity2} {relationship}";
+                Relationship = "{entity1} {relationtype} {entity2}: {lookup}";
                 PrimaryKeyName = "{attribute} (PK)";
                 PrimaryAttributeName = "{attribute} (PN)";
                 CustomAttribute = "<color:blue>{attribute}</color>";
@@ -95,36 +118,13 @@
                 RequiredLevelRequired = string.Empty;
                 RequiredLevelRecommended = string.Empty;
                 RequiredLevelNone = string.Empty;
+                AddAllRelationshipsAfterEntities = false;
             }
             else
             {
                 ToolName = LCG.toolnameUDG;
                 FileSuffix = ".plantuml";
-                FileHeader = FileHeader.Replace("// ***", "/' ***") + @"'/
-@startuml {namespace}
-hide circle
-hide stereotype
-skinparam linetype ortho
-skinparam class {
-    BorderColor<<standard>> Black
-    BorderColor<<custom>> Blue
-}
-entity **Legend** <<standard>> #CCFFEE {
-    (PK) = Primary Key
-    --
-    (PN) = Primary Name
-    * Required
-    + Recommended
-    Standard
-    <color:blue>Custom</color>
-}";
-                DataContainer = @"
-title {namespace} Entity Model
-footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
-{data}
-!include Relationships.plantuml
-'{relationships}
-@enduml";
+                FileHeader = FileHeader.Replace("// ***", "/' ***") + @"'/";
                 AttributeSeparatorAfterPK = "--";
                 EntityDetail = string.Empty;
                 OptionSet = string.Empty;
@@ -132,6 +132,7 @@ footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
                 Region = string.Empty;
                 Summary = string.Empty;
                 Remarks = string.Empty;
+                AddAllRelationshipsAfterEntities = true;
             }
         }
     }

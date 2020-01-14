@@ -6,7 +6,7 @@ namespace Rappen.XTB.LCG
     public class CommonFileWriter : IConstantFileWriter
     {
         public string OrgUrl { get; set; }
-        private readonly StringBuilder _entities = new StringBuilder();
+        private readonly StringBuilder _blocks = new StringBuilder();
 
         public CommonFileWriter(string orgUrl)
         {
@@ -18,9 +18,9 @@ namespace Rappen.XTB.LCG
         public string Finalize(Settings settings)
         {
             var filename = Path.Combine(settings.OutputFolder, settings.CommonFile + settings.commonsettings.Template.FileSuffix);
-            if (_entities.ToString().WriteFile(filename, OrgUrl, settings))
+            if (_blocks.ToString().WriteFile(filename, OrgUrl, settings))
             {
-                return $"Saved constants to\n  {filename}";
+                return $"Saved file\n  {filename}";
             }
             else
             {
@@ -28,9 +28,9 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        public void WriteEntity(Settings settings, string entity, string fileName)
+        public void WriteBlock(Settings settings, string block, string fileName)
         {
-            _entities.AppendLine(entity);
+            _blocks.AppendLine(block);
         }
 
         #endregion

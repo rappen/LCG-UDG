@@ -20,9 +20,9 @@ namespace Rappen.XTB.LCG
             return $"Saved files\n  {string.Join("\n  ", _savedFiles)}\nto folder\n  {settings.OutputFolder}";
         }
 
-        public void WriteEntity(Settings settings, string entity, string filename)
+        public void WriteBlock(Settings settings, string block, string filename)
         {
-            entity.WriteFile(Path.Combine(settings.OutputFolder, filename), OrgUrl, settings);
+            block.WriteFile(Path.Combine(settings.OutputFolder, filename), OrgUrl, settings);
             _savedFiles.Add(filename);
         }
 

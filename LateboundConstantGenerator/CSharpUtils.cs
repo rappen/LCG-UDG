@@ -11,17 +11,26 @@ namespace Rappen.XTB.LCG
         {
             var selectedentities = entitiesmetadata.Where(e => e.Selected).ToList();
             var commonentity = GetCommonEntity(selectedentities, settings);
+            var allrelationships = new StringBuilder();
             if (commonentity != null)
             {
                 var entity = GetClass(selectedentities, commonentity, null, settings);
                 var fileName = commonentity.GetNameTechnical(settings.FileName, settings) + settings.commonsettings.Template.FileSuffix;
-                fileWriter.WriteEntity(settings, entity, fileName);
+                fileWriter.WriteBlock(settings, entity, fileName);
             }
             foreach (var entitymetadata in selectedentities)
             {
                 var entity = GetClass(selectedentities, entitymetadata, commonentity, settings);
                 var fileName = entitymetadata.GetNameTechnical(settings.FileName, settings) + settings.commonsettings.Template.FileSuffix;
-                fileWriter.WriteEntity(settings, entity, fileName);
+                fileWriter.WriteBlock(settings, entity, fileName);
+                if (settings.commonsettings.Template.AddAllRelationshipsAfterEntities)
+                {
+                    allrelationships.Append(GetRelationships(entitymetadata, selectedentities, settings));
+                }
+            }
+            if (settings.commonsettings.Template.AddAllRelationshipsAfterEntities)
+            {
+                fileWriter.WriteBlock(settings, allrelationships.ToString(), "Relationships" + settings.commonsettings.Template.FileSuffix);
             }
             return fileWriter.Finalize(settings);
         }
@@ -326,20 +335,21 @@ namespace Rappen.XTB.LCG
             }
             var name = prefix + relationship.GetNameTechnical(settings);
             var summary = settings.XmlProperties ? relationship.Summary(settings) : string.Empty;
-            var relation = new StringBuilder();
             if (!string.IsNullOrEmpty(summary))
             {
                 summary = template.Summary.Replace("{summary}", summary);
             }
-            relation.AppendLine(template.Relationship
+            var relation = template.Relationship
                 .Replace("{relationship}", name)
                 .Replace("{schemaname}", relationship.Metadata.SchemaName)
                 .Replace("{entity1}", relationship.Parent.GetNameTechnical(settings.ConstantName, settings))
                 .Replace("{entity2}", relationship.Child.GetNameTechnical(settings.ConstantName, settings))
                 .Replace("{relationtype}", GetRelationUMLNotation(relationship))
+                .Replace("{lookup}", relationship.LookupAttribute?.GetNameTechnical(settings))
                 .Replace("{summary}", summary)
-                .Replace("'", "\""));
-            return relation.ToString();
+                .Replace("'", "\"")
+                .TrimEnd(' ', ':');
+            return relation;
         }
 
         private static string GetRelationUMLNotation(RelationshipMetadataProxy relationship)
@@ -350,7 +360,7 @@ namespace Rappen.XTB.LCG
             }
             else if (relationship.Metadata is OneToManyRelationshipMetadata relation1m)
             {
-                if (relationship.LookupAttribute.Metadata.RequiredLevel.Value== AttributeRequiredLevel.ApplicationRequired||
+                if (relationship.LookupAttribute.Metadata.RequiredLevel.Value == AttributeRequiredLevel.ApplicationRequired ||
                     relationship.LookupAttribute.Metadata.RequiredLevel.Value == AttributeRequiredLevel.SystemRequired)
                 {
                     return "||--{";

@@ -763,12 +763,12 @@ namespace Rappen.XTB.LCG
             {
                 LogInfo("Common Settings found and loaded");
             }
-            commonsettings.Template.SetFixedValues(isUML);
             if (commonsettings.Template.TemplateVersion != new Template(isUML).TemplateVersion)
             {
                 MessageBox.Show("Template has been updated.\nAny customizations will need to be recreated.", "Template", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 commonsettings.Template = new Template(isUML);
             }
+            commonsettings.Template.SetFixedValues(isUML);
         }
 
         private void LoadSettings(string connectionname)
