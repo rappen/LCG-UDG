@@ -17,7 +17,7 @@ namespace Rappen.XTB.LCG
 
         public string Finalize(Settings settings)
         {
-            var filename = Path.Combine(settings.OutputFolder, settings.CommonFile + settings.commonsettings.Template.FileSuffix);
+            var filename = Path.Combine(settings.OutputFolder, settings.CommonFile + settings.commonsettings.FileSuffix);
             if (_blocks.ToString().WriteFile(filename, OrgUrl, settings))
             {
                 return $"Saved file\n  {filename}";

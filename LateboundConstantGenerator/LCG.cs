@@ -595,10 +595,23 @@ namespace Rappen.XTB.LCG
             };
             if (entities != null)
             {
-                settings.Selection = entities
+                settings.Selection = null;
+                settings.SelectedEntities = entities
                     .Where(e => e.IsSelected)
-                    .Select(e => e.LogicalName + ":" + (e.Attributes != null ? string.Join(",", e.Attributes.Where(a => a.Selected).Select(a => a.LogicalName)) : string.Empty))
-                    .ToList();
+                    .Select(e => new SelectedEntity
+                    {
+                        Name = e.LogicalName,
+                        Attributes = e.Attributes != null ? 
+                            e.Attributes
+                                .Where(a => a.IsSelected)
+                                .Select(a => a.LogicalName)
+                                .ToList() : new List<string>(),
+                        Relationships = e.Relationships != null ? 
+                            e.Relationships
+                                .Where(r => r.IsSelected)
+                                .Select(r => r.Metadata.SchemaName)
+                                .ToList() : new List<string>()
+                    }).ToList();
             }
             if (string.IsNullOrWhiteSpace(settings.OutputFolder) && !noprompt)
             {
@@ -768,7 +781,7 @@ namespace Rappen.XTB.LCG
                 MessageBox.Show("Template has been updated.\nAny customizations will need to be recreated.", "Template", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 commonsettings.Template = new Template(isUML);
             }
-            commonsettings.Template.SetFixedValues(isUML);
+            commonsettings.SetFixedValues(isUML);
         }
 
         private void LoadSettings(string connectionname)
@@ -863,10 +876,25 @@ namespace Rappen.XTB.LCG
             }
 
             restoringselection = true;
-            foreach (var entitystring in settings.Selection)
+            if (settings.SelectedEntities == null || settings.SelectedEntities.Count == 0)
+            {   // Loading old style selection configuration
+                settings.SelectedEntities = new List<SelectedEntity>();
+                foreach (var entitystring in settings.Selection)
+                {
+                    var entityname = entitystring.Split(':')[0];
+                    var attributes = entitystring.Split(':')[1].Split(',').ToList();
+                    settings.SelectedEntities.Add(new SelectedEntity
+                    {
+                        Name = entityname,
+                        Attributes = attributes,
+                        Relationships = new List<string>()
+                    });
+                }
+            }
+            foreach (var selectedentity in settings.SelectedEntities)
             {
-                var entityname = entitystring.Split(':')[0];
-                var attributes = entitystring.Split(':')[1].Split(',').ToList();
+                var entityname = selectedentity.Name;
+                var attributes = selectedentity.Attributes;
                 var entity = entities.FirstOrDefault(e => e.LogicalName == entityname);
                 if (entity == null)
                 {

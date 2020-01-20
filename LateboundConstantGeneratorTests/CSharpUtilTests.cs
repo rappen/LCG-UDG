@@ -23,7 +23,7 @@ namespace LateboundConstantGeneratorTests
             settings.InitalizeCommonSettings(false);
             var fakeWriter = A.Fake<IConstantFileWriter>();
             string entity = null;
-            var config = A.CallTo(() => fakeWriter.WriteEntity(null, null, null))
+            var config = A.CallTo(() => fakeWriter.WriteBlock(null, null, null))
                 .WithAnyArguments()
                 .Invokes((Settings s, string e, string f) => { entity = e; });
             

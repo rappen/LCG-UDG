@@ -17,6 +17,7 @@ namespace Rappen.XTB.LCG
         public EntityFilter EntityFilter { get; set; } = new EntityFilter();
         public AttributeFilter AttributeFilter { get; set; } = new AttributeFilter();
         public List<string> Selection { get; set; } = new List<string>();
+        public List<SelectedEntity> SelectedEntities { get; set; }
 
         internal CommonSettings commonsettings;
 
@@ -128,5 +129,12 @@ namespace Rappen.XTB.LCG
         None = 0,
         Alphabetical = 1,
         AlphabeticalAndRequired = 2
+    }
+
+    public class SelectedEntity
+    {
+        public string Name { get; set; }
+        public List<string> Attributes { get; set; }
+        public List<string> Relationships { get; set; }
     }
 }

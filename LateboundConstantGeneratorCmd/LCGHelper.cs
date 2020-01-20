@@ -98,11 +98,25 @@ namespace Rappen.XTB.LCG.Cmd
             {
                 return;
             }
-
-            foreach (var entitystring in Settings.Selection)
+            if (Settings.SelectedEntities == null || Settings.SelectedEntities.Count == 0)
+            {   // Loading old style selection configuration
+                Settings.SelectedEntities = new List<SelectedEntity>();
+                foreach (var entitystring in Settings.Selection)
+                {
+                    var entityname = entitystring.Split(':')[0];
+                    var attributes = entitystring.Split(':')[1].Split(',').ToList();
+                    Settings.SelectedEntities.Add(new SelectedEntity
+                    {
+                        Name = entityname,
+                        Attributes = attributes,
+                        Relationships = new List<string>()
+                    });
+                }
+            }
+            foreach (var selectedentity in Settings.SelectedEntities)
             {
-                var entityname = entitystring.Split(':')[0];
-                var attributes = entitystring.Split(':')[1].Split(',').ToList();
+                var entityname = selectedentity.Name;
+                var attributes = selectedentity.Attributes;
                 var entity = entities.FirstOrDefault(e => e.LogicalName == entityname);
                 if (entity == null)
                 {

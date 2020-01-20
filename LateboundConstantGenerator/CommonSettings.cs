@@ -7,13 +7,35 @@
         public CommonSettings(bool isUML)
         {
             Template = new Template(isUML);
+            SetDefaults(isUML);
         }
 
+        private void SetDefaults(bool isUML)
+        {
+            if (isUML)
+            {
+                AttributeSeparatorAfterPK = "--";
+            }
+        }
+
+        internal void SetFixedValues(bool isUML)
+        {
+            if (isUML)
+            {
+                ToolName = LCG.toolnameUDG;
+                FileSuffix = ".plantuml";
+            }
+            Template.SetFixedValues(isUML);
+        }
+
+        internal string ToolName = LCG.toolnameLCG;
+        internal string FileSuffix = ".cs";
         public string Version { get; set; }
         public string EntityPrefix { get; set; } = string.Empty;
         public string EntitySuffix { get; set; } = string.Empty;
         public string AttributePrefix { get; set; } = string.Empty;
         public string AttributeSuffix { get; set; } = string.Empty;
+        public string AttributeSeparatorAfterPK { get; set; } = string.Empty;
         public string OneManyRelationshipPrefix { get; set; } = "Rel1M_";
         public string ManyOneRelationshipPrefix { get; set; } = "RelM1_";
         public string ManyManyRelationshipPrefix { get; set; } = "RelMM_";
@@ -37,8 +59,6 @@
 
         public int TemplateVersion { get; set; }
         internal string IndentStr = "    ";
-        internal string ToolName = LCG.toolnameLCG;
-        internal string FileSuffix = ".cs";
         internal string FileContainer = "{header}\n{data}";
         internal string FileHeader = @"// *********************************************************************
 // Created by : {toolname} {version} for XrmToolBox
@@ -47,7 +67,6 @@
 // Source Org : {organization}
 {filedetails}
 // *********************************************************************";
-        internal string AttributeSeparatorAfterPK = string.Empty;
         public string DataContainer { get; set; } = "namespace {namespace}\n{\n{data}\n}";
         public string EntityContainer { get; set; } = "{summary}\n{remarks}\npublic static class {entityname}\n{\n{entitydetail}\n{attributes}\n{relationships}\n{optionsets}\n}";
         public string EntityDetail { get; set; } = "public const string EntityName = '{logicalname}';\npublic const string EntityCollectionName = '{logicalcollectionname}';";
@@ -71,11 +90,11 @@
         {
             if (!isUML)
             {
-                TemplateVersion = 1;    // Change this when LCG template is updated to revert customizations
+                TemplateVersion = 2;    // Change this when LCG template is updated to revert customizations
             }
             else
             {
-                TemplateVersion = 3;    // Change this when UML template is updated to revert customizations
+                TemplateVersion = 2;    // Change this when UML template is updated to revert customizations
                 DataContainer = @"
 @startuml {namespace}
 hide circle
@@ -124,10 +143,7 @@ footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
             }
             else
             {
-                ToolName = LCG.toolnameUDG;
-                FileSuffix = ".plantuml";
                 FileHeader = FileHeader.Replace("// ***", "/' ***") + @"'/";
-                AttributeSeparatorAfterPK = "--";
                 EntityDetail = string.Empty;
                 OptionSet = string.Empty;
                 OptionSetValue = string.Empty;

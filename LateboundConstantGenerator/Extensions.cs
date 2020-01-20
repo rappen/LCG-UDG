@@ -55,7 +55,7 @@ namespace Rappen.XTB.LCG
                 filedetails += "\r\n// Created    : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             }
             var header = settings.commonsettings.Template.FileHeader
-                .Replace("{toolname}", settings.commonsettings.Template.ToolName)
+                .Replace("{toolname}", settings.commonsettings.ToolName)
                 .Replace("{version}", version)
                 .Replace("{organization}", orgurl)
                 .Replace("{filedetails}", filedetails)
@@ -67,7 +67,7 @@ namespace Rappen.XTB.LCG
         private static string GetDataContent(string data, Settings settings, string version)
         {
             return settings.commonsettings.Template.DataContainer
-                .Replace("{toolname}", settings.commonsettings.Template.ToolName)
+                .Replace("{toolname}", settings.commonsettings.ToolName)
                 .Replace("{version}", version)
                 .Replace("{namespace}", settings.NameSpace)
                 .Replace("{data}", data);

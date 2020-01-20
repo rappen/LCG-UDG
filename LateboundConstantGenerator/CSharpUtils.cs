@@ -15,13 +15,13 @@ namespace Rappen.XTB.LCG
             if (commonentity != null)
             {
                 var entity = GetClass(selectedentities, commonentity, null, settings);
-                var fileName = commonentity.GetNameTechnical(settings.FileName, settings) + settings.commonsettings.Template.FileSuffix;
+                var fileName = commonentity.GetNameTechnical(settings.FileName, settings) + settings.commonsettings.FileSuffix;
                 fileWriter.WriteBlock(settings, entity, fileName);
             }
             foreach (var entitymetadata in selectedentities)
             {
                 var entity = GetClass(selectedentities, entitymetadata, commonentity, settings);
-                var fileName = entitymetadata.GetNameTechnical(settings.FileName, settings) + settings.commonsettings.Template.FileSuffix;
+                var fileName = entitymetadata.GetNameTechnical(settings.FileName, settings) + settings.commonsettings.FileSuffix;
                 fileWriter.WriteBlock(settings, entity, fileName);
                 if (settings.commonsettings.Template.AddAllRelationshipsAfterEntities)
                 {
@@ -30,7 +30,7 @@ namespace Rappen.XTB.LCG
             }
             if (settings.commonsettings.Template.AddAllRelationshipsAfterEntities)
             {
-                fileWriter.WriteBlock(settings, allrelationships.ToString(), "Relationships" + settings.commonsettings.Template.FileSuffix);
+                fileWriter.WriteBlock(settings, allrelationships.ToString(), "Relationships" + settings.commonsettings.FileSuffix);
             }
             return fileWriter.Finalize(settings);
         }
@@ -141,7 +141,7 @@ namespace Rappen.XTB.LCG
                 {   // First Primary Key
                     attributes.Add(GetAttribute(entitymetadata.PrimaryKey, settings));
                 }
-                attributes.Add(settings.commonsettings.Template.AttributeSeparatorAfterPK);
+                attributes.Add(settings.commonsettings.AttributeSeparatorAfterPK);
                 if (entitymetadata.PrimaryName?.IsSelected == true)
                 {   // Then Primary Name
                     attributes.Add(GetAttribute(entitymetadata.PrimaryName, settings));
