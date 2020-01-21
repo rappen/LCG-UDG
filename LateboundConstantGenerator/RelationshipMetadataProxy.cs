@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xrm.Sdk.Metadata;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 namespace Rappen.XTB.LCG
@@ -38,19 +39,51 @@ namespace Rappen.XTB.LCG
 
         #endregion Public Constructors
 
-        #region Public Properties
-
-        public AttributeMetadataProxy LookupAttribute
+        internal OneToManyRelationshipMetadata OneToManyRelationshipMetadata => Metadata as OneToManyRelationshipMetadata;
+        internal ManyToManyRelationshipMetadata ManyToManyRelationshipMetadata => Metadata as ManyToManyRelationshipMetadata;
+        internal AttributeMetadataProxy LookupAttribute
         {
             get
             {
-                if (Metadata is OneToManyRelationshipMetadata && lookupAttribute == null)
+                if (Metadata is OneToManyRelationshipMetadata omrel && lookupAttribute == null)
                 {
-                    lookupAttribute = Child?.Attributes?.FirstOrDefault(a => a.LogicalName == (Metadata as OneToManyRelationshipMetadata)?.ReferencingAttribute);
+                    lookupAttribute = Child?.Attributes?.FirstOrDefault(a => a.LogicalName == omrel.ReferencingAttribute);
                 }
                 return lookupAttribute;
             }
         }
+
+        #region Public Properties
+
+        [DisplayName(" \n ")]
+        public bool Selected => IsSelected;
+
+        [DisplayName("Type")]
+        public string Type => Metadata.RelationshipType == RelationshipType.ManyToManyRelationship ? "N : N" : "1 : N";
+
+        [DisplayName("Related Entity")]
+        public string RelatedEntityName => Parent?.DisplayName;
+
+        [DisplayName("Lookup")]
+        public string LookupName
+        {
+            get
+            {
+                var result = LookupAttribute?.DisplayName;
+                if (Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
+                {
+                    result = Child?.DisplayName;
+                }
+                if (string.IsNullOrWhiteSpace(result) && OneToManyRelationshipMetadata != null)
+                {
+                    result = OneToManyRelationshipMetadata.ReferencingAttribute;
+                }
+                return result;
+            }
+        }
+
+        [DisplayName("Schema Name")]
+        public string LogicalName => Metadata?.SchemaName;
 
         public string Summary(Settings settings)
         {

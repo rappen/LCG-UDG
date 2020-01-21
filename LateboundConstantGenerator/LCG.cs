@@ -1,6 +1,7 @@
 ﻿using McTools.Xrm.Connection;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
+using Microsoft.Xrm.Sdk.Metadata;
 using Microsoft.Xrm.Sdk.Query;
 using System;
 using System.Collections.Generic;
@@ -104,6 +105,11 @@ namespace Rappen.XTB.LCG
             DisplayFilteredAttributes();
         }
 
+        private void relatioshipFilter_Changed(object sender, EventArgs e)
+        {
+            DisplayFilteredRelationships();
+        }
+
         private void tslAbout_Click(object sender, EventArgs e)
         {
             LogUse("OpenAbout");
@@ -196,11 +202,33 @@ namespace Rappen.XTB.LCG
         private void chkAllRows_CheckedChanged(object sender, EventArgs e)
         {
             var chk = sender as CheckBox;
-            var grid = chk == chkEntAll ? gridEntities : chk == chkAttAll ? gridAttributes : null;
+            var grid = chk == chkEntAll ? gridEntities : chk == chkAttAll ? gridAttributes : chk == chkRelAll ? gridRelationships : null;
             if (grid != null)
             {
                 SelectAllRows(grid, chk.Checked);
             }
+        }
+
+        private void cmbSolution_DropDown(object sender, EventArgs e)
+        {
+            if (cmbSolution.Width < 400)
+            {
+                cmbSolution.Tag = cmbSolution.Width;
+                cmbSolution.Width = 500;
+            }
+            else
+            {
+                cmbSolution.Tag = null;
+            }
+        }
+
+        private void cmbSolution_DropDownClosed(object sender, EventArgs e)
+        {
+            if (cmbSolution.Tag is int width)
+            {
+                cmbSolution.Width = width;
+            }
+            cmbSolution.Tag = null;
         }
 
         private void entityFilter_Changed(object sender, EventArgs e)
@@ -244,6 +272,7 @@ namespace Rappen.XTB.LCG
             {
                 selectedEntity = newselectedEntity;
                 DisplayAttributes();
+                DisplayFilteredRelationships();
             }
         }
 
@@ -256,6 +285,7 @@ namespace Rappen.XTB.LCG
             btnSaveConfig.Enabled = false;
             entities = null;
             selectedEntity = null;
+            gridRelationships.DataSource = null;
             gridAttributes.DataSource = null;
             gridEntities.DataSource = null;
             LoadSettings(e.ConnectionDetail?.ConnectionName);
@@ -289,6 +319,12 @@ namespace Rappen.XTB.LCG
             FilterEntities();
         }
 
+        private void tmRelSearch_Tick(object sender, EventArgs e)
+        {
+            tmRelSearch.Stop();
+            DisplayFilteredRelationships();
+        }
+
         private void txtAttSearch_TextChanged(object sender, EventArgs e)
         {
             tmAttSearch.Stop();
@@ -299,6 +335,12 @@ namespace Rappen.XTB.LCG
         {
             tmEntSearch.Stop();
             tmEntSearch.Start();
+        }
+
+        private void txtRelSearch_TextChanged(object sender, EventArgs e)
+        {
+            tmRelSearch.Stop();
+            tmRelSearch.Start();
         }
 
         #endregion Private Event Handlers
@@ -366,6 +408,14 @@ namespace Rappen.XTB.LCG
             }
         }
 
+        private void Relationship_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals("SetSelected"))
+            {
+                UpdateRelationshipssStatus();
+            }
+        }
+
         private void DisplayAttributes()
         {
             if (selectedEntity != null && selectedEntity.Attributes == null)
@@ -380,7 +430,7 @@ namespace Rappen.XTB.LCG
         {
             if (selectedEntity?.Attributes != null && selectedEntity.Attributes.Count > 0)
             {
-                var filteredAttributes = GetFilter();
+                var filteredAttributes = GetFilteredAttributes();
                 if (chkAttPrimaryAttribute.Checked)
                 {
                     AddToFilteredAttributes(filteredAttributes, selectedEntity.Metadata.PrimaryNameAttribute);
@@ -403,6 +453,25 @@ namespace Rappen.XTB.LCG
             UpdateAttributesStatus();
         }
 
+        private void DisplayFilteredRelationships()
+        {
+            if (selectedEntity?.Relationships != null && selectedEntity.Relationships.Count > 0)
+            {
+                var filteredRelationships = GetFilteredRelationships();
+                gridRelationships.DataSource = filteredRelationships;
+                if (gridRelationships.Columns.Count > 0)
+                {
+                    gridRelationships.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader);
+                    gridRelationships.Columns[0].Width = 30;
+                }
+            }
+            else
+            {
+                gridRelationships.DataSource = null;
+            }
+            UpdateRelationshipssStatus();
+        }
+
         private void AddToFilteredAttributes(SortableBindingList<AttributeMetadataProxy> filteredAttributes, string attributeName)
         {
             var att = selectedEntity.Attributes.FirstOrDefault(a => a.LogicalName == attributeName);
@@ -412,8 +481,32 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        private SortableBindingList<AttributeMetadataProxy> GetFilter()
+        private SortableBindingList<AttributeMetadataProxy> GetFilteredAttributes()
         {
+            bool GetCustomFilter(AttributeMetadataProxy e)
+            {
+                return rbAttCustomAll.Checked ||
+                       rbAttCustomTrue.Checked && e.Metadata.IsCustomAttribute.GetValueOrDefault() ||
+                       rbAttCustomFalse.Checked && !e.Metadata.IsCustomAttribute.GetValueOrDefault();
+            }
+            bool GetManagedFilter(AttributeMetadataProxy e)
+            {
+                return rbAttMgdAll.Checked ||
+                       rbAttMgdTrue.Checked && e.Metadata.IsManaged.GetValueOrDefault() ||
+                       rbAttMgdFalse.Checked && !e.Metadata.IsManaged.GetValueOrDefault();
+            }
+            bool GetSearchFilter(AttributeMetadataProxy e)
+            {
+                return string.IsNullOrWhiteSpace(txtAttSearch.Text) ||
+                       e.Metadata.LogicalName.ToLowerInvariant().Contains(txtAttSearch.Text) ||
+                       e.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtAttSearch.Text) == true;
+            }
+            bool GetLogicalFilter(AttributeMetadataProxy e)
+            {
+                return chkAttLogical.Checked ||
+                       e.Metadata.IsLogical != true;
+            }
+
             return new SortableBindingList<AttributeMetadataProxy>(
                 selectedEntity.Attributes
                     .Where(
@@ -423,31 +516,70 @@ namespace Rappen.XTB.LCG
                            && GetLogicalFilter(e)));
         }
 
-        private bool GetCustomFilter(AttributeMetadataProxy e)
+        private SortableBindingList<RelationshipMetadataProxy> GetFilteredRelationships()
         {
-            return rbAttCustomAll.Checked ||
-                   rbAttCustomTrue.Checked && e.Metadata.IsCustomAttribute.GetValueOrDefault() ||
-                   rbAttCustomFalse.Checked && !e.Metadata.IsCustomAttribute.GetValueOrDefault();
-        }
+            bool GetRelNoM1Filter(RelationshipMetadataProxy r)
+            {   // Exclude relationships where selected entity is just child of the relationship
+                return r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship
+                    || r.OneToManyRelationshipMetadata.ReferencingEntity == selectedEntity?.LogicalName;
+            }
+            bool GetCustomFilter(RelationshipMetadataProxy r)
+            {
+                return rbRelCustomAll.Checked ||
+                       rbRelCustomTrue.Checked && r.Metadata.IsCustomRelationship.GetValueOrDefault() ||
+                       rbRelCustomFalse.Checked && !r.Metadata.IsCustomRelationship.GetValueOrDefault();
+            }
+            bool GetManagedFilter(RelationshipMetadataProxy r)
+            {
+                return rbRelMgdAll.Checked ||
+                       rbRelMgdTrue.Checked && r.Metadata.IsManaged.GetValueOrDefault() ||
+                       rbRelMgdFalse.Checked && !r.Metadata.IsManaged.GetValueOrDefault();
+            }
+            bool GetSearchFilter(RelationshipMetadataProxy r)
+            {
+                return string.IsNullOrWhiteSpace(txtRelSearch.Text) ||
+                       r.Metadata.SchemaName.ToLowerInvariant().Contains(txtRelSearch.Text) ||
+                       r.Parent?.DisplayName?.ToLowerInvariant().Contains(txtRelSearch.Text) == true;
+            }
+            bool GetOrphansFilter(RelationshipMetadataProxy r)
+            {
+                if (chkRelOrphans.Checked)
+                {
+                    return true;
+                }
+                var selectedentities = entities.Where(e => e.Selected).Select(e => e.LogicalName);
+                if (r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
+                {
+                    return selectedentities.Contains(r.ManyToManyRelationshipMetadata.Entity1LogicalName)
+                        && selectedentities.Contains(r.ManyToManyRelationshipMetadata.Entity2LogicalName);
+                }
+                return selectedentities.Contains(r.OneToManyRelationshipMetadata.ReferencedEntity)
+                    && selectedentities.Contains(r.OneToManyRelationshipMetadata.ReferencingEntity);
+            }
+            bool GetOwnersFilter(RelationshipMetadataProxy r)
+            {
+                return chkRelOwners.Checked ||
+                    r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship ||
+                    (r.OneToManyRelationshipMetadata.ReferencedEntity != "systemuser" &&
+                     r.OneToManyRelationshipMetadata.ReferencedEntity != "team");
+            }
+            bool GetRegardingFilter(RelationshipMetadataProxy r)
+            {
+                return chkRelRegarding.Checked ||
+                    r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship ||
+                    r.OneToManyRelationshipMetadata.ReferencingAttribute != "regardingobjectid";
+            }
 
-        private bool GetManagedFilter(AttributeMetadataProxy e)
-        {
-            return rbAttMgdAll.Checked ||
-                   rbAttMgdTrue.Checked && e.Metadata.IsManaged.GetValueOrDefault() ||
-                   rbAttMgdFalse.Checked && !e.Metadata.IsManaged.GetValueOrDefault();
-        }
-
-        private bool GetSearchFilter(AttributeMetadataProxy e)
-        {
-            return string.IsNullOrWhiteSpace(txtAttSearch.Text) ||
-                   e.Metadata.LogicalName.ToLowerInvariant().Contains(txtAttSearch.Text) ||
-                   e.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtAttSearch.Text) == true;
-        }
-
-        private bool GetLogicalFilter(AttributeMetadataProxy e)
-        {
-            return chkAttLogical.Checked ||
-                   e.Metadata.IsLogical != true;
+            return new SortableBindingList<RelationshipMetadataProxy>(
+                selectedEntity.Relationships
+                    .Where(
+                        r => GetRelNoM1Filter(r)
+                           && GetCustomFilter(r)
+                           && GetManagedFilter(r)
+                           && GetSearchFilter(r)
+                           && GetOrphansFilter(r)
+                           && GetOwnersFilter(r)
+                           && GetRegardingFilter(r)));
         }
 
         private void EnableControls(bool enabled)
@@ -482,6 +614,7 @@ namespace Rappen.XTB.LCG
                 {
                     SelectAllAttributes();
                 }
+                SelectAllRelationships();
             }
             checkedrow = null;
         }
@@ -513,6 +646,28 @@ namespace Rappen.XTB.LCG
 
         private IEnumerable<EntityMetadataProxy> GetFilteredEntities()
         {
+            bool GetSearchFilter(EntityMetadataProxy e)
+            {
+                return string.IsNullOrWhiteSpace(txtEntSearch.Text) ||
+                       e.Metadata.LogicalName.ToLowerInvariant().Contains(txtEntSearch.Text) ||
+                       e.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtEntSearch.Text) == true;
+            }
+            bool GetIntersectFilter(EntityMetadataProxy e) { return !e.Metadata.IsIntersect.GetValueOrDefault() || chkEntIntersect.Checked; }
+            bool IsNotPrivate(EntityMetadataProxy e) { return !e.Metadata.IsPrivate.GetValueOrDefault(); }
+            bool GetSelectedFilter(EntityMetadataProxy e) { return !chkEntSelected.Checked || e.IsSelected; }
+            bool GetManagedFilter(EntityMetadataProxy e)
+            {
+                return rbEntMgdAll.Checked ||
+                       rbEntMgdTrue.Checked && e.Metadata.IsManaged.GetValueOrDefault() ||
+                       rbEntMgdFalse.Checked && !e.Metadata.IsManaged.GetValueOrDefault();
+            }
+            bool GetCustomFilter(EntityMetadataProxy e)
+            {
+                return rbEntCustomAll.Checked ||
+                       rbEntCustomTrue.Checked && e.Metadata.IsCustomEntity.GetValueOrDefault() ||
+                       rbEntCustomFalse.Checked && !e.Metadata.IsCustomEntity.GetValueOrDefault();
+            }
+
             var filteredentities = entities.Where(
                 e => IsNotPrivate(e)
                      && GetSelectedFilter(e)
@@ -521,33 +676,6 @@ namespace Rappen.XTB.LCG
                      && GetIntersectFilter(e)
                      && GetSearchFilter(e));
             return filteredentities;
-        }
-
-        private bool GetSearchFilter(EntityMetadataProxy e)
-        {
-            return string.IsNullOrWhiteSpace(txtEntSearch.Text) ||
-                   e.Metadata.LogicalName.ToLowerInvariant().Contains(txtEntSearch.Text) ||
-                   e.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtEntSearch.Text) == true;
-        }
-
-        private bool GetIntersectFilter(EntityMetadataProxy e) { return !e.Metadata.IsIntersect.GetValueOrDefault() || chkEntIntersect.Checked; }
-
-        private static bool IsNotPrivate(EntityMetadataProxy e) { return !e.Metadata.IsPrivate.GetValueOrDefault(); }
-
-        private bool GetSelectedFilter(EntityMetadataProxy e) { return !chkEntSelected.Checked || e.IsSelected; }
-
-        private bool GetManagedFilter(EntityMetadataProxy e)
-        {
-            return rbEntMgdAll.Checked ||
-                   rbEntMgdTrue.Checked && e.Metadata.IsManaged.GetValueOrDefault() ||
-                   rbEntMgdFalse.Checked && !e.Metadata.IsManaged.GetValueOrDefault();
-        }
-
-        private bool GetCustomFilter(EntityMetadataProxy e)
-        {
-            return rbEntCustomAll.Checked ||
-                   rbEntCustomTrue.Checked && e.Metadata.IsCustomEntity.GetValueOrDefault() ||
-                   rbEntCustomFalse.Checked && !e.Metadata.IsCustomEntity.GetValueOrDefault();
         }
 
         private EntityMetadataProxy GetSelectedEntity()
@@ -601,12 +729,12 @@ namespace Rappen.XTB.LCG
                     .Select(e => new SelectedEntity
                     {
                         Name = e.LogicalName,
-                        Attributes = e.Attributes != null ? 
+                        Attributes = e.Attributes != null ?
                             e.Attributes
                                 .Where(a => a.IsSelected)
                                 .Select(a => a.LogicalName)
                                 .ToList() : new List<string>(),
-                        Relationships = e.Relationships != null ? 
+                        Relationships = e.Relationships != null ?
                             e.Relationships
                                 .Where(r => r.IsSelected)
                                 .Select(r => r.Metadata.SchemaName)
@@ -715,6 +843,7 @@ namespace Rappen.XTB.LCG
             entities = null;
             EnableControls(false);
             gridAttributes.DataSource = null;
+            gridRelationships.DataSource = null;
             WorkAsync(new WorkAsyncInfo
             {
                 Message = "Loading entities...",
@@ -746,6 +875,10 @@ namespace Rappen.XTB.LCG
                                     .Select(r => new RelationshipMetadataProxy(entities, r)));
                             entity.Relationships.AddRange(
                                 entity.Metadata.ManyToManyRelationships.Select(m => new RelationshipMetadataProxy(entities, m)));
+                            foreach (var relationship in entity.Relationships)
+                            {
+                                relationship.PropertyChanged += Attribute_PropertyChanged;
+                            }
                         }
                     }
                     UpdateUI(() =>
@@ -895,6 +1028,7 @@ namespace Rappen.XTB.LCG
             {
                 var entityname = selectedentity.Name;
                 var attributes = selectedentity.Attributes;
+                var relationships = selectedentity.Relationships;
                 var entity = entities.FirstOrDefault(e => e.LogicalName == entityname);
                 if (entity == null)
                 {
@@ -918,6 +1052,14 @@ namespace Rappen.XTB.LCG
                         attribute.SetSelected(true);
                     }
                 }
+                foreach (var relationshipname in relationships)
+                {
+                    var relatioship = entity.Relationships.FirstOrDefault(r => r.LogicalName == relationshipname);
+                    if (relatioship != null && !relatioship.Selected)
+                    {
+                        relatioship.SetSelected(true);
+                    }
+                }
             }
             restoringselection = false;
             gridEntities_SelectionChanged(null, null);
@@ -937,18 +1079,38 @@ namespace Rappen.XTB.LCG
             SelectAllRows(gridAttributes, true);
         }
 
+        private void SelectAllRelationships()
+        {
+            SelectAllRows(gridRelationships, true);
+        }
+
         private void UpdateAttributesStatus()
         {
             chkAttAll.Visible = gridAttributes.Rows.Count > 0;
             if (gridAttributes.DataSource != null && selectedEntity != null && selectedEntity.Attributes != null)
             {
-                statusAttributesShowing.Text = $"Showing {gridAttributes.Rows.Count} of {selectedEntity.Attributes.Count} attributes.";
+                statusAttributesShowing.Text = $"Showing {gridAttributes.Rows.Count} of {selectedEntity.Attributes?.Count} attributes.";
                 statusAttributesSelected.Text = $"{selectedEntity?.Attributes?.Count(att => att.Selected)} selected.";
             }
             else
             {
                 statusAttributesShowing.Text = "No attributes available";
                 statusAttributesSelected.Text = "";
+            }
+        }
+
+        private void UpdateRelationshipssStatus()
+        {
+            chkRelAll.Visible = gridRelationships.Rows.Count > 0;
+            if (gridRelationships.DataSource != null && selectedEntity != null && selectedEntity.Attributes != null)
+            {
+                statusRelationshipsShowing.Text = $"Showing {gridRelationships.Rows.Count} of {selectedEntity.Relationships?.Count} relationships.";
+                statusRelationshipsSelected.Text = $"{selectedEntity?.Relationships?.Count(r => r.IsSelected)} selected.";
+            }
+            else
+            {
+                statusRelationshipsShowing.Text = "No relationships available";
+                statusRelationshipsSelected.Text = "";
             }
         }
 
