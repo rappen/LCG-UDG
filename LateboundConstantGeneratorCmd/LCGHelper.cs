@@ -61,11 +61,11 @@ namespace Rappen.XTB.LCG.Cmd
             foreach (var entity in entities)
             {
                 entity.Relationships = new List<RelationshipMetadataProxy>(
-                    entity.Metadata.ManyToOneRelationships.Select(m => new RelationshipMetadataProxy(entities, m)));
+                    entity.Metadata.ManyToOneRelationships.Select(m => new RelationshipMetadataProxy(entities, entity, m)));
                 entity.Relationships.AddRange(
                     entity.Metadata.OneToManyRelationships
                         .Where(r => !entity.Metadata.ManyToOneRelationships.Select(r1m => r1m.SchemaName).Contains(r.SchemaName))
-                        .Select(r => new RelationshipMetadataProxy(entities, r)));
+                        .Select(r => new RelationshipMetadataProxy(entities, entity, r)));
             }
         }
 

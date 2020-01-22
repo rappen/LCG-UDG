@@ -112,6 +112,9 @@ namespace Rappen.XTB.LCG
         public bool ManagedAll { get; set; } = true;
         public bool ManagedTrue { get; set; }
         public bool ManagedFalse { get; set; }
+        public bool Type1N { get; set; } = true;
+        public bool TypeN1 { get; set; } = false;
+        public bool TypeNN { get; set; } = true;
         public bool Orphans { get; set; }
         public bool Owner { get; set; } = true;
         public bool Regarding { get; set; } = true;

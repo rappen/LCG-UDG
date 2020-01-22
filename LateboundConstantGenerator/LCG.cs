@@ -400,6 +400,9 @@ namespace Rappen.XTB.LCG
             rbRelMgdAll.Checked = settings.RelationshipFilter?.ManagedAll != false;
             rbRelMgdTrue.Checked = settings.RelationshipFilter?.ManagedTrue == true;
             rbRelMgdFalse.Checked = settings.RelationshipFilter?.ManagedFalse == true;
+            chkRel1N.Checked = settings.RelationshipFilter?.Type1N == true;
+            chkRelN1.Checked = settings.RelationshipFilter?.TypeN1 == true;
+            chkRelNN.Checked = settings.RelationshipFilter?.TypeNN == true;
             chkRelOrphans.Checked = settings.RelationshipFilter?.Orphans == true;
             chkRelOwners.Checked = settings.RelationshipFilter?.Owner == true;
             chkRelRegarding.Checked = settings.RelationshipFilter?.Regarding == true;
@@ -526,10 +529,21 @@ namespace Rappen.XTB.LCG
 
         private SortableBindingList<RelationshipMetadataProxy> GetFilteredRelationships()
         {
-            bool GetRelNoM1Filter(RelationshipMetadataProxy r)
+            bool GetTypeFilter(RelationshipMetadataProxy r)
             {   // Exclude relationships where selected entity is just child of the relationship
-                return r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship
-                    || r.OneToManyRelationshipMetadata.ReferencingEntity == selectedEntity?.LogicalName;
+                if (chkRel1N.Checked && r.OneToManyRelationshipMetadata?.ReferencingEntity == selectedEntity?.LogicalName)
+                {
+                    return true;
+                }
+                if (chkRelN1.Checked && r.OneToManyRelationshipMetadata?.ReferencedEntity == selectedEntity?.LogicalName)
+                {
+                    return true;
+                }
+                if (chkRelNN.Checked && r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
+                {
+                    return true;
+                }
+                return false;
             }
             bool GetCustomFilter(RelationshipMetadataProxy r)
             {
@@ -566,22 +580,28 @@ namespace Rappen.XTB.LCG
             }
             bool GetOwnersFilter(RelationshipMetadataProxy r)
             {
-                return chkRelOwners.Checked ||
-                    r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship ||
-                    (r.OneToManyRelationshipMetadata.ReferencedEntity != "systemuser" &&
-                     r.OneToManyRelationshipMetadata.ReferencedEntity != "team");
+                if (chkRelOwners.Checked || r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
+                {
+                    return true;
+                }
+                return
+                    r.OneToManyRelationshipMetadata.ReferencingAttribute != "ownerid" &&
+                    r.OneToManyRelationshipMetadata.ReferencedAttribute != "ownerid";
             }
             bool GetRegardingFilter(RelationshipMetadataProxy r)
             {
-                return chkRelRegarding.Checked ||
-                    r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship ||
+                if (chkRelRegarding.Checked || r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
+                {
+                    return true;
+                }
+                return
                     r.OneToManyRelationshipMetadata.ReferencingAttribute != "regardingobjectid";
             }
 
             return new SortableBindingList<RelationshipMetadataProxy>(
                 selectedEntity.Relationships
                     .Where(
-                        r => GetRelNoM1Filter(r)
+                        r => GetTypeFilter(r)
                            && GetCustomFilter(r)
                            && GetManagedFilter(r)
                            && GetSearchFilter(r)
@@ -739,6 +759,9 @@ namespace Rappen.XTB.LCG
                 ManagedAll = rbRelMgdAll.Checked,
                 ManagedTrue = rbRelMgdTrue.Checked,
                 ManagedFalse = rbRelMgdFalse.Checked,
+                Type1N= chkRel1N.Checked,
+                TypeN1 = chkRelN1.Checked,
+                TypeNN = chkRelNN.Checked,
                 Orphans = chkRelOrphans.Checked,
                 Owner = chkRelOwners.Checked,
                 Regarding = chkRelRegarding.Checked
@@ -912,16 +935,16 @@ namespace Rappen.XTB.LCG
                         {
                             entity.PropertyChanged += Entity_PropertyChanged;
                             entity.Relationships = new List<RelationshipMetadataProxy>(
-                                entity.Metadata.ManyToOneRelationships.Select(m => new RelationshipMetadataProxy(entities, m)));
+                                entity.Metadata.ManyToOneRelationships.Select(m => new RelationshipMetadataProxy(entities, entity, m)));
                             entity.Relationships.AddRange(
                                 entity.Metadata.OneToManyRelationships
                                     .Where(r => !entity.Metadata.ManyToOneRelationships.Select(r1m => r1m.SchemaName).Contains(r.SchemaName))
-                                    .Select(r => new RelationshipMetadataProxy(entities, r)));
+                                    .Select(r => new RelationshipMetadataProxy(entities, entity, r)));
                             entity.Relationships.AddRange(
-                                entity.Metadata.ManyToManyRelationships.Select(m => new RelationshipMetadataProxy(entities, m)));
+                                entity.Metadata.ManyToManyRelationships.Select(m => new RelationshipMetadataProxy(entities, entity, m)));
                             foreach (var relationship in entity.Relationships)
                             {
-                                relationship.PropertyChanged += Attribute_PropertyChanged;
+                                relationship.PropertyChanged += Relationship_PropertyChanged;
                             }
                         }
                     }

@@ -17,21 +17,24 @@ namespace Rappen.XTB.LCG
 
         #region Private Fields
 
+        private EntityMetadataProxy originatingentity;
         private AttributeMetadataProxy lookupAttribute;
 
         #endregion Private Fields
 
         #region Public Constructors
 
-        public RelationshipMetadataProxy(List<EntityMetadataProxy> entities, OneToManyRelationshipMetadata relationshipMetadata)
+        public RelationshipMetadataProxy(List<EntityMetadataProxy> entities, EntityMetadataProxy originatingentity, OneToManyRelationshipMetadata relationshipMetadata)
         {
+            this.originatingentity = originatingentity;
             Parent = entities.FirstOrDefault(e => e.LogicalName == relationshipMetadata.ReferencedEntity);
             Child = entities.FirstOrDefault(e => e.LogicalName == relationshipMetadata.ReferencingEntity);
             Metadata = relationshipMetadata;
         }
 
-        public RelationshipMetadataProxy(List<EntityMetadataProxy> entities, ManyToManyRelationshipMetadata relationshipMetadata)
+        public RelationshipMetadataProxy(List<EntityMetadataProxy> entities, EntityMetadataProxy originatingentity, ManyToManyRelationshipMetadata relationshipMetadata)
         {
+            this.originatingentity = originatingentity;
             Parent = entities.FirstOrDefault(e => e.LogicalName == relationshipMetadata.Entity1LogicalName);
             Child = entities.FirstOrDefault(e => e.LogicalName == relationshipMetadata.Entity2LogicalName);
             Metadata = relationshipMetadata;
@@ -41,6 +44,7 @@ namespace Rappen.XTB.LCG
 
         internal OneToManyRelationshipMetadata OneToManyRelationshipMetadata => Metadata as OneToManyRelationshipMetadata;
         internal ManyToManyRelationshipMetadata ManyToManyRelationshipMetadata => Metadata as ManyToManyRelationshipMetadata;
+        internal EntityMetadataProxy OtherEntity => originatingentity == Parent ? Child : Parent;
         internal AttributeMetadataProxy LookupAttribute
         {
             get
@@ -59,10 +63,10 @@ namespace Rappen.XTB.LCG
         public bool Selected => IsSelected;
 
         [DisplayName("Type")]
-        public string Type => Metadata.RelationshipType == RelationshipType.ManyToManyRelationship ? "N : N" : "1 : N";
+        public string Type => Metadata.RelationshipType == RelationshipType.ManyToManyRelationship ? "N : N" : originatingentity == Parent ? "1 : N" : originatingentity == Child ? "N : 1" : "?";
 
         [DisplayName("Related Entity")]
-        public string RelatedEntityName => Parent?.DisplayName;
+        public string RelatedEntityName => OtherEntity?.DisplayName;
 
         [DisplayName("Lookup")]
         public string LookupName
@@ -102,6 +106,11 @@ namespace Rappen.XTB.LCG
         #endregion Public Properties
 
         #region Public Methods
+
+        public override string ToString()
+        {
+            return $"{Parent?.DisplayName} {Type} {Child?.DisplayName}";
+        }
 
         public string GetNameTechnical(Settings settings)
         {
