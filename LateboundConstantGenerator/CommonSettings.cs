@@ -7,11 +7,6 @@
         public CommonSettings(bool isUML)
         {
             Template = new Template(isUML);
-            SetDefaults(isUML);
-        }
-
-        private void SetDefaults(bool isUML)
-        {
             if (isUML)
             {
                 AttributeSeparatorAfterPK = "--";
@@ -54,40 +49,6 @@
 
         public Template(bool isUML)
         {
-            SetDefaults(isUML);
-        }
-
-        public int TemplateVersion { get; set; }
-        internal string IndentStr = "    ";
-        internal string FileContainer = "{header}\n{data}";
-        internal string FileHeader = @"// *********************************************************************
-// Created by : {toolname} {version} for XrmToolBox
-// Author     : Jonas Rapp https://twitter.com/rappen
-// GitHub     : https://github.com/rappen/LateboundConstantGenerator
-// Source Org : {organization}
-{filedetails}
-// *********************************************************************";
-        public string DataContainer { get; set; } = "namespace {namespace}\n{\n{data}\n}";
-        public string EntityContainer { get; set; } = "{summary}\n{remarks}\npublic static class {entityname}\n{\n{entitydetail}\n{attributes}\n{relationships}\n{optionsets}\n}";
-        public string EntityDetail { get; set; } = "public const string EntityName = '{logicalname}';\npublic const string EntityCollectionName = '{logicalcollectionname}';";
-        public string Attribute { get; set; } = "{summary}\n{remarks}\npublic const string {attribute} = '{logicalname}';";
-        public string Relationship { get; set; } = "{summary}\npublic const string {relationship} = '{schemaname}';";
-        public string OptionSet { get; set; } = "public enum {name}\n{\n{values}\n}";
-        public string OptionSetValue { get; set; } = "{name} = {value}";
-        public string Region { get; set; } = "#region {region}\n{content}\n#endregion {region}";
-        public string Summary { get; set; } = "/// <summary>{summary}</summary>";
-        public string Remarks { get; set; } = "/// <remarks>{remarks}</remarks>";
-        public string PrimaryKeyName { get; set; } = "PrimaryKey";
-        public string PrimaryAttributeName { get; set; } = "PrimaryName";
-        public string StandardAttribute { get; set; } = string.Empty;
-        public string CustomAttribute { get; set; } = string.Empty;
-        public string RequiredLevelRequired { get; set; } = string.Empty;
-        public string RequiredLevelRecommended { get; set; } = string.Empty;
-        public string RequiredLevelNone { get; set; } = string.Empty;
-        public bool AddAllRelationshipsAfterEntities { get; set; } = false;
-
-        private void SetDefaults(bool isUML)
-        {
             if (!isUML)
             {
                 TemplateVersion = 2;    // Change this when LCG template is updated to revert customizations
@@ -129,6 +90,35 @@ footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
                 RequiredLevelRecommended = "+{attribute}";
             }
         }
+
+        public int TemplateVersion { get; set; }
+        internal string IndentStr = "    ";
+        internal string FileContainer = "{header}\n{data}";
+        internal string FileHeader = @"// *********************************************************************
+// Created by : {toolname} {version} for XrmToolBox
+// Author     : Jonas Rapp https://twitter.com/rappen
+// GitHub     : https://github.com/rappen/LateboundConstantGenerator
+// Source Org : {organization}
+{filedetails}
+// *********************************************************************";
+        public string DataContainer { get; set; } = "namespace {namespace}\n{\n{data}\n}";
+        public string EntityContainer { get; set; } = "{summary}\n{remarks}\npublic static class {entityname}\n{\n{entitydetail}\n{attributes}\n{relationships}\n{optionsets}\n}";
+        public string EntityDetail { get; set; } = "public const string EntityName = '{logicalname}';\npublic const string EntityCollectionName = '{logicalcollectionname}';";
+        public string Attribute { get; set; } = "{summary}\n{remarks}\npublic const string {attribute} = '{logicalname}';";
+        public string Relationship { get; set; } = "{summary}\npublic const string {relationship} = '{schemaname}';";
+        public string OptionSet { get; set; } = "public enum {name}\n{\n{values}\n}";
+        public string OptionSetValue { get; set; } = "{name} = {value}";
+        public string Region { get; set; } = "#region {region}\n{content}\n#endregion {region}";
+        public string Summary { get; set; } = "/// <summary>{summary}</summary>";
+        public string Remarks { get; set; } = "/// <remarks>{remarks}</remarks>";
+        public string PrimaryKeyName { get; set; } = "PrimaryKey";
+        public string PrimaryAttributeName { get; set; } = "PrimaryName";
+        public string StandardAttribute { get; set; } = string.Empty;
+        public string CustomAttribute { get; set; } = string.Empty;
+        public string RequiredLevelRequired { get; set; } = string.Empty;
+        public string RequiredLevelRecommended { get; set; } = string.Empty;
+        public string RequiredLevelNone { get; set; } = string.Empty;
+        public bool AddAllRelationshipsAfterEntities { get; set; } = false;
 
         internal void SetFixedValues(bool isUML)
         {

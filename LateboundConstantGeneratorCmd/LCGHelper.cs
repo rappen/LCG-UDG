@@ -41,7 +41,7 @@ namespace Rappen.XTB.LCG.Cmd
 
         public void GenerateConstants()
         {
-            Settings.InitalizeCommonSettings(false); // ToDo: Load CommonSettings
+            // ToDo: Load CommonSettings
             LoadEntities();
             RestoreSelectedEntities();
             var message = CSharpUtils.GenerateClasses(entities, Settings, Settings.GetWriter(this.crmConnection.WebApplicationUrl));

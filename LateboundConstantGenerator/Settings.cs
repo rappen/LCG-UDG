@@ -10,6 +10,14 @@ namespace Rappen.XTB.LCG
     /// </remarks>
     public class Settings
     {
+        public Settings() : this(false) { }
+
+        public Settings(bool isUML)
+        {
+            commonsettings = new CommonSettings(isUML);
+            GenerationSettings = new GenerationSettings(isUML);
+        }
+
         public bool EntityFilterExpanded { get; set; } = true;
         public bool AttributeFilterExpanded { get; set; } = true;
         public FileSettings FileSettings { get; set; } = new FileSettings();
@@ -46,11 +54,6 @@ namespace Rappen.XTB.LCG
                 ? (IConstantFileWriter)new CommonFileWriter(orgUrl)
                 : new SeparateFileWriter(orgUrl);
         }
-
-        public void InitalizeCommonSettings(bool isUML)
-        {
-            commonsettings = new CommonSettings(isUML);
-        }
     }
 
     public class FileSettings
@@ -65,6 +68,13 @@ namespace Rappen.XTB.LCG
 
     public class GenerationSettings
     {
+        public GenerationSettings() : this(false) { }
+
+        public GenerationSettings(bool isUML)
+        {
+            AttributeSortMode = isUML ? AttributeSortMode.AlphabeticalAndRequired : AttributeSortMode.None;
+        }
+
         public NameType ConstantName { get; set; } = NameType.DisplayName;
         public bool ConstantCamelCased { get; set; }
         public bool DoStripPrefix { get; set; }
@@ -77,11 +87,6 @@ namespace Rappen.XTB.LCG
         public bool RelationshipLabels { get; set; } = false;
         public bool OptionSets { get; set; } = true;
         public bool GlobalOptionSets { get; set; }
-
-        internal void SetDefaults(bool isUML)
-        {
-            AttributeSortMode = isUML ? AttributeSortMode.AlphabeticalAndRequired : AttributeSortMode.None;
-        }
     }
 
     public class EntityFilter

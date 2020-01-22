@@ -176,7 +176,7 @@ namespace Rappen.XTB.LCG
             {
                 if (settings == null)
                 {
-                    settings = new Settings();
+                    settings = new Settings(isUML);
                 }
                 settings.GenerationSettings = gensettings;
             }
@@ -692,7 +692,7 @@ namespace Rappen.XTB.LCG
         {
             if (settings == null)
             {
-                settings = new Settings();
+                settings = new Settings(isUML);
             }
             settings.commonsettings = commonsettings;
             settings.EntityFilterExpanded = gbEntities.Height > 20;
@@ -911,7 +911,7 @@ namespace Rappen.XTB.LCG
             }
             if (commonsettings.Template.TemplateVersion != new Template(isUML).TemplateVersion)
             {
-                MessageBox.Show("Template has been updated.\nAny customizations will need to be recreated.", "Template", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageBox.Show("Template has been updated.\nAny customizations will need to be recreated.", "Template", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 commonsettings.Template = new Template(isUML);
             }
             commonsettings.SetFixedValues(isUML);
@@ -921,8 +921,7 @@ namespace Rappen.XTB.LCG
         {
             if (!SettingsManager.Instance.TryLoad(GetType(), out settings, SettingsFileName(connectionname)))
             {
-                settings = new Settings();
-                settings.GenerationSettings.SetDefaults(isUML);
+                settings = new Settings(isUML);
             }
             ApplySettings();
         }
