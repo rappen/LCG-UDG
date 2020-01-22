@@ -1,6 +1,6 @@
 ﻿namespace Rappen.XTB.LCG
 {
-    partial class OptionsDialogUML
+    partial class FormatDialogUML
     {
         /// <summary>
         /// Required designer variable.
@@ -40,15 +40,17 @@
             this.label1 = new System.Windows.Forms.Label();
             this.chkRelationshipLabels = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.lblNamespace = new System.Windows.Forms.Label();
+            this.txtNamespace = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // chkConstCamelCased
             // 
             this.chkConstCamelCased.AutoSize = true;
-            this.chkConstCamelCased.Location = new System.Drawing.Point(313, 14);
+            this.chkConstCamelCased.Location = new System.Drawing.Point(313, 42);
             this.chkConstCamelCased.Name = "chkConstCamelCased";
             this.chkConstCamelCased.Size = new System.Drawing.Size(85, 17);
-            this.chkConstCamelCased.TabIndex = 20;
+            this.chkConstCamelCased.TabIndex = 30;
             this.chkConstCamelCased.Text = "CamelCased";
             this.chkConstCamelCased.UseVisualStyleBackColor = true;
             this.chkConstCamelCased.Visible = false;
@@ -58,16 +60,16 @@
             this.txtConstStripPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtConstStripPrefix.Enabled = false;
-            this.txtConstStripPrefix.Location = new System.Drawing.Point(215, 40);
+            this.txtConstStripPrefix.Location = new System.Drawing.Point(214, 67);
             this.txtConstStripPrefix.Name = "txtConstStripPrefix";
-            this.txtConstStripPrefix.Size = new System.Drawing.Size(228, 20);
-            this.txtConstStripPrefix.TabIndex = 40;
+            this.txtConstStripPrefix.Size = new System.Drawing.Size(214, 20);
+            this.txtConstStripPrefix.TabIndex = 50;
             this.txtConstStripPrefix.Leave += new System.EventHandler(this.txtConstStripPrefix_Leave);
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(12, 43);
+            this.label10.Location = new System.Drawing.Point(12, 70);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(33, 13);
             this.label10.TabIndex = 14;
@@ -77,10 +79,10 @@
             // 
             this.chkConstStripPrefix.AutoSize = true;
             this.chkConstStripPrefix.Enabled = false;
-            this.chkConstStripPrefix.Location = new System.Drawing.Point(129, 42);
+            this.chkConstStripPrefix.Location = new System.Drawing.Point(129, 69);
             this.chkConstStripPrefix.Name = "chkConstStripPrefix";
             this.chkConstStripPrefix.Size = new System.Drawing.Size(89, 17);
-            this.chkConstStripPrefix.TabIndex = 30;
+            this.chkConstStripPrefix.TabIndex = 40;
             this.chkConstStripPrefix.Text = "Skip prefixes:";
             this.chkConstStripPrefix.UseVisualStyleBackColor = true;
             this.chkConstStripPrefix.CheckedChanged += new System.EventHandler(this.chkConstStripPrefix_CheckedChanged);
@@ -93,16 +95,16 @@
             "Display Name",
             "Schema Name",
             "Logical Name"});
-            this.cmbConstantName.Location = new System.Drawing.Point(129, 13);
+            this.cmbConstantName.Location = new System.Drawing.Point(129, 39);
             this.cmbConstantName.Name = "cmbConstantName";
             this.cmbConstantName.Size = new System.Drawing.Size(178, 21);
-            this.cmbConstantName.TabIndex = 10;
+            this.cmbConstantName.TabIndex = 20;
             this.cmbConstantName.SelectedIndexChanged += new System.EventHandler(this.cmbConstantName_SelectedIndexChanged);
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(12, 16);
+            this.label8.Location = new System.Drawing.Point(12, 43);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(47, 13);
             this.label8.TabIndex = 8;
@@ -115,7 +117,7 @@
             this.btnCancel.Location = new System.Drawing.Point(129, 159);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(97, 23);
-            this.btnCancel.TabIndex = 101;
+            this.btnCancel.TabIndex = 120;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
@@ -126,7 +128,7 @@
             this.btnOK.Location = new System.Drawing.Point(262, 159);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(97, 23);
-            this.btnOK.TabIndex = 102;
+            this.btnOK.TabIndex = 110;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             // 
@@ -138,15 +140,15 @@
             "No sorting",
             "Alphabetically",
             "Required Level and Alphabetically"});
-            this.cmbSortAttributes.Location = new System.Drawing.Point(129, 67);
+            this.cmbSortAttributes.Location = new System.Drawing.Point(129, 93);
             this.cmbSortAttributes.Name = "cmbSortAttributes";
             this.cmbSortAttributes.Size = new System.Drawing.Size(178, 21);
-            this.cmbSortAttributes.TabIndex = 103;
+            this.cmbSortAttributes.TabIndex = 60;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 70);
+            this.label1.Location = new System.Drawing.Point(12, 97);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(86, 13);
             this.label1.TabIndex = 104;
@@ -155,23 +157,41 @@
             // chkRelationshipLabels
             // 
             this.chkRelationshipLabels.AutoSize = true;
-            this.chkRelationshipLabels.Location = new System.Drawing.Point(129, 96);
+            this.chkRelationshipLabels.Location = new System.Drawing.Point(129, 123);
             this.chkRelationshipLabels.Name = "chkRelationshipLabels";
             this.chkRelationshipLabels.Size = new System.Drawing.Size(130, 17);
-            this.chkRelationshipLabels.TabIndex = 106;
+            this.chkRelationshipLabels.TabIndex = 70;
             this.chkRelationshipLabels.Text = "Include lookup names";
             this.chkRelationshipLabels.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 97);
+            this.label2.Location = new System.Drawing.Point(12, 124);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(70, 13);
             this.label2.TabIndex = 105;
             this.label2.Text = "Relationships";
             // 
-            // OptionsDialogUML
+            // lblNamespace
+            // 
+            this.lblNamespace.AutoSize = true;
+            this.lblNamespace.Location = new System.Drawing.Point(12, 16);
+            this.lblNamespace.Name = "lblNamespace";
+            this.lblNamespace.Size = new System.Drawing.Size(27, 13);
+            this.lblNamespace.TabIndex = 107;
+            this.lblNamespace.Text = "Title";
+            // 
+            // txtNamespace
+            // 
+            this.txtNamespace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtNamespace.Location = new System.Drawing.Point(129, 13);
+            this.txtNamespace.Name = "txtNamespace";
+            this.txtNamespace.Size = new System.Drawing.Size(299, 20);
+            this.txtNamespace.TabIndex = 10;
+            // 
+            // FormatDialogUML
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -179,6 +199,8 @@
             this.BackColor = System.Drawing.SystemColors.Window;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(467, 200);
+            this.Controls.Add(this.lblNamespace);
+            this.Controls.Add(this.txtNamespace);
             this.Controls.Add(this.chkRelationshipLabels);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -194,11 +216,11 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "OptionsDialogUML";
+            this.Name = "FormatDialogUML";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Constant Options";
+            this.Text = "Format Options";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -217,5 +239,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox chkRelationshipLabels;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblNamespace;
+        private System.Windows.Forms.TextBox txtNamespace;
     }
 }

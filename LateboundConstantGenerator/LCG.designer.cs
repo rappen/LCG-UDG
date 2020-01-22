@@ -423,12 +423,12 @@
             // 
             this.llEntityExpander.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.llEntityExpander.AutoSize = true;
-            this.llEntityExpander.Location = new System.Drawing.Point(312, 0);
+            this.llEntityExpander.Location = new System.Drawing.Point(290, 0);
             this.llEntityExpander.Name = "llEntityExpander";
-            this.llEntityExpander.Size = new System.Drawing.Size(29, 13);
+            this.llEntityExpander.Size = new System.Drawing.Size(51, 13);
             this.llEntityExpander.TabIndex = 3;
             this.llEntityExpander.TabStop = true;
-            this.llEntityExpander.Text = "Hide";
+            this.llEntityExpander.Text = "Hide filter";
             this.llEntityExpander.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
             // 
             // pnEntIntersect
@@ -790,12 +790,12 @@
             // 
             this.llAttributeExpander.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.llAttributeExpander.AutoSize = true;
-            this.llAttributeExpander.Location = new System.Drawing.Point(297, 0);
+            this.llAttributeExpander.Location = new System.Drawing.Point(275, 0);
             this.llAttributeExpander.Name = "llAttributeExpander";
-            this.llAttributeExpander.Size = new System.Drawing.Size(29, 13);
+            this.llAttributeExpander.Size = new System.Drawing.Size(51, 13);
             this.llAttributeExpander.TabIndex = 4;
             this.llAttributeExpander.TabStop = true;
-            this.llAttributeExpander.Text = "Hide";
+            this.llAttributeExpander.Text = "Hide filter";
             this.llAttributeExpander.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
             // 
             // pnAttSystem
@@ -1302,12 +1302,12 @@
             // 
             this.llRelationshipExpander.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.llRelationshipExpander.AutoSize = true;
-            this.llRelationshipExpander.Location = new System.Drawing.Point(306, 0);
+            this.llRelationshipExpander.Location = new System.Drawing.Point(284, 0);
             this.llRelationshipExpander.Name = "llRelationshipExpander";
-            this.llRelationshipExpander.Size = new System.Drawing.Size(29, 13);
+            this.llRelationshipExpander.Size = new System.Drawing.Size(51, 13);
             this.llRelationshipExpander.TabIndex = 4;
             this.llRelationshipExpander.TabStop = true;
-            this.llRelationshipExpander.Text = "Hide";
+            this.llRelationshipExpander.Text = "Hide filter";
             this.llRelationshipExpander.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
             // 
             // statusRelationships

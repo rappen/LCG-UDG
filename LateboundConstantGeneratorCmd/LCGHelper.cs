@@ -27,7 +27,7 @@ namespace Rappen.XTB.LCG.Cmd
 
         public void LoadSettingsFromFile(string path)
         {
-            if (File.Exists(path))
+            if (System.IO.File.Exists(path))
             {
                 var document = new XmlDocument();
                 document.Load(path);

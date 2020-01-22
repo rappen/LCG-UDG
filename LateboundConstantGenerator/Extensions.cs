@@ -33,7 +33,7 @@ namespace Rappen.XTB.LCG
             content = content.BeautifyContent(settings.commonsettings.Template.IndentStr);
             try
             {
-                File.WriteAllText(filename, content);
+                System.IO.File.WriteAllText(filename, content);
                 return true;
             }
             catch (Exception e)

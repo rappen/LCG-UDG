@@ -15,38 +15,56 @@ namespace Rappen.XTB.LCG
         public Settings(bool isUML)
         {
             commonsettings = new CommonSettings(isUML);
-            GenerationSettings = new GenerationSettings(isUML);
+            AttributeSortMode = isUML ? AttributeSortMode.AlphabeticalAndRequired : AttributeSortMode.None;
+            SetFixedValues(isUML);
         }
 
-        public bool EntityFilterExpanded { get; set; } = true;
-        public bool AttributeFilterExpanded { get; set; } = true;
-        public FileSettings FileSettings { get; set; } = new FileSettings();
-        public GenerationSettings GenerationSettings { get; set; } = new GenerationSettings();
-        public EntityFilter EntityFilter { get; set; } = new EntityFilter();
-        public AttributeFilter AttributeFilter { get; set; } = new AttributeFilter();
+        internal void SetFixedValues(bool isUML)
+        {
+            if (isUML)
+            {
+                UseCommonFile = true;
+                FileName = NameType.DisplayName;
+                CommonAttributes = CommonAttributesType.None;
+                XmlProperties = false;
+                XmlDescription = false;
+                Regions = false;
+                RelationShips = true;
+                OptionSets = false;
+                GlobalOptionSets = false;
+            }
+            else
+            {
+                RelationshipLabels = false;
+                AttributeSortMode = AttributeSortMode.None;
+            }
+        }
+
+        public string OutputFolder { get; set; }
+        public string NameSpace { get; set; }
+        public bool UseCommonFile { get; set; }
+        public string CommonFile { get; set; }
+        public NameType FileName { get; set; } = NameType.DisplayName;
+        public NameType ConstantName { get; set; } = NameType.DisplayName;
+        public bool ConstantCamelCased { get; set; }
+        public bool DoStripPrefix { get; set; }
+        public string StripPrefix { get; set; }
+        public bool XmlProperties { get; set; } = true;
+        public bool XmlDescription { get; set; }
+        public bool Regions { get; set; } = true;
+        public bool RelationShips { get; set; } = true;
+        public bool RelationshipLabels { get; set; } = false;
+        public bool OptionSets { get; set; } = true;
+        public bool GlobalOptionSets { get; set; }
+        public CommonAttributesType CommonAttributes { get; set; } = CommonAttributesType.None;
+        public AttributeSortMode AttributeSortMode { get; set; } = AttributeSortMode.None;
         public List<string> Selection { get; set; } = new List<string>();
         public List<SelectedEntity> SelectedEntities { get; set; }
+        public EntityFilter EntityFilter { get; set; } = new EntityFilter();
+        public AttributeFilter AttributeFilter { get; set; } = new AttributeFilter();
+        public RelationshipFilter RelationshipFilter { get; set; } = new RelationshipFilter();
 
         internal CommonSettings commonsettings;
-
-        #region Shortcuts
-        internal string OutputFolder => FileSettings.OutputFolder;
-        internal string NameSpace => FileSettings.NameSpace;
-        internal bool UseCommonFile => FileSettings.UseCommonFile;
-        internal string CommonFile => FileSettings.CommonFile;
-        internal NameType FileName => FileSettings.FileName;
-        internal CommonAttributesType CommonAttributes => FileSettings.CommonAttributes;
-        internal NameType ConstantName => GenerationSettings.ConstantName;
-        internal bool ConstantCamelCased => GenerationSettings.ConstantCamelCased;
-        internal bool DoStripPrefix => GenerationSettings.DoStripPrefix;
-        internal string StripPrefix => GenerationSettings.StripPrefix;
-        internal bool XmlProperties => GenerationSettings.XmlProperties;
-        internal bool XmlDescription => GenerationSettings.XmlDescription;
-        internal bool Regions => GenerationSettings.Regions;
-        internal bool RelationShips => GenerationSettings.RelationShips;
-        internal bool OptionSets => GenerationSettings.OptionSets;
-        internal bool GlobalOptionSets => GenerationSettings.GlobalOptionSets;
-        #endregion Shortcuts
 
         public IConstantFileWriter GetWriter(string orgUrl)
         {
@@ -56,41 +74,9 @@ namespace Rappen.XTB.LCG
         }
     }
 
-    public class FileSettings
-    {
-        public string OutputFolder { get; set; }
-        public string NameSpace { get; set; }
-        public bool UseCommonFile { get; set; }
-        public string CommonFile { get; set; }
-        public NameType FileName { get; set; } = NameType.DisplayName;
-        public CommonAttributesType CommonAttributes { get; set; } = CommonAttributesType.None;
-    }
-
-    public class GenerationSettings
-    {
-        public GenerationSettings() : this(false) { }
-
-        public GenerationSettings(bool isUML)
-        {
-            AttributeSortMode = isUML ? AttributeSortMode.AlphabeticalAndRequired : AttributeSortMode.None;
-        }
-
-        public NameType ConstantName { get; set; } = NameType.DisplayName;
-        public bool ConstantCamelCased { get; set; }
-        public bool DoStripPrefix { get; set; }
-        public string StripPrefix { get; set; }
-        public AttributeSortMode AttributeSortMode { get; set; } = AttributeSortMode.None;
-        public bool XmlProperties { get; set; } = true;
-        public bool XmlDescription { get; set; }
-        public bool Regions { get; set; } = true;
-        public bool RelationShips { get; set; } = true;
-        public bool RelationshipLabels { get; set; } = false;
-        public bool OptionSets { get; set; } = true;
-        public bool GlobalOptionSets { get; set; }
-    }
-
     public class EntityFilter
     {
+        public bool Expanded { get; set; } = false;
         public bool CustomAll { get; set; } = true;
         public bool CustomFalse { get; set; }
         public bool CustomTrue { get; set; }
@@ -103,6 +89,7 @@ namespace Rappen.XTB.LCG
 
     public class AttributeFilter
     {
+        public bool Expanded { get; set; } = false;
         public bool CheckAll { get; set; }
         public bool CustomAll { get; set; } = true;
         public bool CustomFalse { get; set; }
@@ -113,6 +100,21 @@ namespace Rappen.XTB.LCG
         public bool PrimaryKey { get; set; }
         public bool PrimaryAttribute { get; set; }
         public bool Logical { get; set; }
+    }
+
+    public class RelationshipFilter
+    {
+        public bool Expanded { get; set; } = false;
+        public bool CheckAll { get; set; }
+        public bool CustomAll { get; set; } = true;
+        public bool CustomFalse { get; set; }
+        public bool CustomTrue { get; set; }
+        public bool ManagedAll { get; set; } = true;
+        public bool ManagedTrue { get; set; }
+        public bool ManagedFalse { get; set; }
+        public bool Orphans { get; set; }
+        public bool Owner { get; set; } = true;
+        public bool Regarding { get; set; } = true;
     }
 
     public enum NameType

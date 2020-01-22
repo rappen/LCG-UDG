@@ -3,44 +3,44 @@ using System.Windows.Forms;
 
 namespace Rappen.XTB.LCG
 {
-    public partial class OptionsDialogUML : Form
+    public partial class FormatDialogUML : Form
     {
-        public OptionsDialogUML()
+        public FormatDialogUML()
         {
             InitializeComponent();
         }
 
-        internal static GenerationSettings GetSettings(LCG lcg, Settings settings)
+        internal static bool GetSettings(LCG lcg, Settings settings)
         {
-            GenerationSettings result = null;
-            using (var settingdlg = new OptionsDialogUML())
+            using (var settingdlg = new FormatDialogUML())
             {
+                settingdlg.txtNamespace.Text = settings.NameSpace;
                 settingdlg.cmbConstantName.SelectedIndex = (int)settings.ConstantName;
                 settingdlg.chkConstCamelCased.Checked = settings.ConstantCamelCased && settings.ConstantName != NameType.DisplayName;
                 settingdlg.chkConstStripPrefix.Checked = settings.DoStripPrefix && settings.ConstantName != NameType.DisplayName;
                 settingdlg.txtConstStripPrefix.Text = settings.StripPrefix;
-                settingdlg.cmbSortAttributes.SelectedIndex = (int)settings.GenerationSettings.AttributeSortMode;
-                settingdlg.chkRelationshipLabels.Checked = settings.GenerationSettings.RelationshipLabels;
+                settingdlg.cmbSortAttributes.SelectedIndex = (int)settings.AttributeSortMode;
+                settingdlg.chkRelationshipLabels.Checked = settings.RelationshipLabels;
                 if (settingdlg.ShowDialog(lcg) == DialogResult.OK)
                 {
-                    result = new GenerationSettings
-                    {
-                        ConstantName = (NameType)Math.Max(settingdlg.cmbConstantName.SelectedIndex, 0),
-                        ConstantCamelCased = settingdlg.chkConstCamelCased.Checked,
-                        DoStripPrefix = settingdlg.chkConstStripPrefix.Checked,
-                        StripPrefix = settingdlg.txtConstStripPrefix.Text.ToLowerInvariant().TrimEnd('_') + "_",
-                        AttributeSortMode = (AttributeSortMode)Math.Max(settingdlg.cmbSortAttributes.SelectedIndex, 0),
-                        RelationshipLabels = settingdlg.chkRelationshipLabels.Checked,
-                        XmlProperties = false,
-                        XmlDescription = false,
-                        Regions = false,
-                        RelationShips = true,
-                        OptionSets = false,
-                        GlobalOptionSets = false
-                    };
+                    settings.NameSpace = settingdlg.txtNamespace.Text;
+                    settings.ConstantName = (NameType)Math.Max(settingdlg.cmbConstantName.SelectedIndex, 0);
+                    settings.ConstantCamelCased = settingdlg.chkConstCamelCased.Checked;
+                    settings.DoStripPrefix = settingdlg.chkConstStripPrefix.Checked;
+                    settings.StripPrefix = settingdlg.txtConstStripPrefix.Text.ToLowerInvariant().TrimEnd('_') + "_";
+                    settings.AttributeSortMode = (AttributeSortMode)Math.Max(settingdlg.cmbSortAttributes.SelectedIndex, 0);
+                    settings.RelationshipLabels = settingdlg.chkRelationshipLabels.Checked;
+                    settings.CommonAttributes = CommonAttributesType.None;
+                    settings.XmlProperties = false;
+                    settings.XmlDescription = false;
+                    settings.Regions = false;
+                    settings.RelationShips = true;
+                    settings.OptionSets = false;
+                    settings.GlobalOptionSets = false;
+                    return true;
                 }
             }
-            return result;
+            return false;
         }
 
         private void cmbConstantName_SelectedIndexChanged(object sender, EventArgs e)

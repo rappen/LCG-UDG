@@ -91,7 +91,7 @@ namespace Rappen.XTB.LCG
         public override void ClosingPlugin(PluginCloseInfo info)
         {
             SettingsManager.Instance.Save(GetType(), commonsettings, SettingsFileName(commonsettingsfile));
-            SaveSettings(ConnectionDetail?.ConnectionName, null);
+            SaveSettings(ConnectionDetail?.ConnectionName);
             LogUse("Close");
             base.ClosingPlugin(info);
         }
@@ -129,7 +129,7 @@ namespace Rappen.XTB.LCG
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             LogUse("Generate");
-            settings = GetSettingsFromUI(false);
+            GetSettingsFromUI();
             if (!GetFileSettings())
             {
                 return;
@@ -150,7 +150,7 @@ namespace Rappen.XTB.LCG
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 settingsfile = sfd.FileName;
-                if (File.Exists(settingsfile))
+                if (System.IO.File.Exists(settingsfile))
                 {
                     var document = new XmlDocument();
                     document.Load(settingsfile);
@@ -168,23 +168,20 @@ namespace Rappen.XTB.LCG
 
         private void btnOptions_Click(object sender, EventArgs e)
         {
-            settings = GetSettingsFromUI(false);
-            var gensettings = isUML ?
-                OptionsDialogUML.GetSettings(this, settings) :
-                OptionsDialogLCG.GetSettings(this, settings);
-            if (gensettings != null)
+            GetSettingsFromUI();
+            if (isUML)
             {
-                if (settings == null)
-                {
-                    settings = new Settings(isUML);
-                }
-                settings.GenerationSettings = gensettings;
+                FormatDialogUML.GetSettings(this, settings);
+            }
+            else
+            {
+                FormatDialogLCG.GetSettings(this, settings);
             }
         }
 
         private void btnSaveConfig_Click(object sender, EventArgs e)
         {
-            settings = GetSettingsFromUI(false);
+            GetSettingsFromUI();
             var sfd = new SaveFileDialog
             {
                 Title = "Save settings and selections",
@@ -396,8 +393,19 @@ namespace Rappen.XTB.LCG
             chkAttPrimaryKey.Checked = settings.AttributeFilter?.PrimaryKey == true;
             chkAttPrimaryAttribute.Checked = settings.AttributeFilter?.PrimaryAttribute == true;
             chkAttLogical.Checked = settings.AttributeFilter?.Logical == true;
-            GroupBoxSetState(llEntityExpander, settings.EntityFilterExpanded);
-            GroupBoxSetState(llAttributeExpander, settings.AttributeFilterExpanded);
+            chkRelCheckAll.Checked = settings.RelationshipFilter?.CheckAll != false;
+            rbRelCustomAll.Checked = settings.RelationshipFilter?.CustomAll != false;
+            rbRelCustomFalse.Checked = settings.RelationshipFilter?.CustomFalse == true;
+            rbRelCustomTrue.Checked = settings.RelationshipFilter?.CustomTrue == true;
+            rbRelMgdAll.Checked = settings.RelationshipFilter?.ManagedAll != false;
+            rbRelMgdTrue.Checked = settings.RelationshipFilter?.ManagedTrue == true;
+            rbRelMgdFalse.Checked = settings.RelationshipFilter?.ManagedFalse == true;
+            chkRelOrphans.Checked = settings.RelationshipFilter?.Orphans == true;
+            chkRelOwners.Checked = settings.RelationshipFilter?.Owner == true;
+            chkRelRegarding.Checked = settings.RelationshipFilter?.Regarding == true;
+            GroupBoxSetState(llEntityExpander, settings.EntityFilter?.Expanded == true);
+            GroupBoxSetState(llAttributeExpander, settings.AttributeFilter?.Expanded == true);
+            GroupBoxSetState(llRelationshipExpander, settings.RelationshipFilter?.Expanded == true);
         }
 
         private void Attribute_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -688,17 +696,16 @@ namespace Rappen.XTB.LCG
             return null;
         }
 
-        private Settings GetSettingsFromUI(bool noprompt)
+        private void GetSettingsFromUI()
         {
             if (settings == null)
             {
                 settings = new Settings(isUML);
             }
             settings.commonsettings = commonsettings;
-            settings.EntityFilterExpanded = gbEntities.Height > 20;
-            settings.AttributeFilterExpanded = gbAttributes.Height > 20;
             settings.EntityFilter = new EntityFilter
             {
+                Expanded = gbEntities.Height > 20,
                 CustomAll = rbEntCustomAll.Checked,
                 CustomFalse = rbEntCustomFalse.Checked,
                 CustomTrue = rbEntCustomTrue.Checked,
@@ -710,6 +717,7 @@ namespace Rappen.XTB.LCG
             };
             settings.AttributeFilter = new AttributeFilter
             {
+                Expanded = gbAttributes.Height > 20,
                 CheckAll = chkAttCheckAll.Checked,
                 CustomAll = rbAttCustomAll.Checked,
                 CustomFalse = rbAttCustomFalse.Checked,
@@ -720,6 +728,20 @@ namespace Rappen.XTB.LCG
                 PrimaryKey = chkAttPrimaryKey.Checked,
                 PrimaryAttribute = chkAttPrimaryAttribute.Checked,
                 Logical = chkAttLogical.Checked
+            };
+            settings.RelationshipFilter = new RelationshipFilter
+            {
+                Expanded = gbRelationships.Height > 20,
+                CheckAll = chkRelCheckAll.Checked,
+                CustomAll = rbRelCustomAll.Checked,
+                CustomFalse = rbRelCustomFalse.Checked,
+                CustomTrue = rbRelCustomTrue.Checked,
+                ManagedAll = rbRelMgdAll.Checked,
+                ManagedTrue = rbRelMgdTrue.Checked,
+                ManagedFalse = rbRelMgdFalse.Checked,
+                Orphans = chkRelOrphans.Checked,
+                Owner = chkRelOwners.Checked,
+                Regarding = chkRelRegarding.Checked
             };
             if (entities != null)
             {
@@ -741,36 +763,58 @@ namespace Rappen.XTB.LCG
                                 .ToList() : new List<string>()
                     }).ToList();
             }
-            if (string.IsNullOrWhiteSpace(settings.OutputFolder) && !noprompt)
-            {
-                GetFileSettings();
-            }
-            return settings;
         }
 
         private bool GetFileSettings()
         {
-            var filesettings = isUML ?
-                FileDialogUML.GetSettings(this, settings) :
-                FileDialogLCG.GetSettings(this, settings);
-            if (filesettings != null)
+            if (settings.UseCommonFile)
             {
-                settings.FileSettings = filesettings;
-                return true;
+                using (var filedlg = new SaveFileDialog
+                {
+                    InitialDirectory = settings.OutputFolder,
+                    FileName = settings.CommonFile,
+                    DefaultExt = isUML ? ".plantuml" : ".cs",
+                    Filter = isUML ? "PlantUML|*.plantuml|UML|*.uml" : "*.cs|*.cs"
+                })
+                {
+                    if (filedlg.ShowDialog(this) == DialogResult.OK)
+                    {
+                        settings.OutputFolder = Path.GetDirectoryName(filedlg.FileName);
+                        settings.CommonFile = Path.GetFileNameWithoutExtension(filedlg.FileName);
+                        return true;
+                    }
+                }
+                return false;
             }
-            return false;
+            else
+            {
+                using (var fldr = new FolderBrowserDialog
+                {
+                    Description = "Select folder where files will be generated.",
+                    SelectedPath = string.IsNullOrWhiteSpace(settings.OutputFolder) ? Path.GetDirectoryName(settingsfile) : settings.OutputFolder,
+                    ShowNewFolderButton = true
+                })
+                {
+                    if (fldr.ShowDialog(this) == DialogResult.OK)
+                    {
+                        settings.OutputFolder = fldr.SelectedPath;
+                        return true;
+                    }
+                }
+                return false;
+            }
         }
 
         private void GroupBoxCollapse(LinkLabel link)
         {
             link.Parent.Height = 18;
-            link.Text = "Show";
+            link.Text = "Show filter";
         }
 
         private void GroupBoxExpand(LinkLabel link)
         {
             link.Parent.Height = groupBoxHeights[link.Parent.Name];
-            link.Text = "Hide";
+            link.Text = "Hide filter";
         }
 
         private void GroupBoxSetState(LinkLabel link, bool expanded)
@@ -923,6 +967,7 @@ namespace Rappen.XTB.LCG
             {
                 settings = new Settings(isUML);
             }
+            settings.SetFixedValues(isUML);
             ApplySettings();
         }
 
@@ -1064,12 +1109,9 @@ namespace Rappen.XTB.LCG
             gridEntities_SelectionChanged(null, null);
         }
 
-        private void SaveSettings(string connectionname, Settings settings)
+        private void SaveSettings(string connectionname)
         {
-            if (settings == null)
-            {
-                settings = GetSettingsFromUI(true);
-            }
+            GetSettingsFromUI();
             SettingsManager.Instance.Save(GetType(), settings, SettingsFileName(connectionname));
         }
 

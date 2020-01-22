@@ -161,29 +161,17 @@
     </Compile>
     <Compile Include="AttributeMetadataProxy.cs" />
     <Compile Include="CommonFileWriter.cs" />
-    <Compile Include="FileDialogUML.cs">
+    <Compile Include="FormatDialogUML.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FileDialogUML.Designer.cs">
-      <DependentUpon>FileDialogUML.cs</DependentUpon>
+    <Compile Include="FormatDialogUML.Designer.cs">
+      <DependentUpon>FormatDialogUML.cs</DependentUpon>
     </Compile>
-    <Compile Include="FileDialogLCG.cs">
+    <Compile Include="FormatDialogLCG.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FileDialogLCG.Designer.cs">
-      <DependentUpon>FileDialogLCG.cs</DependentUpon>
-    </Compile>
-    <Compile Include="OptionsDialogUML.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="OptionsDialogUML.Designer.cs">
-      <DependentUpon>OptionsDialogUML.cs</DependentUpon>
-    </Compile>
-    <Compile Include="OptionsDialogLCG.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="OptionsDialogLCG.Designer.cs">
-      <DependentUpon>OptionsDialogLCG.cs</DependentUpon>
+    <Compile Include="FormatDialogLCG.Designer.cs">
+      <DependentUpon>FormatDialogLCG.cs</DependentUpon>
     </Compile>
     <Compile Include="CSharpUtils.cs" />
     <Compile Include="EntityMetadataProxy.cs" />
@@ -223,20 +211,14 @@
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FileDialogUML.resx">
-      <DependentUpon>FileDialogUML.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="LCG.resx">
       <DependentUpon>LCG.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FileDialogLCG.resx">
-      <DependentUpon>FileDialogLCG.cs</DependentUpon>
+    <EmbeddedResource Include="FormatDialogUML.resx">
+      <DependentUpon>FormatDialogUML.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OptionsDialogUML.resx">
-      <DependentUpon>OptionsDialogUML.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OptionsDialogLCG.resx">
-      <DependentUpon>OptionsDialogLCG.cs</DependentUpon>
+    <EmbeddedResource Include="FormatDialogLCG.resx">
+      <DependentUpon>FormatDialogLCG.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

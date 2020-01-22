@@ -113,7 +113,7 @@ namespace Rappen.XTB.LCG
             var entity = template.EntityContainer
                 .Replace("{entityname}", name)
                 .Replace("{entitydetail}", GetEntity(entitymetadata, template))
-                .Replace("{type}", entitymetadata.Metadata.IsCustomEntity.Value ? "custom" : "standard")
+                .Replace("{type}", entitymetadata.Metadata.IsCustomEntity == true ? "custom" : "standard")
                 .Replace("{summary}", summary)
                 .Replace("{remarks}", remarks)
                 .Replace("'", "\"")
@@ -149,7 +149,7 @@ namespace Rappen.XTB.LCG
                 var commonattributes = commonentity?.Attributes?.Select(a => a.LogicalName) ?? new List<string>();
                 var entityattributes = entitymetadata.Attributes
                     .Where(a => (entitymetadata.LogicalName == "[common]") || (a.Selected && !commonattributes.Contains(a.LogicalName) && a != entitymetadata.PrimaryKey && a != entitymetadata.PrimaryName));
-                switch (settings.GenerationSettings.AttributeSortMode)
+                switch (settings.AttributeSortMode)
                 {
                     case AttributeSortMode.Alphabetical:
                         entityattributes = entityattributes.OrderBy(a => a.GetNameTechnical(settings));
@@ -349,7 +349,7 @@ namespace Rappen.XTB.LCG
                 .Replace("{entity1}", relationship.Parent.GetNameTechnical(settings.ConstantName, settings))
                 .Replace("{entity2}", relationship.Child.GetNameTechnical(settings.ConstantName, settings))
                 .Replace("{relationtype}", GetRelationUMLNotation(relationship))
-                .Replace("{lookup}", settings.GenerationSettings.RelationshipLabels ? relationship.LookupAttribute?.GetNameTechnical(settings) : "")
+                .Replace("{lookup}", settings.RelationshipLabels ? relationship.LookupAttribute?.GetNameTechnical(settings) : "")
                 .Replace("{summary}", summary)
                 .Replace("'", "\"")
                 .TrimEnd(' ', ':');
