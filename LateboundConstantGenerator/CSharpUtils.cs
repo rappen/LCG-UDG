@@ -194,10 +194,15 @@ namespace Rappen.XTB.LCG
             var relationships = new List<string>();
             if (settings.RelationShips && entitymetadata.Relationships != null)
             {
-                foreach (var relationship in entitymetadata.Relationships.Where(r => r.IsSelected))
+                foreach (var relationship in entitymetadata.Relationships.Where(r => r.Parent != entitymetadata && r.IsSelected).Distinct())
                 {
                     relationships.Add(GetRelationShip(relationship, settings,
-                        (relationship.Metadata is ManyToManyRelationshipMetadata) ? settings.commonsettings.ManyManyRelationshipPrefix : settings.commonsettings.OneManyRelationshipPrefix));
+                        (relationship.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship) ? settings.commonsettings.ManyManyRelationshipPrefix : settings.commonsettings.ManyOneRelationshipPrefix));
+                }
+                foreach (var relationship in entitymetadata.Relationships.Where(r => r.Parent == entitymetadata && r.IsSelected).Distinct())
+                {
+                    relationships.Add(GetRelationShip(relationship, settings,
+                        (relationship.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship) ? settings.commonsettings.ManyManyRelationshipPrefix : settings.commonsettings.OneManyRelationshipPrefix));
                 }
             }
             DeduplicateIdentifiers(ref relationships);
