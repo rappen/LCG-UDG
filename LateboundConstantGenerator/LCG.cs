@@ -50,6 +50,8 @@ namespace Rappen.XTB.LCG
         public string RepositoryName => "LateboundConstantGenerator";
         public string UserName => "rappen";
 
+        public string Version => Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
         public void ShowAboutDialog()
         {
             tslAbout_Click(null, null);
@@ -105,7 +107,7 @@ namespace Rappen.XTB.LCG
             DisplayFilteredAttributes();
         }
 
-        private void relatioshipFilter_Changed(object sender, EventArgs e)
+        private void relationshipFilter_Changed(object sender, EventArgs e)
         {
             DisplayFilteredRelationships();
         }
@@ -129,11 +131,12 @@ namespace Rappen.XTB.LCG
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             LogUse("Generate");
-            GetSettingsFromUI();
             if (!GetFileSettings())
             {
                 return;
             }
+            GetSettingsFromUI();
+            GetSelectionFromUI();
             var filewriter = settings.GetWriter(ConnectionDetail.WebApplicationUrl);
             var message = CSharpUtils.GenerateClasses(entities, settings, filewriter);
             MessageBox.Show(message, toolname, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -150,7 +153,7 @@ namespace Rappen.XTB.LCG
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 settingsfile = sfd.FileName;
-                if (System.IO.File.Exists(settingsfile))
+                if (File.Exists(settingsfile))
                 {
                     var document = new XmlDocument();
                     document.Load(settingsfile);
@@ -181,7 +184,6 @@ namespace Rappen.XTB.LCG
 
         private void btnSaveConfig_Click(object sender, EventArgs e)
         {
-            GetSettingsFromUI();
             var sfd = new SaveFileDialog
             {
                 Title = "Save settings and selections",
@@ -190,6 +192,9 @@ namespace Rappen.XTB.LCG
             };
             if (sfd.ShowDialog() == DialogResult.OK)
             {
+                GetSettingsFromUI();
+                GetSelectionFromUI();
+                settings.Version = Version;
                 settingsfile = sfd.FileName;
                 XmlSerializerHelper.SerializeToFile(settings, settingsfile);
                 MessageBox.Show("Settings and selections saved.", "Save configuration", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -364,13 +369,12 @@ namespace Rappen.XTB.LCG
 
         private static void SelectAllRows(DataGridView grid, bool select)
         {
-            foreach (var metadata in grid.Rows
+            grid.Rows
                 .Cast<DataGridViewRow>()
                 .Select(r => r.DataBoundItem)
-                .OfType<MetadataProxy>())
-            {
-                metadata.SetSelected(select);
-            }
+                .OfType<MetadataProxy>()
+                .ToList()
+                .ForEach(m => m.SetSelected(select));
         }
 
         private void ApplySettings()
@@ -439,9 +443,13 @@ namespace Rappen.XTB.LCG
 
         private void DisplayFilteredAttributes()
         {
+            if (restoringselection)
+            {
+                return;
+            }
             if (selectedEntity?.Attributes != null && selectedEntity.Attributes.Count > 0)
             {
-                var filteredAttributes = GetFilteredAttributes();
+                var filteredAttributes = GetFilteredAttributes().ToList();
                 if (chkAttPrimaryAttribute.Checked)
                 {
                     AddToFilteredAttributes(filteredAttributes, selectedEntity.Metadata.PrimaryNameAttribute);
@@ -450,7 +458,7 @@ namespace Rappen.XTB.LCG
                 {
                     AddToFilteredAttributes(filteredAttributes, selectedEntity.Metadata.PrimaryIdAttribute);
                 }
-                gridAttributes.DataSource = filteredAttributes;
+                gridAttributes.DataSource = new SortableBindingList<AttributeMetadataProxy>(filteredAttributes);
                 if (gridAttributes.Columns.Count > 0)
                 {
                     gridAttributes.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader);
@@ -466,10 +474,15 @@ namespace Rappen.XTB.LCG
 
         private void DisplayFilteredRelationships()
         {
+            if (restoringselection)
+            {
+                return;
+            }
+            GetSettingsFromUI();
             if (selectedEntity?.Relationships != null && selectedEntity.Relationships.Count > 0)
             {
-                var filteredRelationships = GetFilteredRelationships();
-                gridRelationships.DataSource = filteredRelationships;
+                var filteredRelationships = GetFilteredRelationships(selectedEntity, txtRelSearch.Text);
+                gridRelationships.DataSource = new SortableBindingList<RelationshipMetadataProxy>(filteredRelationships);
                 if (gridRelationships.Columns.Count > 0)
                 {
                     gridRelationships.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader);
@@ -483,7 +496,7 @@ namespace Rappen.XTB.LCG
             UpdateRelationshipssStatus();
         }
 
-        private void AddToFilteredAttributes(SortableBindingList<AttributeMetadataProxy> filteredAttributes, string attributeName)
+        private void AddToFilteredAttributes(List<AttributeMetadataProxy> filteredAttributes, string attributeName)
         {
             var att = selectedEntity.Attributes.FirstOrDefault(a => a.LogicalName == attributeName);
             if (att != null && !filteredAttributes.Contains(att))
@@ -492,7 +505,7 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        private SortableBindingList<AttributeMetadataProxy> GetFilteredAttributes()
+        private IEnumerable<AttributeMetadataProxy> GetFilteredAttributes()
         {
             bool GetCustomFilter(AttributeMetadataProxy e)
             {
@@ -518,28 +531,27 @@ namespace Rappen.XTB.LCG
                        e.Metadata.IsLogical != true;
             }
 
-            return new SortableBindingList<AttributeMetadataProxy>(
-                selectedEntity.Attributes
+            return selectedEntity.Attributes
                     .Where(
                         e => GetCustomFilter(e)
                            && GetManagedFilter(e)
                            && GetSearchFilter(e)
-                           && GetLogicalFilter(e)));
+                           && GetLogicalFilter(e));
         }
 
-        private SortableBindingList<RelationshipMetadataProxy> GetFilteredRelationships()
+        private IEnumerable<RelationshipMetadataProxy> GetFilteredRelationships(EntityMetadataProxy entity, string search)
         {
             bool GetTypeFilter(RelationshipMetadataProxy r)
             {   // Exclude relationships where selected entity is just child of the relationship
-                if (chkRel1N.Checked && r.OneToManyRelationshipMetadata?.ReferencingEntity == selectedEntity?.LogicalName)
+                if (settings.RelationshipFilter.Type1N && r.OneToManyRelationshipMetadata?.ReferencingEntity == entity?.LogicalName)
                 {
                     return true;
                 }
-                if (chkRelN1.Checked && r.OneToManyRelationshipMetadata?.ReferencedEntity == selectedEntity?.LogicalName)
+                if (settings.RelationshipFilter.TypeN1 && r.OneToManyRelationshipMetadata?.ReferencedEntity == entity?.LogicalName)
                 {
                     return true;
                 }
-                if (chkRelNN.Checked && r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
+                if (settings.RelationshipFilter.TypeNN && r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
                 {
                     return true;
                 }
@@ -547,25 +559,25 @@ namespace Rappen.XTB.LCG
             }
             bool GetCustomFilter(RelationshipMetadataProxy r)
             {
-                return rbRelCustomAll.Checked ||
-                       rbRelCustomTrue.Checked && r.Metadata.IsCustomRelationship.GetValueOrDefault() ||
-                       rbRelCustomFalse.Checked && !r.Metadata.IsCustomRelationship.GetValueOrDefault();
+                return settings.RelationshipFilter.CustomAll ||
+                       settings.RelationshipFilter.CustomTrue && r.Metadata.IsCustomRelationship.GetValueOrDefault() ||
+                       settings.RelationshipFilter.CustomFalse && !r.Metadata.IsCustomRelationship.GetValueOrDefault();
             }
             bool GetManagedFilter(RelationshipMetadataProxy r)
             {
-                return rbRelMgdAll.Checked ||
-                       rbRelMgdTrue.Checked && r.Metadata.IsManaged.GetValueOrDefault() ||
-                       rbRelMgdFalse.Checked && !r.Metadata.IsManaged.GetValueOrDefault();
+                return settings.RelationshipFilter.ManagedAll ||
+                       settings.RelationshipFilter.ManagedTrue && r.Metadata.IsManaged.GetValueOrDefault() ||
+                       settings.RelationshipFilter.ManagedFalse && !r.Metadata.IsManaged.GetValueOrDefault();
             }
             bool GetSearchFilter(RelationshipMetadataProxy r)
             {
-                return string.IsNullOrWhiteSpace(txtRelSearch.Text) ||
-                       r.Metadata.SchemaName.ToLowerInvariant().Contains(txtRelSearch.Text) ||
-                       r.Parent?.DisplayName?.ToLowerInvariant().Contains(txtRelSearch.Text) == true;
+                return string.IsNullOrWhiteSpace(search) ||
+                       r.Metadata.SchemaName.ToLowerInvariant().Contains(search) ||
+                       r.Parent?.DisplayName?.ToLowerInvariant().Contains(search) == true;
             }
             bool GetOrphansFilter(RelationshipMetadataProxy r)
             {
-                if (chkRelOrphans.Checked)
+                if (settings.RelationshipFilter.Orphans)
                 {
                     return true;
                 }
@@ -580,7 +592,7 @@ namespace Rappen.XTB.LCG
             }
             bool GetOwnersFilter(RelationshipMetadataProxy r)
             {
-                if (chkRelOwners.Checked || r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
+                if (settings.RelationshipFilter.Owner || r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
                 {
                     return true;
                 }
@@ -590,7 +602,7 @@ namespace Rappen.XTB.LCG
             }
             bool GetRegardingFilter(RelationshipMetadataProxy r)
             {
-                if (chkRelRegarding.Checked || r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
+                if (settings.RelationshipFilter.Regarding || r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
                 {
                     return true;
                 }
@@ -598,8 +610,7 @@ namespace Rappen.XTB.LCG
                     r.OneToManyRelationshipMetadata.ReferencingAttribute != "regardingobjectid";
             }
 
-            return new SortableBindingList<RelationshipMetadataProxy>(
-                selectedEntity.Relationships
+            return entity.Relationships
                     .Where(
                         r => GetTypeFilter(r)
                            && GetCustomFilter(r)
@@ -607,7 +618,7 @@ namespace Rappen.XTB.LCG
                            && GetSearchFilter(r)
                            && GetOrphansFilter(r)
                            && GetOwnersFilter(r)
-                           && GetRegardingFilter(r)));
+                           && GetRegardingFilter(r));
         }
 
         private void EnableControls(bool enabled)
@@ -723,49 +734,56 @@ namespace Rappen.XTB.LCG
                 settings = new Settings(isUML);
             }
             settings.commonsettings = commonsettings;
-            settings.EntityFilter = new EntityFilter
+            if (settings.EntityFilter == null)
             {
-                Expanded = gbEntities.Height > 20,
-                CustomAll = rbEntCustomAll.Checked,
-                CustomFalse = rbEntCustomFalse.Checked,
-                CustomTrue = rbEntCustomTrue.Checked,
-                ManagedAll = rbEntMgdAll.Checked,
-                ManagedTrue = rbEntMgdTrue.Checked,
-                ManagedFalse = rbEntMgdFalse.Checked,
-                Intersect = chkEntIntersect.Checked,
-                SelectedOnly = chkEntSelected.Checked
-            };
-            settings.AttributeFilter = new AttributeFilter
+                settings.EntityFilter = new EntityFilter();
+            }
+            settings.EntityFilter.Expanded = gbEntities.Height > 20;
+            settings.EntityFilter.CustomAll = rbEntCustomAll.Checked;
+            settings.EntityFilter.CustomFalse = rbEntCustomFalse.Checked;
+            settings.EntityFilter.CustomTrue = rbEntCustomTrue.Checked;
+            settings.EntityFilter.ManagedAll = rbEntMgdAll.Checked;
+            settings.EntityFilter.ManagedTrue = rbEntMgdTrue.Checked;
+            settings.EntityFilter.ManagedFalse = rbEntMgdFalse.Checked;
+            settings.EntityFilter.Intersect = chkEntIntersect.Checked;
+            settings.EntityFilter.SelectedOnly = chkEntSelected.Checked;
+            if (settings.AttributeFilter == null)
             {
-                Expanded = gbAttributes.Height > 20,
-                CheckAll = chkAttCheckAll.Checked,
-                CustomAll = rbAttCustomAll.Checked,
-                CustomFalse = rbAttCustomFalse.Checked,
-                CustomTrue = rbAttCustomTrue.Checked,
-                ManagedAll = rbAttMgdAll.Checked,
-                ManagedTrue = rbAttMgdTrue.Checked,
-                ManagedFalse = rbAttMgdFalse.Checked,
-                PrimaryKey = chkAttPrimaryKey.Checked,
-                PrimaryAttribute = chkAttPrimaryAttribute.Checked,
-                Logical = chkAttLogical.Checked
-            };
-            settings.RelationshipFilter = new RelationshipFilter
+                settings.AttributeFilter = new AttributeFilter();
+            }
+            settings.AttributeFilter.Expanded = gbAttributes.Height > 20;
+            settings.AttributeFilter.CheckAll = chkAttCheckAll.Checked;
+            settings.AttributeFilter.CustomAll = rbAttCustomAll.Checked;
+            settings.AttributeFilter.CustomFalse = rbAttCustomFalse.Checked;
+            settings.AttributeFilter.CustomTrue = rbAttCustomTrue.Checked;
+            settings.AttributeFilter.ManagedAll = rbAttMgdAll.Checked;
+            settings.AttributeFilter.ManagedTrue = rbAttMgdTrue.Checked;
+            settings.AttributeFilter.ManagedFalse = rbAttMgdFalse.Checked;
+            settings.AttributeFilter.PrimaryKey = chkAttPrimaryKey.Checked;
+            settings.AttributeFilter.PrimaryAttribute = chkAttPrimaryAttribute.Checked;
+            settings.AttributeFilter.Logical = chkAttLogical.Checked;
+            if (settings.RelationshipFilter == null)
             {
-                Expanded = gbRelationships.Height > 20,
-                CheckAll = chkRelCheckAll.Checked,
-                CustomAll = rbRelCustomAll.Checked,
-                CustomFalse = rbRelCustomFalse.Checked,
-                CustomTrue = rbRelCustomTrue.Checked,
-                ManagedAll = rbRelMgdAll.Checked,
-                ManagedTrue = rbRelMgdTrue.Checked,
-                ManagedFalse = rbRelMgdFalse.Checked,
-                Type1N= chkRel1N.Checked,
-                TypeN1 = chkRelN1.Checked,
-                TypeNN = chkRelNN.Checked,
-                Orphans = chkRelOrphans.Checked,
-                Owner = chkRelOwners.Checked,
-                Regarding = chkRelRegarding.Checked
-            };
+                settings.RelationshipFilter = new RelationshipFilter();
+            }
+            settings.RelationshipFilter.Expanded = gbRelationships.Height > 20;
+            settings.RelationshipFilter.CheckAll = chkRelCheckAll.Checked;
+            settings.RelationshipFilter.CustomAll = rbRelCustomAll.Checked;
+            settings.RelationshipFilter.CustomFalse = rbRelCustomFalse.Checked;
+            settings.RelationshipFilter.CustomTrue = rbRelCustomTrue.Checked;
+            settings.RelationshipFilter.ManagedAll = rbRelMgdAll.Checked;
+            settings.RelationshipFilter.ManagedTrue = rbRelMgdTrue.Checked;
+            settings.RelationshipFilter.ManagedFalse = rbRelMgdFalse.Checked;
+            settings.RelationshipFilter.Type1N = chkRel1N.Checked;
+            settings.RelationshipFilter.TypeN1 = chkRelN1.Checked;
+            settings.RelationshipFilter.TypeNN = chkRelNN.Checked;
+            settings.RelationshipFilter.Orphans = chkRelOrphans.Checked;
+            settings.RelationshipFilter.Owner = chkRelOwners.Checked;
+            settings.RelationshipFilter.Regarding = chkRelRegarding.Checked;
+        }
+
+        private void GetSelectionFromUI()
+        {
             if (entities != null)
             {
                 settings.Selection = null;
@@ -787,7 +805,6 @@ namespace Rappen.XTB.LCG
                     }).ToList();
             }
         }
-
         private bool GetFileSettings()
         {
             if (settings.UseCommonFile)
@@ -1076,20 +1093,10 @@ namespace Rappen.XTB.LCG
             }
 
             restoringselection = true;
-            if (settings.SelectedEntities == null || settings.SelectedEntities.Count == 0)
+            //if (settings.SelectedEntities == null || settings.SelectedEntities.Count == 0)
+            if (!System.Version.TryParse(settings.Version, out Version version) || version < new Version(1, 2020))
             {   // Loading old style selection configuration
-                settings.SelectedEntities = new List<SelectedEntity>();
-                foreach (var entitystring in settings.Selection)
-                {
-                    var entityname = entitystring.Split(':')[0];
-                    var attributes = entitystring.Split(':')[1].Split(',').ToList();
-                    settings.SelectedEntities.Add(new SelectedEntity
-                    {
-                        Name = entityname,
-                        Attributes = attributes,
-                        Relationships = new List<string>()
-                    });
-                }
+                MigrateFromPre2020Settings();
             }
             foreach (var selectedentity in settings.SelectedEntities)
             {
@@ -1132,9 +1139,40 @@ namespace Rappen.XTB.LCG
             gridEntities_SelectionChanged(null, null);
         }
 
+        private void MigrateFromPre2020Settings()
+        {
+            // Settings loaded from pre 2020, so need to reset RelationshipFilter and reflect that on the form
+            settings.RelationshipFilter = new RelationshipFilter { Expanded = true };
+            ApplySettings();
+            settings.SelectedEntities = new List<SelectedEntity>();
+            settings.Selection.ForEach(MigrateFromPre2020Selection);
+            settings.SelectedEntities.ForEach(SetDefaultRelationships);
+            settings.Version = Version;
+        }
+
+        private void MigrateFromPre2020Selection(string entitystring)
+        {
+            var entityname = entitystring.Split(':')[0];
+            var attributes = entitystring.Split(':')[1].Split(',').ToList();
+            settings.SelectedEntities.Add(new SelectedEntity
+            {
+                Name = entityname,
+                Attributes = attributes
+            });
+        }
+
+        private void SetDefaultRelationships(SelectedEntity selectedentity)
+        {
+            var entity = entities.FirstOrDefault(e => e.LogicalName.Equals(selectedentity.Name));
+            var selectedrelationships = GetFilteredRelationships(entity, string.Empty);
+            selectedentity.Relationships = selectedrelationships.Select(r => r.LogicalName).ToList();
+        }
+
         private void SaveSettings(string connectionname)
         {
             GetSettingsFromUI();
+            GetSelectionFromUI();
+            settings.Version = Version;
             SettingsManager.Instance.Save(GetType(), settings, SettingsFileName(connectionname));
         }
 

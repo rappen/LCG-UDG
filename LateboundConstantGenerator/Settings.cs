@@ -40,6 +40,7 @@ namespace Rappen.XTB.LCG
             }
         }
 
+        public string Version { get; set; }
         public string OutputFolder { get; set; }
         public string NameSpace { get; set; }
         public bool UseCommonFile { get; set; }
@@ -113,7 +114,7 @@ namespace Rappen.XTB.LCG
         public bool ManagedTrue { get; set; }
         public bool ManagedFalse { get; set; }
         public bool Type1N { get; set; } = true;
-        public bool TypeN1 { get; set; } = false;
+        public bool TypeN1 { get; set; } = true;
         public bool TypeNN { get; set; } = true;
         public bool Orphans { get; set; }
         public bool Owner { get; set; } = true;
