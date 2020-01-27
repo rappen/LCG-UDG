@@ -35,6 +35,7 @@ namespace Rappen.XTB.LCG
         private CommonSettings commonsettings;
         private List<EntityMetadataProxy> entities;
         private Dictionary<string, int> groupBoxHeights;
+        private string lasttriedattributeload;
         private bool restoringselection = false;
         private EntityMetadataProxy selectedEntity;
         private Settings settings;
@@ -253,22 +254,13 @@ namespace Rappen.XTB.LCG
 
         private void gridEntities_SelectionChanged(object sender, EventArgs e)
         {
-            if (restoringselection)
-            {
-                return;
-            }
-            var newselectedEntity = GetSelectedEntity();
-            if (newselectedEntity != null && newselectedEntity != selectedEntity)
-            {
-                selectedEntity = newselectedEntity;
-                DisplayAttributes();
-                DisplayFilteredRelationships();
-            }
+            EntitySelected(false);
         }
 
         private void LCG_ConnectionUpdated(object sender, ConnectionUpdatedEventArgs e)
         {
             LogInfo("Connection has changed to: {0}", e.ConnectionDetail.WebApplicationUrl);
+            lasttriedattributeload = string.Empty;
             chkEntAll.Visible = false;
             chkAttAll.Visible = false;
             btnLoadConfig.Enabled = false;
@@ -374,6 +366,7 @@ namespace Rappen.XTB.LCG
 
         private void ApplySettings()
         {
+            restoringselection = true;
             rbEntCustomAll.Checked = settings.EntityFilter?.CustomAll != false;
             rbEntCustomFalse.Checked = settings.EntityFilter?.CustomFalse == true;
             rbEntCustomTrue.Checked = settings.EntityFilter?.CustomTrue == true;
@@ -408,6 +401,7 @@ namespace Rappen.XTB.LCG
             GroupBoxSetState(llEntityExpander, settings.EntityFilter?.Expanded == true);
             GroupBoxSetState(llAttributeExpander, settings.AttributeFilter?.Expanded == true);
             GroupBoxSetState(llRelationshipExpander, settings.RelationshipFilter?.Expanded == true);
+            restoringselection = false;
         }
 
         private void DisplayAttributes()
@@ -507,6 +501,21 @@ namespace Rappen.XTB.LCG
             {
                 Enabled = enabled;
             });
+        }
+
+        private void EntitySelected(bool force)
+        {
+            if (restoringselection)
+            {
+                return;
+            }
+            var entity = GetSelectedEntity();
+            if (entity != null && (force || entity != selectedEntity))
+            {
+                selectedEntity = entity;
+                DisplayAttributes();
+                DisplayFilteredRelationships();
+            }
         }
 
         private void FixFormForUML()
@@ -667,7 +676,7 @@ namespace Rappen.XTB.LCG
                 {
                     return true;
                 }
-                var selectedentities = entities.Where(e => e.Selected).Select(e => e.LogicalName);
+                var selectedentities = entities.Where(e => e.Selected).Select(e => e.LogicalName).Union(new string[] { entity.LogicalName }).Distinct();
                 if (r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
                 {
                     return selectedentities.Contains(r.ManyToManyRelationshipMetadata.Entity1LogicalName)
@@ -1032,26 +1041,24 @@ namespace Rappen.XTB.LCG
             });
         }
 
-        private void MigrateFromPre2020Selection(string entitystring)
-        {
-            var entityname = entitystring.Split(':')[0];
-            var attributes = entitystring.Split(':')[1].Split(',').ToList();
-            settings.SelectedEntities.Add(new SelectedEntity
-            {
-                Name = entityname,
-                Attributes = attributes
-            });
-        }
-
         private void MigrateFromPre2020Settings()
         {
-            // Settings loaded from pre 2020, so need to reset RelationshipFilter and reflect that on the form
+            SelectedEntity ConvertSelectionFromPre2020(string entitystring)
+            {
+                return new SelectedEntity
+                {
+                    Name = entitystring.Split(':')[0],
+                    Attributes = entitystring.Split(':')[1].Split(',').ToList()
+                };
+            }
+
+            // Settings loaded from pre 2020, so need to reset RelationshipFilter and reflect that on the form and make sure all filters are shown
+            settings.SelectedEntities = settings.Selection.Select(e => ConvertSelectionFromPre2020(e)).ToList();
+            settings.Version = Version;
+            settings.EntityFilter.Expanded = true;
+            settings.AttributeFilter.Expanded = true;
             settings.RelationshipFilter = new RelationshipFilter { Expanded = true };
             ApplySettings();
-            settings.SelectedEntities = new List<SelectedEntity>();
-            settings.Selection.ForEach(MigrateFromPre2020Selection);
-            settings.SelectedEntities.ForEach(SetDefaultRelationships);
-            settings.Version = Version;
         }
 
         private void PropertyChanged_Attribute(object sender, PropertyChangedEventArgs e)
@@ -1076,17 +1083,23 @@ namespace Rappen.XTB.LCG
             }
             checkedrow = sender;
             var entity = sender as EntityMetadataProxy;
-            if (!restoringselection && chkAttCheckAll.Checked && entity?.Selected == true)
+            if (!restoringselection && entity?.Selected == true)
             {
-                if (entity.Attributes == null)
+                if (chkAttCheckAll.Checked)
                 {
-                    LoadAttributes(entity, SelectAllAttributes);
+                    if (entity.Attributes == null)
+                    {
+                        LoadAttributes(entity, SelectAllAttributes);
+                    }
+                    else
+                    {
+                        SelectAllAttributes();
+                    }
                 }
-                else
+                if (chkRelCheckAll.Checked)
                 {
-                    SelectAllAttributes();
+                    SelectAllRelationships();
                 }
-                SelectAllRows(gridRelationships, true);
             }
             checkedrow = null;
         }
@@ -1111,17 +1124,36 @@ namespace Rappen.XTB.LCG
             }
 
             restoringselection = true;
-            //if (settings.SelectedEntities == null || settings.SelectedEntities.Count == 0)
             if (!System.Version.TryParse(settings.Version, out Version version) || version < new Version(1, 2020))
             {   // Loading old style selection configuration
                 MigrateFromPre2020Settings();
             }
+
+            var selectedentitywithoutattributes = entities.FirstOrDefault(e => e.Attributes == null && settings.SelectedEntities.Select(se => se.Name).Contains(e.LogicalName));
+            if (selectedentitywithoutattributes != null && selectedentitywithoutattributes.Attributes == null)
+            {
+                if (lasttriedattributeload == selectedentitywithoutattributes.LogicalName)
+                {   // Already tried this entity, obviously failed, don't try again
+                    selectedentitywithoutattributes.Attributes = new List<AttributeMetadataProxy>();
+                }
+                else
+                {
+                    LoadAttributes(selectedentitywithoutattributes, RestoreSelectedEntities);
+                }
+                lasttriedattributeload = selectedentitywithoutattributes.LogicalName;
+                return;
+            }
+
+            entities.ForEach(e => e.SetSelected(false));
+            entities.Where(e => settings.SelectedEntities.Select(se => se.Name).Contains(e.LogicalName)).ToList().ForEach(e => e.SetSelected(true));
+
             foreach (var selectedentity in settings.SelectedEntities)
             {
-                var entityname = selectedentity.Name;
-                var attributes = selectedentity.Attributes;
-                var relationships = selectedentity.Relationships;
-                var entity = entities.FirstOrDefault(e => e.LogicalName == entityname);
+                if (selectedentity.Relationships == null)
+                {   // Needs to be defaulted since it was not stored in config
+                    SetDefaultRelationships(selectedentity);
+                }
+                var entity = entities.FirstOrDefault(e => e.LogicalName == selectedentity.Name);
                 if (entity == null)
                 {
                     continue;
@@ -1130,21 +1162,17 @@ namespace Rappen.XTB.LCG
                 {
                     entity.SetSelected(true);
                 }
-
-                foreach (var attributename in attributes)
+                entity.Attributes.ForEach(a => a.SetSelected(false));
+                entity.Relationships.ForEach(r => r.SetSelected(false));
+                foreach (var attributename in selectedentity.Attributes)
                 {
-                    if (entity.Attributes == null)
-                    {
-                        LoadAttributes(entity, RestoreSelectedEntities);
-                        return;
-                    }
                     var attribute = entity.Attributes.FirstOrDefault(a => a.LogicalName == attributename);
                     if (attribute != null && !attribute.Selected)
                     {
                         attribute.SetSelected(true);
                     }
                 }
-                foreach (var relationshipname in relationships)
+                foreach (var relationshipname in selectedentity.Relationships)
                 {
                     var relatioship = entity.Relationships.FirstOrDefault(r => r.LogicalName == relationshipname);
                     if (relatioship != null && !relatioship.Selected)
@@ -1154,7 +1182,7 @@ namespace Rappen.XTB.LCG
                 }
             }
             restoringselection = false;
-            gridEntities_SelectionChanged(null, null);
+            EntitySelected(true);
         }
 
         private void SaveSettings(string connectionname)
@@ -1168,6 +1196,11 @@ namespace Rappen.XTB.LCG
         private void SelectAllAttributes()
         {
             SelectAllRows(gridAttributes, true);
+        }
+
+        private void SelectAllRelationships()
+        {
+            SelectAllRows(gridRelationships, true);
         }
 
         private void SetDefaultRelationships(SelectedEntity selectedentity)
