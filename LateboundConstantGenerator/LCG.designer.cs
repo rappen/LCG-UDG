@@ -456,7 +456,7 @@
             this.chkEntSelected.TabIndex = 1;
             this.chkEntSelected.Text = "Selected only";
             this.chkEntSelected.UseVisualStyleBackColor = true;
-            this.chkEntSelected.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            this.chkEntSelected.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
             // chkEntIntersect
             // 
@@ -469,7 +469,7 @@
             this.chkEntIntersect.TabIndex = 0;
             this.chkEntIntersect.Text = "Include intersect";
             this.chkEntIntersect.UseVisualStyleBackColor = true;
-            this.chkEntIntersect.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            this.chkEntIntersect.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
             // pnEntManaged
             // 
@@ -501,7 +501,7 @@
             this.rbEntMgdFalse.TabIndex = 2;
             this.rbEntMgdFalse.Text = "Unmanaged";
             this.rbEntMgdFalse.UseVisualStyleBackColor = true;
-            this.rbEntMgdFalse.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            this.rbEntMgdFalse.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
             // rbEntMgdTrue
             // 
@@ -512,7 +512,7 @@
             this.rbEntMgdTrue.TabIndex = 1;
             this.rbEntMgdTrue.Text = "Managed";
             this.rbEntMgdTrue.UseVisualStyleBackColor = true;
-            this.rbEntMgdTrue.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            this.rbEntMgdTrue.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
             // rbEntMgdAll
             // 
@@ -525,7 +525,7 @@
             this.rbEntMgdAll.TabStop = true;
             this.rbEntMgdAll.Text = "All";
             this.rbEntMgdAll.UseVisualStyleBackColor = true;
-            this.rbEntMgdAll.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            this.rbEntMgdAll.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
             // pnEntCustom
             // 
@@ -557,7 +557,7 @@
             this.rbEntCustomTrue.TabIndex = 2;
             this.rbEntCustomTrue.Text = "Custom";
             this.rbEntCustomTrue.UseVisualStyleBackColor = true;
-            this.rbEntCustomTrue.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            this.rbEntCustomTrue.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
             // rbEntCustomFalse
             // 
@@ -568,7 +568,7 @@
             this.rbEntCustomFalse.TabIndex = 1;
             this.rbEntCustomFalse.Text = "System";
             this.rbEntCustomFalse.UseVisualStyleBackColor = true;
-            this.rbEntCustomFalse.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            this.rbEntCustomFalse.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
             // rbEntCustomAll
             // 
@@ -581,7 +581,7 @@
             this.rbEntCustomAll.TabStop = true;
             this.rbEntCustomAll.Text = "All";
             this.rbEntCustomAll.UseVisualStyleBackColor = true;
-            this.rbEntCustomAll.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            this.rbEntCustomAll.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
             // pnEntSolution
             // 
@@ -604,7 +604,7 @@
             this.cmbSolution.Size = new System.Drawing.Size(237, 21);
             this.cmbSolution.TabIndex = 1;
             this.cmbSolution.DropDown += new System.EventHandler(this.cmbSolution_DropDown);
-            this.cmbSolution.SelectedIndexChanged += new System.EventHandler(this.entityFilter_Changed);
+            this.cmbSolution.SelectedIndexChanged += new System.EventHandler(this.filter_entity_Changed);
             this.cmbSolution.DropDownClosed += new System.EventHandler(this.cmbSolution_DropDownClosed);
             // 
             // label4
@@ -825,7 +825,7 @@
             this.chkAttLogical.TabIndex = 3;
             this.chkAttLogical.Text = "Logical Attributes";
             this.chkAttLogical.UseVisualStyleBackColor = true;
-            this.chkAttLogical.CheckedChanged += new System.EventHandler(this.attributeFilter_Changed);
+            this.chkAttLogical.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // label15
             // 
@@ -845,7 +845,7 @@
             this.chkAttPrimaryAttribute.TabIndex = 1;
             this.chkAttPrimaryAttribute.Text = "Name";
             this.chkAttPrimaryAttribute.UseVisualStyleBackColor = true;
-            this.chkAttPrimaryAttribute.CheckedChanged += new System.EventHandler(this.attributeFilter_Changed);
+            this.chkAttPrimaryAttribute.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // chkAttPrimaryKey
             // 
@@ -856,7 +856,7 @@
             this.chkAttPrimaryKey.TabIndex = 0;
             this.chkAttPrimaryKey.Text = "ID";
             this.chkAttPrimaryKey.UseVisualStyleBackColor = true;
-            this.chkAttPrimaryKey.CheckedChanged += new System.EventHandler(this.attributeFilter_Changed);
+            this.chkAttPrimaryKey.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // pnAttManaged
             // 
@@ -888,7 +888,7 @@
             this.rbAttMgdFalse.TabIndex = 2;
             this.rbAttMgdFalse.Text = "Unmanaged";
             this.rbAttMgdFalse.UseVisualStyleBackColor = true;
-            this.rbAttMgdFalse.CheckedChanged += new System.EventHandler(this.attributeFilter_Changed);
+            this.rbAttMgdFalse.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // rbAttMgdTrue
             // 
@@ -899,7 +899,7 @@
             this.rbAttMgdTrue.TabIndex = 1;
             this.rbAttMgdTrue.Text = "Managed";
             this.rbAttMgdTrue.UseVisualStyleBackColor = true;
-            this.rbAttMgdTrue.CheckedChanged += new System.EventHandler(this.attributeFilter_Changed);
+            this.rbAttMgdTrue.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // rbAttMgdAll
             // 
@@ -912,7 +912,7 @@
             this.rbAttMgdAll.TabStop = true;
             this.rbAttMgdAll.Text = "All";
             this.rbAttMgdAll.UseVisualStyleBackColor = true;
-            this.rbAttMgdAll.CheckedChanged += new System.EventHandler(this.attributeFilter_Changed);
+            this.rbAttMgdAll.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // pnAttCustom
             // 
@@ -944,7 +944,7 @@
             this.rbAttCustomTrue.TabIndex = 2;
             this.rbAttCustomTrue.Text = "Custom";
             this.rbAttCustomTrue.UseVisualStyleBackColor = true;
-            this.rbAttCustomTrue.CheckedChanged += new System.EventHandler(this.attributeFilter_Changed);
+            this.rbAttCustomTrue.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // rbAttCustomFalse
             // 
@@ -955,7 +955,7 @@
             this.rbAttCustomFalse.TabIndex = 1;
             this.rbAttCustomFalse.Text = "System";
             this.rbAttCustomFalse.UseVisualStyleBackColor = true;
-            this.rbAttCustomFalse.CheckedChanged += new System.EventHandler(this.attributeFilter_Changed);
+            this.rbAttCustomFalse.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // rbAttCustomAll
             // 
@@ -968,7 +968,7 @@
             this.rbAttCustomAll.TabStop = true;
             this.rbAttCustomAll.Text = "All";
             this.rbAttCustomAll.UseVisualStyleBackColor = true;
-            this.rbAttCustomAll.CheckedChanged += new System.EventHandler(this.attributeFilter_Changed);
+            this.rbAttCustomAll.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // pnAttBehavior
             // 
@@ -1130,7 +1130,7 @@
             this.chkRelRegarding.TabIndex = 3;
             this.chkRelRegarding.Text = "Regarding";
             this.chkRelRegarding.UseVisualStyleBackColor = true;
-            this.chkRelRegarding.CheckedChanged += new System.EventHandler(this.relationshipFilter_Changed);
+            this.chkRelRegarding.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
             // label5
             // 
@@ -1150,7 +1150,7 @@
             this.chkRelOwners.TabIndex = 1;
             this.chkRelOwners.Text = "Owners";
             this.chkRelOwners.UseVisualStyleBackColor = true;
-            this.chkRelOwners.CheckedChanged += new System.EventHandler(this.relationshipFilter_Changed);
+            this.chkRelOwners.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
             // chkRelOrphans
             // 
@@ -1162,7 +1162,7 @@
             this.chkRelOrphans.Text = "Orphans";
             this.toolTip1.SetToolTip(this.chkRelOrphans, "Relationships where the \"other\" entity is not selected");
             this.chkRelOrphans.UseVisualStyleBackColor = true;
-            this.chkRelOrphans.CheckedChanged += new System.EventHandler(this.relationshipFilter_Changed);
+            this.chkRelOrphans.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
             // panRelType
             // 
@@ -1185,7 +1185,7 @@
             this.chkRelNN.TabIndex = 3;
             this.chkRelNN.Text = "N:N";
             this.chkRelNN.UseVisualStyleBackColor = true;
-            this.chkRelNN.CheckedChanged += new System.EventHandler(this.relationshipFilter_Changed);
+            this.chkRelNN.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
             // label9
             // 
@@ -1205,7 +1205,7 @@
             this.chkRelN1.TabIndex = 1;
             this.chkRelN1.Text = "N:1";
             this.chkRelN1.UseVisualStyleBackColor = true;
-            this.chkRelN1.CheckedChanged += new System.EventHandler(this.relationshipFilter_Changed);
+            this.chkRelN1.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
             // chkRel1N
             // 
@@ -1217,7 +1217,7 @@
             this.chkRel1N.Text = "1:N";
             this.toolTip1.SetToolTip(this.chkRel1N, "Relationships where the \"other\" entity is not selected");
             this.chkRel1N.UseVisualStyleBackColor = true;
-            this.chkRel1N.CheckedChanged += new System.EventHandler(this.relationshipFilter_Changed);
+            this.chkRel1N.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
             // panRel3
             // 
@@ -1249,7 +1249,7 @@
             this.rbRelMgdFalse.TabIndex = 2;
             this.rbRelMgdFalse.Text = "Unmanaged";
             this.rbRelMgdFalse.UseVisualStyleBackColor = true;
-            this.rbRelMgdFalse.CheckedChanged += new System.EventHandler(this.relationshipFilter_Changed);
+            this.rbRelMgdFalse.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
             // rbRelMgdTrue
             // 
@@ -1260,7 +1260,7 @@
             this.rbRelMgdTrue.TabIndex = 1;
             this.rbRelMgdTrue.Text = "Managed";
             this.rbRelMgdTrue.UseVisualStyleBackColor = true;
-            this.rbRelMgdTrue.CheckedChanged += new System.EventHandler(this.relationshipFilter_Changed);
+            this.rbRelMgdTrue.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
             // rbRelMgdAll
             // 
@@ -1273,7 +1273,7 @@
             this.rbRelMgdAll.TabStop = true;
             this.rbRelMgdAll.Text = "All";
             this.rbRelMgdAll.UseVisualStyleBackColor = true;
-            this.rbRelMgdAll.CheckedChanged += new System.EventHandler(this.relationshipFilter_Changed);
+            this.rbRelMgdAll.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
             // panRel2
             // 
@@ -1305,7 +1305,7 @@
             this.rbRelCustomTrue.TabIndex = 2;
             this.rbRelCustomTrue.Text = "Custom";
             this.rbRelCustomTrue.UseVisualStyleBackColor = true;
-            this.rbRelCustomTrue.CheckedChanged += new System.EventHandler(this.relationshipFilter_Changed);
+            this.rbRelCustomTrue.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
             // rbRelCustomFalse
             // 
@@ -1316,7 +1316,7 @@
             this.rbRelCustomFalse.TabIndex = 1;
             this.rbRelCustomFalse.Text = "System";
             this.rbRelCustomFalse.UseVisualStyleBackColor = true;
-            this.rbRelCustomFalse.CheckedChanged += new System.EventHandler(this.relationshipFilter_Changed);
+            this.rbRelCustomFalse.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
             // rbRelCustomAll
             // 
@@ -1329,7 +1329,7 @@
             this.rbRelCustomAll.TabStop = true;
             this.rbRelCustomAll.Text = "All";
             this.rbRelCustomAll.UseVisualStyleBackColor = true;
-            this.rbRelCustomAll.CheckedChanged += new System.EventHandler(this.relationshipFilter_Changed);
+            this.rbRelCustomAll.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
             // panRel1
             // 

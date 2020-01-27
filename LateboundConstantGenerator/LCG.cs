@@ -22,24 +22,23 @@ namespace Rappen.XTB.LCG
     {
         #region Private Fields
 
+        internal static string toolnameLCG = "Latebound Constants Generator";
+        internal static string toolnameUDG = "UML Diagram Generator";
+        internal readonly bool isUML = false;
+        internal readonly string toolname = toolnameLCG;
         private const string aiEndpoint = "https://dc.services.visualstudio.com/v2/track";
         //private const string aiKey = "cc7cb081-b489-421d-bb61-2ee53495c336";    // jonas@rappen.net tenant, TestAI 
         private const string aiKey = "eed73022-2444-45fd-928b-5eebd8fa46a6";    // jonas@rappen.net tenant, XrmToolBox
+        private readonly string commonsettingsfile = "[Common]";
         private AppInsights ai;
-
-        private List<EntityMetadataProxy> entities;
+        private object checkedrow;
         private CommonSettings commonsettings;
-        private Settings settings;
+        private List<EntityMetadataProxy> entities;
         private Dictionary<string, int> groupBoxHeights;
         private bool restoringselection = false;
         private EntityMetadataProxy selectedEntity;
+        private Settings settings;
         private string settingsfile;
-        private object checkedrow;
-        private readonly string commonsettingsfile = "[Common]";
-        internal readonly bool isUML = false;
-        internal static string toolnameLCG = "Latebound Constants Generator";
-        internal static string toolnameUDG = "UML Diagram Generator";
-        internal readonly string toolname = toolnameLCG;
 
         #endregion Private Fields
 
@@ -101,27 +100,6 @@ namespace Rappen.XTB.LCG
         #endregion Public Methods
 
         #region Private Event Handlers
-
-        private void attributeFilter_Changed(object sender, EventArgs e)
-        {
-            DisplayFilteredAttributes();
-        }
-
-        private void relationshipFilter_Changed(object sender, EventArgs e)
-        {
-            DisplayFilteredRelationships();
-        }
-
-        private void tslAbout_Click(object sender, EventArgs e)
-        {
-            LogUse("OpenAbout");
-            var about = new About(this)
-            {
-                StartPosition = FormStartPosition.CenterParent,
-                lblVersion = { Text = Assembly.GetExecutingAssembly().GetName().Version.ToString() }
-            };
-            about.ShowDialog();
-        }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
@@ -233,9 +211,19 @@ namespace Rappen.XTB.LCG
             cmbSolution.Tag = null;
         }
 
-        private void entityFilter_Changed(object sender, EventArgs e)
+        private void filter_attribute_Changed(object sender, EventArgs e)
         {
-            FilterEntities();
+            DisplayFilteredAttributes();
+        }
+
+        private void filter_entity_Changed(object sender, EventArgs e)
+        {
+            DisplayFilteredEntities();
+        }
+
+        private void filter_relationship_Changed(object sender, EventArgs e)
+        {
+            DisplayFilteredRelationships();
         }
 
         private void grid_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -318,13 +306,24 @@ namespace Rappen.XTB.LCG
         private void tmEntSearch_Tick(object sender, EventArgs e)
         {
             tmEntSearch.Stop();
-            FilterEntities();
+            DisplayFilteredEntities();
         }
 
         private void tmRelSearch_Tick(object sender, EventArgs e)
         {
             tmRelSearch.Stop();
             DisplayFilteredRelationships();
+        }
+
+        private void tslAbout_Click(object sender, EventArgs e)
+        {
+            LogUse("OpenAbout");
+            var about = new About(this)
+            {
+                StartPosition = FormStartPosition.CenterParent,
+                lblVersion = { Text = Assembly.GetExecutingAssembly().GetName().Version.ToString() }
+            };
+            about.ShowDialog();
         }
 
         private void txtAttSearch_TextChanged(object sender, EventArgs e)
@@ -349,19 +348,6 @@ namespace Rappen.XTB.LCG
 
         #region Private Methods
 
-        private string SettingsFileName(string name)
-        {
-            return (isUML ? "UDG_" : "") + name;
-        }
-
-        private void FixFormForUML()
-        {
-            TabIcon = Properties.Resources.UDG16;
-            PluginIcon = Properties.Resources.UDG16ico;
-            tslAbout.Image = Properties.Resources.UDG24;
-            btnGenerate.Text = "Generate PlantUML";
-        }
-
         internal void LogUse(string action)
         {
             ai.WriteEvent(action);
@@ -375,6 +361,15 @@ namespace Rappen.XTB.LCG
                 .OfType<MetadataProxy>()
                 .ToList()
                 .ForEach(m => m.SetSelected(select));
+        }
+
+        private void AddToFilteredAttributes(List<AttributeMetadataProxy> filteredAttributes, string attributeName)
+        {
+            var att = selectedEntity.Attributes.FirstOrDefault(a => a.LogicalName == attributeName);
+            if (att != null && !filteredAttributes.Contains(att))
+            {
+                filteredAttributes.Insert(0, att);
+            }
         }
 
         private void ApplySettings()
@@ -415,22 +410,6 @@ namespace Rappen.XTB.LCG
             GroupBoxSetState(llRelationshipExpander, settings.RelationshipFilter?.Expanded == true);
         }
 
-        private void Attribute_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("SetSelected"))
-            {
-                UpdateAttributesStatus();
-            }
-        }
-
-        private void Relationship_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("SetSelected"))
-            {
-                UpdateRelationshipssStatus();
-            }
-        }
-
         private void DisplayAttributes()
         {
             if (selectedEntity != null && selectedEntity.Attributes == null)
@@ -449,6 +428,7 @@ namespace Rappen.XTB.LCG
             }
             if (selectedEntity?.Attributes != null && selectedEntity.Attributes.Count > 0)
             {
+                GetSettingsFromUI();
                 var filteredAttributes = GetFilteredAttributes().ToList();
                 if (chkAttPrimaryAttribute.Checked)
                 {
@@ -472,15 +452,40 @@ namespace Rappen.XTB.LCG
             UpdateAttributesStatus();
         }
 
+        private void DisplayFilteredEntities()
+        {
+            if (entities != null && entities.Count > 0)
+            {
+                var filteredentities = GetFilteredEntities();
+                if (cmbSolution.SelectedItem is SolutionProxy solution)
+                {
+                    if (solution.Entities == null)
+                    {
+                        LoadSolutionEntities(solution, DisplayFilteredEntities);
+                        return;
+                    }
+                    filteredentities = filteredentities
+                        .Where(e => solution.Entities.Contains(e.LogicalName));
+                }
+
+                gridEntities.DataSource = new SortableBindingList<EntityMetadataProxy>(filteredentities);
+            }
+            else
+            {
+                gridEntities.DataSource = null;
+            }
+            UpdateEntitiesStatus();
+        }
+
         private void DisplayFilteredRelationships()
         {
             if (restoringselection)
             {
                 return;
             }
-            GetSettingsFromUI();
             if (selectedEntity?.Relationships != null && selectedEntity.Relationships.Count > 0)
             {
+                GetSettingsFromUI();
                 var filteredRelationships = GetFilteredRelationships(selectedEntity, txtRelSearch.Text);
                 gridRelationships.DataSource = new SortableBindingList<RelationshipMetadataProxy>(filteredRelationships);
                 if (gridRelationships.Columns.Count > 0)
@@ -496,12 +501,59 @@ namespace Rappen.XTB.LCG
             UpdateRelationshipssStatus();
         }
 
-        private void AddToFilteredAttributes(List<AttributeMetadataProxy> filteredAttributes, string attributeName)
+        private void EnableControls(bool enabled)
         {
-            var att = selectedEntity.Attributes.FirstOrDefault(a => a.LogicalName == attributeName);
-            if (att != null && !filteredAttributes.Contains(att))
+            UpdateUI(() =>
             {
-                filteredAttributes.Insert(0, att);
+                Enabled = enabled;
+            });
+        }
+
+        private void FixFormForUML()
+        {
+            TabIcon = Properties.Resources.UDG16;
+            PluginIcon = Properties.Resources.UDG16ico;
+            tslAbout.Image = Properties.Resources.UDG24;
+            btnGenerate.Text = "Generate PlantUML";
+        }
+
+        private bool GetFileSettings()
+        {
+            if (settings.UseCommonFile)
+            {
+                using (var filedlg = new SaveFileDialog
+                {
+                    InitialDirectory = settings.OutputFolder,
+                    FileName = settings.CommonFile,
+                    DefaultExt = isUML ? ".plantuml" : ".cs",
+                    Filter = isUML ? "PlantUML|*.plantuml|UML|*.uml" : "*.cs|*.cs"
+                })
+                {
+                    if (filedlg.ShowDialog(this) == DialogResult.OK)
+                    {
+                        settings.OutputFolder = Path.GetDirectoryName(filedlg.FileName);
+                        settings.CommonFile = Path.GetFileNameWithoutExtension(filedlg.FileName);
+                        return true;
+                    }
+                }
+                return false;
+            }
+            else
+            {
+                using (var fldr = new FolderBrowserDialog
+                {
+                    Description = "Select folder where files will be generated.",
+                    SelectedPath = string.IsNullOrWhiteSpace(settings.OutputFolder) ? Path.GetDirectoryName(settingsfile) : settings.OutputFolder,
+                    ShowNewFolderButton = true
+                })
+                {
+                    if (fldr.ShowDialog(this) == DialogResult.OK)
+                    {
+                        settings.OutputFolder = fldr.SelectedPath;
+                        return true;
+                    }
+                }
+                return false;
             }
         }
 
@@ -537,6 +589,40 @@ namespace Rappen.XTB.LCG
                            && GetManagedFilter(e)
                            && GetSearchFilter(e)
                            && GetLogicalFilter(e));
+        }
+
+        private IEnumerable<EntityMetadataProxy> GetFilteredEntities()
+        {
+            bool GetSearchFilter(EntityMetadataProxy e)
+            {
+                return string.IsNullOrWhiteSpace(txtEntSearch.Text) ||
+                       e.Metadata.LogicalName.ToLowerInvariant().Contains(txtEntSearch.Text) ||
+                       e.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtEntSearch.Text) == true;
+            }
+            bool GetIntersectFilter(EntityMetadataProxy e) { return !e.Metadata.IsIntersect.GetValueOrDefault() || chkEntIntersect.Checked; }
+            bool IsNotPrivate(EntityMetadataProxy e) { return !e.Metadata.IsPrivate.GetValueOrDefault(); }
+            bool GetSelectedFilter(EntityMetadataProxy e) { return !chkEntSelected.Checked || e.IsSelected; }
+            bool GetManagedFilter(EntityMetadataProxy e)
+            {
+                return rbEntMgdAll.Checked ||
+                       rbEntMgdTrue.Checked && e.Metadata.IsManaged.GetValueOrDefault() ||
+                       rbEntMgdFalse.Checked && !e.Metadata.IsManaged.GetValueOrDefault();
+            }
+            bool GetCustomFilter(EntityMetadataProxy e)
+            {
+                return rbEntCustomAll.Checked ||
+                       rbEntCustomTrue.Checked && e.Metadata.IsCustomEntity.GetValueOrDefault() ||
+                       rbEntCustomFalse.Checked && !e.Metadata.IsCustomEntity.GetValueOrDefault();
+            }
+
+            var filteredentities = entities.Where(
+                e => IsNotPrivate(e)
+                     && GetSelectedFilter(e)
+                     && GetCustomFilter(e)
+                     && GetManagedFilter(e)
+                     && GetIntersectFilter(e)
+                     && GetSearchFilter(e));
+            return filteredentities;
         }
 
         private IEnumerable<RelationshipMetadataProxy> GetFilteredRelationships(EntityMetadataProxy entity, string search)
@@ -621,102 +707,6 @@ namespace Rappen.XTB.LCG
                            && GetRegardingFilter(r));
         }
 
-        private void EnableControls(bool enabled)
-        {
-            UpdateUI(() =>
-            {
-                Enabled = enabled;
-            });
-        }
-
-        private void Entity_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (!e.PropertyName.Equals("SetSelected"))
-            {
-                return;
-            }
-
-            UpdateEntitiesStatus();
-            if (checkedrow != null && checkedrow != sender)
-            {
-                return;
-            }
-            checkedrow = sender;
-            var entity = sender as EntityMetadataProxy;
-            if (!restoringselection && chkAttCheckAll.Checked && entity?.Selected == true)
-            {
-                if (entity.Attributes == null)
-                {
-                    LoadAttributes(entity, SelectAllAttributes);
-                }
-                else
-                {
-                    SelectAllAttributes();
-                }
-                SelectAllRelationships();
-            }
-            checkedrow = null;
-        }
-
-        private void FilterEntities()
-        {
-            if (entities != null && entities.Count > 0)
-            {
-                var filteredentities = GetFilteredEntities();
-                if (cmbSolution.SelectedItem is SolutionProxy solution)
-                {
-                    if (solution.Entities == null)
-                    {
-                        LoadSolutionEntities(solution, FilterEntities);
-                        return;
-                    }
-                    filteredentities = filteredentities
-                        .Where(e => solution.Entities.Contains(e.LogicalName));
-                }
-
-                gridEntities.DataSource = new SortableBindingList<EntityMetadataProxy>(filteredentities);
-            }
-            else
-            {
-                gridEntities.DataSource = null;
-            }
-            UpdateEntitiesStatus();
-        }
-
-        private IEnumerable<EntityMetadataProxy> GetFilteredEntities()
-        {
-            bool GetSearchFilter(EntityMetadataProxy e)
-            {
-                return string.IsNullOrWhiteSpace(txtEntSearch.Text) ||
-                       e.Metadata.LogicalName.ToLowerInvariant().Contains(txtEntSearch.Text) ||
-                       e.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtEntSearch.Text) == true;
-            }
-            bool GetIntersectFilter(EntityMetadataProxy e) { return !e.Metadata.IsIntersect.GetValueOrDefault() || chkEntIntersect.Checked; }
-            bool IsNotPrivate(EntityMetadataProxy e) { return !e.Metadata.IsPrivate.GetValueOrDefault(); }
-            bool GetSelectedFilter(EntityMetadataProxy e) { return !chkEntSelected.Checked || e.IsSelected; }
-            bool GetManagedFilter(EntityMetadataProxy e)
-            {
-                return rbEntMgdAll.Checked ||
-                       rbEntMgdTrue.Checked && e.Metadata.IsManaged.GetValueOrDefault() ||
-                       rbEntMgdFalse.Checked && !e.Metadata.IsManaged.GetValueOrDefault();
-            }
-            bool GetCustomFilter(EntityMetadataProxy e)
-            {
-                return rbEntCustomAll.Checked ||
-                       rbEntCustomTrue.Checked && e.Metadata.IsCustomEntity.GetValueOrDefault() ||
-                       rbEntCustomFalse.Checked && !e.Metadata.IsCustomEntity.GetValueOrDefault();
-            }
-
-            var filteredentities = entities.Where(
-                e => IsNotPrivate(e)
-                     && GetSelectedFilter(e)
-                     && GetCustomFilter(e)
-                     && GetManagedFilter(e)
-                     && GetIntersectFilter(e)
-                     && GetSearchFilter(e));
-            return filteredentities;
-        }
-
         private EntityMetadataProxy GetSelectedEntity()
         {
             if (gridEntities.SelectedRows.Count == 1)
@@ -725,6 +715,30 @@ namespace Rappen.XTB.LCG
                 return row.DataBoundItem as EntityMetadataProxy;
             }
             return null;
+        }
+
+        private void GetSelectionFromUI()
+        {
+            if (entities != null)
+            {
+                settings.Selection = null;
+                settings.SelectedEntities = entities
+                    .Where(e => e.IsSelected)
+                    .Select(e => new SelectedEntity
+                    {
+                        Name = e.LogicalName,
+                        Attributes = e.Attributes != null ?
+                            e.Attributes
+                                .Where(a => a.IsSelected)
+                                .Select(a => a.LogicalName)
+                                .ToList() : new List<string>(),
+                        Relationships = e.Relationships != null ?
+                            e.Relationships
+                                .Where(r => r.IsSelected)
+                                .Select(r => r.Metadata.SchemaName)
+                                .ToList() : new List<string>()
+                    }).ToList();
+            }
         }
 
         private void GetSettingsFromUI()
@@ -780,69 +794,6 @@ namespace Rappen.XTB.LCG
             settings.RelationshipFilter.Orphans = chkRelOrphans.Checked;
             settings.RelationshipFilter.Owner = chkRelOwners.Checked;
             settings.RelationshipFilter.Regarding = chkRelRegarding.Checked;
-        }
-
-        private void GetSelectionFromUI()
-        {
-            if (entities != null)
-            {
-                settings.Selection = null;
-                settings.SelectedEntities = entities
-                    .Where(e => e.IsSelected)
-                    .Select(e => new SelectedEntity
-                    {
-                        Name = e.LogicalName,
-                        Attributes = e.Attributes != null ?
-                            e.Attributes
-                                .Where(a => a.IsSelected)
-                                .Select(a => a.LogicalName)
-                                .ToList() : new List<string>(),
-                        Relationships = e.Relationships != null ?
-                            e.Relationships
-                                .Where(r => r.IsSelected)
-                                .Select(r => r.Metadata.SchemaName)
-                                .ToList() : new List<string>()
-                    }).ToList();
-            }
-        }
-        private bool GetFileSettings()
-        {
-            if (settings.UseCommonFile)
-            {
-                using (var filedlg = new SaveFileDialog
-                {
-                    InitialDirectory = settings.OutputFolder,
-                    FileName = settings.CommonFile,
-                    DefaultExt = isUML ? ".plantuml" : ".cs",
-                    Filter = isUML ? "PlantUML|*.plantuml|UML|*.uml" : "*.cs|*.cs"
-                })
-                {
-                    if (filedlg.ShowDialog(this) == DialogResult.OK)
-                    {
-                        settings.OutputFolder = Path.GetDirectoryName(filedlg.FileName);
-                        settings.CommonFile = Path.GetFileNameWithoutExtension(filedlg.FileName);
-                        return true;
-                    }
-                }
-                return false;
-            }
-            else
-            {
-                using (var fldr = new FolderBrowserDialog
-                {
-                    Description = "Select folder where files will be generated.",
-                    SelectedPath = string.IsNullOrWhiteSpace(settings.OutputFolder) ? Path.GetDirectoryName(settingsfile) : settings.OutputFolder,
-                    ShowNewFolderButton = true
-                })
-                {
-                    if (fldr.ShowDialog(this) == DialogResult.OK)
-                    {
-                        settings.OutputFolder = fldr.SelectedPath;
-                        return true;
-                    }
-                }
-                return false;
-            }
         }
 
         private void GroupBoxCollapse(LinkLabel link)
@@ -909,7 +860,7 @@ namespace Rappen.XTB.LCG
                                     .OrderBy(a => a.ToString()));
                             foreach (var attribute in entity.Attributes)
                             {
-                                attribute.PropertyChanged += Attribute_PropertyChanged;
+                                attribute.PropertyChanged += PropertyChanged_Attribute;
                             }
                         }
                     }
@@ -920,6 +871,25 @@ namespace Rappen.XTB.LCG
                     });
                 }
             });
+        }
+
+        private void LoadCommonSettings()
+        {
+            if (!SettingsManager.Instance.TryLoad(GetType(), out commonsettings, SettingsFileName(commonsettingsfile)))
+            {
+                commonsettings = new CommonSettings(isUML);
+                LogWarning("Common Settings not found => created");
+            }
+            else
+            {
+                LogInfo("Common Settings found and loaded");
+            }
+            if (commonsettings.Template.TemplateVersion != new Template(isUML).TemplateVersion)
+            {
+                //MessageBox.Show("Template has been updated.\nAny customizations will need to be recreated.", "Template", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                commonsettings.Template = new Template(isUML);
+            }
+            commonsettings.SetFixedValues(isUML);
         }
 
         private void LoadEntities()
@@ -950,7 +920,7 @@ namespace Rappen.XTB.LCG
                                 .OrderBy(e => e.ToString()));
                         foreach (var entity in entities)
                         {
-                            entity.PropertyChanged += Entity_PropertyChanged;
+                            entity.PropertyChanged += PropertyChanged_Entity;
                             entity.Relationships = new List<RelationshipMetadataProxy>(
                                 entity.Metadata.ManyToOneRelationships.Select(m => new RelationshipMetadataProxy(entities, entity, m)));
                             entity.Relationships.AddRange(
@@ -961,14 +931,14 @@ namespace Rappen.XTB.LCG
                                 entity.Metadata.ManyToManyRelationships.Select(m => new RelationshipMetadataProxy(entities, entity, m)));
                             foreach (var relationship in entity.Relationships)
                             {
-                                relationship.PropertyChanged += Relationship_PropertyChanged;
+                                relationship.PropertyChanged += PropertyChanged_Relationship;
                             }
                         }
                     }
                     UpdateUI(() =>
                     {
                         RestoreSelectedEntities();
-                        FilterEntities();
+                        DisplayFilteredEntities();
                         if (gridEntities.Columns.Count > 0)
                         {
                             gridEntities.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader);
@@ -980,25 +950,6 @@ namespace Rappen.XTB.LCG
                     });
                 }
             });
-        }
-
-        private void LoadCommonSettings()
-        {
-            if (!SettingsManager.Instance.TryLoad(GetType(), out commonsettings, SettingsFileName(commonsettingsfile)))
-            {
-                commonsettings = new CommonSettings(isUML);
-                LogWarning("Common Settings not found => created");
-            }
-            else
-            {
-                LogInfo("Common Settings found and loaded");
-            }
-            if (commonsettings.Template.TemplateVersion != new Template(isUML).TemplateVersion)
-            {
-                //MessageBox.Show("Template has been updated.\nAny customizations will need to be recreated.", "Template", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                commonsettings.Template = new Template(isUML);
-            }
-            commonsettings.SetFixedValues(isUML);
         }
 
         private void LoadSettings(string connectionname)
@@ -1081,6 +1032,73 @@ namespace Rappen.XTB.LCG
             });
         }
 
+        private void MigrateFromPre2020Selection(string entitystring)
+        {
+            var entityname = entitystring.Split(':')[0];
+            var attributes = entitystring.Split(':')[1].Split(',').ToList();
+            settings.SelectedEntities.Add(new SelectedEntity
+            {
+                Name = entityname,
+                Attributes = attributes
+            });
+        }
+
+        private void MigrateFromPre2020Settings()
+        {
+            // Settings loaded from pre 2020, so need to reset RelationshipFilter and reflect that on the form
+            settings.RelationshipFilter = new RelationshipFilter { Expanded = true };
+            ApplySettings();
+            settings.SelectedEntities = new List<SelectedEntity>();
+            settings.Selection.ForEach(MigrateFromPre2020Selection);
+            settings.SelectedEntities.ForEach(SetDefaultRelationships);
+            settings.Version = Version;
+        }
+
+        private void PropertyChanged_Attribute(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals("SetSelected"))
+            {
+                UpdateAttributesStatus();
+            }
+        }
+
+        private void PropertyChanged_Entity(object sender, PropertyChangedEventArgs e)
+        {
+            if (!e.PropertyName.Equals("SetSelected"))
+            {
+                return;
+            }
+
+            UpdateEntitiesStatus();
+            if (checkedrow != null && checkedrow != sender)
+            {
+                return;
+            }
+            checkedrow = sender;
+            var entity = sender as EntityMetadataProxy;
+            if (!restoringselection && chkAttCheckAll.Checked && entity?.Selected == true)
+            {
+                if (entity.Attributes == null)
+                {
+                    LoadAttributes(entity, SelectAllAttributes);
+                }
+                else
+                {
+                    SelectAllAttributes();
+                }
+                SelectAllRows(gridRelationships, true);
+            }
+            checkedrow = null;
+        }
+
+        private void PropertyChanged_Relationship(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals("SetSelected"))
+            {
+                UpdateRelationshipssStatus();
+            }
+        }
+
         private void RestoreSelectedEntities()
         {
             if (entities == null)
@@ -1139,35 +1157,6 @@ namespace Rappen.XTB.LCG
             gridEntities_SelectionChanged(null, null);
         }
 
-        private void MigrateFromPre2020Settings()
-        {
-            // Settings loaded from pre 2020, so need to reset RelationshipFilter and reflect that on the form
-            settings.RelationshipFilter = new RelationshipFilter { Expanded = true };
-            ApplySettings();
-            settings.SelectedEntities = new List<SelectedEntity>();
-            settings.Selection.ForEach(MigrateFromPre2020Selection);
-            settings.SelectedEntities.ForEach(SetDefaultRelationships);
-            settings.Version = Version;
-        }
-
-        private void MigrateFromPre2020Selection(string entitystring)
-        {
-            var entityname = entitystring.Split(':')[0];
-            var attributes = entitystring.Split(':')[1].Split(',').ToList();
-            settings.SelectedEntities.Add(new SelectedEntity
-            {
-                Name = entityname,
-                Attributes = attributes
-            });
-        }
-
-        private void SetDefaultRelationships(SelectedEntity selectedentity)
-        {
-            var entity = entities.FirstOrDefault(e => e.LogicalName.Equals(selectedentity.Name));
-            var selectedrelationships = GetFilteredRelationships(entity, string.Empty);
-            selectedentity.Relationships = selectedrelationships.Select(r => r.LogicalName).ToList();
-        }
-
         private void SaveSettings(string connectionname)
         {
             GetSettingsFromUI();
@@ -1181,9 +1170,16 @@ namespace Rappen.XTB.LCG
             SelectAllRows(gridAttributes, true);
         }
 
-        private void SelectAllRelationships()
+        private void SetDefaultRelationships(SelectedEntity selectedentity)
         {
-            SelectAllRows(gridRelationships, true);
+            var entity = entities.FirstOrDefault(e => e.LogicalName.Equals(selectedentity.Name));
+            var selectedrelationships = GetFilteredRelationships(entity, string.Empty);
+            selectedentity.Relationships = selectedrelationships.Select(r => r.LogicalName).ToList();
+        }
+
+        private string SettingsFileName(string name)
+        {
+            return (isUML ? "UDG_" : "") + name;
         }
 
         private void UpdateAttributesStatus()
@@ -1201,21 +1197,6 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        private void UpdateRelationshipssStatus()
-        {
-            chkRelAll.Visible = gridRelationships.Rows.Count > 0;
-            if (gridRelationships.DataSource != null && selectedEntity != null && selectedEntity.Attributes != null)
-            {
-                statusRelationshipsShowing.Text = $"Showing {gridRelationships.Rows.Count} of {selectedEntity.Relationships?.Count} relationships.";
-                statusRelationshipsSelected.Text = $"{selectedEntity?.Relationships?.Count(r => r.IsSelected)} selected.";
-            }
-            else
-            {
-                statusRelationshipsShowing.Text = "No relationships available";
-                statusRelationshipsSelected.Text = "";
-            }
-        }
-
         private void UpdateEntitiesStatus()
         {
             chkEntAll.Visible = gridEntities.Rows.Count > 0;
@@ -1229,6 +1210,21 @@ namespace Rappen.XTB.LCG
             {
                 statusEntitiesShowing.Text = "No entities available";
                 statusEntitiesSelected.Text = "";
+            }
+        }
+
+        private void UpdateRelationshipssStatus()
+        {
+            chkRelAll.Visible = gridRelationships.Rows.Count > 0;
+            if (gridRelationships.DataSource != null && selectedEntity != null && selectedEntity.Attributes != null)
+            {
+                statusRelationshipsShowing.Text = $"Showing {gridRelationships.Rows.Count} of {selectedEntity.Relationships?.Count} relationships.";
+                statusRelationshipsSelected.Text = $"{selectedEntity?.Relationships?.Count(r => r.IsSelected)} selected.";
+            }
+            else
+            {
+                statusRelationshipsShowing.Text = "No relationships available";
+                statusRelationshipsSelected.Text = "";
             }
         }
 
