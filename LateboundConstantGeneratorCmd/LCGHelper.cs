@@ -27,7 +27,7 @@ namespace Rappen.XTB.LCG.Cmd
 
         public void LoadSettingsFromFile(string path)
         {
-            if (File.Exists(path))
+            if (System.IO.File.Exists(path))
             {
                 var document = new XmlDocument();
                 document.Load(path);
@@ -41,7 +41,7 @@ namespace Rappen.XTB.LCG.Cmd
 
         public void GenerateConstants()
         {
-            Settings.InitalizeCommonSettings(); // ToDo: Load CommonSettings
+            // ToDo: Load CommonSettings
             LoadEntities();
             RestoreSelectedEntities();
             var message = CSharpUtils.GenerateClasses(entities, Settings, Settings.GetWriter(this.crmConnection.WebApplicationUrl));
@@ -61,11 +61,11 @@ namespace Rappen.XTB.LCG.Cmd
             foreach (var entity in entities)
             {
                 entity.Relationships = new List<RelationshipMetadataProxy>(
-                    entity.Metadata.ManyToOneRelationships.Select(m => new RelationshipMetadataProxy(entities, m)));
+                    entity.Metadata.ManyToOneRelationships.Select(m => new RelationshipMetadataProxy(entities, entity, m)));
                 entity.Relationships.AddRange(
                     entity.Metadata.OneToManyRelationships
                         .Where(r => !entity.Metadata.ManyToOneRelationships.Select(r1m => r1m.SchemaName).Contains(r.SchemaName))
-                        .Select(r => new RelationshipMetadataProxy(entities, r)));
+                        .Select(r => new RelationshipMetadataProxy(entities, entity, r)));
             }
         }
 
@@ -98,11 +98,25 @@ namespace Rappen.XTB.LCG.Cmd
             {
                 return;
             }
-
-            foreach (var entitystring in Settings.Selection)
+            if (Settings.SelectedEntities == null || Settings.SelectedEntities.Count == 0)
+            {   // Loading old style selection configuration
+                Settings.SelectedEntities = new List<SelectedEntity>();
+                foreach (var entitystring in Settings.Selection)
+                {
+                    var entityname = entitystring.Split(':')[0];
+                    var attributes = entitystring.Split(':')[1].Split(',').ToList();
+                    Settings.SelectedEntities.Add(new SelectedEntity
+                    {
+                        Name = entityname,
+                        Attributes = attributes,
+                        Relationships = new List<string>()
+                    });
+                }
+            }
+            foreach (var selectedentity in Settings.SelectedEntities)
             {
-                var entityname = entitystring.Split(':')[0];
-                var attributes = entitystring.Split(':')[1].Split(',').ToList();
+                var entityname = selectedentity.Name;
+                var attributes = selectedentity.Attributes;
                 var entity = entities.FirstOrDefault(e => e.LogicalName == entityname);
                 if (entity == null)
                 {

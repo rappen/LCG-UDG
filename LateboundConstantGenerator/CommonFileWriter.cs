@@ -6,19 +6,21 @@ namespace Rappen.XTB.LCG
     public class CommonFileWriter : IConstantFileWriter
     {
         public string OrgUrl { get; set; }
-        private readonly StringBuilder _entities = new StringBuilder();
+        private readonly StringBuilder _blocks = new StringBuilder();
 
-        public CommonFileWriter(string orgUrl) { OrgUrl = orgUrl; }
+        public CommonFileWriter(string orgUrl)
+        {
+            OrgUrl = orgUrl;
+        }
 
         #region Implementation of IConstantFileWriter
 
-        public string GetCompleteMessage(Settings settings)
+        public string Finalize(Settings settings)
         {
-            var filename = Path.Combine(settings.OutputFolder, settings.CommonFile + ".cs");
-            var file = CSharpUtils.GetFile(settings, _entities.ToString());
-            if (file.WriteFile(filename, OrgUrl, settings))
+            var filename = Path.Combine(settings.OutputFolder, settings.CommonFile + settings.commonsettings.FileSuffix);
+            if (_blocks.ToString().WriteFile(filename, OrgUrl, settings))
             {
-                return $"Saved constants to\n  {filename}";
+                return $"Saved file\n  {filename}";
             }
             else
             {
@@ -26,9 +28,9 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        public void WriteEntity(Settings settings, string entity, string fileName)
+        public void WriteBlock(Settings settings, string block, string fileName)
         {
-            _entities.AppendLine(entity);
+            _blocks.AppendLine(block);
         }
 
         #endregion

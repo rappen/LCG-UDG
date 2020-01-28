@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xrm.Sdk.Metadata;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 namespace Rappen.XTB.LCG
@@ -16,21 +17,24 @@ namespace Rappen.XTB.LCG
 
         #region Private Fields
 
+        private EntityMetadataProxy originatingentity;
         private AttributeMetadataProxy lookupAttribute;
 
         #endregion Private Fields
 
         #region Public Constructors
 
-        public RelationshipMetadataProxy(List<EntityMetadataProxy> entities, OneToManyRelationshipMetadata relationshipMetadata)
+        public RelationshipMetadataProxy(List<EntityMetadataProxy> entities, EntityMetadataProxy originatingentity, OneToManyRelationshipMetadata relationshipMetadata)
         {
+            this.originatingentity = originatingentity;
             Parent = entities.FirstOrDefault(e => e.LogicalName == relationshipMetadata.ReferencedEntity);
             Child = entities.FirstOrDefault(e => e.LogicalName == relationshipMetadata.ReferencingEntity);
             Metadata = relationshipMetadata;
         }
 
-        public RelationshipMetadataProxy(List<EntityMetadataProxy> entities, ManyToManyRelationshipMetadata relationshipMetadata)
+        public RelationshipMetadataProxy(List<EntityMetadataProxy> entities, EntityMetadataProxy originatingentity, ManyToManyRelationshipMetadata relationshipMetadata)
         {
+            this.originatingentity = originatingentity;
             Parent = entities.FirstOrDefault(e => e.LogicalName == relationshipMetadata.Entity1LogicalName);
             Child = entities.FirstOrDefault(e => e.LogicalName == relationshipMetadata.Entity2LogicalName);
             Metadata = relationshipMetadata;
@@ -38,19 +42,52 @@ namespace Rappen.XTB.LCG
 
         #endregion Public Constructors
 
-        #region Public Properties
-
-        public AttributeMetadataProxy LookupAttribute
+        internal OneToManyRelationshipMetadata OneToManyRelationshipMetadata => Metadata as OneToManyRelationshipMetadata;
+        internal ManyToManyRelationshipMetadata ManyToManyRelationshipMetadata => Metadata as ManyToManyRelationshipMetadata;
+        internal EntityMetadataProxy OtherEntity => originatingentity == Parent ? Child : Parent;
+        internal AttributeMetadataProxy LookupAttribute
         {
             get
             {
-                if (Metadata is OneToManyRelationshipMetadata && lookupAttribute == null)
+                if (Metadata is OneToManyRelationshipMetadata omrel && lookupAttribute == null)
                 {
-                    lookupAttribute = Child?.Attributes?.FirstOrDefault(a => a.LogicalName == (Metadata as OneToManyRelationshipMetadata)?.ReferencingAttribute);
+                    lookupAttribute = Child?.Attributes?.FirstOrDefault(a => a.LogicalName == omrel.ReferencingAttribute);
                 }
                 return lookupAttribute;
             }
         }
+
+        #region Public Properties
+
+        [DisplayName(" \n ")]
+        public bool Selected => IsSelected;
+
+        [DisplayName("Type")]
+        public string Type => Metadata.RelationshipType == RelationshipType.ManyToManyRelationship ? "N : N" : originatingentity == Parent ? "1 : N" : originatingentity == Child ? "N : 1" : "?";
+
+        [DisplayName("Related Entity")]
+        public string RelatedEntityName => OtherEntity?.DisplayName;
+
+        [DisplayName("Lookup")]
+        public string LookupName
+        {
+            get
+            {
+                var result = LookupAttribute?.DisplayName;
+                if (Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
+                {
+                    result = Child?.DisplayName;
+                }
+                if (string.IsNullOrWhiteSpace(result) && OneToManyRelationshipMetadata != null)
+                {
+                    result = OneToManyRelationshipMetadata.ReferencingAttribute;
+                }
+                return result;
+            }
+        }
+
+        [DisplayName("Schema Name")]
+        public string LogicalName => Metadata?.SchemaName;
 
         public string Summary(Settings settings)
         {
@@ -69,6 +106,11 @@ namespace Rappen.XTB.LCG
         #endregion Public Properties
 
         #region Public Methods
+
+        public override string ToString()
+        {
+            return $"{Parent?.DisplayName} {Type} {Child?.DisplayName}";
+        }
 
         public string GetNameTechnical(Settings settings)
         {

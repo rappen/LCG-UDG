@@ -24,24 +24,16 @@ namespace Rappen.XTB.LCG
             return metadata.Attributes.FirstOrDefault(metaattribute => metaattribute.LogicalName == attribute);
         }
 
-        public static bool WriteFile(this string content, string filename, string orgurl, Settings settings)
+        public static bool WriteFile(this string data, string filename, string orgurl, Settings settings)
         {
+            var version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            var header = GetFileHeader(filename, orgurl, settings, version);
+            var content = GetDataContent(data, settings, version);
+            content = header + "\r\n\r\n" + content;
             content = content.BeautifyContent(settings.commonsettings.Template.IndentStr);
-            var header = settings.commonsettings.Template.Header1
-                .Replace("{version}", Assembly.GetExecutingAssembly().GetName().Version.ToString())
-                .Replace("{organization}", orgurl);
-            if (settings.commonsettings.HeaderLocalPath)
-            {
-                header += "\r\n// Filename  : " + filename;
-            }
-            if (settings.commonsettings.HeaderTimestamp)
-            {
-                header += "\r\n// Created   : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            }
-            header += "\r\n" + settings.commonsettings.Template.Header2;
             try
             {
-                File.WriteAllText(filename, header + "\r\n\r\n" + content);
+                System.IO.File.WriteAllText(filename, content);
                 return true;
             }
             catch (Exception e)
@@ -51,7 +43,29 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        public static string BeautifyContent(this string content, string indentstr)
+        private static string GetFileHeader(string filename, string orgurl, Settings settings, string version)
+        {
+            var header = settings.commonsettings.Template.FileHeader
+                .Replace("{toolname}", settings.commonsettings.ToolName)
+                .Replace("{version}", version)
+                .Replace("{organization}", orgurl)
+                .Replace("{filename}", filename)
+                .Replace("{createdate}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
+                .Replace("{namespace}", settings.NameSpace)
+                .Replace("\r\n\r\n", "\r\n");
+            return header;
+        }
+
+        private static string GetDataContent(string data, Settings settings, string version)
+        {
+            return settings.commonsettings.Template.DataContainer
+                .Replace("{toolname}", settings.commonsettings.ToolName)
+                .Replace("{version}", version)
+                .Replace("{namespace}", settings.NameSpace)
+                .Replace("{data}", data);
+        }
+
+        private static string BeautifyContent(this string content, string indentstr)
         {
             var fixedcontent = new StringBuilder();
             var lines = content.Split('\n').ToList();
@@ -63,11 +77,11 @@ namespace Rappen.XTB.LCG
                 {
                     fixedcontent.AppendLine();
                 }
-                if (lastline.Equals("{"))
+                if (lastline.EndsWith("{"))
                 {
                     indent++;
                 }
-                if (line.Equals("}"))
+                if (line.Equals("}") && indent > 0)
                 {
                     indent--;
                 }
@@ -87,8 +101,12 @@ namespace Rappen.XTB.LCG
             {   // Empty lines around region statements
                 return true;
             }
-            if (lastline.StartsWith("using ")&& !line.StartsWith("using "))
+            if (lastline.StartsWith("using ") && !line.StartsWith("using "))
             {   // Empty lines after usings
+                return true;
+            }
+            if (line.StartsWith("namespace "))
+            {   // Empty lines before namespace
                 return true;
             }
             if (line.StartsWith("public enum"))
@@ -97,6 +115,23 @@ namespace Rappen.XTB.LCG
             }
             if (lastline.Equals("}") && !line.Equals("}") && !string.IsNullOrWhiteSpace(line))
             {   // Never empty line between end blocks
+                return true;
+            }
+            // Following rules are UML specific
+            if (line.StartsWith("@startuml") || lastline.StartsWith("@startuml") || line.StartsWith("@enduml"))
+            {
+                return true;
+            }
+            if (line.StartsWith("title") || line.StartsWith("header") || line.StartsWith("footer "))
+            {
+                return true;
+            }
+            if (line.StartsWith("skinparam") && !lastline.StartsWith("skinparam"))
+            {
+                return true;
+            }
+            if (line.StartsWith("entity "))
+            {
                 return true;
             }
             return false;
@@ -190,6 +225,11 @@ namespace Rappen.XTB.LCG
                 name = name.CamelCaseIt(settings);
             }
             return name;
+        }
+
+        public static string ReplaceIfNotEmpty(this string template, string oldValue, string newValue)
+        {
+            return string.IsNullOrEmpty(template) ? newValue : template.Replace(oldValue, newValue);
         }
     }
 }

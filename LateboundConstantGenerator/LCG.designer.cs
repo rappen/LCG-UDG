@@ -30,6 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LCG));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -41,8 +44,10 @@
             this.tssSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnLoadEntities = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnLoadConfig = new System.Windows.Forms.ToolStripButton();
-            this.btnSaveConfig = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.btnLoadConfig = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnSaveConfig = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnOptions = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnGenerate = new System.Windows.Forms.ToolStripButton();
             this.tslAbout = new System.Windows.Forms.ToolStripLabel();
@@ -71,32 +76,14 @@
             this.pnEntSolution = new System.Windows.Forms.Panel();
             this.cmbSolution = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.pnLeftSpacer = new System.Windows.Forms.Panel();
-            this.gbFileOptions = new System.Windows.Forms.GroupBox();
-            this.llFileOptionsExpander = new System.Windows.Forms.LinkLabel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtOutputFolder = new System.Windows.Forms.TextBox();
-            this.btnOutputFolder = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.pnFileCommonName = new System.Windows.Forms.Panel();
-            this.txtCommonFilename = new System.Windows.Forms.TextBox();
-            this.txtCommonFileSuffix = new System.Windows.Forms.TextBox();
-            this.txtNamespace = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.cmbFileName = new System.Windows.Forms.ComboBox();
-            this.pnFileStructure = new System.Windows.Forms.Panel();
-            this.rbFilePerEntity = new System.Windows.Forms.RadioButton();
-            this.rbFileCommon = new System.Windows.Forms.RadioButton();
-            this.label6 = new System.Windows.Forms.Label();
             this.statusEntities = new System.Windows.Forms.StatusStrip();
             this.statusEntitiesShowing = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusEntitiesSelected = new System.Windows.Forms.ToolStripStatusLabel();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.pnAttributeGrid = new System.Windows.Forms.Panel();
             this.chkAttAll = new System.Windows.Forms.CheckBox();
             this.gridAttributes = new System.Windows.Forms.DataGridView();
             this.statusAttributes = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusAttributesShowing = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusAttributesSelected = new System.Windows.Forms.ToolStripStatusLabel();
             this.gbAttributes = new System.Windows.Forms.GroupBox();
@@ -105,6 +92,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.llAttributeExpander = new System.Windows.Forms.LinkLabel();
             this.pnAttSystem = new System.Windows.Forms.Panel();
+            this.chkAttLogical = new System.Windows.Forms.CheckBox();
             this.label15 = new System.Windows.Forms.Label();
             this.chkAttPrimaryAttribute = new System.Windows.Forms.CheckBox();
             this.chkAttPrimaryKey = new System.Windows.Forms.CheckBox();
@@ -118,34 +106,48 @@
             this.rbAttCustomTrue = new System.Windows.Forms.RadioButton();
             this.rbAttCustomFalse = new System.Windows.Forms.RadioButton();
             this.rbAttCustomAll = new System.Windows.Forms.RadioButton();
-            this.pnAttributeSpacer = new System.Windows.Forms.Panel();
+            this.pnAttBehavior = new System.Windows.Forms.Panel();
             this.label16 = new System.Windows.Forms.Label();
             this.chkAttCheckAll = new System.Windows.Forms.CheckBox();
-            this.pnRightSpacer = new System.Windows.Forms.Panel();
-            this.gbConstOptions = new System.Windows.Forms.GroupBox();
-            this.chkRegions = new System.Windows.Forms.CheckBox();
-            this.chkRelationships = new System.Windows.Forms.CheckBox();
-            this.chkConstCamelCased = new System.Windows.Forms.CheckBox();
-            this.chkXmlDescription = new System.Windows.Forms.CheckBox();
-            this.chkXmlProperties = new System.Windows.Forms.CheckBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.llConstOptionsExpander = new System.Windows.Forms.LinkLabel();
-            this.txtConstStripPrefix = new System.Windows.Forms.TextBox();
+            this.pnRelationshipGrid = new System.Windows.Forms.Panel();
+            this.chkRelAll = new System.Windows.Forms.CheckBox();
+            this.gridRelationships = new System.Windows.Forms.DataGridView();
+            this.gbRelationships = new System.Windows.Forms.GroupBox();
+            this.panRelSearch = new System.Windows.Forms.Panel();
+            this.txtRelSearch = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.panRel4 = new System.Windows.Forms.Panel();
+            this.chkRelRegarding = new System.Windows.Forms.CheckBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.chkRelOwners = new System.Windows.Forms.CheckBox();
+            this.chkRelOrphans = new System.Windows.Forms.CheckBox();
+            this.panRelType = new System.Windows.Forms.Panel();
+            this.chkRelNN = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.chkConstStripPrefix = new System.Windows.Forms.CheckBox();
-            this.cmbConstantName = new System.Windows.Forms.ComboBox();
+            this.chkRelN1 = new System.Windows.Forms.CheckBox();
+            this.chkRel1N = new System.Windows.Forms.CheckBox();
+            this.panRel3 = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.rbRelMgdFalse = new System.Windows.Forms.RadioButton();
+            this.rbRelMgdTrue = new System.Windows.Forms.RadioButton();
+            this.rbRelMgdAll = new System.Windows.Forms.RadioButton();
+            this.panRel2 = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.rbRelCustomTrue = new System.Windows.Forms.RadioButton();
+            this.rbRelCustomFalse = new System.Windows.Forms.RadioButton();
+            this.rbRelCustomAll = new System.Windows.Forms.RadioButton();
+            this.panRel1 = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
-            this.chkEnumsInclude = new System.Windows.Forms.CheckBox();
-            this.chkEnumsGlobal = new System.Windows.Forms.CheckBox();
+            this.chkRelCheckAll = new System.Windows.Forms.CheckBox();
+            this.llRelationshipExpander = new System.Windows.Forms.LinkLabel();
+            this.statusRelationships = new System.Windows.Forms.StatusStrip();
+            this.statusRelationshipsShowing = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusRelationshipsSelected = new System.Windows.Forms.ToolStripStatusLabel();
             this.tmEntSearch = new System.Windows.Forms.Timer(this.components);
             this.tmAttSearch = new System.Windows.Forms.Timer(this.components);
             this.pnWindowTopSpacer = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.chkAttLogical = new System.Windows.Forms.CheckBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.cmbCommonAttributes = new System.Windows.Forms.ComboBox();
-            this.label19 = new System.Windows.Forms.Label();
+            this.tmRelSearch = new System.Windows.Forms.Timer(this.components);
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -159,10 +161,11 @@
             this.pnEntManaged.SuspendLayout();
             this.pnEntCustom.SuspendLayout();
             this.pnEntSolution.SuspendLayout();
-            this.gbFileOptions.SuspendLayout();
-            this.pnFileCommonName.SuspendLayout();
-            this.pnFileStructure.SuspendLayout();
             this.statusEntities.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             this.pnAttributeGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridAttributes)).BeginInit();
             this.statusAttributes.SuspendLayout();
@@ -171,8 +174,17 @@
             this.pnAttSystem.SuspendLayout();
             this.pnAttManaged.SuspendLayout();
             this.pnAttCustom.SuspendLayout();
-            this.pnAttributeSpacer.SuspendLayout();
-            this.gbConstOptions.SuspendLayout();
+            this.pnAttBehavior.SuspendLayout();
+            this.pnRelationshipGrid.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridRelationships)).BeginInit();
+            this.gbRelationships.SuspendLayout();
+            this.panRelSearch.SuspendLayout();
+            this.panRel4.SuspendLayout();
+            this.panRelType.SuspendLayout();
+            this.panRel3.SuspendLayout();
+            this.panRel2.SuspendLayout();
+            this.panRel1.SuspendLayout();
+            this.statusRelationships.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripMenu
@@ -183,14 +195,14 @@
             this.tssSeparator1,
             this.btnLoadEntities,
             this.toolStripSeparator1,
-            this.btnLoadConfig,
-            this.btnSaveConfig,
+            this.toolStripDropDownButton1,
+            this.btnOptions,
             this.toolStripSeparator2,
             this.btnGenerate,
             this.tslAbout});
             this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
             this.toolStripMenu.Name = "toolStripMenu";
-            this.toolStripMenu.Size = new System.Drawing.Size(930, 31);
+            this.toolStripMenu.Size = new System.Drawing.Size(1028, 31);
             this.toolStripMenu.TabIndex = 4;
             this.toolStripMenu.Text = "toolStrip1";
             // 
@@ -221,25 +233,43 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnLoadConfig,
+            this.btnSaveConfig});
+            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(81, 28);
+            this.toolStripDropDownButton1.Text = "Project";
+            // 
             // btnLoadConfig
             // 
             this.btnLoadConfig.Enabled = false;
             this.btnLoadConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnLoadConfig.Image")));
-            this.btnLoadConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLoadConfig.Name = "btnLoadConfig";
-            this.btnLoadConfig.Size = new System.Drawing.Size(136, 28);
-            this.btnLoadConfig.Text = "Load configuration";
+            this.btnLoadConfig.Size = new System.Drawing.Size(149, 22);
+            this.btnLoadConfig.Text = "Load project...";
             this.btnLoadConfig.Click += new System.EventHandler(this.btnLoadConfig_Click);
             // 
             // btnSaveConfig
             // 
             this.btnSaveConfig.Enabled = false;
             this.btnSaveConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveConfig.Image")));
-            this.btnSaveConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSaveConfig.Name = "btnSaveConfig";
-            this.btnSaveConfig.Size = new System.Drawing.Size(134, 28);
-            this.btnSaveConfig.Text = "Save configuration";
+            this.btnSaveConfig.Size = new System.Drawing.Size(149, 22);
+            this.btnSaveConfig.Text = "Save project...";
             this.btnSaveConfig.Click += new System.EventHandler(this.btnSaveConfig_Click);
+            // 
+            // btnOptions
+            // 
+            this.btnOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnOptions.Image")));
+            this.btnOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnOptions.Name = "btnOptions";
+            this.btnOptions.Size = new System.Drawing.Size(77, 28);
+            this.btnOptions.Text = "Options";
+            this.btnOptions.Click += new System.EventHandler(this.btnOptions_Click);
             // 
             // toolStripSeparator2
             // 
@@ -276,19 +306,13 @@
             // 
             this.splitContainer1.Panel1.Controls.Add(this.pnEntityGrid);
             this.splitContainer1.Panel1.Controls.Add(this.gbEntities);
-            this.splitContainer1.Panel1.Controls.Add(this.pnLeftSpacer);
-            this.splitContainer1.Panel1.Controls.Add(this.gbFileOptions);
             this.splitContainer1.Panel1.Controls.Add(this.statusEntities);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.pnAttributeGrid);
-            this.splitContainer1.Panel2.Controls.Add(this.statusAttributes);
-            this.splitContainer1.Panel2.Controls.Add(this.gbAttributes);
-            this.splitContainer1.Panel2.Controls.Add(this.pnRightSpacer);
-            this.splitContainer1.Panel2.Controls.Add(this.gbConstOptions);
-            this.splitContainer1.Size = new System.Drawing.Size(930, 546);
-            this.splitContainer1.SplitterDistance = 439;
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
+            this.splitContainer1.Size = new System.Drawing.Size(1028, 546);
+            this.splitContainer1.SplitterDistance = 347;
             this.splitContainer1.TabIndex = 2;
             // 
             // pnEntityGrid
@@ -296,9 +320,9 @@
             this.pnEntityGrid.Controls.Add(this.chkEntAll);
             this.pnEntityGrid.Controls.Add(this.gridEntities);
             this.pnEntityGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnEntityGrid.Location = new System.Drawing.Point(0, 318);
+            this.pnEntityGrid.Location = new System.Drawing.Point(0, 148);
             this.pnEntityGrid.Name = "pnEntityGrid";
-            this.pnEntityGrid.Size = new System.Drawing.Size(439, 206);
+            this.pnEntityGrid.Size = new System.Drawing.Size(347, 376);
             this.pnEntityGrid.TabIndex = 3;
             // 
             // chkEntAll
@@ -318,38 +342,39 @@
             this.gridEntities.AllowUserToDeleteRows = false;
             this.gridEntities.AllowUserToOrderColumns = true;
             this.gridEntities.AllowUserToResizeRows = false;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridEntities.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            this.gridEntities.BackgroundColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridEntities.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this.gridEntities.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridEntities.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridEntities.DefaultCellStyle = dataGridViewCellStyle11;
             this.gridEntities.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridEntities.EnableHeadersVisualStyles = false;
             this.gridEntities.Location = new System.Drawing.Point(0, 0);
             this.gridEntities.Name = "gridEntities";
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridEntities.RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridEntities.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
             this.gridEntities.RowHeadersVisible = false;
             this.gridEntities.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridEntities.Size = new System.Drawing.Size(439, 206);
+            this.gridEntities.Size = new System.Drawing.Size(347, 376);
             this.gridEntities.TabIndex = 2;
             this.gridEntities.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             this.gridEntities.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridEntities_CellFormatting);
@@ -364,9 +389,9 @@
             this.gbEntities.Controls.Add(this.pnEntCustom);
             this.gbEntities.Controls.Add(this.pnEntSolution);
             this.gbEntities.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbEntities.Location = new System.Drawing.Point(0, 170);
+            this.gbEntities.Location = new System.Drawing.Point(0, 0);
             this.gbEntities.Name = "gbEntities";
-            this.gbEntities.Size = new System.Drawing.Size(439, 148);
+            this.gbEntities.Size = new System.Drawing.Size(347, 148);
             this.gbEntities.TabIndex = 2;
             this.gbEntities.TabStop = false;
             this.gbEntities.Text = "Entities";
@@ -378,16 +403,16 @@
             this.pnEntSearch.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnEntSearch.Location = new System.Drawing.Point(3, 120);
             this.pnEntSearch.Name = "pnEntSearch";
-            this.pnEntSearch.Size = new System.Drawing.Size(433, 26);
+            this.pnEntSearch.Size = new System.Drawing.Size(341, 26);
             this.pnEntSearch.TabIndex = 5;
             // 
             // txtEntSearch
             // 
             this.txtEntSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtEntSearch.Location = new System.Drawing.Point(129, 2);
+            this.txtEntSearch.Location = new System.Drawing.Point(99, 2);
             this.txtEntSearch.Name = "txtEntSearch";
-            this.txtEntSearch.Size = new System.Drawing.Size(299, 20);
+            this.txtEntSearch.Size = new System.Drawing.Size(237, 20);
             this.txtEntSearch.TabIndex = 4;
             this.txtEntSearch.TextChanged += new System.EventHandler(this.txtEntSearch_TextChanged);
             // 
@@ -404,12 +429,12 @@
             // 
             this.llEntityExpander.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.llEntityExpander.AutoSize = true;
-            this.llEntityExpander.Location = new System.Drawing.Point(404, 0);
+            this.llEntityExpander.Location = new System.Drawing.Point(290, 0);
             this.llEntityExpander.Name = "llEntityExpander";
-            this.llEntityExpander.Size = new System.Drawing.Size(29, 13);
+            this.llEntityExpander.Size = new System.Drawing.Size(51, 13);
             this.llEntityExpander.TabIndex = 3;
             this.llEntityExpander.TabStop = true;
-            this.llEntityExpander.Text = "Hide";
+            this.llEntityExpander.Text = "Hide filter";
             this.llEntityExpander.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
             // 
             // pnEntIntersect
@@ -419,32 +444,32 @@
             this.pnEntIntersect.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnEntIntersect.Location = new System.Drawing.Point(3, 94);
             this.pnEntIntersect.Name = "pnEntIntersect";
-            this.pnEntIntersect.Size = new System.Drawing.Size(433, 26);
+            this.pnEntIntersect.Size = new System.Drawing.Size(341, 26);
             this.pnEntIntersect.TabIndex = 4;
             // 
             // chkEntSelected
             // 
             this.chkEntSelected.AutoSize = true;
-            this.chkEntSelected.Location = new System.Drawing.Point(292, 5);
+            this.chkEntSelected.Location = new System.Drawing.Point(218, 5);
             this.chkEntSelected.Name = "chkEntSelected";
             this.chkEntSelected.Size = new System.Drawing.Size(90, 17);
             this.chkEntSelected.TabIndex = 1;
             this.chkEntSelected.Text = "Selected only";
             this.chkEntSelected.UseVisualStyleBackColor = true;
-            this.chkEntSelected.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            this.chkEntSelected.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
             // chkEntIntersect
             // 
             this.chkEntIntersect.AutoSize = true;
             this.chkEntIntersect.Checked = true;
             this.chkEntIntersect.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkEntIntersect.Location = new System.Drawing.Point(129, 5);
+            this.chkEntIntersect.Location = new System.Drawing.Point(99, 5);
             this.chkEntIntersect.Name = "chkEntIntersect";
             this.chkEntIntersect.Size = new System.Drawing.Size(104, 17);
             this.chkEntIntersect.TabIndex = 0;
             this.chkEntIntersect.Text = "Include intersect";
             this.chkEntIntersect.UseVisualStyleBackColor = true;
-            this.chkEntIntersect.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            this.chkEntIntersect.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
             // pnEntManaged
             // 
@@ -455,7 +480,7 @@
             this.pnEntManaged.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnEntManaged.Location = new System.Drawing.Point(3, 68);
             this.pnEntManaged.Name = "pnEntManaged";
-            this.pnEntManaged.Size = new System.Drawing.Size(433, 26);
+            this.pnEntManaged.Size = new System.Drawing.Size(341, 26);
             this.pnEntManaged.TabIndex = 3;
             // 
             // label12
@@ -470,37 +495,37 @@
             // rbEntMgdFalse
             // 
             this.rbEntMgdFalse.AutoSize = true;
-            this.rbEntMgdFalse.Location = new System.Drawing.Point(292, 5);
+            this.rbEntMgdFalse.Location = new System.Drawing.Point(218, 5);
             this.rbEntMgdFalse.Name = "rbEntMgdFalse";
             this.rbEntMgdFalse.Size = new System.Drawing.Size(83, 17);
             this.rbEntMgdFalse.TabIndex = 2;
             this.rbEntMgdFalse.Text = "Unmanaged";
             this.rbEntMgdFalse.UseVisualStyleBackColor = true;
-            this.rbEntMgdFalse.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            this.rbEntMgdFalse.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
             // rbEntMgdTrue
             // 
             this.rbEntMgdTrue.AutoSize = true;
-            this.rbEntMgdTrue.Location = new System.Drawing.Point(209, 5);
+            this.rbEntMgdTrue.Location = new System.Drawing.Point(148, 5);
             this.rbEntMgdTrue.Name = "rbEntMgdTrue";
             this.rbEntMgdTrue.Size = new System.Drawing.Size(70, 17);
             this.rbEntMgdTrue.TabIndex = 1;
             this.rbEntMgdTrue.Text = "Managed";
             this.rbEntMgdTrue.UseVisualStyleBackColor = true;
-            this.rbEntMgdTrue.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            this.rbEntMgdTrue.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
             // rbEntMgdAll
             // 
             this.rbEntMgdAll.AutoSize = true;
             this.rbEntMgdAll.Checked = true;
-            this.rbEntMgdAll.Location = new System.Drawing.Point(129, 5);
+            this.rbEntMgdAll.Location = new System.Drawing.Point(99, 5);
             this.rbEntMgdAll.Name = "rbEntMgdAll";
             this.rbEntMgdAll.Size = new System.Drawing.Size(36, 17);
             this.rbEntMgdAll.TabIndex = 0;
             this.rbEntMgdAll.TabStop = true;
             this.rbEntMgdAll.Text = "All";
             this.rbEntMgdAll.UseVisualStyleBackColor = true;
-            this.rbEntMgdAll.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            this.rbEntMgdAll.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
             // pnEntCustom
             // 
@@ -511,7 +536,7 @@
             this.pnEntCustom.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnEntCustom.Location = new System.Drawing.Point(3, 42);
             this.pnEntCustom.Name = "pnEntCustom";
-            this.pnEntCustom.Size = new System.Drawing.Size(433, 26);
+            this.pnEntCustom.Size = new System.Drawing.Size(341, 26);
             this.pnEntCustom.TabIndex = 2;
             // 
             // label11
@@ -526,37 +551,37 @@
             // rbEntCustomTrue
             // 
             this.rbEntCustomTrue.AutoSize = true;
-            this.rbEntCustomTrue.Location = new System.Drawing.Point(292, 5);
+            this.rbEntCustomTrue.Location = new System.Drawing.Point(218, 5);
             this.rbEntCustomTrue.Name = "rbEntCustomTrue";
             this.rbEntCustomTrue.Size = new System.Drawing.Size(60, 17);
             this.rbEntCustomTrue.TabIndex = 2;
             this.rbEntCustomTrue.Text = "Custom";
             this.rbEntCustomTrue.UseVisualStyleBackColor = true;
-            this.rbEntCustomTrue.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            this.rbEntCustomTrue.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
             // rbEntCustomFalse
             // 
             this.rbEntCustomFalse.AutoSize = true;
-            this.rbEntCustomFalse.Location = new System.Drawing.Point(209, 5);
+            this.rbEntCustomFalse.Location = new System.Drawing.Point(148, 5);
             this.rbEntCustomFalse.Name = "rbEntCustomFalse";
             this.rbEntCustomFalse.Size = new System.Drawing.Size(59, 17);
             this.rbEntCustomFalse.TabIndex = 1;
             this.rbEntCustomFalse.Text = "System";
             this.rbEntCustomFalse.UseVisualStyleBackColor = true;
-            this.rbEntCustomFalse.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            this.rbEntCustomFalse.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
             // rbEntCustomAll
             // 
             this.rbEntCustomAll.AutoSize = true;
             this.rbEntCustomAll.Checked = true;
-            this.rbEntCustomAll.Location = new System.Drawing.Point(129, 5);
+            this.rbEntCustomAll.Location = new System.Drawing.Point(99, 5);
             this.rbEntCustomAll.Name = "rbEntCustomAll";
             this.rbEntCustomAll.Size = new System.Drawing.Size(36, 17);
             this.rbEntCustomAll.TabIndex = 0;
             this.rbEntCustomAll.TabStop = true;
             this.rbEntCustomAll.Text = "All";
             this.rbEntCustomAll.UseVisualStyleBackColor = true;
-            this.rbEntCustomAll.CheckedChanged += new System.EventHandler(this.entityFilter_Changed);
+            this.rbEntCustomAll.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
             // pnEntSolution
             // 
@@ -565,7 +590,7 @@
             this.pnEntSolution.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnEntSolution.Location = new System.Drawing.Point(3, 16);
             this.pnEntSolution.Name = "pnEntSolution";
-            this.pnEntSolution.Size = new System.Drawing.Size(433, 26);
+            this.pnEntSolution.Size = new System.Drawing.Size(341, 26);
             this.pnEntSolution.TabIndex = 1;
             // 
             // cmbSolution
@@ -574,11 +599,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbSolution.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSolution.FormattingEnabled = true;
-            this.cmbSolution.Location = new System.Drawing.Point(129, 4);
+            this.cmbSolution.Location = new System.Drawing.Point(99, 4);
             this.cmbSolution.Name = "cmbSolution";
-            this.cmbSolution.Size = new System.Drawing.Size(299, 21);
+            this.cmbSolution.Size = new System.Drawing.Size(237, 21);
             this.cmbSolution.TabIndex = 1;
-            this.cmbSolution.SelectedIndexChanged += new System.EventHandler(this.entityFilter_Changed);
+            this.cmbSolution.DropDown += new System.EventHandler(this.cmbSolution_DropDown);
+            this.cmbSolution.SelectedIndexChanged += new System.EventHandler(this.filter_entity_Changed);
+            this.cmbSolution.DropDownClosed += new System.EventHandler(this.cmbSolution_DropDownClosed);
             // 
             // label4
             // 
@@ -589,191 +616,6 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "Solution";
             // 
-            // pnLeftSpacer
-            // 
-            this.pnLeftSpacer.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnLeftSpacer.Location = new System.Drawing.Point(0, 153);
-            this.pnLeftSpacer.Name = "pnLeftSpacer";
-            this.pnLeftSpacer.Size = new System.Drawing.Size(439, 17);
-            this.pnLeftSpacer.TabIndex = 10;
-            // 
-            // gbFileOptions
-            // 
-            this.gbFileOptions.Controls.Add(this.cmbCommonAttributes);
-            this.gbFileOptions.Controls.Add(this.label18);
-            this.gbFileOptions.Controls.Add(this.llFileOptionsExpander);
-            this.gbFileOptions.Controls.Add(this.label3);
-            this.gbFileOptions.Controls.Add(this.txtOutputFolder);
-            this.gbFileOptions.Controls.Add(this.btnOutputFolder);
-            this.gbFileOptions.Controls.Add(this.label5);
-            this.gbFileOptions.Controls.Add(this.pnFileCommonName);
-            this.gbFileOptions.Controls.Add(this.txtNamespace);
-            this.gbFileOptions.Controls.Add(this.label7);
-            this.gbFileOptions.Controls.Add(this.cmbFileName);
-            this.gbFileOptions.Controls.Add(this.pnFileStructure);
-            this.gbFileOptions.Controls.Add(this.label6);
-            this.gbFileOptions.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbFileOptions.Location = new System.Drawing.Point(0, 0);
-            this.gbFileOptions.Name = "gbFileOptions";
-            this.gbFileOptions.Size = new System.Drawing.Size(439, 153);
-            this.gbFileOptions.TabIndex = 1;
-            this.gbFileOptions.TabStop = false;
-            this.gbFileOptions.Text = "File Options";
-            // 
-            // llFileOptionsExpander
-            // 
-            this.llFileOptionsExpander.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.llFileOptionsExpander.AutoSize = true;
-            this.llFileOptionsExpander.Location = new System.Drawing.Point(404, 0);
-            this.llFileOptionsExpander.Name = "llFileOptionsExpander";
-            this.llFileOptionsExpander.Size = new System.Drawing.Size(29, 13);
-            this.llFileOptionsExpander.TabIndex = 13;
-            this.llFileOptionsExpander.TabStop = true;
-            this.llFileOptionsExpander.Text = "Hide";
-            this.llFileOptionsExpander.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 21);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(68, 13);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "Output folder";
-            // 
-            // txtOutputFolder
-            // 
-            this.txtOutputFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtOutputFolder.Location = new System.Drawing.Point(132, 18);
-            this.txtOutputFolder.Name = "txtOutputFolder";
-            this.txtOutputFolder.Size = new System.Drawing.Size(261, 20);
-            this.txtOutputFolder.TabIndex = 1;
-            // 
-            // btnOutputFolder
-            // 
-            this.btnOutputFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOutputFolder.Image = ((System.Drawing.Image)(resources.GetObject("btnOutputFolder.Image")));
-            this.btnOutputFolder.Location = new System.Drawing.Point(399, 17);
-            this.btnOutputFolder.Name = "btnOutputFolder";
-            this.btnOutputFolder.Size = new System.Drawing.Size(32, 24);
-            this.btnOutputFolder.TabIndex = 2;
-            this.btnOutputFolder.UseVisualStyleBackColor = true;
-            this.btnOutputFolder.Click += new System.EventHandler(this.btnOutputFolder_Click);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 102);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(64, 13);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Namespace";
-            // 
-            // pnFileCommonName
-            // 
-            this.pnFileCommonName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnFileCommonName.Controls.Add(this.txtCommonFilename);
-            this.pnFileCommonName.Controls.Add(this.txtCommonFileSuffix);
-            this.pnFileCommonName.Location = new System.Drawing.Point(132, 68);
-            this.pnFileCommonName.Name = "pnFileCommonName";
-            this.pnFileCommonName.Size = new System.Drawing.Size(299, 26);
-            this.pnFileCommonName.TabIndex = 5;
-            // 
-            // txtCommonFilename
-            // 
-            this.txtCommonFilename.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCommonFilename.Location = new System.Drawing.Point(0, 4);
-            this.txtCommonFilename.Name = "txtCommonFilename";
-            this.txtCommonFilename.Size = new System.Drawing.Size(262, 20);
-            this.txtCommonFilename.TabIndex = 4;
-            // 
-            // txtCommonFileSuffix
-            // 
-            this.txtCommonFileSuffix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCommonFileSuffix.Location = new System.Drawing.Point(261, 4);
-            this.txtCommonFileSuffix.Name = "txtCommonFileSuffix";
-            this.txtCommonFileSuffix.ReadOnly = true;
-            this.txtCommonFileSuffix.Size = new System.Drawing.Size(38, 20);
-            this.txtCommonFileSuffix.TabIndex = 5;
-            this.txtCommonFileSuffix.Text = ".cs";
-            // 
-            // txtNamespace
-            // 
-            this.txtNamespace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtNamespace.Location = new System.Drawing.Point(132, 99);
-            this.txtNamespace.Name = "txtNamespace";
-            this.txtNamespace.Size = new System.Drawing.Size(299, 20);
-            this.txtNamespace.TabIndex = 6;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 75);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(52, 13);
-            this.label7.TabIndex = 3;
-            this.label7.Text = "File name";
-            // 
-            // cmbFileName
-            // 
-            this.cmbFileName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbFileName.FormattingEnabled = true;
-            this.cmbFileName.Items.AddRange(new object[] {
-            "Display Name",
-            "Schema Name",
-            "Logical Name"});
-            this.cmbFileName.Location = new System.Drawing.Point(132, 72);
-            this.cmbFileName.Name = "cmbFileName";
-            this.cmbFileName.Size = new System.Drawing.Size(159, 21);
-            this.cmbFileName.TabIndex = 12;
-            this.cmbFileName.Visible = false;
-            // 
-            // pnFileStructure
-            // 
-            this.pnFileStructure.Controls.Add(this.rbFilePerEntity);
-            this.pnFileStructure.Controls.Add(this.rbFileCommon);
-            this.pnFileStructure.Location = new System.Drawing.Point(132, 43);
-            this.pnFileStructure.Name = "pnFileStructure";
-            this.pnFileStructure.Size = new System.Drawing.Size(313, 26);
-            this.pnFileStructure.TabIndex = 3;
-            // 
-            // rbFilePerEntity
-            // 
-            this.rbFilePerEntity.AutoSize = true;
-            this.rbFilePerEntity.Location = new System.Drawing.Point(163, 3);
-            this.rbFilePerEntity.Name = "rbFilePerEntity";
-            this.rbFilePerEntity.Size = new System.Drawing.Size(107, 17);
-            this.rbFilePerEntity.TabIndex = 2;
-            this.rbFilePerEntity.Text = "One file per entity";
-            this.rbFilePerEntity.UseVisualStyleBackColor = true;
-            this.rbFilePerEntity.CheckedChanged += new System.EventHandler(this.rbFileCommon_CheckedChanged);
-            // 
-            // rbFileCommon
-            // 
-            this.rbFileCommon.AutoSize = true;
-            this.rbFileCommon.Checked = true;
-            this.rbFileCommon.Location = new System.Drawing.Point(0, 3);
-            this.rbFileCommon.Name = "rbFileCommon";
-            this.rbFileCommon.Size = new System.Drawing.Size(104, 17);
-            this.rbFileCommon.TabIndex = 1;
-            this.rbFileCommon.TabStop = true;
-            this.rbFileCommon.Text = "One common file";
-            this.rbFileCommon.UseVisualStyleBackColor = true;
-            this.rbFileCommon.CheckedChanged += new System.EventHandler(this.rbFileCommon_CheckedChanged);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 48);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(67, 13);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "File structure";
-            // 
             // statusEntities
             // 
             this.statusEntities.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -781,7 +623,7 @@
             this.statusEntitiesSelected});
             this.statusEntities.Location = new System.Drawing.Point(0, 524);
             this.statusEntities.Name = "statusEntities";
-            this.statusEntities.Size = new System.Drawing.Size(439, 22);
+            this.statusEntities.Size = new System.Drawing.Size(347, 22);
             this.statusEntities.SizingGrip = false;
             this.statusEntities.TabIndex = 2;
             this.statusEntities.Text = "statusStrip1";
@@ -797,14 +639,35 @@
             this.statusEntitiesSelected.Name = "statusEntitiesSelected";
             this.statusEntitiesSelected.Size = new System.Drawing.Size(0, 17);
             // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.pnAttributeGrid);
+            this.splitContainer2.Panel1.Controls.Add(this.statusAttributes);
+            this.splitContainer2.Panel1.Controls.Add(this.gbAttributes);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.pnRelationshipGrid);
+            this.splitContainer2.Panel2.Controls.Add(this.gbRelationships);
+            this.splitContainer2.Panel2.Controls.Add(this.statusRelationships);
+            this.splitContainer2.Size = new System.Drawing.Size(677, 546);
+            this.splitContainer2.SplitterDistance = 332;
+            this.splitContainer2.TabIndex = 4;
+            // 
             // pnAttributeGrid
             // 
             this.pnAttributeGrid.Controls.Add(this.chkAttAll);
             this.pnAttributeGrid.Controls.Add(this.gridAttributes);
             this.pnAttributeGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnAttributeGrid.Location = new System.Drawing.Point(0, 318);
+            this.pnAttributeGrid.Location = new System.Drawing.Point(0, 148);
             this.pnAttributeGrid.Name = "pnAttributeGrid";
-            this.pnAttributeGrid.Size = new System.Drawing.Size(487, 206);
+            this.pnAttributeGrid.Size = new System.Drawing.Size(332, 376);
             this.pnAttributeGrid.TabIndex = 3;
             // 
             // chkAttAll
@@ -824,64 +687,53 @@
             this.gridAttributes.AllowUserToDeleteRows = false;
             this.gridAttributes.AllowUserToOrderColumns = true;
             this.gridAttributes.AllowUserToResizeRows = false;
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridAttributes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle16;
+            this.gridAttributes.BackgroundColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridAttributes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
             this.gridAttributes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridAttributes.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridAttributes.DefaultCellStyle = dataGridViewCellStyle14;
             this.gridAttributes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridAttributes.EnableHeadersVisualStyles = false;
             this.gridAttributes.Location = new System.Drawing.Point(0, 0);
             this.gridAttributes.Name = "gridAttributes";
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridAttributes.RowHeadersDefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridAttributes.RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
             this.gridAttributes.RowHeadersVisible = false;
             this.gridAttributes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridAttributes.Size = new System.Drawing.Size(487, 206);
+            this.gridAttributes.Size = new System.Drawing.Size(332, 376);
             this.gridAttributes.TabIndex = 2;
             this.gridAttributes.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             // 
             // statusAttributes
             // 
             this.statusAttributes.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.toolStripStatusLabel2,
             this.statusAttributesShowing,
             this.statusAttributesSelected});
             this.statusAttributes.Location = new System.Drawing.Point(0, 524);
             this.statusAttributes.Name = "statusAttributes";
-            this.statusAttributes.Size = new System.Drawing.Size(487, 22);
+            this.statusAttributes.Size = new System.Drawing.Size(332, 22);
             this.statusAttributes.SizingGrip = false;
             this.statusAttributes.TabIndex = 2;
             this.statusAttributes.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 17);
-            // 
-            // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(0, 17);
             // 
             // statusAttributesShowing
             // 
@@ -901,11 +753,11 @@
             this.gbAttributes.Controls.Add(this.pnAttSystem);
             this.gbAttributes.Controls.Add(this.pnAttManaged);
             this.gbAttributes.Controls.Add(this.pnAttCustom);
-            this.gbAttributes.Controls.Add(this.pnAttributeSpacer);
+            this.gbAttributes.Controls.Add(this.pnAttBehavior);
             this.gbAttributes.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbAttributes.Location = new System.Drawing.Point(0, 170);
+            this.gbAttributes.Location = new System.Drawing.Point(0, 0);
             this.gbAttributes.Name = "gbAttributes";
-            this.gbAttributes.Size = new System.Drawing.Size(487, 148);
+            this.gbAttributes.Size = new System.Drawing.Size(332, 148);
             this.gbAttributes.TabIndex = 2;
             this.gbAttributes.TabStop = false;
             this.gbAttributes.Text = "Attributes";
@@ -917,16 +769,16 @@
             this.pnAttSearch.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnAttSearch.Location = new System.Drawing.Point(3, 120);
             this.pnAttSearch.Name = "pnAttSearch";
-            this.pnAttSearch.Size = new System.Drawing.Size(481, 26);
+            this.pnAttSearch.Size = new System.Drawing.Size(326, 26);
             this.pnAttSearch.TabIndex = 5;
             // 
             // txtAttSearch
             // 
             this.txtAttSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtAttSearch.Location = new System.Drawing.Point(129, 2);
+            this.txtAttSearch.Location = new System.Drawing.Point(99, 2);
             this.txtAttSearch.Name = "txtAttSearch";
-            this.txtAttSearch.Size = new System.Drawing.Size(345, 20);
+            this.txtAttSearch.Size = new System.Drawing.Size(220, 20);
             this.txtAttSearch.TabIndex = 4;
             this.txtAttSearch.TextChanged += new System.EventHandler(this.txtAttSearch_TextChanged);
             // 
@@ -944,12 +796,12 @@
             // 
             this.llAttributeExpander.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.llAttributeExpander.AutoSize = true;
-            this.llAttributeExpander.Location = new System.Drawing.Point(452, 0);
+            this.llAttributeExpander.Location = new System.Drawing.Point(275, 0);
             this.llAttributeExpander.Name = "llAttributeExpander";
-            this.llAttributeExpander.Size = new System.Drawing.Size(29, 13);
+            this.llAttributeExpander.Size = new System.Drawing.Size(51, 13);
             this.llAttributeExpander.TabIndex = 4;
             this.llAttributeExpander.TabStop = true;
-            this.llAttributeExpander.Text = "Hide";
+            this.llAttributeExpander.Text = "Hide filter";
             this.llAttributeExpander.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
             // 
             // pnAttSystem
@@ -961,8 +813,19 @@
             this.pnAttSystem.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnAttSystem.Location = new System.Drawing.Point(3, 94);
             this.pnAttSystem.Name = "pnAttSystem";
-            this.pnAttSystem.Size = new System.Drawing.Size(481, 26);
+            this.pnAttSystem.Size = new System.Drawing.Size(326, 26);
             this.pnAttSystem.TabIndex = 4;
+            // 
+            // chkAttLogical
+            // 
+            this.chkAttLogical.AutoSize = true;
+            this.chkAttLogical.Location = new System.Drawing.Point(218, 5);
+            this.chkAttLogical.Name = "chkAttLogical";
+            this.chkAttLogical.Size = new System.Drawing.Size(107, 17);
+            this.chkAttLogical.TabIndex = 3;
+            this.chkAttLogical.Text = "Logical Attributes";
+            this.chkAttLogical.UseVisualStyleBackColor = true;
+            this.chkAttLogical.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // label15
             // 
@@ -976,24 +839,24 @@
             // chkAttPrimaryAttribute
             // 
             this.chkAttPrimaryAttribute.AutoSize = true;
-            this.chkAttPrimaryAttribute.Location = new System.Drawing.Point(216, 5);
+            this.chkAttPrimaryAttribute.Location = new System.Drawing.Point(148, 5);
             this.chkAttPrimaryAttribute.Name = "chkAttPrimaryAttribute";
-            this.chkAttPrimaryAttribute.Size = new System.Drawing.Size(90, 17);
+            this.chkAttPrimaryAttribute.Size = new System.Drawing.Size(54, 17);
             this.chkAttPrimaryAttribute.TabIndex = 1;
-            this.chkAttPrimaryAttribute.Text = "Primary Attrib.";
+            this.chkAttPrimaryAttribute.Text = "Name";
             this.chkAttPrimaryAttribute.UseVisualStyleBackColor = true;
-            this.chkAttPrimaryAttribute.CheckedChanged += new System.EventHandler(this.attributeFilter_Changed);
+            this.chkAttPrimaryAttribute.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // chkAttPrimaryKey
             // 
             this.chkAttPrimaryKey.AutoSize = true;
-            this.chkAttPrimaryKey.Location = new System.Drawing.Point(129, 5);
+            this.chkAttPrimaryKey.Location = new System.Drawing.Point(99, 5);
             this.chkAttPrimaryKey.Name = "chkAttPrimaryKey";
-            this.chkAttPrimaryKey.Size = new System.Drawing.Size(81, 17);
+            this.chkAttPrimaryKey.Size = new System.Drawing.Size(37, 17);
             this.chkAttPrimaryKey.TabIndex = 0;
-            this.chkAttPrimaryKey.Text = "Primary Key";
+            this.chkAttPrimaryKey.Text = "ID";
             this.chkAttPrimaryKey.UseVisualStyleBackColor = true;
-            this.chkAttPrimaryKey.CheckedChanged += new System.EventHandler(this.attributeFilter_Changed);
+            this.chkAttPrimaryKey.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // pnAttManaged
             // 
@@ -1004,7 +867,7 @@
             this.pnAttManaged.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnAttManaged.Location = new System.Drawing.Point(3, 68);
             this.pnAttManaged.Name = "pnAttManaged";
-            this.pnAttManaged.Size = new System.Drawing.Size(481, 26);
+            this.pnAttManaged.Size = new System.Drawing.Size(326, 26);
             this.pnAttManaged.TabIndex = 3;
             // 
             // label14
@@ -1019,37 +882,37 @@
             // rbAttMgdFalse
             // 
             this.rbAttMgdFalse.AutoSize = true;
-            this.rbAttMgdFalse.Location = new System.Drawing.Point(313, 5);
+            this.rbAttMgdFalse.Location = new System.Drawing.Point(218, 5);
             this.rbAttMgdFalse.Name = "rbAttMgdFalse";
             this.rbAttMgdFalse.Size = new System.Drawing.Size(83, 17);
             this.rbAttMgdFalse.TabIndex = 2;
             this.rbAttMgdFalse.Text = "Unmanaged";
             this.rbAttMgdFalse.UseVisualStyleBackColor = true;
-            this.rbAttMgdFalse.CheckedChanged += new System.EventHandler(this.attributeFilter_Changed);
+            this.rbAttMgdFalse.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // rbAttMgdTrue
             // 
             this.rbAttMgdTrue.AutoSize = true;
-            this.rbAttMgdTrue.Location = new System.Drawing.Point(216, 5);
+            this.rbAttMgdTrue.Location = new System.Drawing.Point(148, 5);
             this.rbAttMgdTrue.Name = "rbAttMgdTrue";
             this.rbAttMgdTrue.Size = new System.Drawing.Size(70, 17);
             this.rbAttMgdTrue.TabIndex = 1;
             this.rbAttMgdTrue.Text = "Managed";
             this.rbAttMgdTrue.UseVisualStyleBackColor = true;
-            this.rbAttMgdTrue.CheckedChanged += new System.EventHandler(this.attributeFilter_Changed);
+            this.rbAttMgdTrue.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // rbAttMgdAll
             // 
             this.rbAttMgdAll.AutoSize = true;
             this.rbAttMgdAll.Checked = true;
-            this.rbAttMgdAll.Location = new System.Drawing.Point(129, 5);
+            this.rbAttMgdAll.Location = new System.Drawing.Point(99, 5);
             this.rbAttMgdAll.Name = "rbAttMgdAll";
             this.rbAttMgdAll.Size = new System.Drawing.Size(36, 17);
             this.rbAttMgdAll.TabIndex = 0;
             this.rbAttMgdAll.TabStop = true;
             this.rbAttMgdAll.Text = "All";
             this.rbAttMgdAll.UseVisualStyleBackColor = true;
-            this.rbAttMgdAll.CheckedChanged += new System.EventHandler(this.attributeFilter_Changed);
+            this.rbAttMgdAll.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // pnAttCustom
             // 
@@ -1060,7 +923,7 @@
             this.pnAttCustom.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnAttCustom.Location = new System.Drawing.Point(3, 42);
             this.pnAttCustom.Name = "pnAttCustom";
-            this.pnAttCustom.Size = new System.Drawing.Size(481, 26);
+            this.pnAttCustom.Size = new System.Drawing.Size(326, 26);
             this.pnAttCustom.TabIndex = 2;
             // 
             // label13
@@ -1075,47 +938,47 @@
             // rbAttCustomTrue
             // 
             this.rbAttCustomTrue.AutoSize = true;
-            this.rbAttCustomTrue.Location = new System.Drawing.Point(313, 5);
+            this.rbAttCustomTrue.Location = new System.Drawing.Point(218, 5);
             this.rbAttCustomTrue.Name = "rbAttCustomTrue";
             this.rbAttCustomTrue.Size = new System.Drawing.Size(60, 17);
             this.rbAttCustomTrue.TabIndex = 2;
             this.rbAttCustomTrue.Text = "Custom";
             this.rbAttCustomTrue.UseVisualStyleBackColor = true;
-            this.rbAttCustomTrue.CheckedChanged += new System.EventHandler(this.attributeFilter_Changed);
+            this.rbAttCustomTrue.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // rbAttCustomFalse
             // 
             this.rbAttCustomFalse.AutoSize = true;
-            this.rbAttCustomFalse.Location = new System.Drawing.Point(216, 5);
+            this.rbAttCustomFalse.Location = new System.Drawing.Point(148, 5);
             this.rbAttCustomFalse.Name = "rbAttCustomFalse";
             this.rbAttCustomFalse.Size = new System.Drawing.Size(59, 17);
             this.rbAttCustomFalse.TabIndex = 1;
             this.rbAttCustomFalse.Text = "System";
             this.rbAttCustomFalse.UseVisualStyleBackColor = true;
-            this.rbAttCustomFalse.CheckedChanged += new System.EventHandler(this.attributeFilter_Changed);
+            this.rbAttCustomFalse.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // rbAttCustomAll
             // 
             this.rbAttCustomAll.AutoSize = true;
             this.rbAttCustomAll.Checked = true;
-            this.rbAttCustomAll.Location = new System.Drawing.Point(129, 5);
+            this.rbAttCustomAll.Location = new System.Drawing.Point(99, 5);
             this.rbAttCustomAll.Name = "rbAttCustomAll";
             this.rbAttCustomAll.Size = new System.Drawing.Size(36, 17);
             this.rbAttCustomAll.TabIndex = 0;
             this.rbAttCustomAll.TabStop = true;
             this.rbAttCustomAll.Text = "All";
             this.rbAttCustomAll.UseVisualStyleBackColor = true;
-            this.rbAttCustomAll.CheckedChanged += new System.EventHandler(this.attributeFilter_Changed);
+            this.rbAttCustomAll.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
-            // pnAttributeSpacer
+            // pnAttBehavior
             // 
-            this.pnAttributeSpacer.Controls.Add(this.label16);
-            this.pnAttributeSpacer.Controls.Add(this.chkAttCheckAll);
-            this.pnAttributeSpacer.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnAttributeSpacer.Location = new System.Drawing.Point(3, 16);
-            this.pnAttributeSpacer.Name = "pnAttributeSpacer";
-            this.pnAttributeSpacer.Size = new System.Drawing.Size(481, 26);
-            this.pnAttributeSpacer.TabIndex = 1;
+            this.pnAttBehavior.Controls.Add(this.label16);
+            this.pnAttBehavior.Controls.Add(this.chkAttCheckAll);
+            this.pnAttBehavior.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnAttBehavior.Location = new System.Drawing.Point(3, 16);
+            this.pnAttBehavior.Name = "pnAttBehavior";
+            this.pnAttBehavior.Size = new System.Drawing.Size(326, 26);
+            this.pnAttBehavior.TabIndex = 1;
             // 
             // label16
             // 
@@ -1129,204 +992,410 @@
             // chkAttCheckAll
             // 
             this.chkAttCheckAll.AutoSize = true;
-            this.chkAttCheckAll.Location = new System.Drawing.Point(129, 6);
+            this.chkAttCheckAll.Location = new System.Drawing.Point(99, 6);
             this.chkAttCheckAll.Name = "chkAttCheckAll";
-            this.chkAttCheckAll.Size = new System.Drawing.Size(267, 17);
+            this.chkAttCheckAll.Size = new System.Drawing.Size(221, 17);
             this.chkAttCheckAll.TabIndex = 0;
-            this.chkAttCheckAll.Text = "Check all visible attributes when checking an entity";
+            this.chkAttCheckAll.Text = "Check all visible when checking an entity";
             this.chkAttCheckAll.UseVisualStyleBackColor = true;
             // 
-            // pnRightSpacer
+            // pnRelationshipGrid
             // 
-            this.pnRightSpacer.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnRightSpacer.Location = new System.Drawing.Point(0, 153);
-            this.pnRightSpacer.Name = "pnRightSpacer";
-            this.pnRightSpacer.Size = new System.Drawing.Size(487, 17);
-            this.pnRightSpacer.TabIndex = 11;
+            this.pnRelationshipGrid.Controls.Add(this.chkRelAll);
+            this.pnRelationshipGrid.Controls.Add(this.gridRelationships);
+            this.pnRelationshipGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnRelationshipGrid.Location = new System.Drawing.Point(0, 174);
+            this.pnRelationshipGrid.Name = "pnRelationshipGrid";
+            this.pnRelationshipGrid.Size = new System.Drawing.Size(341, 350);
+            this.pnRelationshipGrid.TabIndex = 4;
             // 
-            // gbConstOptions
+            // chkRelAll
             // 
-            this.gbConstOptions.Controls.Add(this.label19);
-            this.gbConstOptions.Controls.Add(this.chkRegions);
-            this.gbConstOptions.Controls.Add(this.chkRelationships);
-            this.gbConstOptions.Controls.Add(this.chkConstCamelCased);
-            this.gbConstOptions.Controls.Add(this.chkXmlDescription);
-            this.gbConstOptions.Controls.Add(this.chkXmlProperties);
-            this.gbConstOptions.Controls.Add(this.label17);
-            this.gbConstOptions.Controls.Add(this.llConstOptionsExpander);
-            this.gbConstOptions.Controls.Add(this.txtConstStripPrefix);
-            this.gbConstOptions.Controls.Add(this.label9);
-            this.gbConstOptions.Controls.Add(this.label10);
-            this.gbConstOptions.Controls.Add(this.chkConstStripPrefix);
-            this.gbConstOptions.Controls.Add(this.cmbConstantName);
-            this.gbConstOptions.Controls.Add(this.label8);
-            this.gbConstOptions.Controls.Add(this.chkEnumsInclude);
-            this.gbConstOptions.Controls.Add(this.chkEnumsGlobal);
-            this.gbConstOptions.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbConstOptions.Location = new System.Drawing.Point(0, 0);
-            this.gbConstOptions.Name = "gbConstOptions";
-            this.gbConstOptions.Size = new System.Drawing.Size(487, 153);
-            this.gbConstOptions.TabIndex = 1;
-            this.gbConstOptions.TabStop = false;
-            this.gbConstOptions.Text = "Constant Options";
+            this.chkRelAll.AutoSize = true;
+            this.chkRelAll.Location = new System.Drawing.Point(10, 10);
+            this.chkRelAll.Name = "chkRelAll";
+            this.chkRelAll.Size = new System.Drawing.Size(15, 14);
+            this.chkRelAll.TabIndex = 9;
+            this.chkRelAll.UseVisualStyleBackColor = true;
+            this.chkRelAll.Visible = false;
+            this.chkRelAll.CheckedChanged += new System.EventHandler(this.chkAllRows_CheckedChanged);
             // 
-            // chkRegions
+            // gridRelationships
             // 
-            this.chkRegions.AutoSize = true;
-            this.chkRegions.Location = new System.Drawing.Point(316, 127);
-            this.chkRegions.Name = "chkRegions";
-            this.chkRegions.Size = new System.Drawing.Size(65, 17);
-            this.chkRegions.TabIndex = 100;
-            this.chkRegions.Text = "Regions";
-            this.chkRegions.UseVisualStyleBackColor = true;
+            this.gridRelationships.AllowUserToAddRows = false;
+            this.gridRelationships.AllowUserToDeleteRows = false;
+            this.gridRelationships.AllowUserToOrderColumns = true;
+            this.gridRelationships.AllowUserToResizeRows = false;
+            this.gridRelationships.BackgroundColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridRelationships.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle16;
+            this.gridRelationships.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridRelationships.DefaultCellStyle = dataGridViewCellStyle17;
+            this.gridRelationships.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridRelationships.EnableHeadersVisualStyles = false;
+            this.gridRelationships.Location = new System.Drawing.Point(0, 0);
+            this.gridRelationships.Name = "gridRelationships";
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridRelationships.RowHeadersDefaultCellStyle = dataGridViewCellStyle18;
+            this.gridRelationships.RowHeadersVisible = false;
+            this.gridRelationships.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridRelationships.Size = new System.Drawing.Size(341, 350);
+            this.gridRelationships.TabIndex = 2;
+            this.gridRelationships.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             // 
-            // chkRelationships
+            // gbRelationships
             // 
-            this.chkRelationships.AutoSize = true;
-            this.chkRelationships.Location = new System.Drawing.Point(132, 128);
-            this.chkRelationships.Name = "chkRelationships";
-            this.chkRelationships.Size = new System.Drawing.Size(89, 17);
-            this.chkRelationships.TabIndex = 90;
-            this.chkRelationships.Text = "Relationships";
-            this.chkRelationships.UseVisualStyleBackColor = true;
+            this.gbRelationships.Controls.Add(this.panRelSearch);
+            this.gbRelationships.Controls.Add(this.panRel4);
+            this.gbRelationships.Controls.Add(this.panRelType);
+            this.gbRelationships.Controls.Add(this.panRel3);
+            this.gbRelationships.Controls.Add(this.panRel2);
+            this.gbRelationships.Controls.Add(this.panRel1);
+            this.gbRelationships.Controls.Add(this.llRelationshipExpander);
+            this.gbRelationships.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gbRelationships.Location = new System.Drawing.Point(0, 0);
+            this.gbRelationships.Name = "gbRelationships";
+            this.gbRelationships.Size = new System.Drawing.Size(341, 174);
+            this.gbRelationships.TabIndex = 3;
+            this.gbRelationships.TabStop = false;
+            this.gbRelationships.Text = "Relationships";
             // 
-            // chkConstCamelCased
+            // panRelSearch
             // 
-            this.chkConstCamelCased.AutoSize = true;
-            this.chkConstCamelCased.Location = new System.Drawing.Point(316, 19);
-            this.chkConstCamelCased.Name = "chkConstCamelCased";
-            this.chkConstCamelCased.Size = new System.Drawing.Size(85, 17);
-            this.chkConstCamelCased.TabIndex = 20;
-            this.chkConstCamelCased.Text = "CamelCased";
-            this.chkConstCamelCased.UseVisualStyleBackColor = true;
-            this.chkConstCamelCased.Visible = false;
+            this.panRelSearch.Controls.Add(this.txtRelSearch);
+            this.panRelSearch.Controls.Add(this.label3);
+            this.panRelSearch.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panRelSearch.Location = new System.Drawing.Point(3, 146);
+            this.panRelSearch.Name = "panRelSearch";
+            this.panRelSearch.Size = new System.Drawing.Size(335, 26);
+            this.panRelSearch.TabIndex = 10;
             // 
-            // chkXmlDescription
+            // txtRelSearch
             // 
-            this.chkXmlDescription.AutoSize = true;
-            this.chkXmlDescription.Location = new System.Drawing.Point(316, 73);
-            this.chkXmlDescription.Name = "chkXmlDescription";
-            this.chkXmlDescription.Size = new System.Drawing.Size(79, 17);
-            this.chkXmlDescription.TabIndex = 60;
-            this.chkXmlDescription.Text = "Description";
-            this.chkXmlDescription.UseVisualStyleBackColor = true;
+            this.txtRelSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtRelSearch.Location = new System.Drawing.Point(99, 2);
+            this.txtRelSearch.Name = "txtRelSearch";
+            this.txtRelSearch.Size = new System.Drawing.Size(229, 20);
+            this.txtRelSearch.TabIndex = 4;
+            this.txtRelSearch.TextChanged += new System.EventHandler(this.txtRelSearch_TextChanged);
             // 
-            // chkXmlProperties
+            // label3
             // 
-            this.chkXmlProperties.AutoSize = true;
-            this.chkXmlProperties.Location = new System.Drawing.Point(132, 74);
-            this.chkXmlProperties.Name = "chkXmlProperties";
-            this.chkXmlProperties.Size = new System.Drawing.Size(73, 17);
-            this.chkXmlProperties.TabIndex = 50;
-            this.chkXmlProperties.Text = "Properties";
-            this.chkXmlProperties.UseVisualStyleBackColor = true;
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 5);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(41, 13);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Search";
             // 
-            // label17
+            // panRel4
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(15, 75);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(50, 13);
-            this.label17.TabIndex = 17;
-            this.label17.Text = "Docs etc";
+            this.panRel4.Controls.Add(this.chkRelRegarding);
+            this.panRel4.Controls.Add(this.label5);
+            this.panRel4.Controls.Add(this.chkRelOwners);
+            this.panRel4.Controls.Add(this.chkRelOrphans);
+            this.panRel4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panRel4.Location = new System.Drawing.Point(3, 120);
+            this.panRel4.Name = "panRel4";
+            this.panRel4.Size = new System.Drawing.Size(335, 26);
+            this.panRel4.TabIndex = 9;
             // 
-            // llConstOptionsExpander
+            // chkRelRegarding
             // 
-            this.llConstOptionsExpander.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.llConstOptionsExpander.AutoSize = true;
-            this.llConstOptionsExpander.Location = new System.Drawing.Point(452, 0);
-            this.llConstOptionsExpander.Name = "llConstOptionsExpander";
-            this.llConstOptionsExpander.Size = new System.Drawing.Size(29, 13);
-            this.llConstOptionsExpander.TabIndex = 16;
-            this.llConstOptionsExpander.TabStop = true;
-            this.llConstOptionsExpander.Text = "Hide";
-            this.llConstOptionsExpander.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
+            this.chkRelRegarding.AutoSize = true;
+            this.chkRelRegarding.Location = new System.Drawing.Point(231, 5);
+            this.chkRelRegarding.Name = "chkRelRegarding";
+            this.chkRelRegarding.Size = new System.Drawing.Size(75, 17);
+            this.chkRelRegarding.TabIndex = 3;
+            this.chkRelRegarding.Text = "Regarding";
+            this.toolTip1.SetToolTip(this.chkRelRegarding, "Relationships for Regarding fields");
+            this.chkRelRegarding.UseVisualStyleBackColor = true;
+            this.chkRelRegarding.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
-            // txtConstStripPrefix
+            // label5
             // 
-            this.txtConstStripPrefix.Enabled = false;
-            this.txtConstStripPrefix.Location = new System.Drawing.Point(227, 45);
-            this.txtConstStripPrefix.Name = "txtConstStripPrefix";
-            this.txtConstStripPrefix.Size = new System.Drawing.Size(163, 20);
-            this.txtConstStripPrefix.TabIndex = 40;
-            this.toolTip1.SetToolTip(this.txtConstStripPrefix, "Enter prefix to exclude from attributes.\r\nTo use multiple prefixes, separate them" +
-        " by comma and make sure a later prefix does not begin with a previous prefix.");
-            this.txtConstStripPrefix.Leave += new System.EventHandler(this.txtConstStripPrefix_Leave);
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 6);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(42, 13);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "Include";
+            // 
+            // chkRelOwners
+            // 
+            this.chkRelOwners.AutoSize = true;
+            this.chkRelOwners.Location = new System.Drawing.Point(162, 5);
+            this.chkRelOwners.Name = "chkRelOwners";
+            this.chkRelOwners.Size = new System.Drawing.Size(62, 17);
+            this.chkRelOwners.TabIndex = 1;
+            this.chkRelOwners.Text = "Owners";
+            this.toolTip1.SetToolTip(this.chkRelOwners, "Relationships for Owner fields");
+            this.chkRelOwners.UseVisualStyleBackColor = true;
+            this.chkRelOwners.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
+            // 
+            // chkRelOrphans
+            // 
+            this.chkRelOrphans.AutoSize = true;
+            this.chkRelOrphans.Location = new System.Drawing.Point(99, 5);
+            this.chkRelOrphans.Name = "chkRelOrphans";
+            this.chkRelOrphans.Size = new System.Drawing.Size(66, 17);
+            this.chkRelOrphans.TabIndex = 0;
+            this.chkRelOrphans.Text = "Orphans";
+            this.toolTip1.SetToolTip(this.chkRelOrphans, "Relationships where the \"other\" entity is not selected");
+            this.chkRelOrphans.UseVisualStyleBackColor = true;
+            this.chkRelOrphans.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
+            // 
+            // panRelType
+            // 
+            this.panRelType.Controls.Add(this.chkRelNN);
+            this.panRelType.Controls.Add(this.label9);
+            this.panRelType.Controls.Add(this.chkRelN1);
+            this.panRelType.Controls.Add(this.chkRel1N);
+            this.panRelType.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panRelType.Location = new System.Drawing.Point(3, 94);
+            this.panRelType.Name = "panRelType";
+            this.panRelType.Size = new System.Drawing.Size(335, 26);
+            this.panRelType.TabIndex = 11;
+            // 
+            // chkRelNN
+            // 
+            this.chkRelNN.AutoSize = true;
+            this.chkRelNN.Location = new System.Drawing.Point(231, 5);
+            this.chkRelNN.Name = "chkRelNN";
+            this.chkRelNN.Size = new System.Drawing.Size(45, 17);
+            this.chkRelNN.TabIndex = 3;
+            this.chkRelNN.Text = "N:N";
+            this.chkRelNN.UseVisualStyleBackColor = true;
+            this.chkRelNN.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(15, 128);
+            this.label9.Location = new System.Drawing.Point(12, 6);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(33, 13);
-            this.label9.TabIndex = 10;
-            this.label9.Text = "Other";
+            this.label9.Size = new System.Drawing.Size(31, 13);
+            this.label9.TabIndex = 2;
+            this.label9.Text = "Type";
             // 
-            // label10
+            // chkRelN1
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(15, 48);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(33, 13);
-            this.label10.TabIndex = 14;
-            this.label10.Text = "Prefix";
+            this.chkRelN1.AutoSize = true;
+            this.chkRelN1.Location = new System.Drawing.Point(162, 5);
+            this.chkRelN1.Name = "chkRelN1";
+            this.chkRelN1.Size = new System.Drawing.Size(43, 17);
+            this.chkRelN1.TabIndex = 1;
+            this.chkRelN1.Text = "N:1";
+            this.chkRelN1.UseVisualStyleBackColor = true;
+            this.chkRelN1.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
-            // chkConstStripPrefix
+            // chkRel1N
             // 
-            this.chkConstStripPrefix.AutoSize = true;
-            this.chkConstStripPrefix.Enabled = false;
-            this.chkConstStripPrefix.Location = new System.Drawing.Point(132, 47);
-            this.chkConstStripPrefix.Name = "chkConstStripPrefix";
-            this.chkConstStripPrefix.Size = new System.Drawing.Size(86, 17);
-            this.chkConstStripPrefix.TabIndex = 30;
-            this.chkConstStripPrefix.Text = "Skip prefixes";
-            this.chkConstStripPrefix.UseVisualStyleBackColor = true;
-            this.chkConstStripPrefix.CheckedChanged += new System.EventHandler(this.chkConstStripPrefix_CheckedChanged);
+            this.chkRel1N.AutoSize = true;
+            this.chkRel1N.Location = new System.Drawing.Point(99, 5);
+            this.chkRel1N.Name = "chkRel1N";
+            this.chkRel1N.Size = new System.Drawing.Size(43, 17);
+            this.chkRel1N.TabIndex = 0;
+            this.chkRel1N.Text = "1:N";
+            this.toolTip1.SetToolTip(this.chkRel1N, "Relationships where the \"other\" entity is not selected");
+            this.chkRel1N.UseVisualStyleBackColor = true;
+            this.chkRel1N.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
-            // cmbConstantName
+            // panRel3
             // 
-            this.cmbConstantName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbConstantName.FormattingEnabled = true;
-            this.cmbConstantName.Items.AddRange(new object[] {
-            "Display Name",
-            "Schema Name",
-            "Logical Name"});
-            this.cmbConstantName.Location = new System.Drawing.Point(132, 18);
-            this.cmbConstantName.Name = "cmbConstantName";
-            this.cmbConstantName.Size = new System.Drawing.Size(178, 21);
-            this.cmbConstantName.TabIndex = 10;
-            this.cmbConstantName.SelectedIndexChanged += new System.EventHandler(this.cmbConstantName_SelectedIndexChanged);
+            this.panRel3.Controls.Add(this.label6);
+            this.panRel3.Controls.Add(this.rbRelMgdFalse);
+            this.panRel3.Controls.Add(this.rbRelMgdTrue);
+            this.panRel3.Controls.Add(this.rbRelMgdAll);
+            this.panRel3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panRel3.Location = new System.Drawing.Point(3, 68);
+            this.panRel3.Name = "panRel3";
+            this.panRel3.Size = new System.Drawing.Size(335, 26);
+            this.panRel3.TabIndex = 8;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 7);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(52, 13);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "Managed";
+            // 
+            // rbRelMgdFalse
+            // 
+            this.rbRelMgdFalse.AutoSize = true;
+            this.rbRelMgdFalse.Location = new System.Drawing.Point(231, 5);
+            this.rbRelMgdFalse.Name = "rbRelMgdFalse";
+            this.rbRelMgdFalse.Size = new System.Drawing.Size(83, 17);
+            this.rbRelMgdFalse.TabIndex = 2;
+            this.rbRelMgdFalse.Text = "Unmanaged";
+            this.rbRelMgdFalse.UseVisualStyleBackColor = true;
+            this.rbRelMgdFalse.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
+            // 
+            // rbRelMgdTrue
+            // 
+            this.rbRelMgdTrue.AutoSize = true;
+            this.rbRelMgdTrue.Location = new System.Drawing.Point(162, 5);
+            this.rbRelMgdTrue.Name = "rbRelMgdTrue";
+            this.rbRelMgdTrue.Size = new System.Drawing.Size(70, 17);
+            this.rbRelMgdTrue.TabIndex = 1;
+            this.rbRelMgdTrue.Text = "Managed";
+            this.rbRelMgdTrue.UseVisualStyleBackColor = true;
+            this.rbRelMgdTrue.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
+            // 
+            // rbRelMgdAll
+            // 
+            this.rbRelMgdAll.AutoSize = true;
+            this.rbRelMgdAll.Checked = true;
+            this.rbRelMgdAll.Location = new System.Drawing.Point(99, 5);
+            this.rbRelMgdAll.Name = "rbRelMgdAll";
+            this.rbRelMgdAll.Size = new System.Drawing.Size(36, 17);
+            this.rbRelMgdAll.TabIndex = 0;
+            this.rbRelMgdAll.TabStop = true;
+            this.rbRelMgdAll.Text = "All";
+            this.rbRelMgdAll.UseVisualStyleBackColor = true;
+            this.rbRelMgdAll.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
+            // 
+            // panRel2
+            // 
+            this.panRel2.Controls.Add(this.label7);
+            this.panRel2.Controls.Add(this.rbRelCustomTrue);
+            this.panRel2.Controls.Add(this.rbRelCustomFalse);
+            this.panRel2.Controls.Add(this.rbRelCustomAll);
+            this.panRel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panRel2.Location = new System.Drawing.Point(3, 42);
+            this.panRel2.Name = "panRel2";
+            this.panRel2.Size = new System.Drawing.Size(335, 26);
+            this.panRel2.TabIndex = 7;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(12, 7);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(61, 13);
+            this.label7.TabIndex = 4;
+            this.label7.Text = "Customized";
+            // 
+            // rbRelCustomTrue
+            // 
+            this.rbRelCustomTrue.AutoSize = true;
+            this.rbRelCustomTrue.Location = new System.Drawing.Point(231, 5);
+            this.rbRelCustomTrue.Name = "rbRelCustomTrue";
+            this.rbRelCustomTrue.Size = new System.Drawing.Size(60, 17);
+            this.rbRelCustomTrue.TabIndex = 2;
+            this.rbRelCustomTrue.Text = "Custom";
+            this.rbRelCustomTrue.UseVisualStyleBackColor = true;
+            this.rbRelCustomTrue.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
+            // 
+            // rbRelCustomFalse
+            // 
+            this.rbRelCustomFalse.AutoSize = true;
+            this.rbRelCustomFalse.Location = new System.Drawing.Point(162, 5);
+            this.rbRelCustomFalse.Name = "rbRelCustomFalse";
+            this.rbRelCustomFalse.Size = new System.Drawing.Size(59, 17);
+            this.rbRelCustomFalse.TabIndex = 1;
+            this.rbRelCustomFalse.Text = "System";
+            this.rbRelCustomFalse.UseVisualStyleBackColor = true;
+            this.rbRelCustomFalse.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
+            // 
+            // rbRelCustomAll
+            // 
+            this.rbRelCustomAll.AutoSize = true;
+            this.rbRelCustomAll.Checked = true;
+            this.rbRelCustomAll.Location = new System.Drawing.Point(99, 5);
+            this.rbRelCustomAll.Name = "rbRelCustomAll";
+            this.rbRelCustomAll.Size = new System.Drawing.Size(36, 17);
+            this.rbRelCustomAll.TabIndex = 0;
+            this.rbRelCustomAll.TabStop = true;
+            this.rbRelCustomAll.Text = "All";
+            this.rbRelCustomAll.UseVisualStyleBackColor = true;
+            this.rbRelCustomAll.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
+            // 
+            // panRel1
+            // 
+            this.panRel1.Controls.Add(this.label8);
+            this.panRel1.Controls.Add(this.chkRelCheckAll);
+            this.panRel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panRel1.Location = new System.Drawing.Point(3, 16);
+            this.panRel1.Name = "panRel1";
+            this.panRel1.Size = new System.Drawing.Size(335, 26);
+            this.panRel1.TabIndex = 6;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(15, 21);
+            this.label8.Location = new System.Drawing.Point(13, 7);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(47, 13);
-            this.label8.TabIndex = 8;
-            this.label8.Text = "Identifier";
+            this.label8.Size = new System.Drawing.Size(49, 13);
+            this.label8.TabIndex = 1;
+            this.label8.Text = "Behavior";
             // 
-            // chkEnumsInclude
+            // chkRelCheckAll
             // 
-            this.chkEnumsInclude.AutoSize = true;
-            this.chkEnumsInclude.Location = new System.Drawing.Point(132, 101);
-            this.chkEnumsInclude.Name = "chkEnumsInclude";
-            this.chkEnumsInclude.Size = new System.Drawing.Size(107, 17);
-            this.chkEnumsInclude.TabIndex = 70;
-            this.chkEnumsInclude.Text = "Entity OptionSets";
-            this.chkEnumsInclude.UseVisualStyleBackColor = true;
+            this.chkRelCheckAll.AutoSize = true;
+            this.chkRelCheckAll.Location = new System.Drawing.Point(99, 6);
+            this.chkRelCheckAll.Name = "chkRelCheckAll";
+            this.chkRelCheckAll.Size = new System.Drawing.Size(221, 17);
+            this.chkRelCheckAll.TabIndex = 0;
+            this.chkRelCheckAll.Text = "Check all visible when checking an entity";
+            this.chkRelCheckAll.UseVisualStyleBackColor = true;
             // 
-            // chkEnumsGlobal
+            // llRelationshipExpander
             // 
-            this.chkEnumsGlobal.AutoSize = true;
-            this.chkEnumsGlobal.Enabled = false;
-            this.chkEnumsGlobal.Location = new System.Drawing.Point(316, 100);
-            this.chkEnumsGlobal.Name = "chkEnumsGlobal";
-            this.chkEnumsGlobal.Size = new System.Drawing.Size(111, 17);
-            this.chkEnumsGlobal.TabIndex = 80;
-            this.chkEnumsGlobal.Text = "Global OptionSets";
-            this.toolTip1.SetToolTip(this.chkEnumsGlobal, "This option is unfortunately not available yet.\r\nCheck for updates to LCG!");
-            this.chkEnumsGlobal.UseVisualStyleBackColor = true;
+            this.llRelationshipExpander.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.llRelationshipExpander.AutoSize = true;
+            this.llRelationshipExpander.Location = new System.Drawing.Point(284, 0);
+            this.llRelationshipExpander.Name = "llRelationshipExpander";
+            this.llRelationshipExpander.Size = new System.Drawing.Size(51, 13);
+            this.llRelationshipExpander.TabIndex = 4;
+            this.llRelationshipExpander.TabStop = true;
+            this.llRelationshipExpander.Text = "Hide filter";
+            this.llRelationshipExpander.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
+            // 
+            // statusRelationships
+            // 
+            this.statusRelationships.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusRelationshipsShowing,
+            this.statusRelationshipsSelected});
+            this.statusRelationships.Location = new System.Drawing.Point(0, 524);
+            this.statusRelationships.Name = "statusRelationships";
+            this.statusRelationships.Size = new System.Drawing.Size(341, 22);
+            this.statusRelationships.SizingGrip = false;
+            this.statusRelationships.TabIndex = 5;
+            this.statusRelationships.Text = "statusStrip1";
+            // 
+            // statusRelationshipsShowing
+            // 
+            this.statusRelationshipsShowing.Name = "statusRelationshipsShowing";
+            this.statusRelationshipsShowing.Size = new System.Drawing.Size(144, 17);
+            this.statusRelationshipsShowing.Text = "Select an entity to the left!";
+            // 
+            // statusRelationshipsSelected
+            // 
+            this.statusRelationshipsSelected.Name = "statusRelationshipsSelected";
+            this.statusRelationshipsSelected.Size = new System.Drawing.Size(0, 17);
             // 
             // tmEntSearch
             // 
@@ -1343,64 +1412,26 @@
             this.pnWindowTopSpacer.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnWindowTopSpacer.Location = new System.Drawing.Point(0, 31);
             this.pnWindowTopSpacer.Name = "pnWindowTopSpacer";
-            this.pnWindowTopSpacer.Size = new System.Drawing.Size(930, 17);
+            this.pnWindowTopSpacer.Size = new System.Drawing.Size(1028, 17);
             this.pnWindowTopSpacer.TabIndex = 11;
             // 
-            // label18
+            // tmRelSearch
             // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(12, 129);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(76, 13);
-            this.label18.TabIndex = 14;
-            this.label18.Text = "Common Class";
-            // 
-            // cmbCommonAttributes
-            // 
-            this.cmbCommonAttributes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbCommonAttributes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbCommonAttributes.FormattingEnabled = true;
-            this.cmbCommonAttributes.Items.AddRange(new object[] {
-            "None",
-            "Attributes shared by more than one entity",
-            "Attributes shared by all selected entities"});
-            this.cmbCommonAttributes.Location = new System.Drawing.Point(132, 125);
-            this.cmbCommonAttributes.Name = "cmbCommonAttributes";
-            this.cmbCommonAttributes.Size = new System.Drawing.Size(299, 21);
-            this.cmbCommonAttributes.TabIndex = 15;
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(15, 102);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(59, 13);
-            this.label19.TabIndex = 81;
-            this.label19.Text = "OptionSets";
-            // 
-            // chkAttLogical
-            // 
-            this.chkAttLogical.AutoSize = true;
-            this.chkAttLogical.Location = new System.Drawing.Point(313, 5);
-            this.chkAttLogical.Name = "chkAttLogical";
-            this.chkAttLogical.Size = new System.Drawing.Size(107, 17);
-            this.chkAttLogical.TabIndex = 3;
-            this.chkAttLogical.Text = "Logical Attributes";
-            this.chkAttLogical.UseVisualStyleBackColor = true;
-            this.chkAttLogical.CheckedChanged += new System.EventHandler(this.attributeFilter_Changed);
+            this.tmRelSearch.Interval = 500;
+            this.tmRelSearch.Tick += new System.EventHandler(this.tmRelSearch_Tick);
             // 
             // LCG
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Window;
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.pnWindowTopSpacer);
             this.Controls.Add(this.toolStripMenu);
             this.DoubleBuffered = true;
             this.Name = "LCG";
             this.PluginIcon = ((System.Drawing.Icon)(resources.GetObject("$this.PluginIcon")));
-            this.Size = new System.Drawing.Size(930, 594);
+            this.Size = new System.Drawing.Size(1028, 594);
             this.TabIcon = ((System.Drawing.Image)(resources.GetObject("$this.TabIcon")));
             this.ConnectionUpdated += new XrmToolBox.Extensibility.PluginControlBase.ConnectionUpdatedHandler(this.LCG_ConnectionUpdated);
             this.Load += new System.EventHandler(this.LCG_Load);
@@ -1409,7 +1440,6 @@
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.pnEntityGrid.ResumeLayout(false);
@@ -1427,14 +1457,14 @@
             this.pnEntCustom.PerformLayout();
             this.pnEntSolution.ResumeLayout(false);
             this.pnEntSolution.PerformLayout();
-            this.gbFileOptions.ResumeLayout(false);
-            this.gbFileOptions.PerformLayout();
-            this.pnFileCommonName.ResumeLayout(false);
-            this.pnFileCommonName.PerformLayout();
-            this.pnFileStructure.ResumeLayout(false);
-            this.pnFileStructure.PerformLayout();
             this.statusEntities.ResumeLayout(false);
             this.statusEntities.PerformLayout();
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel1.PerformLayout();
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            this.splitContainer2.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
             this.pnAttributeGrid.ResumeLayout(false);
             this.pnAttributeGrid.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridAttributes)).EndInit();
@@ -1450,10 +1480,27 @@
             this.pnAttManaged.PerformLayout();
             this.pnAttCustom.ResumeLayout(false);
             this.pnAttCustom.PerformLayout();
-            this.pnAttributeSpacer.ResumeLayout(false);
-            this.pnAttributeSpacer.PerformLayout();
-            this.gbConstOptions.ResumeLayout(false);
-            this.gbConstOptions.PerformLayout();
+            this.pnAttBehavior.ResumeLayout(false);
+            this.pnAttBehavior.PerformLayout();
+            this.pnRelationshipGrid.ResumeLayout(false);
+            this.pnRelationshipGrid.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridRelationships)).EndInit();
+            this.gbRelationships.ResumeLayout(false);
+            this.gbRelationships.PerformLayout();
+            this.panRelSearch.ResumeLayout(false);
+            this.panRelSearch.PerformLayout();
+            this.panRel4.ResumeLayout(false);
+            this.panRel4.PerformLayout();
+            this.panRelType.ResumeLayout(false);
+            this.panRelType.PerformLayout();
+            this.panRel3.ResumeLayout(false);
+            this.panRel3.PerformLayout();
+            this.panRel2.ResumeLayout(false);
+            this.panRel2.PerformLayout();
+            this.panRel1.ResumeLayout(false);
+            this.panRel1.PerformLayout();
+            this.statusRelationships.ResumeLayout(false);
+            this.statusRelationships.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1472,8 +1519,6 @@
         private System.Windows.Forms.ToolStripStatusLabel statusEntitiesSelected;
         private System.Windows.Forms.GroupBox gbAttributes;
         private System.Windows.Forms.StatusStrip statusAttributes;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.DataGridView gridAttributes;
         private System.Windows.Forms.Panel pnAttSearch;
         private System.Windows.Forms.Panel pnAttManaged;
@@ -1489,9 +1534,6 @@
         private System.Windows.Forms.CheckBox chkEntAll;
         private System.Windows.Forms.CheckBox chkAttAll;
         private System.Windows.Forms.ToolStripButton btnGenerate;
-        private System.Windows.Forms.Button btnOutputFolder;
-        private System.Windows.Forms.TextBox txtOutputFolder;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolStripStatusLabel statusAttributesShowing;
         private System.Windows.Forms.ToolStripStatusLabel statusAttributesSelected;
         private System.Windows.Forms.LinkLabel llEntityExpander;
@@ -1515,37 +1557,12 @@
         private System.Windows.Forms.RadioButton rbEntCustomAll;
         private System.Windows.Forms.Timer tmEntSearch;
         private System.Windows.Forms.Timer tmAttSearch;
-        private System.Windows.Forms.TextBox txtNamespace;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Panel pnFileStructure;
-        private System.Windows.Forms.TextBox txtCommonFilename;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.RadioButton rbFilePerEntity;
-        private System.Windows.Forms.RadioButton rbFileCommon;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox txtCommonFileSuffix;
-        private System.Windows.Forms.Panel pnFileCommonName;
         private System.Windows.Forms.Panel pnAttSystem;
         private System.Windows.Forms.CheckBox chkAttPrimaryAttribute;
         private System.Windows.Forms.CheckBox chkAttPrimaryKey;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.CheckBox chkEnumsGlobal;
-        private System.Windows.Forms.CheckBox chkEnumsInclude;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox cmbConstantName;
-        private System.Windows.Forms.ComboBox cmbFileName;
-        private System.Windows.Forms.TextBox txtConstStripPrefix;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.CheckBox chkConstStripPrefix;
-        private System.Windows.Forms.Panel pnAttributeSpacer;
-        private System.Windows.Forms.Panel pnLeftSpacer;
-        private System.Windows.Forms.GroupBox gbFileOptions;
-        private System.Windows.Forms.LinkLabel llFileOptionsExpander;
+        private System.Windows.Forms.Panel pnAttBehavior;
         private System.Windows.Forms.Panel pnAttributeGrid;
-        private System.Windows.Forms.Panel pnRightSpacer;
-        private System.Windows.Forms.GroupBox gbConstOptions;
         private System.Windows.Forms.Panel pnEntityGrid;
-        private System.Windows.Forms.LinkLabel llConstOptionsExpander;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label15;
@@ -1553,22 +1570,51 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Panel pnWindowTopSpacer;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton btnLoadConfig;
-        private System.Windows.Forms.ToolStripButton btnSaveConfig;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.CheckBox chkAttCheckAll;
-        private System.Windows.Forms.CheckBox chkXmlDescription;
-        private System.Windows.Forms.CheckBox chkXmlProperties;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.CheckBox chkConstCamelCased;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolStripLabel tslAbout;
-        private System.Windows.Forms.CheckBox chkRelationships;
-        private System.Windows.Forms.CheckBox chkRegions;
-        private System.Windows.Forms.ComboBox cmbCommonAttributes;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label19;
         private System.Windows.Forms.CheckBox chkAttLogical;
+        private System.Windows.Forms.ToolStripButton btnOptions;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripMenuItem btnLoadConfig;
+        private System.Windows.Forms.ToolStripMenuItem btnSaveConfig;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.GroupBox gbRelationships;
+        private System.Windows.Forms.LinkLabel llRelationshipExpander;
+        private System.Windows.Forms.Panel pnRelationshipGrid;
+        private System.Windows.Forms.CheckBox chkRelAll;
+        private System.Windows.Forms.DataGridView gridRelationships;
+        private System.Windows.Forms.Panel panRelSearch;
+        private System.Windows.Forms.TextBox txtRelSearch;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Panel panRel4;
+        private System.Windows.Forms.CheckBox chkRelRegarding;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox chkRelOwners;
+        private System.Windows.Forms.CheckBox chkRelOrphans;
+        private System.Windows.Forms.Panel panRel3;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.RadioButton rbRelMgdFalse;
+        private System.Windows.Forms.RadioButton rbRelMgdTrue;
+        private System.Windows.Forms.RadioButton rbRelMgdAll;
+        private System.Windows.Forms.Panel panRel2;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.RadioButton rbRelCustomTrue;
+        private System.Windows.Forms.RadioButton rbRelCustomFalse;
+        private System.Windows.Forms.RadioButton rbRelCustomAll;
+        private System.Windows.Forms.Panel panRel1;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.CheckBox chkRelCheckAll;
+        private System.Windows.Forms.StatusStrip statusRelationships;
+        private System.Windows.Forms.ToolStripStatusLabel statusRelationshipsShowing;
+        private System.Windows.Forms.ToolStripStatusLabel statusRelationshipsSelected;
+        private System.Windows.Forms.Timer tmRelSearch;
+        private System.Windows.Forms.Panel panRelType;
+        private System.Windows.Forms.CheckBox chkRelNN;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.CheckBox chkRelN1;
+        private System.Windows.Forms.CheckBox chkRel1N;
     }
 }

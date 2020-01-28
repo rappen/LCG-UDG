@@ -20,10 +20,9 @@ namespace LateboundConstantGeneratorTests
             metadata.SetSelected(true);
             var values = new List<EntityMetadataProxy> { metadata };
             var settings = new Settings();
-            settings.InitalizeCommonSettings();
             var fakeWriter = A.Fake<IConstantFileWriter>();
             string entity = null;
-            var config = A.CallTo(() => fakeWriter.WriteEntity(null, null, null))
+            var config = A.CallTo(() => fakeWriter.WriteBlock(null, null, null))
                 .WithAnyArguments()
                 .Invokes((Settings s, string e, string f) => { entity = e; });
             
@@ -40,7 +39,6 @@ namespace LateboundConstantGeneratorTests
         public void CamelCaseTest1()
         {
             var settings = new Settings();
-            settings.InitalizeCommonSettings();
             var identifier = "theaccountnamecountid";
             var camelcased = identifier.CamelCaseIt(settings);
             Assert.AreEqual("TheAccountNameCountId", camelcased);

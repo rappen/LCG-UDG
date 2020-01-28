@@ -19,7 +19,7 @@ namespace Rappen.XTB.LCG.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -57,6 +57,36 @@ namespace Rappen.XTB.LCG.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap UDG16 {
+            get {
+                object obj = ResourceManager.GetObject("UDG16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon UDG16ico {
+            get {
+                object obj = ResourceManager.GetObject("UDG16ico", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap UDG24 {
+            get {
+                object obj = ResourceManager.GetObject("UDG24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

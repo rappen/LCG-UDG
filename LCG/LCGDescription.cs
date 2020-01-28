@@ -16,7 +16,7 @@ namespace Rappen.XTB.LCG
     {
         public override IXrmToolBoxPluginControl GetControl()
         {
-            return new LCG();
+            return new LCG(false);
         }
     }
 }
