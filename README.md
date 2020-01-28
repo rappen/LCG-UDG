@@ -6,7 +6,7 @@ _XrmToolBox tool to generate constant classes from metadata for late bound devel
 
 # ![image](https://raw.githubusercontent.com/rappen/LateboundConstantGenerator/master/images/UDG-150-tsp.png) UML Diagram Generator
 
-_XrmToolBox tool to generate PlantUML diagram files from metadata in CDS / Microsoft Dynamics 365._
+_XrmToolBox tool to generate [PlantUML](https://plantuml.com) diagram files from metadata in CDS / Microsoft Dynamics 365._
 
 
 
