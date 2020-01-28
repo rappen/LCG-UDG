@@ -6,7 +6,7 @@
     <title>UML Diagram Generator for XrmToolBox</title>
     <authors>Jonas Rapp</authors>
     <owners>rappen</owners>
-    <projectUrl>https://github.com/rappen/LateboundConstantGenerator</projectUrl>
+    <projectUrl>https://jonasr.app/UML</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/rappen/LateboundConstantGenerator/master/images/UDG-150-tsp.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Generate PlantUML diagram files from metadata in CDS / Microsoft Dynamics 365</description>
