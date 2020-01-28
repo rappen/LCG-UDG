@@ -36,8 +36,6 @@
         public string ManyManyRelationshipPrefix { get; set; } = "RelMM_";
         public string OptionSetEnumPrefix { get; set; } = string.Empty;
         public string OptionSetEnumSuffix { get; set; } = "_OptionSet";
-        public bool HeaderTimestamp { get; set; } = true;
-        public bool HeaderLocalPath { get; set; } = true;
         public string CamelCaseWords { get; set; } = "parent, customer, owner, state, status, name, phone, address, code, postal, mail, modified, created, type, method, verson, number, first, last, middle, contact, account, system, user, fullname, preferred, processing, annual, plugin, step, key, details, message, description, constructor, execution, secure, configuration, behalf, count, percent, internal, external, trace, entity, primary, secondary, lastused, credit, credited, donot, exchange, import, invoke, invoked, private, market, marketing, revenue, business, price, level, pricelevel, territory, version, conversion, workorder, team";
         public string CamelCaseWordEnds { get; set; } = "id";
         public Template Template { get; set; }
@@ -99,7 +97,8 @@ footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
 // Author     : Jonas Rapp https://twitter.com/rappen
 // GitHub     : https://github.com/rappen/LateboundConstantGenerator
 // Source Org : {organization}
-{filedetails}
+// Filename   : {filename}
+// Created    : {createdate}
 // *********************************************************************";
         public string DataContainer { get; set; } = "namespace {namespace}\n{\n{data}\n}";
         public string EntityContainer { get; set; } = "{summary}\n{remarks}\npublic static class {entityname}\n{\n{entitydetail}\n{attributes}\n{relationships}\n{optionsets}\n}";
@@ -133,7 +132,7 @@ footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
             }
             else
             {
-                FileHeader = FileHeader.Replace("// ***", "/' ***") + @"'/";
+                FileHeader = "/'" + FileHeader.Replace("// ", "") + "'/";
                 EntityDetail = string.Empty;
                 OptionSet = string.Empty;
                 OptionSetValue = string.Empty;

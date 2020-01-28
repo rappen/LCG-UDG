@@ -137,6 +137,7 @@ namespace Rappen.XTB.LCG
                     var document = new XmlDocument();
                     document.Load(settingsfile);
                     settings = (Settings)XmlSerializerHelper.Deserialize(document.OuterXml, typeof(Settings));
+                    settings.SetFixedValues(isUML);
                     ApplySettings();
                     RestoreSelectedEntities();
                 }

@@ -45,20 +45,12 @@ namespace Rappen.XTB.LCG
 
         private static string GetFileHeader(string filename, string orgurl, Settings settings, string version)
         {
-            var filedetails = string.Empty;
-            if (settings.commonsettings.HeaderLocalPath)
-            {
-                filedetails += "\r\n// Filename   : " + filename;
-            }
-            if (settings.commonsettings.HeaderTimestamp)
-            {
-                filedetails += "\r\n// Created    : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            }
             var header = settings.commonsettings.Template.FileHeader
                 .Replace("{toolname}", settings.commonsettings.ToolName)
                 .Replace("{version}", version)
                 .Replace("{organization}", orgurl)
-                .Replace("{filedetails}", filedetails)
+                .Replace("{filename}", filename)
+                .Replace("{createdate}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
                 .Replace("{namespace}", settings.NameSpace)
                 .Replace("\r\n\r\n", "\r\n");
             return header;
@@ -113,6 +105,10 @@ namespace Rappen.XTB.LCG
             {   // Empty lines after usings
                 return true;
             }
+            if (line.StartsWith("namespace "))
+            {   // Empty lines before namespace
+                return true;
+            }
             if (line.StartsWith("public enum"))
             {   // Never empty line before enums, we keep it compact
                 return false;
@@ -121,6 +117,7 @@ namespace Rappen.XTB.LCG
             {   // Never empty line between end blocks
                 return true;
             }
+            // Following rules are UML specific
             if (line.StartsWith("@startuml") || lastline.StartsWith("@startuml") || line.StartsWith("@enduml"))
             {
                 return true;

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xrm.Sdk.Metadata;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,26 +12,24 @@ namespace Rappen.XTB.LCG
         {
             var selectedentities = entitiesmetadata.Where(e => e.Selected).ToList();
             var commonentity = GetCommonEntity(selectedentities, settings);
-            var allrelationships = new StringBuilder();
             if (commonentity != null)
             {
-                var entity = GetClass(selectedentities, commonentity, null, settings);
+                var entity = GetClass(commonentity, null, settings);
                 var fileName = commonentity.GetNameTechnical(settings.FileName, settings) + settings.commonsettings.FileSuffix;
                 fileWriter.WriteBlock(settings, entity, fileName);
             }
             foreach (var entitymetadata in selectedentities)
             {
-                var entity = GetClass(selectedentities, entitymetadata, commonentity, settings);
+                var entity = GetClass(entitymetadata, commonentity, settings);
                 var fileName = entitymetadata.GetNameTechnical(settings.FileName, settings) + settings.commonsettings.FileSuffix;
                 fileWriter.WriteBlock(settings, entity, fileName);
-                if (settings.commonsettings.Template.AddAllRelationshipsAfterEntities)
-                {
-                    allrelationships.AppendLine(GetRelationships(entitymetadata, selectedentities, settings));
-                }
             }
             if (settings.commonsettings.Template.AddAllRelationshipsAfterEntities)
             {
-                fileWriter.WriteBlock(settings, allrelationships.ToString(), "Relationships" + settings.commonsettings.FileSuffix);
+                var relationships = selectedentities.SelectMany(e => e.Relationships.Where(r => r.IsSelected));
+                relationships=relationships.GroupBy(r => r.LogicalName).Select(r => r.FirstOrDefault());    // This will make it distinct by LogicalName
+                var allrelationshipsstring = GetRelationships(relationships, settings);
+                fileWriter.WriteBlock(settings, allrelationshipsstring, "Relationships" + settings.commonsettings.FileSuffix);
             }
             return fileWriter.Finalize(settings);
         }
@@ -94,7 +93,7 @@ namespace Rappen.XTB.LCG
             return result;
         }
 
-        private static string GetClass(List<EntityMetadataProxy> selectedentities, EntityMetadataProxy entitymetadata, EntityMetadataProxy commonentity, Settings settings)
+        private static string GetClass(EntityMetadataProxy entitymetadata, EntityMetadataProxy commonentity, Settings settings)
         {
             var template = settings.commonsettings.Template;
             var name = entitymetadata.GetNameTechnical(settings.ConstantName, settings);
@@ -118,7 +117,7 @@ namespace Rappen.XTB.LCG
                 .Replace("{remarks}", remarks)
                 .Replace("'", "\"")
                 .Replace("{attributes}", GetAttributes(entitymetadata, commonentity, settings))
-                .Replace("{relationships}", GetRelationships(entitymetadata, selectedentities, settings))
+                .Replace("{relationships}", GetRelationships(entitymetadata, settings))
                 .Replace("{optionsets}", GetOptionSets(entitymetadata, settings));
             return entity;
         }
@@ -189,7 +188,7 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        private static string GetRelationships(EntityMetadataProxy entitymetadata, List<EntityMetadataProxy> includedentities, Settings settings)
+        private static string GetRelationships(EntityMetadataProxy entitymetadata, Settings settings)
         {
             var relationships = new List<string>();
             if (settings.RelationShips && entitymetadata.Relationships != null)
@@ -197,12 +196,16 @@ namespace Rappen.XTB.LCG
                 foreach (var relationship in entitymetadata.Relationships.Where(r => r.Parent != entitymetadata && r.IsSelected).Distinct())
                 {
                     relationships.Add(GetRelationShip(relationship, settings,
-                        (relationship.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship) ? settings.commonsettings.ManyManyRelationshipPrefix : settings.commonsettings.ManyOneRelationshipPrefix));
+                        (relationship.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship) ?
+                            settings.commonsettings.ManyManyRelationshipPrefix :
+                            settings.commonsettings.ManyOneRelationshipPrefix));
                 }
                 foreach (var relationship in entitymetadata.Relationships.Where(r => r.Parent == entitymetadata && r.IsSelected).Distinct())
                 {
                     relationships.Add(GetRelationShip(relationship, settings,
-                        (relationship.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship) ? settings.commonsettings.ManyManyRelationshipPrefix : settings.commonsettings.OneManyRelationshipPrefix));
+                        (relationship.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship) ?
+                            settings.commonsettings.ManyManyRelationshipPrefix :
+                            settings.commonsettings.OneManyRelationshipPrefix));
                 }
             }
             DeduplicateIdentifiers(ref relationships);
@@ -211,6 +214,20 @@ namespace Rappen.XTB.LCG
             {
                 return settings.commonsettings.Template.Region.Replace("{region}", "Relationships").Replace("{content}", result);
             }
+            return result;
+        }
+
+        private static string GetRelationships(IEnumerable<RelationshipMetadataProxy> relationshipslist, Settings settings)
+        {
+            var relationships = new List<string>();
+            foreach (var relationship in relationshipslist)
+            {
+                relationships.Add(GetRelationShip(relationship, settings,
+                    (relationship.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship) ?
+                        settings.commonsettings.ManyManyRelationshipPrefix :
+                        settings.commonsettings.OneManyRelationshipPrefix));
+            }
+            var result = string.Join("\r\n", relationships);
             return result;
         }
 
