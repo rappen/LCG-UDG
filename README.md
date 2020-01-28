@@ -8,6 +8,8 @@ _XrmToolBox tool to generate constant classes from metadata for late bound devel
 
 _XrmToolBox tool to generate [PlantUML](https://plantuml.com) diagram files from metadata in CDS / Microsoft Dynamics 365._
 
+Read more: **[https://jonasr.app](https://jonasr.app)**
+
 
 
 
