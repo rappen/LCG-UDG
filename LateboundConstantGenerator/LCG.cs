@@ -18,7 +18,7 @@ using XrmToolBox.Extensibility.Interfaces;
 
 namespace Rappen.XTB.LCG
 {
-    public partial class LCG : PluginControlBase, IGitHubPlugin, IPayPalPlugin, IAboutPlugin
+    public partial class LCG : PluginControlBase, IGitHubPlugin, IPayPalPlugin, IAboutPlugin, IHelpPlugin
     {
         #region Private Fields
 
@@ -45,12 +45,14 @@ namespace Rappen.XTB.LCG
 
         #region Interface implementations
 
-        public string DonationDescription => "LCG and UDG Fan Club";
+        public string DonationDescription => $"{toolname} Fan Club";
         public string EmailAccount => "jonas@rappen.net";
         public string RepositoryName => "LateboundConstantGenerator";
         public string UserName => "rappen";
 
         public string Version => Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+        public string HelpUrl => isUML ? "https://jonasr.app/UML" : "https://jonasr.app/";
 
         public void ShowAboutDialog()
         {
