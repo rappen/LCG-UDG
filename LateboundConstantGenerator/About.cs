@@ -22,6 +22,10 @@ namespace Rappen.XTB.LCG
             this.lcg = lcg;
             pictureBoxLCG.Visible = !lcg.isUML;
             pictureBoxUML.Visible = lcg.isUML;
+            if (lcg.isUML)
+            {
+                linkWebpage.Text = "https://jonasr.app/UML";
+            }
             PopulateAssemblies();
         }
 
@@ -29,16 +33,16 @@ namespace Rappen.XTB.LCG
 
         #region Private Methods
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkWebpage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             lcg.LogUse("About-OpenHomepage");
-            System.Diagnostics.Process.Start("https://jonasr.app/");
+            System.Diagnostics.Process.Start(linkWebpage.Text);
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             lcg.LogUse("About-OpenBlog");
-            System.Diagnostics.Process.Start("http://jonasr.app/");
+            System.Diagnostics.Process.Start("https://jonasr.app/");
         }
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

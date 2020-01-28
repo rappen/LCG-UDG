@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Rappen.XTB.LCG</RootNamespace>
-    <AssemblyName>Rappen.XTB.LCG.Common</AssemblyName>
+    <AssemblyName>Rappen.XTB.LCG.UDG.Common</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
