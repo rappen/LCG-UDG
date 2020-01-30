@@ -266,8 +266,7 @@ namespace Rappen.XTB.LCG
             lasttriedattributeload = string.Empty;
             chkEntAll.Visible = false;
             chkAttAll.Visible = false;
-            btnLoadConfig.Enabled = false;
-            btnSaveConfig.Enabled = false;
+            menuConfig.Enabled = false;
             entities = null;
             selectedEntity = null;
             gridRelationships.DataSource = null;
@@ -956,8 +955,7 @@ namespace Rappen.XTB.LCG
                             gridEntities.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader);
                             gridEntities.Columns[0].Width = 30;
                         }
-                        btnLoadConfig.Enabled = true;
-                        btnSaveConfig.Enabled = true;
+                        menuConfig.Enabled = true;
                         EnableControls(true);
                     });
                 }

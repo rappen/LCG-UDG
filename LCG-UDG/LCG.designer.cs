@@ -44,7 +44,7 @@
             this.tssSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnLoadEntities = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.menuConfig = new System.Windows.Forms.ToolStripDropDownButton();
             this.btnLoadConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.btnSaveConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.btnOptions = new System.Windows.Forms.ToolStripButton();
@@ -195,7 +195,7 @@
             this.tssSeparator1,
             this.btnLoadEntities,
             this.toolStripSeparator1,
-            this.toolStripDropDownButton1,
+            this.menuConfig,
             this.btnOptions,
             this.toolStripSeparator2,
             this.btnGenerate,
@@ -233,32 +233,31 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
-            // toolStripDropDownButton1
+            // menuConfig
             // 
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuConfig.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnLoadConfig,
             this.btnSaveConfig});
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(81, 28);
-            this.toolStripDropDownButton1.Text = "Project";
+            this.menuConfig.Enabled = false;
+            this.menuConfig.Image = ((System.Drawing.Image)(resources.GetObject("menuConfig.Image")));
+            this.menuConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.menuConfig.Name = "menuConfig";
+            this.menuConfig.Size = new System.Drawing.Size(81, 28);
+            this.menuConfig.Text = "Project";
             // 
             // btnLoadConfig
             // 
-            this.btnLoadConfig.Enabled = false;
             this.btnLoadConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnLoadConfig.Image")));
             this.btnLoadConfig.Name = "btnLoadConfig";
-            this.btnLoadConfig.Size = new System.Drawing.Size(149, 22);
+            this.btnLoadConfig.Size = new System.Drawing.Size(188, 30);
             this.btnLoadConfig.Text = "Load project...";
             this.btnLoadConfig.Click += new System.EventHandler(this.btnLoadConfig_Click);
             // 
             // btnSaveConfig
             // 
-            this.btnSaveConfig.Enabled = false;
             this.btnSaveConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveConfig.Image")));
             this.btnSaveConfig.Name = "btnSaveConfig";
-            this.btnSaveConfig.Size = new System.Drawing.Size(149, 22);
+            this.btnSaveConfig.Size = new System.Drawing.Size(188, 30);
             this.btnSaveConfig.Text = "Save project...";
             this.btnSaveConfig.Click += new System.EventHandler(this.btnSaveConfig_Click);
             // 
@@ -1577,7 +1576,7 @@
         private System.Windows.Forms.ToolStripLabel tslAbout;
         private System.Windows.Forms.CheckBox chkAttLogical;
         private System.Windows.Forms.ToolStripButton btnOptions;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripDropDownButton menuConfig;
         private System.Windows.Forms.ToolStripMenuItem btnLoadConfig;
         private System.Windows.Forms.ToolStripMenuItem btnSaveConfig;
         private System.Windows.Forms.SplitContainer splitContainer2;
