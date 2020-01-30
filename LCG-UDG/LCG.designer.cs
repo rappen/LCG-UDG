@@ -148,6 +148,9 @@
             this.pnWindowTopSpacer = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tmRelSearch = new System.Windows.Forms.Timer(this.components);
+            this.lblRelNoMatch = new System.Windows.Forms.Label();
+            this.lblAttNoMatch = new System.Windows.Forms.Label();
+            this.lblEntNoMatch = new System.Windows.Forms.Label();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -249,7 +252,7 @@
             // 
             this.btnLoadConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnLoadConfig.Image")));
             this.btnLoadConfig.Name = "btnLoadConfig";
-            this.btnLoadConfig.Size = new System.Drawing.Size(188, 30);
+            this.btnLoadConfig.Size = new System.Drawing.Size(149, 22);
             this.btnLoadConfig.Text = "Load project...";
             this.btnLoadConfig.Click += new System.EventHandler(this.btnLoadConfig_Click);
             // 
@@ -257,7 +260,7 @@
             // 
             this.btnSaveConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveConfig.Image")));
             this.btnSaveConfig.Name = "btnSaveConfig";
-            this.btnSaveConfig.Size = new System.Drawing.Size(188, 30);
+            this.btnSaveConfig.Size = new System.Drawing.Size(149, 22);
             this.btnSaveConfig.Text = "Save project...";
             this.btnSaveConfig.Click += new System.EventHandler(this.btnSaveConfig_Click);
             // 
@@ -304,8 +307,9 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.pnEntityGrid);
-            this.splitContainer1.Panel1.Controls.Add(this.gbEntities);
             this.splitContainer1.Panel1.Controls.Add(this.statusEntities);
+            this.splitContainer1.Panel1.Controls.Add(this.lblEntNoMatch);
+            this.splitContainer1.Panel1.Controls.Add(this.gbEntities);
             // 
             // splitContainer1.Panel2
             // 
@@ -319,10 +323,11 @@
             this.pnEntityGrid.Controls.Add(this.chkEntAll);
             this.pnEntityGrid.Controls.Add(this.gridEntities);
             this.pnEntityGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnEntityGrid.Location = new System.Drawing.Point(0, 148);
+            this.pnEntityGrid.Location = new System.Drawing.Point(0, 217);
             this.pnEntityGrid.Name = "pnEntityGrid";
-            this.pnEntityGrid.Size = new System.Drawing.Size(347, 376);
+            this.pnEntityGrid.Size = new System.Drawing.Size(347, 307);
             this.pnEntityGrid.TabIndex = 3;
+            this.pnEntityGrid.Visible = false;
             // 
             // chkEntAll
             // 
@@ -373,7 +378,7 @@
             this.gridEntities.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
             this.gridEntities.RowHeadersVisible = false;
             this.gridEntities.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridEntities.Size = new System.Drawing.Size(347, 376);
+            this.gridEntities.Size = new System.Drawing.Size(347, 307);
             this.gridEntities.TabIndex = 2;
             this.gridEntities.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             this.gridEntities.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridEntities_CellFormatting);
@@ -648,13 +653,15 @@
             // 
             this.splitContainer2.Panel1.Controls.Add(this.pnAttributeGrid);
             this.splitContainer2.Panel1.Controls.Add(this.statusAttributes);
+            this.splitContainer2.Panel1.Controls.Add(this.lblAttNoMatch);
             this.splitContainer2.Panel1.Controls.Add(this.gbAttributes);
             // 
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.pnRelationshipGrid);
-            this.splitContainer2.Panel2.Controls.Add(this.gbRelationships);
             this.splitContainer2.Panel2.Controls.Add(this.statusRelationships);
+            this.splitContainer2.Panel2.Controls.Add(this.lblRelNoMatch);
+            this.splitContainer2.Panel2.Controls.Add(this.gbRelationships);
             this.splitContainer2.Size = new System.Drawing.Size(677, 546);
             this.splitContainer2.SplitterDistance = 332;
             this.splitContainer2.TabIndex = 4;
@@ -664,10 +671,11 @@
             this.pnAttributeGrid.Controls.Add(this.chkAttAll);
             this.pnAttributeGrid.Controls.Add(this.gridAttributes);
             this.pnAttributeGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnAttributeGrid.Location = new System.Drawing.Point(0, 148);
+            this.pnAttributeGrid.Location = new System.Drawing.Point(0, 217);
             this.pnAttributeGrid.Name = "pnAttributeGrid";
-            this.pnAttributeGrid.Size = new System.Drawing.Size(332, 376);
+            this.pnAttributeGrid.Size = new System.Drawing.Size(332, 307);
             this.pnAttributeGrid.TabIndex = 3;
+            this.pnAttributeGrid.Visible = false;
             // 
             // chkAttAll
             // 
@@ -718,7 +726,7 @@
             this.gridAttributes.RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
             this.gridAttributes.RowHeadersVisible = false;
             this.gridAttributes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridAttributes.Size = new System.Drawing.Size(332, 376);
+            this.gridAttributes.Size = new System.Drawing.Size(332, 307);
             this.gridAttributes.TabIndex = 2;
             this.gridAttributes.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             // 
@@ -1003,10 +1011,11 @@
             this.pnRelationshipGrid.Controls.Add(this.chkRelAll);
             this.pnRelationshipGrid.Controls.Add(this.gridRelationships);
             this.pnRelationshipGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnRelationshipGrid.Location = new System.Drawing.Point(0, 174);
+            this.pnRelationshipGrid.Location = new System.Drawing.Point(0, 243);
             this.pnRelationshipGrid.Name = "pnRelationshipGrid";
-            this.pnRelationshipGrid.Size = new System.Drawing.Size(341, 350);
+            this.pnRelationshipGrid.Size = new System.Drawing.Size(341, 281);
             this.pnRelationshipGrid.TabIndex = 4;
+            this.pnRelationshipGrid.Visible = false;
             // 
             // chkRelAll
             // 
@@ -1057,7 +1066,7 @@
             this.gridRelationships.RowHeadersDefaultCellStyle = dataGridViewCellStyle18;
             this.gridRelationships.RowHeadersVisible = false;
             this.gridRelationships.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridRelationships.Size = new System.Drawing.Size(341, 350);
+            this.gridRelationships.Size = new System.Drawing.Size(341, 281);
             this.gridRelationships.TabIndex = 2;
             this.gridRelationships.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             // 
@@ -1419,6 +1428,39 @@
             this.tmRelSearch.Interval = 500;
             this.tmRelSearch.Tick += new System.EventHandler(this.tmRelSearch_Tick);
             // 
+            // lblRelNoMatch
+            // 
+            this.lblRelNoMatch.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblRelNoMatch.Location = new System.Drawing.Point(0, 174);
+            this.lblRelNoMatch.Name = "lblRelNoMatch";
+            this.lblRelNoMatch.Size = new System.Drawing.Size(341, 69);
+            this.lblRelNoMatch.TabIndex = 6;
+            this.lblRelNoMatch.Text = "No relationships match current filter";
+            this.lblRelNoMatch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblRelNoMatch.Visible = false;
+            // 
+            // lblAttNoMatch
+            // 
+            this.lblAttNoMatch.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblAttNoMatch.Location = new System.Drawing.Point(0, 148);
+            this.lblAttNoMatch.Name = "lblAttNoMatch";
+            this.lblAttNoMatch.Size = new System.Drawing.Size(332, 69);
+            this.lblAttNoMatch.TabIndex = 7;
+            this.lblAttNoMatch.Text = "No attributes match current filter";
+            this.lblAttNoMatch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblAttNoMatch.Visible = false;
+            // 
+            // lblEntNoMatch
+            // 
+            this.lblEntNoMatch.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblEntNoMatch.Location = new System.Drawing.Point(0, 148);
+            this.lblEntNoMatch.Name = "lblEntNoMatch";
+            this.lblEntNoMatch.Size = new System.Drawing.Size(347, 69);
+            this.lblEntNoMatch.TabIndex = 8;
+            this.lblEntNoMatch.Text = "No entities match current filter";
+            this.lblEntNoMatch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblEntNoMatch.Visible = false;
+            // 
             // LCG
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1615,5 +1657,8 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.CheckBox chkRelN1;
         private System.Windows.Forms.CheckBox chkRel1N;
+        private System.Windows.Forms.Label lblEntNoMatch;
+        private System.Windows.Forms.Label lblAttNoMatch;
+        private System.Windows.Forms.Label lblRelNoMatch;
     }
 }

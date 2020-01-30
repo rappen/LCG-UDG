@@ -1218,6 +1218,8 @@ namespace Rappen.XTB.LCG
 
         private void UpdateAttributesStatus()
         {
+            pnAttributeGrid.Visible = gridAttributes.RowCount > 0;
+            lblAttNoMatch.Visible = gridAttributes.DataSource != null && gridAttributes.RowCount == 0;
             chkAttAll.Visible = gridAttributes.Rows.Count > 0;
             if (gridAttributes.DataSource != null && selectedEntity != null && selectedEntity.Attributes != null)
             {
@@ -1233,6 +1235,8 @@ namespace Rappen.XTB.LCG
 
         private void UpdateEntitiesStatus()
         {
+            pnEntityGrid.Visible = gridEntities.RowCount > 0;
+            lblEntNoMatch.Visible = gridEntities.DataSource != null && gridEntities.RowCount == 0;
             chkEntAll.Visible = gridEntities.Rows.Count > 0;
             btnGenerate.Enabled = entities != null && (bool)entities?.Any(e => e.IsSelected);
             if (gridEntities.DataSource != null && entities != null)
@@ -1249,6 +1253,8 @@ namespace Rappen.XTB.LCG
 
         private void UpdateRelationshipssStatus()
         {
+            pnRelationshipGrid.Visible = gridRelationships.RowCount > 0;
+            lblRelNoMatch.Visible = gridRelationships.DataSource != null && gridRelationships.RowCount == 0;
             chkRelAll.Visible = gridRelationships.Rows.Count > 0;
             if (gridRelationships.DataSource != null && selectedEntity != null && selectedEntity.Attributes != null)
             {
