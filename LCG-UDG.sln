@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29521.150
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LCG-UDG-Common", "LateboundConstantGenerator\LCG-UDG-Common.csproj", "{78225251-A3A4-471F-9066-00D7EB90F3FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LCG-UDG-Common", "LCG-UDG\LCG-UDG-Common.csproj", "{78225251-A3A4-471F-9066-00D7EB90F3FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LateboundConstantGeneratorTests", "LateboundConstantGeneratorTests\LateboundConstantGeneratorTests.csproj", "{4F684FFE-CF62-4719-B076-DA9961FAC997}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LCGTests", "LCGTests\LCGTests.csproj", "{4F684FFE-CF62-4719-B076-DA9961FAC997}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LateboundConstantGeneratorCmd", "LateboundConstantGeneratorCmd\LateboundConstantGeneratorCmd.csproj", "{E97AB142-2D93-467C-80B2-58140AC25B79}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LCGCmd", "LCGCmd\LCGCmd.csproj", "{E97AB142-2D93-467C-80B2-58140AC25B79}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UDG", "UDG\UDG.csproj", "{2257E924-19EF-496D-8F03-7E07A82C20C3}"
 EndProject

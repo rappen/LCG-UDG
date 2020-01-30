@@ -132,7 +132,7 @@
     <None Include="readme.md" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LateboundConstantGenerator\LCG-UDG-Common.csproj">
+    <ProjectReference Include="..\LCG-UDG\LCG-UDG-Common.csproj">
       <Project>{78225251-a3a4-471f-9066-00d7eb90f3fa}</Project>
       <Name>LCG-UDG-Common</Name>
     </ProjectReference>
