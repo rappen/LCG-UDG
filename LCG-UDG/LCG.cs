@@ -809,7 +809,7 @@ namespace Rappen.XTB.LCG
 
         private void GroupBoxCollapse(LinkLabel link)
         {
-            link.Parent.Height = 18;
+            link.Parent.Height = 16;
             link.Text = "Show filter";
         }
 
