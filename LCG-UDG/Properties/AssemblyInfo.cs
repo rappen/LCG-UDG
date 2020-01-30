@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Generate constant classes from metadata for late bound development on Microsoft Dynamics 365 and create UML diagrams based on the open PlantUML standard")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Jonas Rapp, Sweden")]
-[assembly: AssemblyProduct("LateboundConstantsGenerator")]
+[assembly: AssemblyProduct("LCG-UDG")]
 [assembly: AssemblyCopyright("Copyright © Jonas Rapp 2017-2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

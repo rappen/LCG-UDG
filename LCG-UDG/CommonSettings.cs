@@ -95,7 +95,7 @@ footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
         internal string FileHeader = @"// *********************************************************************
 // Created by : {toolname} {version} for XrmToolBox
 // Author     : Jonas Rapp https://twitter.com/rappen
-// GitHub     : https://github.com/rappen/LateboundConstantGenerator
+// GitHub     : https://github.com/rappen/LCG-UDG
 // Source Org : {organization}
 // Filename   : {filename}
 // Created    : {createdate}

@@ -47,7 +47,7 @@ namespace Rappen.XTB.LCG
 
         public string DonationDescription => $"{toolname} Fan Club";
         public string EmailAccount => "jonas@rappen.net";
-        public string RepositoryName => "LateboundConstantGenerator";
+        public string RepositoryName => "LCG-UDG";
         public string UserName => "rappen";
 
         public string Version => Assembly.GetExecutingAssembly().GetName().Version.ToString();
