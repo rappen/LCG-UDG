@@ -107,6 +107,16 @@ namespace Rappen.XTB.LCG
 
         #region Public Methods
 
+        public override void SetSelected(bool value)
+        {
+            var wasSelected = IsSelected;
+            base.SetSelected(value);
+            if (value != wasSelected && value && !originatingentity.IsSelected)
+            {
+                originatingentity.SetSelected(true);
+            }
+        }
+
         public override string ToString()
         {
             return $"{Parent?.DisplayName} {Type} {Child?.DisplayName}";

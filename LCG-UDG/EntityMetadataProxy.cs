@@ -58,6 +58,16 @@ namespace Rappen.XTB.LCG
 
         #region Public Methods
 
+        public override void SetSelected(bool value)
+        {
+            var wasSelected = IsSelected;
+            base.SetSelected(value);
+            if (value != wasSelected && !value)
+            {
+                Attributes?.Where(a => a.IsSelected).ToList().ForEach(a => a.SetSelected(false));
+                Relationships?.Where(r => r.IsSelected).ToList().ForEach(r => r.SetSelected(false));
+            }
+        }
         public override string ToString()
         {
             if (Metadata != null)
