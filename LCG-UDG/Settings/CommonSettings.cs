@@ -1,4 +1,6 @@
-﻿namespace Rappen.XTB.LCG
+﻿using System.Collections.Generic;
+
+namespace Rappen.XTB.LCG
 {
     public class CommonSettings
     {
@@ -10,6 +12,23 @@
             if (isUML)
             {
                 AttributeSeparatorAfterPK = "--";
+            }
+        }
+
+        internal void MigrateFromOldConfig(bool isUML)
+        {
+            if (CamelCaseWords == null || CamelCaseWords.Length == 0)
+            {
+                CamelCaseWords = new CommonSettings(isUML).CamelCaseWords;
+            }
+            if (CamelCaseWordEnds == null || CamelCaseWordEnds.Length == 0)
+            {
+                CamelCaseWordEnds = new CommonSettings(isUML).CamelCaseWordEnds;
+            }
+            if (Template.TemplateVersion != new Template(isUML).TemplateVersion)
+            {
+                //MessageBox.Show("Template has been updated.\nAny customizations will need to be recreated.", "Template", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Template = new Template(isUML);
             }
         }
 
@@ -36,8 +55,9 @@
         public string ManyManyRelationshipPrefix { get; set; } = "RelMM_";
         public string OptionSetEnumPrefix { get; set; } = string.Empty;
         public string OptionSetEnumSuffix { get; set; } = "_OptionSet";
-        public string CamelCaseWords { get; set; } = "parent, customer, owner, state, status, name, phone, address, code, postal, mail, modified, created, type, method, verson, number, first, last, middle, contact, account, system, user, fullname, preferred, processing, annual, plugin, step, key, details, message, description, constructor, execution, secure, configuration, behalf, count, percent, internal, external, trace, entity, primary, secondary, lastused, credit, credited, donot, exchange, import, invoke, invoked, private, market, marketing, revenue, business, price, level, pricelevel, territory, version, conversion, workorder, team";
-        public string CamelCaseWordEnds { get; set; } = "id";
+        public string[] CamelCaseWords { get; set; } = new string[] { "parent", "customer", "owner", "state", "status", "name", "phone", "address", "code", "postal", "mail", "modified", "created", "type", "method", "verson", "number", "first", "last", "middle", "contact", "account", "system", "user", "fullname", "preferred", "processing", "annual", "plugin", "step", "key", "details", "message", "description", "constructor", "execution", "secure", "configuration", "behalf", "count", "percent", "internal", "external", "trace", "entity", "primary", "secondary", "lastused", "credit", "credited", "donot", "exchange", "import", "invoke", "invoked", "private", "market", "marketing", "revenue", "business", "price", "level", "pricelevel", "territory", "version", "conversion", "workorder", "team" };
+        public string[] CamelCaseWordEnds { get; set; } = new string[] { "id" };
+        public string[] InternalAttributes { get; set; } = new string[] { "importsequencenumber", "owneridname", "owneridtype", "owneridyominame", "createdbyname", "createdbyyominame", "createdonbehalfby", "createdonbehalfbyname", "createdonbehalfbyyominame", "modifiedbyname", "modifiedbyyominame", "modifiedonbehalfby", "modifiedonbehalfbyname", "modifiedonbehalfbyyominame", "overriddencreatedon", "owningbusinessunit", "owningteam", "owninguser", "regardingobjectidname", "regardingobjectidyominame", "regardingobjecttypecode", "timezoneruleversionnumber", "transactioncurrencyidname", "utcconversiontimezonecode", "versionnumber" };
         public Template Template { get; set; }
     }
 
@@ -103,7 +123,7 @@ footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
 // Filename   : {filename}
 // Created    : {createdate}
 // *********************************************************************";
-        public string Legend { get; set; } 
+        public string Legend { get; set; }
         public string DataContainer { get; set; } = "namespace {namespace}\n{\n{data}\n}";
         public string EntityContainer { get; set; } = "{summary}\n{remarks}\npublic static class {entityname}\n{\n{entitydetail}\n{attributes}\n{relationships}\n{optionsets}\n}";
         public string EntityDetail { get; set; } = "public const string EntityName = '{logicalname}';\npublic const string EntityCollectionName = '{logicalcollectionname}';";

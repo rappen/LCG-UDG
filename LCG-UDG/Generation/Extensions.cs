@@ -141,19 +141,16 @@ namespace Rappen.XTB.LCG
 
         public static string CamelCaseIt(this string name, Settings settings)
         {
-            var words = settings.commonsettings.CamelCaseWords.Split(',').Select(w => w.Trim());
-            var endwords = settings.commonsettings.CamelCaseWordEnds.Split(',').Select(w => w.Trim());
-
             bool WordBeginOrEnd(string text, int i)
             {
                 var last = text.Substring(0, i).ToLowerInvariant();
                 var next = text.Substring(i).ToLowerInvariant();
-                foreach (var word in words)
+                foreach (var word in settings.commonsettings.CamelCaseWords)
                 {
                     if (last.EndsWith(word) || next.StartsWith(word))
                     {   // Found a "word" in the string (for example "count"
                         var isunbreakable = false;
-                        foreach (var unbreak in words)
+                        foreach (var unbreak in settings.commonsettings.CamelCaseWords)
                         {   // Check that this word is not also part of a bigger word (for example "account"
                             var len = unbreak.Length;
                             var pos = text.ToLowerInvariant().IndexOf(unbreak);
@@ -169,7 +166,7 @@ namespace Rappen.XTB.LCG
                         }
                     }
                 }
-                foreach (var word in endwords)
+                foreach (var word in settings.commonsettings.CamelCaseWordEnds)
                 {
                     if (next.Equals(word))
                     {

@@ -401,6 +401,7 @@ namespace Rappen.XTB.LCG
             chkAttPrimaryKey.Checked = settings.AttributeFilter?.PrimaryKey == true;
             chkAttPrimaryAttribute.Checked = settings.AttributeFilter?.PrimaryAttribute == true;
             chkAttLogical.Checked = settings.AttributeFilter?.Logical == true;
+            chkAttInternal.Checked = settings.AttributeFilter?.Internal == true;
             chkRelCheckAll.Checked = settings.RelationshipFilter?.CheckAll != false;
             rbRelCustomAll.Checked = settings.RelationshipFilter?.CustomAll != false;
             rbRelCustomFalse.Checked = settings.RelationshipFilter?.CustomFalse == true;
@@ -584,36 +585,42 @@ namespace Rappen.XTB.LCG
 
         private IEnumerable<AttributeMetadataProxy> GetFilteredAttributes()
         {
-            bool GetCustomFilter(AttributeMetadataProxy e)
+            bool GetCustomFilter(AttributeMetadataProxy a)
             {
                 return rbAttCustomAll.Checked ||
-                       rbAttCustomTrue.Checked && e.Metadata.IsCustomAttribute.GetValueOrDefault() ||
-                       rbAttCustomFalse.Checked && !e.Metadata.IsCustomAttribute.GetValueOrDefault();
+                       rbAttCustomTrue.Checked && a.Metadata.IsCustomAttribute.GetValueOrDefault() ||
+                       rbAttCustomFalse.Checked && !a.Metadata.IsCustomAttribute.GetValueOrDefault();
             }
-            bool GetManagedFilter(AttributeMetadataProxy e)
+            bool GetManagedFilter(AttributeMetadataProxy a)
             {
                 return rbAttMgdAll.Checked ||
-                       rbAttMgdTrue.Checked && e.Metadata.IsManaged.GetValueOrDefault() ||
-                       rbAttMgdFalse.Checked && !e.Metadata.IsManaged.GetValueOrDefault();
+                       rbAttMgdTrue.Checked && a.Metadata.IsManaged.GetValueOrDefault() ||
+                       rbAttMgdFalse.Checked && !a.Metadata.IsManaged.GetValueOrDefault();
             }
-            bool GetSearchFilter(AttributeMetadataProxy e)
+            bool GetSearchFilter(AttributeMetadataProxy a)
             {
                 return string.IsNullOrWhiteSpace(txtAttSearch.Text) ||
-                       e.Metadata.LogicalName.ToLowerInvariant().Contains(txtAttSearch.Text) ||
-                       e.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtAttSearch.Text) == true;
+                       a.Metadata.LogicalName.ToLowerInvariant().Contains(txtAttSearch.Text) ||
+                       a.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtAttSearch.Text) == true;
             }
-            bool GetLogicalFilter(AttributeMetadataProxy e)
+            bool GetLogicalFilter(AttributeMetadataProxy a)
             {
                 return chkAttLogical.Checked ||
-                       e.Metadata.IsLogical != true;
+                       a.Metadata.IsLogical != true;
+            }
+            bool GetInternalFilter(AttributeMetadataProxy a)
+            {
+                return chkAttInternal.Checked ||
+                    !commonsettings.InternalAttributes.Contains(a.LogicalName);
             }
 
             return selectedEntity.Attributes
                     .Where(
-                        e => GetCustomFilter(e)
-                           && GetManagedFilter(e)
-                           && GetSearchFilter(e)
-                           && GetLogicalFilter(e));
+                        a => GetCustomFilter(a)
+                           && GetManagedFilter(a)
+                           && GetSearchFilter(a)
+                           && GetLogicalFilter(a)
+                           &&GetInternalFilter(a));
         }
 
         private IEnumerable<EntityMetadataProxy> GetFilteredEntities()
@@ -913,11 +920,7 @@ namespace Rappen.XTB.LCG
             {
                 LogInfo("Common Settings found and loaded");
             }
-            if (commonsettings.Template.TemplateVersion != new Template(isUML).TemplateVersion)
-            {
-                //MessageBox.Show("Template has been updated.\nAny customizations will need to be recreated.", "Template", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                commonsettings.Template = new Template(isUML);
-            }
+            commonsettings.MigrateFromOldConfig(isUML);
             commonsettings.SetFixedValues(isUML);
         }
 

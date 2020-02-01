@@ -55,6 +55,10 @@
             this.pnEntityGrid = new System.Windows.Forms.Panel();
             this.chkEntAll = new System.Windows.Forms.CheckBox();
             this.gridEntities = new System.Windows.Forms.DataGridView();
+            this.statusEntities = new System.Windows.Forms.StatusStrip();
+            this.statusEntitiesShowing = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusEntitiesSelected = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblEntNoMatch = new System.Windows.Forms.Label();
             this.gbEntities = new System.Windows.Forms.GroupBox();
             this.pnEntSearch = new System.Windows.Forms.Panel();
             this.txtEntSearch = new System.Windows.Forms.TextBox();
@@ -76,9 +80,6 @@
             this.pnEntSolution = new System.Windows.Forms.Panel();
             this.cmbSolution = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.statusEntities = new System.Windows.Forms.StatusStrip();
-            this.statusEntitiesShowing = new System.Windows.Forms.ToolStripStatusLabel();
-            this.statusEntitiesSelected = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.pnAttributeGrid = new System.Windows.Forms.Panel();
             this.chkAttAll = new System.Windows.Forms.CheckBox();
@@ -86,6 +87,7 @@
             this.statusAttributes = new System.Windows.Forms.StatusStrip();
             this.statusAttributesShowing = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusAttributesSelected = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblAttNoMatch = new System.Windows.Forms.Label();
             this.gbAttributes = new System.Windows.Forms.GroupBox();
             this.pnAttSearch = new System.Windows.Forms.Panel();
             this.txtAttSearch = new System.Windows.Forms.TextBox();
@@ -112,6 +114,10 @@
             this.pnRelationshipGrid = new System.Windows.Forms.Panel();
             this.chkRelAll = new System.Windows.Forms.CheckBox();
             this.gridRelationships = new System.Windows.Forms.DataGridView();
+            this.statusRelationships = new System.Windows.Forms.StatusStrip();
+            this.statusRelationshipsShowing = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusRelationshipsSelected = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblRelNoMatch = new System.Windows.Forms.Label();
             this.gbRelationships = new System.Windows.Forms.GroupBox();
             this.panRelSearch = new System.Windows.Forms.Panel();
             this.txtRelSearch = new System.Windows.Forms.TextBox();
@@ -140,17 +146,13 @@
             this.label8 = new System.Windows.Forms.Label();
             this.chkRelCheckAll = new System.Windows.Forms.CheckBox();
             this.llRelationshipExpander = new System.Windows.Forms.LinkLabel();
-            this.statusRelationships = new System.Windows.Forms.StatusStrip();
-            this.statusRelationshipsShowing = new System.Windows.Forms.ToolStripStatusLabel();
-            this.statusRelationshipsSelected = new System.Windows.Forms.ToolStripStatusLabel();
             this.tmEntSearch = new System.Windows.Forms.Timer(this.components);
             this.tmAttSearch = new System.Windows.Forms.Timer(this.components);
             this.pnWindowTopSpacer = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tmRelSearch = new System.Windows.Forms.Timer(this.components);
-            this.lblRelNoMatch = new System.Windows.Forms.Label();
-            this.lblAttNoMatch = new System.Windows.Forms.Label();
-            this.lblEntNoMatch = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.chkAttInternal = new System.Windows.Forms.CheckBox();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -158,13 +160,13 @@
             this.splitContainer1.SuspendLayout();
             this.pnEntityGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridEntities)).BeginInit();
+            this.statusEntities.SuspendLayout();
             this.gbEntities.SuspendLayout();
             this.pnEntSearch.SuspendLayout();
             this.pnEntIntersect.SuspendLayout();
             this.pnEntManaged.SuspendLayout();
             this.pnEntCustom.SuspendLayout();
             this.pnEntSolution.SuspendLayout();
-            this.statusEntities.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -180,6 +182,7 @@
             this.pnAttBehavior.SuspendLayout();
             this.pnRelationshipGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRelationships)).BeginInit();
+            this.statusRelationships.SuspendLayout();
             this.gbRelationships.SuspendLayout();
             this.panRelSearch.SuspendLayout();
             this.panRel4.SuspendLayout();
@@ -187,7 +190,6 @@
             this.panRel3.SuspendLayout();
             this.panRel2.SuspendLayout();
             this.panRel1.SuspendLayout();
-            this.statusRelationships.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripMenu
@@ -384,6 +386,40 @@
             this.gridEntities.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridEntities_CellFormatting);
             this.gridEntities.SelectionChanged += new System.EventHandler(this.gridEntities_SelectionChanged);
             // 
+            // statusEntities
+            // 
+            this.statusEntities.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusEntitiesShowing,
+            this.statusEntitiesSelected});
+            this.statusEntities.Location = new System.Drawing.Point(0, 524);
+            this.statusEntities.Name = "statusEntities";
+            this.statusEntities.Size = new System.Drawing.Size(347, 22);
+            this.statusEntities.SizingGrip = false;
+            this.statusEntities.TabIndex = 2;
+            this.statusEntities.Text = "statusStrip1";
+            // 
+            // statusEntitiesShowing
+            // 
+            this.statusEntitiesShowing.Name = "statusEntitiesShowing";
+            this.statusEntitiesShowing.Size = new System.Drawing.Size(77, 17);
+            this.statusEntitiesShowing.Text = "Load entities!";
+            // 
+            // statusEntitiesSelected
+            // 
+            this.statusEntitiesSelected.Name = "statusEntitiesSelected";
+            this.statusEntitiesSelected.Size = new System.Drawing.Size(0, 17);
+            // 
+            // lblEntNoMatch
+            // 
+            this.lblEntNoMatch.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblEntNoMatch.Location = new System.Drawing.Point(0, 148);
+            this.lblEntNoMatch.Name = "lblEntNoMatch";
+            this.lblEntNoMatch.Size = new System.Drawing.Size(347, 69);
+            this.lblEntNoMatch.TabIndex = 8;
+            this.lblEntNoMatch.Text = "No entities match current filter";
+            this.lblEntNoMatch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblEntNoMatch.Visible = false;
+            // 
             // gbEntities
             // 
             this.gbEntities.Controls.Add(this.pnEntSearch);
@@ -443,6 +479,7 @@
             // 
             // pnEntIntersect
             // 
+            this.pnEntIntersect.Controls.Add(this.label10);
             this.pnEntIntersect.Controls.Add(this.chkEntSelected);
             this.pnEntIntersect.Controls.Add(this.chkEntIntersect);
             this.pnEntIntersect.Dock = System.Windows.Forms.DockStyle.Top;
@@ -469,9 +506,9 @@
             this.chkEntIntersect.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkEntIntersect.Location = new System.Drawing.Point(99, 5);
             this.chkEntIntersect.Name = "chkEntIntersect";
-            this.chkEntIntersect.Size = new System.Drawing.Size(104, 17);
+            this.chkEntIntersect.Size = new System.Drawing.Size(67, 17);
             this.chkEntIntersect.TabIndex = 0;
-            this.chkEntIntersect.Text = "Include intersect";
+            this.chkEntIntersect.Text = "Intersect";
             this.chkEntIntersect.UseVisualStyleBackColor = true;
             this.chkEntIntersect.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
@@ -620,29 +657,6 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "Solution";
             // 
-            // statusEntities
-            // 
-            this.statusEntities.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.statusEntitiesShowing,
-            this.statusEntitiesSelected});
-            this.statusEntities.Location = new System.Drawing.Point(0, 524);
-            this.statusEntities.Name = "statusEntities";
-            this.statusEntities.Size = new System.Drawing.Size(347, 22);
-            this.statusEntities.SizingGrip = false;
-            this.statusEntities.TabIndex = 2;
-            this.statusEntities.Text = "statusStrip1";
-            // 
-            // statusEntitiesShowing
-            // 
-            this.statusEntitiesShowing.Name = "statusEntitiesShowing";
-            this.statusEntitiesShowing.Size = new System.Drawing.Size(77, 17);
-            this.statusEntitiesShowing.Text = "Load entities!";
-            // 
-            // statusEntitiesSelected
-            // 
-            this.statusEntitiesSelected.Name = "statusEntitiesSelected";
-            this.statusEntitiesSelected.Size = new System.Drawing.Size(0, 17);
-            // 
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -753,6 +767,17 @@
             this.statusAttributesSelected.Name = "statusAttributesSelected";
             this.statusAttributesSelected.Size = new System.Drawing.Size(0, 17);
             // 
+            // lblAttNoMatch
+            // 
+            this.lblAttNoMatch.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblAttNoMatch.Location = new System.Drawing.Point(0, 148);
+            this.lblAttNoMatch.Name = "lblAttNoMatch";
+            this.lblAttNoMatch.Size = new System.Drawing.Size(332, 69);
+            this.lblAttNoMatch.TabIndex = 7;
+            this.lblAttNoMatch.Text = "No attributes match current filter";
+            this.lblAttNoMatch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblAttNoMatch.Visible = false;
+            // 
             // gbAttributes
             // 
             this.gbAttributes.Controls.Add(this.pnAttSearch);
@@ -813,6 +838,7 @@
             // 
             // pnAttSystem
             // 
+            this.pnAttSystem.Controls.Add(this.chkAttInternal);
             this.pnAttSystem.Controls.Add(this.chkAttLogical);
             this.pnAttSystem.Controls.Add(this.label15);
             this.pnAttSystem.Controls.Add(this.chkAttPrimaryAttribute);
@@ -828,9 +854,9 @@
             this.chkAttLogical.AutoSize = true;
             this.chkAttLogical.Location = new System.Drawing.Point(218, 5);
             this.chkAttLogical.Name = "chkAttLogical";
-            this.chkAttLogical.Size = new System.Drawing.Size(107, 17);
+            this.chkAttLogical.Size = new System.Drawing.Size(60, 17);
             this.chkAttLogical.TabIndex = 3;
-            this.chkAttLogical.Text = "Logical Attributes";
+            this.chkAttLogical.Text = "Logical";
             this.chkAttLogical.UseVisualStyleBackColor = true;
             this.chkAttLogical.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
@@ -1069,6 +1095,40 @@
             this.gridRelationships.Size = new System.Drawing.Size(341, 281);
             this.gridRelationships.TabIndex = 2;
             this.gridRelationships.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
+            // 
+            // statusRelationships
+            // 
+            this.statusRelationships.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusRelationshipsShowing,
+            this.statusRelationshipsSelected});
+            this.statusRelationships.Location = new System.Drawing.Point(0, 524);
+            this.statusRelationships.Name = "statusRelationships";
+            this.statusRelationships.Size = new System.Drawing.Size(341, 22);
+            this.statusRelationships.SizingGrip = false;
+            this.statusRelationships.TabIndex = 5;
+            this.statusRelationships.Text = "statusStrip1";
+            // 
+            // statusRelationshipsShowing
+            // 
+            this.statusRelationshipsShowing.Name = "statusRelationshipsShowing";
+            this.statusRelationshipsShowing.Size = new System.Drawing.Size(144, 17);
+            this.statusRelationshipsShowing.Text = "Select an entity to the left!";
+            // 
+            // statusRelationshipsSelected
+            // 
+            this.statusRelationshipsSelected.Name = "statusRelationshipsSelected";
+            this.statusRelationshipsSelected.Size = new System.Drawing.Size(0, 17);
+            // 
+            // lblRelNoMatch
+            // 
+            this.lblRelNoMatch.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblRelNoMatch.Location = new System.Drawing.Point(0, 174);
+            this.lblRelNoMatch.Name = "lblRelNoMatch";
+            this.lblRelNoMatch.Size = new System.Drawing.Size(341, 69);
+            this.lblRelNoMatch.TabIndex = 6;
+            this.lblRelNoMatch.Text = "No relationships match current filter";
+            this.lblRelNoMatch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblRelNoMatch.Visible = false;
             // 
             // gbRelationships
             // 
@@ -1382,29 +1442,6 @@
             this.llRelationshipExpander.Text = "Hide filter";
             this.llRelationshipExpander.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
             // 
-            // statusRelationships
-            // 
-            this.statusRelationships.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.statusRelationshipsShowing,
-            this.statusRelationshipsSelected});
-            this.statusRelationships.Location = new System.Drawing.Point(0, 524);
-            this.statusRelationships.Name = "statusRelationships";
-            this.statusRelationships.Size = new System.Drawing.Size(341, 22);
-            this.statusRelationships.SizingGrip = false;
-            this.statusRelationships.TabIndex = 5;
-            this.statusRelationships.Text = "statusStrip1";
-            // 
-            // statusRelationshipsShowing
-            // 
-            this.statusRelationshipsShowing.Name = "statusRelationshipsShowing";
-            this.statusRelationshipsShowing.Size = new System.Drawing.Size(144, 17);
-            this.statusRelationshipsShowing.Text = "Select an entity to the left!";
-            // 
-            // statusRelationshipsSelected
-            // 
-            this.statusRelationshipsSelected.Name = "statusRelationshipsSelected";
-            this.statusRelationshipsSelected.Size = new System.Drawing.Size(0, 17);
-            // 
             // tmEntSearch
             // 
             this.tmEntSearch.Interval = 500;
@@ -1428,38 +1465,26 @@
             this.tmRelSearch.Interval = 500;
             this.tmRelSearch.Tick += new System.EventHandler(this.tmRelSearch_Tick);
             // 
-            // lblRelNoMatch
+            // label10
             // 
-            this.lblRelNoMatch.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblRelNoMatch.Location = new System.Drawing.Point(0, 174);
-            this.lblRelNoMatch.Name = "lblRelNoMatch";
-            this.lblRelNoMatch.Size = new System.Drawing.Size(341, 69);
-            this.lblRelNoMatch.TabIndex = 6;
-            this.lblRelNoMatch.Text = "No relationships match current filter";
-            this.lblRelNoMatch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblRelNoMatch.Visible = false;
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(12, 6);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(42, 13);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "Include";
             // 
-            // lblAttNoMatch
+            // chkAttInternal
             // 
-            this.lblAttNoMatch.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblAttNoMatch.Location = new System.Drawing.Point(0, 148);
-            this.lblAttNoMatch.Name = "lblAttNoMatch";
-            this.lblAttNoMatch.Size = new System.Drawing.Size(332, 69);
-            this.lblAttNoMatch.TabIndex = 7;
-            this.lblAttNoMatch.Text = "No attributes match current filter";
-            this.lblAttNoMatch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblAttNoMatch.Visible = false;
-            // 
-            // lblEntNoMatch
-            // 
-            this.lblEntNoMatch.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblEntNoMatch.Location = new System.Drawing.Point(0, 148);
-            this.lblEntNoMatch.Name = "lblEntNoMatch";
-            this.lblEntNoMatch.Size = new System.Drawing.Size(347, 69);
-            this.lblEntNoMatch.TabIndex = 8;
-            this.lblEntNoMatch.Text = "No entities match current filter";
-            this.lblEntNoMatch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblEntNoMatch.Visible = false;
+            this.chkAttInternal.AutoSize = true;
+            this.chkAttInternal.Location = new System.Drawing.Point(284, 5);
+            this.chkAttInternal.Name = "chkAttInternal";
+            this.chkAttInternal.Size = new System.Drawing.Size(61, 17);
+            this.chkAttInternal.TabIndex = 4;
+            this.chkAttInternal.Text = "Internal";
+            this.toolTip1.SetToolTip(this.chkAttInternal, "Standard attributes that are always created but perhaps not used");
+            this.chkAttInternal.UseVisualStyleBackColor = true;
+            this.chkAttInternal.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // LCG
             // 
@@ -1486,6 +1511,8 @@
             this.pnEntityGrid.ResumeLayout(false);
             this.pnEntityGrid.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridEntities)).EndInit();
+            this.statusEntities.ResumeLayout(false);
+            this.statusEntities.PerformLayout();
             this.gbEntities.ResumeLayout(false);
             this.gbEntities.PerformLayout();
             this.pnEntSearch.ResumeLayout(false);
@@ -1498,8 +1525,6 @@
             this.pnEntCustom.PerformLayout();
             this.pnEntSolution.ResumeLayout(false);
             this.pnEntSolution.PerformLayout();
-            this.statusEntities.ResumeLayout(false);
-            this.statusEntities.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel1.PerformLayout();
             this.splitContainer2.Panel2.ResumeLayout(false);
@@ -1526,6 +1551,8 @@
             this.pnRelationshipGrid.ResumeLayout(false);
             this.pnRelationshipGrid.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRelationships)).EndInit();
+            this.statusRelationships.ResumeLayout(false);
+            this.statusRelationships.PerformLayout();
             this.gbRelationships.ResumeLayout(false);
             this.gbRelationships.PerformLayout();
             this.panRelSearch.ResumeLayout(false);
@@ -1540,8 +1567,6 @@
             this.panRel2.PerformLayout();
             this.panRel1.ResumeLayout(false);
             this.panRel1.PerformLayout();
-            this.statusRelationships.ResumeLayout(false);
-            this.statusRelationships.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1660,5 +1685,7 @@
         private System.Windows.Forms.Label lblEntNoMatch;
         private System.Windows.Forms.Label lblAttNoMatch;
         private System.Windows.Forms.Label lblRelNoMatch;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.CheckBox chkAttInternal;
     }
 }
