@@ -654,15 +654,19 @@ namespace Rappen.XTB.LCG
         {
             bool GetTypeFilter(RelationshipMetadataProxy r)
             {   // Exclude relationships where selected entity is just child of the relationship
-                if (settings.RelationshipFilter.Type1N && r.OneToManyRelationshipMetadata?.ReferencingEntity == entity?.LogicalName)
+                if (settings.RelationshipFilter.Type1N && 
+                    r.OneToManyRelationshipMetadata?.ReferencedEntity == entity?.LogicalName)
                 {
                     return true;
                 }
-                if (settings.RelationshipFilter.TypeN1 && r.OneToManyRelationshipMetadata?.ReferencedEntity == entity?.LogicalName)
+                if (settings.RelationshipFilter.TypeN1 && 
+                    r.OneToManyRelationshipMetadata?.ReferencingEntity == entity?.LogicalName && 
+                    r.OneToManyRelationshipMetadata?.ReferencedEntity != entity?.LogicalName)   // Exclude self-referencing relationships, they are included as 1:N
                 {
                     return true;
                 }
-                if (settings.RelationshipFilter.TypeNN && r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
+                if (settings.RelationshipFilter.TypeNN && 
+                    r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
                 {
                     return true;
                 }

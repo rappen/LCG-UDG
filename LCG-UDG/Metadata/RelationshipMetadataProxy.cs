@@ -64,7 +64,7 @@ namespace Rappen.XTB.LCG
 
         [DisplayName("Type")]
         public string Type => Metadata.RelationshipType == RelationshipType.ManyToManyRelationship ? "N : N" : originatingentity == Parent ? "1 : N" : originatingentity == Child ? "N : 1" : "?";
-
+    
         [DisplayName("Related Entity")]
         public string RelatedEntityName => OtherEntity?.DisplayName;
 
@@ -88,6 +88,10 @@ namespace Rappen.XTB.LCG
 
         [DisplayName("Schema Name")]
         public string LogicalName => Metadata?.SchemaName;
+
+        // Two nice to have properties for debugging
+        //public string Referenced => Metadata.RelationshipType == RelationshipType.ManyToManyRelationship ? ManyToManyRelationshipMetadata.Entity1LogicalName : OneToManyRelationshipMetadata.ReferencedEntity + "/" + OneToManyRelationshipMetadata.ReferencedAttribute;
+        //public string Referencing => Metadata.RelationshipType == RelationshipType.ManyToManyRelationship ? ManyToManyRelationshipMetadata.Entity2LogicalName : OneToManyRelationshipMetadata.ReferencingEntity + "/" + OneToManyRelationshipMetadata.ReferencingAttribute;
 
         public string Summary(Settings settings)
         {
