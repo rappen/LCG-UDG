@@ -49,11 +49,21 @@
         {
             if (!isUML)
             {
-                TemplateVersion = 2;    // Change this when LCG template is updated to revert customizations
+                TemplateVersion = 3;    // Change this when LCG template is updated to revert customizations
             }
             else
             {
-                TemplateVersion = 2;    // Change this when UML template is updated to revert customizations
+                TemplateVersion = 3;    // Change this when UML template is updated to revert customizations
+                Legend = @"
+entity **Legend** <<standard>> #CCFFEE {
+    (PK) = Primary Key
+    --
+    (PN) = Primary Name
+    * Required
+    + Recommended
+    Standard
+    <color:blue>Custom</color>
+}";
                 DataContainer = @"
 @startuml {namespace}
 hide circle
@@ -65,15 +75,8 @@ skinparam ArrowFontSize 12
 skinparam ClassBorderColor Black
 skinparam ClassBorderColor<<custom>> Blue
 
-entity **Legend** <<standard>> #CCFFEE {
-    (PK) = Primary Key
-    --
-    (PN) = Primary Name
-    * Required
-    + Recommended
-    Standard
-    <color:blue>Custom</color>
-}
+{legend}
+
 title {namespace} Entity Model
 footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
 {data}
@@ -100,6 +103,7 @@ footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
 // Filename   : {filename}
 // Created    : {createdate}
 // *********************************************************************";
+        public string Legend { get; set; } 
         public string DataContainer { get; set; } = "namespace {namespace}\n{\n{data}\n}";
         public string EntityContainer { get; set; } = "{summary}\n{remarks}\npublic static class {entityname}\n{\n{entitydetail}\n{attributes}\n{relationships}\n{optionsets}\n}";
         public string EntityDetail { get; set; } = "public const string EntityName = '{logicalname}';\npublic const string EntityCollectionName = '{logicalcollectionname}';";

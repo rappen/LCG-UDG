@@ -21,6 +21,7 @@ namespace Rappen.XTB.LCG
                 settingdlg.txtConstStripPrefix.Text = settings.StripPrefix;
                 settingdlg.cmbSortAttributes.SelectedIndex = (int)settings.AttributeSortMode;
                 settingdlg.chkRelationshipLabels.Checked = settings.RelationshipLabels;
+                settingdlg.chkShowLegend.Checked = settings.Legend;
                 if (settingdlg.ShowDialog(lcg) == DialogResult.OK)
                 {
                     settings.NameSpace = settingdlg.txtNamespace.Text;
@@ -30,6 +31,7 @@ namespace Rappen.XTB.LCG
                     settings.StripPrefix = settingdlg.txtConstStripPrefix.Text.ToLowerInvariant().TrimEnd('_') + "_";
                     settings.AttributeSortMode = (AttributeSortMode)Math.Max(settingdlg.cmbSortAttributes.SelectedIndex, 0);
                     settings.RelationshipLabels = settingdlg.chkRelationshipLabels.Checked;
+                    settings.Legend = settingdlg.chkShowLegend.Checked;
                     settings.CommonAttributes = CommonAttributesType.None;
                     settings.XmlProperties = false;
                     settings.XmlDescription = false;

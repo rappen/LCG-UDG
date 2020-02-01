@@ -42,6 +42,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lblNamespace = new System.Windows.Forms.Label();
             this.txtNamespace = new System.Windows.Forms.TextBox();
+            this.chkShowLegend = new System.Windows.Forms.CheckBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // chkConstCamelCased
@@ -114,7 +116,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(129, 159);
+            this.btnCancel.Location = new System.Drawing.Point(129, 192);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(97, 23);
             this.btnCancel.TabIndex = 120;
@@ -125,7 +127,7 @@
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(262, 159);
+            this.btnOK.Location = new System.Drawing.Point(262, 192);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(97, 23);
             this.btnOK.TabIndex = 110;
@@ -191,6 +193,25 @@
             this.txtNamespace.Size = new System.Drawing.Size(299, 20);
             this.txtNamespace.TabIndex = 10;
             // 
+            // chkShowLegend
+            // 
+            this.chkShowLegend.AutoSize = true;
+            this.chkShowLegend.Location = new System.Drawing.Point(129, 150);
+            this.chkShowLegend.Name = "chkShowLegend";
+            this.chkShowLegend.Size = new System.Drawing.Size(88, 17);
+            this.chkShowLegend.TabIndex = 121;
+            this.chkShowLegend.Text = "Show legend";
+            this.chkShowLegend.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 151);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(25, 13);
+            this.label3.TabIndex = 122;
+            this.label3.Text = "Info";
+            // 
             // FormatDialogUML
             // 
             this.AcceptButton = this.btnOK;
@@ -198,7 +219,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(467, 200);
+            this.ClientSize = new System.Drawing.Size(467, 233);
+            this.Controls.Add(this.chkShowLegend);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.lblNamespace);
             this.Controls.Add(this.txtNamespace);
             this.Controls.Add(this.chkRelationshipLabels);
@@ -241,5 +264,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblNamespace;
         private System.Windows.Forms.TextBox txtNamespace;
+        private System.Windows.Forms.CheckBox chkShowLegend;
+        private System.Windows.Forms.Label label3;
     }
 }

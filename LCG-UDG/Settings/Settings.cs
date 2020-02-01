@@ -16,6 +16,7 @@ namespace Rappen.XTB.LCG
         {
             commonsettings = new CommonSettings(isUML);
             AttributeSortMode = isUML ? AttributeSortMode.AlphabeticalAndRequired : AttributeSortMode.None;
+            Legend = isUML;
             SetFixedValues(isUML);
         }
 
@@ -37,6 +38,7 @@ namespace Rappen.XTB.LCG
             {
                 RelationshipLabels = false;
                 AttributeSortMode = AttributeSortMode.None;
+                Legend = false;
             }
         }
 
@@ -57,6 +59,7 @@ namespace Rappen.XTB.LCG
         public bool RelationshipLabels { get; set; } = false;
         public bool OptionSets { get; set; } = true;
         public bool GlobalOptionSets { get; set; }
+        public bool Legend { get; set; }
         public CommonAttributesType CommonAttributes { get; set; } = CommonAttributesType.None;
         public AttributeSortMode AttributeSortMode { get; set; } = AttributeSortMode.None;
         public List<string> Selection { get; set; } = new List<string>();

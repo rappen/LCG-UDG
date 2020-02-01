@@ -51,6 +51,7 @@ namespace Rappen.XTB.LCG
                 .Replace("{organization}", orgurl)
                 .Replace("{filename}", filename)
                 .Replace("{createdate}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
+                .Replace("{legend}", settings.Legend ? settings.commonsettings.Template.Legend : string.Empty)
                 .Replace("{namespace}", settings.NameSpace)
                 .Replace("\r\n\r\n", "\r\n");
             return header;
@@ -62,6 +63,7 @@ namespace Rappen.XTB.LCG
                 .Replace("{toolname}", settings.commonsettings.ToolName)
                 .Replace("{version}", version)
                 .Replace("{namespace}", settings.NameSpace)
+                .Replace("{legend}", settings.Legend ? settings.commonsettings.Template.Legend : string.Empty)
                 .Replace("{data}", data);
         }
 
