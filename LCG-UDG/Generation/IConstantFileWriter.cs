@@ -3,6 +3,7 @@
     public interface IConstantFileWriter
     {
         void WriteBlock(Settings settings, string block, string filename);
-        string Finalize(Settings settings);
+        bool Finalize(Settings settings);
+        string GetResult(Settings settings);
     }
 }

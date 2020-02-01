@@ -15,22 +15,19 @@ namespace Rappen.XTB.LCG
 
         #region Implementation of IConstantFileWriter
 
-        public string Finalize(Settings settings)
+        public bool Finalize(Settings settings)
         {
-            var filename = Path.Combine(settings.OutputFolder, settings.CommonFile + settings.commonsettings.FileSuffix);
-            if (_blocks.ToString().WriteFile(filename, OrgUrl, settings))
-            {
-                return $"Saved file\n  {filename}";
-            }
-            else
-            {
-                return "Error";
-            }
+            return _blocks.ToString().WriteFile(settings.CommonFilePath, OrgUrl, settings);
         }
 
         public void WriteBlock(Settings settings, string block, string fileName)
         {
             _blocks.AppendLine(block);
+        }
+
+        public string GetResult(Settings settings)
+        {
+            return $"Saved file\n{settings.CommonFilePath}";
         }
 
         #endregion

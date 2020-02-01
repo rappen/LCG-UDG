@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -111,7 +112,7 @@ namespace Rappen.XTB.LCG
 
         private void btnGenerate_Click(object sender, EventArgs e)
         {
-            LogUse("Generate");
+            LogUse($"Generate {settings.UseCommonFile}");
             if (!GetFileSettings())
             {
                 return;
@@ -119,8 +120,21 @@ namespace Rappen.XTB.LCG
             GetSettingsFromUI();
             GetSelectionFromUI();
             var filewriter = settings.GetWriter(ConnectionDetail.WebApplicationUrl);
-            var message = CSharpUtils.GenerateClasses(entities, settings, filewriter);
-            MessageBox.Show(message, toolname, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (CSharpUtils.GenerateClasses(entities, settings, filewriter))
+            {
+                var message = filewriter.GetResult(settings);
+                if (isUML)
+                {
+                    if (MessageBox.Show($"{message} \n\nOpen generated file?", toolname, MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                    {
+                        Process.Start(settings.CommonFilePath);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(message, toolname, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
 
         private void btnLoadConfig_Click(object sender, EventArgs e)

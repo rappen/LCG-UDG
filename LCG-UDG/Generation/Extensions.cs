@@ -33,12 +33,12 @@ namespace Rappen.XTB.LCG
             content = content.BeautifyContent(settings.commonsettings.Template.IndentStr);
             try
             {
-                System.IO.File.WriteAllText(filename, content);
+                File.WriteAllText(filename, content);
                 return true;
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Generate constants", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message, "Generate", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }

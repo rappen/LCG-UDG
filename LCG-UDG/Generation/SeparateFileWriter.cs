@@ -15,15 +15,20 @@ namespace Rappen.XTB.LCG
 
         #region Implementation of IConstantFileWriter
 
-        public string Finalize(Settings settings)
+        public bool Finalize(Settings settings)
         {
-            return $"Saved files\n  {string.Join("\n  ", _savedFiles)}\nto folder\n  {settings.OutputFolder}";
+            return true;
         }
 
         public void WriteBlock(Settings settings, string block, string filename)
         {
             block.WriteFile(Path.Combine(settings.OutputFolder, filename), OrgUrl, settings);
             _savedFiles.Add(filename);
+        }
+
+        public string GetResult(Settings settings)
+        {
+            return $"Saved files\n  {string.Join("\n  ", _savedFiles)}\nto folder\n  {settings.OutputFolder}";
         }
 
         #endregion

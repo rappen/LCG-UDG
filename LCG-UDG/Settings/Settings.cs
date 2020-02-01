@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 
 namespace Rappen.XTB.LCG
 {
@@ -69,6 +70,7 @@ namespace Rappen.XTB.LCG
         public RelationshipFilter RelationshipFilter { get; set; } = new RelationshipFilter();
 
         internal CommonSettings commonsettings;
+        internal string CommonFilePath => Path.Combine(OutputFolder, CommonFile + commonsettings.FileSuffix);
 
         public IConstantFileWriter GetWriter(string orgUrl)
         {

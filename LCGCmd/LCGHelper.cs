@@ -44,8 +44,15 @@ namespace Rappen.XTB.LCG.Cmd
             // ToDo: Load CommonSettings
             LoadEntities();
             RestoreSelectedEntities();
-            var message = CSharpUtils.GenerateClasses(entities, Settings, Settings.GetWriter(this.crmConnection.WebApplicationUrl));
-            Console.Write(message);
+            var writer = Settings.GetWriter(this.crmConnection.WebApplicationUrl);
+            if (CSharpUtils.GenerateClasses(entities, Settings, writer))
+            {
+                Console.Write(writer.GetResult(Settings));
+            }
+            else
+            {
+                Console.WriteLine("Error");
+            }
 
         }
 
