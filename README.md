@@ -1,10 +1,10 @@
-# ![image](https://raw.githubusercontent.com/rappen/LateboundConstantGenerator/master/images/LCG-150-tsp.png) Latebound Constants Generator
+# ![image](https://raw.githubusercontent.com/rappen/LCG-UDG/master/images/LCG-150-tsp.png) Latebound Constants Generator
 
 _XrmToolBox tool to generate constant classes from metadata for late bound development on Microsoft Dynamics 365/CRM._
 
 
 
-# ![image](https://raw.githubusercontent.com/rappen/LateboundConstantGenerator/master/images/UDG-150-tsp.png) UML Diagram Generator
+# ![image](https://raw.githubusercontent.com/rappen/LCG-UDG/master/images/UDG-150-tsp.png) UML Diagram Generator
 
 _XrmToolBox tool to generate [PlantUML](https://plantuml.com) diagram files from metadata in CDS / Microsoft Dynamics 365._
 

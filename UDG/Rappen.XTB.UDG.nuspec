@@ -7,13 +7,27 @@
     <authors>Jonas Rapp</authors>
     <owners>rappen</owners>
     <projectUrl>https://jonasr.app/UML</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/rappen/LateboundConstantGenerator/master/images/UDG-150-tsp.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/rappen/LCG-UDG/master/images/UDG-150-tsp.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Generate PlantUML diagram files from metadata in CDS / Microsoft Dynamics 365</description>
     <summary>Generate PlantUML diagram files from metadata in CDS / Microsoft Dynamics 365</summary>
     <releaseNotes>
-First release!
+Latest version:
 
+Relationship type filters improved (#44)
+Filter to exclude various CDS "internal" attributes (#53)
+Sorting relationships by type, related entity, and lookup in the UI (#54)
+Hide entities, attributes and relationships grids when nothing matches filter (#47)
+Disable entire Project menu when no subitems are enabled (#46)
+Uncheck all attributes and relationships when unchecking an entity (#49)
+Option to hide Legend entity in PlantUML file (#51)
+Prompt to open generated PlantUML file (#50)
+
+---
+
+Version 1.2020.1.3:
+
+First release
     </releaseNotes>
     <copyright>Copyright 2020 Jonas Rapp</copyright>
     <tags>XrmToolBox Plugins UMLDiagramGenerator</tags>
