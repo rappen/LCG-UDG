@@ -27,7 +27,7 @@ namespace LateboundConstantGeneratorTests
                 .Invokes((Settings s, string e, string f) => { entity = e; });
             
             // Act
-            CSharpUtils.GenerateClasses(values, settings, fakeWriter);
+            GenerationUtils.GenerateFiles(values, settings, fakeWriter);
 
             // Assert
             config.MustHaveHappened();

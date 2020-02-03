@@ -173,7 +173,7 @@
     <Compile Include="FormatDialogLCG.Designer.cs">
       <DependentUpon>FormatDialogLCG.cs</DependentUpon>
     </Compile>
-    <Compile Include="Generation\CSharpUtils.cs" />
+    <Compile Include="Generation\GenerationUtils.cs" />
     <Compile Include="Metadata\EntityMetadataProxy.cs" />
     <Compile Include="Settings\CommonSettings.cs" />
     <Compile Include="Generation\Extensions.cs" />

@@ -45,7 +45,7 @@ namespace Rappen.XTB.LCG.Cmd
             LoadEntities();
             RestoreSelectedEntities();
             var writer = Settings.GetWriter(this.crmConnection.WebApplicationUrl);
-            if (CSharpUtils.GenerateClasses(entities, Settings, writer))
+            if (GenerationUtils.GenerateFiles(entities, Settings, writer))
             {
                 Console.Write(writer.GetResult(Settings));
             }

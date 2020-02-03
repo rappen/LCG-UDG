@@ -6,9 +6,9 @@ using System.Text;
 
 namespace Rappen.XTB.LCG
 {
-    public class CSharpUtils
+    public class GenerationUtils
     {
-        public static bool GenerateClasses(List<EntityMetadataProxy> entitiesmetadata, Settings settings, IConstantFileWriter fileWriter)
+        public static bool GenerateFiles(List<EntityMetadataProxy> entitiesmetadata, Settings settings, IConstantFileWriter fileWriter)
         {
             var selectedentities = entitiesmetadata.Where(e => e.Selected).ToList();
             var commonentity = GetCommonEntity(selectedentities, settings);

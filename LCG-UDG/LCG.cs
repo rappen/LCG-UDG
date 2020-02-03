@@ -120,7 +120,7 @@ namespace Rappen.XTB.LCG
             GetSettingsFromUI();
             GetSelectionFromUI();
             var filewriter = settings.GetWriter(ConnectionDetail.WebApplicationUrl);
-            if (CSharpUtils.GenerateClasses(entities, settings, filewriter))
+            if (GenerationUtils.GenerateFiles(entities, settings, filewriter))
             {
                 var message = filewriter.GetResult(settings);
                 if (isUML)
