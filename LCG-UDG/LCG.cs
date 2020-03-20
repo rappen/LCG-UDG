@@ -440,7 +440,7 @@ namespace Rappen.XTB.LCG
             if (selectedEntity?.Attributes != null && selectedEntity.Attributes.Count > 0)
             {
                 GetSettingsFromUI();
-                var filteredAttributes = GetFilteredAttributes().ToList();
+                var filteredAttributes = GetFilteredAttributes(selectedEntity).ToList();
                 if (chkAttPrimaryAttribute.Checked)
                 {
                     AddToFilteredAttributes(filteredAttributes, selectedEntity.Metadata.PrimaryNameAttribute);
@@ -586,7 +586,7 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        private IEnumerable<AttributeMetadataProxy> GetFilteredAttributes()
+        private IEnumerable<AttributeMetadataProxy> GetFilteredAttributes(EntityMetadataProxy entity)
         {
             bool GetCustomFilter(AttributeMetadataProxy a)
             {
@@ -617,7 +617,7 @@ namespace Rappen.XTB.LCG
                     !commonsettings.InternalAttributes.Contains(a.LogicalName);
             }
 
-            return selectedEntity.Attributes
+            return entity.Attributes
                     .Where(
                         a => GetCustomFilter(a)
                            && GetManagedFilter(a)
@@ -1171,17 +1171,18 @@ namespace Rappen.XTB.LCG
 
             entities.ForEach(e => e.SetSelected(false));
             entities.Where(e => settings.SelectedEntities.Select(se => se.Name).Contains(e.LogicalName)).ToList().ForEach(e => e.SetSelected(true));
-
+            var missingentities = new List<string>();
             foreach (var selectedentity in settings.SelectedEntities)
             {
-                if (selectedentity.Relationships == null)
-                {   // Needs to be defaulted since it was not stored in config
-                    SetDefaultRelationships(selectedentity);
-                }
-                var entity = entities.FirstOrDefault(e => e.LogicalName == selectedentity.Name);
+                var entity = entities.FirstOrDefault(e => e.LogicalName.Equals(selectedentity.Name));
                 if (entity == null)
                 {
+                    missingentities.Add(selectedentity.Name);
                     continue;
+                }
+                if (selectedentity.Relationships == null)
+                {   // Needs to be defaulted since it was not stored in config
+                    selectedentity.Relationships = GetDefaultRelationships(entity);
                 }
                 if (!entity.Selected)
                 {
@@ -1206,6 +1207,13 @@ namespace Rappen.XTB.LCG
                     }
                 }
             }
+            if (missingentities?.Count > 0)
+            {
+                UpdateUI(() =>
+                {
+                    MessageBox.Show($"Failed to restore the following entities as they were not available in connected environment:\n\n{string.Join("\n", missingentities)}", "Restoring entities", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                });
+            }
             restoringselection = false;
             EntitySelected(true);
         }
@@ -1228,11 +1236,10 @@ namespace Rappen.XTB.LCG
             SelectAllRows(gridRelationships, true);
         }
 
-        private void SetDefaultRelationships(SelectedEntity selectedentity)
+        private List<string> GetDefaultRelationships(EntityMetadataProxy entity)
         {
-            var entity = entities.FirstOrDefault(e => e.LogicalName.Equals(selectedentity.Name));
             var selectedrelationships = GetFilteredRelationships(entity, string.Empty);
-            selectedentity.Relationships = selectedrelationships.Select(r => r.LogicalName).ToList();
+            return selectedrelationships.Select(r => r.LogicalName).ToList();
         }
 
         private string SettingsFileName(string name)
