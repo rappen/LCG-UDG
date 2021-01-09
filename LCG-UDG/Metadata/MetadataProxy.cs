@@ -6,25 +6,23 @@ namespace Rappen.XTB.LCG
 {
     public class MetadataProxy: INotifyPropertyChanged
     {
-        private bool selected;
-
         protected bool IsVisible;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         [Browsable(false)]
-        public bool IsSelected => selected;
+        public bool IsSelected { get; private set; }
 
         public virtual void SetSelected(bool value)
         {
-            if (selected != value)
+            if (IsSelected != value)
             {
-                selected = value;
+                IsSelected = value;
                 NotifyPropertyChanged();
             }
         }
 
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

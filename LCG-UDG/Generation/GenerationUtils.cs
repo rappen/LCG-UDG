@@ -392,8 +392,7 @@ namespace Rappen.XTB.LCG
             var name = settings.commonsettings.OptionSetEnumPrefix + attributemetadata.GetNameTechnical(settings) + settings.commonsettings.OptionSetEnumSuffix;
             var optionset = settings.commonsettings.Template.OptionSet.Replace("{name}", name);
             var options = new List<string>();
-            var optionsetmetadata = attributemetadata.Metadata as EnumAttributeMetadata;
-            if (optionsetmetadata != null && optionsetmetadata.OptionSet != null)
+            if (attributemetadata.Metadata is EnumAttributeMetadata optionsetmetadata && optionsetmetadata.OptionSet != null)
             {
                 foreach (var optionmetadata in optionsetmetadata.OptionSet.Options)
                 {
