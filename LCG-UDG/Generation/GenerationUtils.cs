@@ -402,10 +402,10 @@ namespace Rappen.XTB.LCG
                     {
                         label = label.CamelCaseIt(settings);
                     }
-                    if (string.IsNullOrEmpty(label) || int.TryParse(label[0].ToString(), out int tmp))
+                    if (string.IsNullOrEmpty(label) || !UnicodeCharacterUtilities.IsIdentifierStartCharacter(label[0]))
                     {
                         label = "_" + label;
-                    }
+                    }                   
                     var option = settings.commonsettings.Template.OptionSetValue
                         .Replace("{name}", label)
                         .Replace("{value}", optionmetadata.Value.ToString());
