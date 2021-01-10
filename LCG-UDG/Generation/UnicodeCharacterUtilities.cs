@@ -116,7 +116,7 @@ namespace Rappen.XTB.LCG
             return true;
         }
 
-        public static string MakeValidIdentifier(string name)
+        public static string MakeValidIdentifier(string name, bool checkkeywords)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -134,6 +134,10 @@ namespace Rappen.XTB.LCG
                 pos++;
             }
             result += string.Join("", name.Substring(pos).Where(c => IsIdentifierPartCharacter(c)));
+            if (checkkeywords && !result.IsValidIdentifier())
+            {
+                result = "_" + result;
+            }
             if (IsValidIdentifier(result))
             {
                 return result;

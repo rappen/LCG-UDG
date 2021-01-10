@@ -27,7 +27,7 @@ namespace Rappen.XTB.LCG
             if (settings.commonsettings.Template.AddAllRelationshipsAfterEntities)
             {
                 var relationships = selectedentities.SelectMany(e => e.Relationships.Where(r => r.IsSelected));
-                relationships=relationships.GroupBy(r => r.LogicalName).Select(r => r.FirstOrDefault());    // This will make it distinct by LogicalName
+                relationships = relationships.GroupBy(r => r.LogicalName).Select(r => r.FirstOrDefault());    // This will make it distinct by LogicalName
                 var allrelationshipsstring = GetRelationships(relationships, settings);
                 fileWriter.WriteBlock(settings, allrelationshipsstring, "Relationships" + settings.commonsettings.FileSuffix);
             }
@@ -322,6 +322,7 @@ namespace Rappen.XTB.LCG
                     name = template.RequiredLevelNone.ReplaceIfNotEmpty("{attribute}", name);
                     break;
             }
+            name = UnicodeCharacterUtilities.MakeValidIdentifier(name, true);
             var description = attributemetadata.Description?.Replace("\n", "\n/// ");
             var summary = settings.XmlProperties ? attributemetadata.AttributeProperties : settings.XmlDescription ? description : string.Empty;
             var remarks = settings.XmlProperties && settings.XmlDescription ? description : string.Empty;
@@ -401,7 +402,7 @@ namespace Rappen.XTB.LCG
                     {
                         label = label.CamelCaseIt(settings);
                     }
-                    if (string.IsNullOrEmpty(label) || !UnicodeCharacterUtilities.IsIdentifierStartCharacter(label[0]))
+                    if (string.IsNullOrEmpty(label) || !UnicodeCharacterUtilities.IsIdentifierStartCharacter(label[0]) || !label.IsValidIdentifier())
                     {
                         label = "_" + label;
                     }

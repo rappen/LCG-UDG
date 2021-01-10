@@ -165,6 +165,7 @@
     <Compile Include="About.designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="Generation\FabienDehopreIdentifier.cs" />
     <Compile Include="Generation\UnicodeCharacterUtilities.cs" />
     <Compile Include="Metadata\AttributeMetadataProxy.cs" />
     <Compile Include="Generation\CommonFileWriter.cs" />
