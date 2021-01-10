@@ -106,11 +106,6 @@ namespace Rappen.XTB.LCG
 
         #region Private Event Handlers
 
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            CloseTool();
-        }
-
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             LogUse($"Generate {settings.UseCommonFile}");
@@ -1075,6 +1070,7 @@ namespace Rappen.XTB.LCG
                         }
                     }
                     EnableControls(true);
+                    LoadEntities();
                 }
             });
         }
