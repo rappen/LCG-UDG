@@ -145,35 +145,25 @@ namespace Rappen.XTB.LCG
             {
                 var last = text.Substring(0, i).ToLowerInvariant();
                 var next = text.Substring(i).ToLowerInvariant();
-                foreach (var word in settings.commonsettings.CamelCaseWords)
-                {
-                    if (last.EndsWith(word) || next.StartsWith(word))
-                    {   // Found a "word" in the string (for example "count"
-                        var isunbreakable = false;
-                        foreach (var unbreak in settings.commonsettings.CamelCaseWords)
-                        {   // Check that this word is not also part of a bigger word (for example "account"
-                            var len = unbreak.Length;
-                            var pos = text.ToLowerInvariant().IndexOf(unbreak);
-                            if (pos >= 0 && pos < i & pos + len > i)
-                            {   // Found word appears to split a bigger valid word, prevent that
-                                isunbreakable = true;
-                                break;
-                            }
-                        }
-                        if (!isunbreakable)
-                        {
-                            return true;
+                foreach (var word in settings.commonsettings.CamelCaseWords.Where(word => last.EndsWith(word) || next.StartsWith(word)))
+                {   // Found a "word" in the string (for example "count"
+                    var isunbreakable = false;
+                    foreach (var unbreak in settings.commonsettings.CamelCaseWords)
+                    {   // Check that this word is not also part of a bigger word (for example "account"
+                        var len = unbreak.Length;
+                        var pos = text.ToLowerInvariant().IndexOf(unbreak);
+                        if (pos >= 0 && pos < i & pos + len > i)
+                        {   // Found word appears to split a bigger valid word, prevent that
+                            isunbreakable = true;
+                            break;
                         }
                     }
-                }
-                foreach (var word in settings.commonsettings.CamelCaseWordEnds)
-                {
-                    if (next.Equals(word))
+                    if (!isunbreakable)
                     {
                         return true;
                     }
                 }
-                return false;
+                return settings.commonsettings.CamelCaseWordEnds.Any(word => next.Equals(word));
             }
 
             var result = string.Empty;
