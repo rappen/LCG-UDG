@@ -121,16 +121,13 @@ namespace Rappen.XTB.LCG
                 var message = filewriter.GetResult(settings);
                 if (isUML)
                 {
-                    if (MessageBox.Show($"{message} \n\nOpen generated file?", toolname, MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
-                    {
-                        Process.Start(settings.CommonFilePath);
-                    }
-                }
+                    ShowInfoNotification(message + "\nClick \"learn more\" to the right to open file 👉", new Uri("file://" + settings.CommonFilePath));
+                 }
                 else
                 {
                     ShowInfoNotification(message, null);
-                    tmHideNotification.Start();
                 }
+                tmHideNotification.Start();
             }
         }
 
@@ -178,22 +175,26 @@ namespace Rappen.XTB.LCG
 
         private void btnSaveConfigAs_Click(object sender, EventArgs e)
         {
-            var sfd = new SaveFileDialog
+            if (sender == btnSaveConfigAs || string.IsNullOrWhiteSpace(settingsfile))
             {
-                Title = "Save settings and selections",
-                Filter = "XML file (*.xml)|*.xml",
-                FileName = settingsfile
-            };
-            if (sfd.ShowDialog() == DialogResult.OK)
-            {
-                GetSettingsFromUI();
-                GetSelectionFromUI();
-                settings.Version = Version;
+                var sfd = new SaveFileDialog
+                {
+                    Title = "Save settings and selections",
+                    Filter = "XML file (*.xml)|*.xml",
+                    FileName = settingsfile
+                };
+                if (sfd.ShowDialog() != DialogResult.OK)
+                {
+                    return;
+                }
                 settingsfile = sfd.FileName;
-                XmlSerializerHelper.SerializeToFile(settings, settingsfile);
-                ShowInfoNotification($"Saved project as: {settingsfile}", null);
-                tmHideNotification.Start();
             }
+            GetSettingsFromUI();
+            GetSelectionFromUI();
+            settings.Version = Version;
+            XmlSerializerHelper.SerializeToFile(settings, settingsfile);
+            ShowInfoNotification($"Saved project as: {settingsfile}", null);
+            tmHideNotification.Start();
         }
 
         private void chkAllRows_CheckedChanged(object sender, EventArgs e)
