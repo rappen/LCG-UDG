@@ -34,6 +34,7 @@ namespace Rappen.XTB.LCG
                 RelationShips = true;
                 OptionSets = false;
                 GlobalOptionSets = false;
+                ValidateIdentifiers = false;
             }
             else
             {
@@ -71,6 +72,7 @@ namespace Rappen.XTB.LCG
 
         internal CommonSettings commonsettings;
         internal string CommonFilePath => Path.Combine(OutputFolder, CommonFile + commonsettings.FileSuffix);
+        internal bool ValidateIdentifiers = true;
 
         public IConstantFileWriter GetWriter(string orgUrl)
         {

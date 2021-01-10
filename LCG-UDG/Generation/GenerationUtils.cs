@@ -322,7 +322,10 @@ namespace Rappen.XTB.LCG
                     name = template.RequiredLevelNone.ReplaceIfNotEmpty("{attribute}", name);
                     break;
             }
-            name = UnicodeCharacterUtilities.MakeValidIdentifier(name, true);
+            if (settings.ValidateIdentifiers)
+            {
+                name = UnicodeCharacterUtilities.MakeValidIdentifier(name, true);
+            }
             var description = attributemetadata.Description?.Replace("\n", "\n/// ");
             var summary = settings.XmlProperties ? attributemetadata.AttributeProperties : settings.XmlDescription ? description : string.Empty;
             var remarks = settings.XmlProperties && settings.XmlDescription ? description : string.Empty;
