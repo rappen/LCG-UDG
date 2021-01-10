@@ -27,7 +27,7 @@ namespace Rappen.XTB.LCG
 
         public string GetResult(Settings settings)
         {
-            return $"Saved file\n{settings.CommonFilePath}";
+            return $"Saved file: {settings.CommonFilePath}";
         }
 
         #endregion

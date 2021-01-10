@@ -28,7 +28,7 @@ namespace Rappen.XTB.LCG
 
         public string GetResult(Settings settings)
         {
-            return $"Saved files\n  {string.Join("\n  ", _savedFiles)}\nto folder\n  {settings.OutputFolder}";
+            return $"Saved {_savedFiles.Count} files in folder: {settings.OutputFolder}";
         }
 
         #endregion

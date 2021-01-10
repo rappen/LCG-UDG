@@ -41,6 +41,7 @@ namespace Rappen.XTB.LCG
         private EntityMetadataProxy selectedEntity;
         private Settings settings;
         private string settingsfile;
+        private bool generatedfileprompted = false;
 
         #endregion Private Fields
 
@@ -113,7 +114,7 @@ namespace Rappen.XTB.LCG
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             LogUse($"Generate {settings.UseCommonFile}");
-            if (!GetFileSettings())
+            if (!GetFileSettings(sender == btnGenerateAs))
             {
                 return;
             }
@@ -132,7 +133,8 @@ namespace Rappen.XTB.LCG
                 }
                 else
                 {
-                    MessageBox.Show(message, toolname, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ShowInfoNotification(message, null);
+                    tmHideNotification.Start();
                 }
             }
         }
@@ -150,6 +152,7 @@ namespace Rappen.XTB.LCG
                 settingsfile = sfd.FileName;
                 if (File.Exists(settingsfile))
                 {
+                    generatedfileprompted = false;
                     var document = new XmlDocument();
                     document.Load(settingsfile);
                     settings = (Settings)XmlSerializerHelper.Deserialize(document.OuterXml, typeof(Settings));
@@ -178,7 +181,7 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        private void btnSaveConfig_Click(object sender, EventArgs e)
+        private void btnSaveConfigAs_Click(object sender, EventArgs e)
         {
             var sfd = new SaveFileDialog
             {
@@ -193,7 +196,8 @@ namespace Rappen.XTB.LCG
                 settings.Version = Version;
                 settingsfile = sfd.FileName;
                 XmlSerializerHelper.SerializeToFile(settings, settingsfile);
-                MessageBox.Show("Settings and selections saved.", "Save configuration", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ShowInfoNotification($"Saved project as: {settingsfile}", null);
+                tmHideNotification.Start();
             }
         }
 
@@ -546,44 +550,53 @@ namespace Rappen.XTB.LCG
             btnGenerate.Text = "Generate PlantUML";
         }
 
-        private bool GetFileSettings()
+        private bool GetFileSettings(bool forceprompt)
         {
-            if (settings.UseCommonFile)
+            var result = true;
+            if (forceprompt || !generatedfileprompted)
             {
-                using (var filedlg = new SaveFileDialog
+                if (settings.UseCommonFile)
                 {
-                    InitialDirectory = settings.OutputFolder,
-                    FileName = settings.CommonFile,
-                    DefaultExt = isUML ? ".plantuml" : ".cs",
-                    Filter = isUML ? "PlantUML|*.plantuml|UML|*.uml" : "*.cs|*.cs"
-                })
-                {
-                    if (filedlg.ShowDialog(this) == DialogResult.OK)
+                    using (var filedlg = new SaveFileDialog
                     {
-                        settings.OutputFolder = Path.GetDirectoryName(filedlg.FileName);
-                        settings.CommonFile = Path.GetFileNameWithoutExtension(filedlg.FileName);
-                        return true;
+                        InitialDirectory = settings.OutputFolder,
+                        FileName = settings.CommonFile,
+                        DefaultExt = isUML ? ".plantuml" : ".cs",
+                        Filter = isUML ? "PlantUML|*.plantuml|UML|*.uml" : "*.cs|*.cs"
+                    })
+                    {
+                        result = filedlg.ShowDialog(this) == DialogResult.OK;
+                        if (result)
+                        {
+                            settings.OutputFolder = Path.GetDirectoryName(filedlg.FileName);
+                            settings.CommonFile = Path.GetFileNameWithoutExtension(filedlg.FileName);
+                            result = true;
+                        }
                     }
                 }
-                return false;
-            }
-            else
-            {
-                using (var fldr = new FolderBrowserDialog
+                else
                 {
-                    Description = "Select folder where files will be generated.",
-                    SelectedPath = string.IsNullOrWhiteSpace(settings.OutputFolder) ? Path.GetDirectoryName(settingsfile) : settings.OutputFolder,
-                    ShowNewFolderButton = true
-                })
-                {
-                    if (fldr.ShowDialog(this) == DialogResult.OK)
+                    using (var fldr = new FolderBrowserDialog
                     {
-                        settings.OutputFolder = fldr.SelectedPath;
-                        return true;
+                        Description = "Select folder where files will be generated.",
+                        SelectedPath = string.IsNullOrWhiteSpace(settings.OutputFolder) ? Path.GetDirectoryName(settingsfile) : settings.OutputFolder,
+                        ShowNewFolderButton = true
+                    })
+                    {
+                        result = fldr.ShowDialog(this) == DialogResult.OK;
+                        if (result)
+                        {
+                            settings.OutputFolder = fldr.SelectedPath;
+                            result = true;
+                        }
                     }
                 }
-                return false;
             }
+            if (result)
+            {
+                generatedfileprompted = true;
+            }
+            return result;
         }
 
         private IEnumerable<AttributeMetadataProxy> GetFilteredAttributes(EntityMetadataProxy entity)
@@ -1314,5 +1327,11 @@ namespace Rappen.XTB.LCG
         }
 
         #endregion Private Methods
+
+        private void tmHideNotification_Tick(object sender, EventArgs e)
+        {
+            tmHideNotification.Stop();
+            HideNotification();
+        }
     }
 }
