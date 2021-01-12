@@ -117,12 +117,17 @@ footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
         internal string FileContainer = "{header}\n{data}";
         internal string FileHeader = @"// *********************************************************************
 // Created by : {toolname} {version} for XrmToolBox
-// Author     : Jonas Rapp https://twitter.com/rappen
-// GitHub     : https://github.com/rappen/LCG-UDG
+// Author     : Jonas Rapp https://jonasr.app/
+// GitHub     : https://github.com/rappen/LCG-UDG/
 // Source Org : {organization}
 // Filename   : {filename}
 // Created    : {createdate}
 // *********************************************************************";
+        internal string InlineSelectionConfig = @"/*****LCG-configuration - Do NOT edit configuration below! *****\
+
+{selection}
+
+\*****END-LCG-configuration *****/";
         public string Legend { get; set; }
         public string DataContainer { get; set; } = "namespace {namespace}\n{\n{data}\n}";
         public string EntityContainer { get; set; } = "{summary}\n{remarks}\npublic static class {entityname}\n{\n{entitydetail}\n{attributes}\n{relationships}\n{optionsets}\n}";

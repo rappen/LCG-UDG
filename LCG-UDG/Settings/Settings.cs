@@ -26,6 +26,7 @@ namespace Rappen.XTB.LCG
             if (isUML)
             {
                 UseCommonFile = true;
+                SaveSelectionInCommonFile = false;
                 FileName = NameType.DisplayName;
                 CommonAttributes = CommonAttributesType.None;
                 XmlProperties = false;
@@ -48,6 +49,7 @@ namespace Rappen.XTB.LCG
         public string OutputFolder { get; set; }
         public string NameSpace { get; set; }
         public bool UseCommonFile { get; set; }
+        public bool SaveSelectionInCommonFile { get; set; } = true;
         public string CommonFile { get; set; }
         public NameType FileName { get; set; } = NameType.DisplayName;
         public NameType ConstantName { get; set; } = NameType.DisplayName;

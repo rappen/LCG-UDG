@@ -1,11 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using McTools.Xrm.Connection;
 using Microsoft.Xrm.Sdk.Metadata;
 
 namespace Rappen.XTB.LCG
@@ -31,6 +31,12 @@ namespace Rappen.XTB.LCG
             var content = GetDataContent(data, settings, version);
             content = header + "\r\n\r\n" + content;
             content = content.BeautifyContent(settings.commonsettings.Template.IndentStr);
+            if (settings.SaveSelectionInCommonFile)
+            {
+                var selection = XmlSerializerHelper.Serialize(settings.SelectedEntities);
+                selection = settings.commonsettings.Template.InlineSelectionConfig.Replace("{selection}", selection);
+                content += "\r\n\r\n" + selection;
+            }
             try
             {
                 File.WriteAllText(filename, content);
