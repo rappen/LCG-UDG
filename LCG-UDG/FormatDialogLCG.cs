@@ -17,6 +17,7 @@ namespace Rappen.XTB.LCG
                 settingdlg.rbFileCommon.Checked = lcg.isUML || settings.UseCommonFile;
                 settingdlg.rbFilePerEntity.Checked = !settingdlg.rbFileCommon.Checked;
                 settingdlg.cmbFileName.SelectedIndex = (int)settings.FileName;
+                settingdlg.chkFileIncludeSelection.Checked = settings.SaveSelectionInCommonFile;
                 settingdlg.txtNamespace.Text = settings.NameSpace;
                 settingdlg.cmbCommonAttributes.SelectedIndex = (int)settings.CommonAttributes;
                 settingdlg.cmbConstantName.SelectedIndex = (int)settings.ConstantName;
@@ -33,6 +34,7 @@ namespace Rappen.XTB.LCG
                 {
                     settings.UseCommonFile = lcg.isUML || settingdlg.rbFileCommon.Checked;
                     settings.FileName = (NameType)Math.Max(settingdlg.cmbFileName.SelectedIndex, 0);
+                    settings.SaveSelectionInCommonFile = settingdlg.rbFileCommon.Checked && settingdlg.chkFileIncludeSelection.Checked;
                     settings.NameSpace = settingdlg.txtNamespace.Text;
                     settings.CommonAttributes = (CommonAttributesType)Math.Max(settingdlg.cmbCommonAttributes.SelectedIndex, 0);
                     settings.ConstantName = (NameType)Math.Max(settingdlg.cmbConstantName.SelectedIndex, 0);
@@ -75,6 +77,7 @@ namespace Rappen.XTB.LCG
         private void rbFileCommon_CheckedChanged(object sender, EventArgs e)
         {
             cmbFileName.Visible = rbFilePerEntity.Checked;
+            chkFileIncludeSelection.Visible = rbFileCommon.Checked;
         }
     }
 }

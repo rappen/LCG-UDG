@@ -55,6 +55,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.cmbFileName = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.chkFileIncludeSelection = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label19
@@ -78,7 +79,7 @@
             // chkRegions
             // 
             this.chkRegions.AutoSize = true;
-            this.chkRegions.Location = new System.Drawing.Point(316, 230);
+            this.chkRegions.Location = new System.Drawing.Point(296, 230);
             this.chkRegions.Name = "chkRegions";
             this.chkRegions.Size = new System.Drawing.Size(65, 17);
             this.chkRegions.TabIndex = 120;
@@ -89,7 +90,7 @@
             // 
             this.chkEnumsGlobal.AutoSize = true;
             this.chkEnumsGlobal.Enabled = false;
-            this.chkEnumsGlobal.Location = new System.Drawing.Point(316, 203);
+            this.chkEnumsGlobal.Location = new System.Drawing.Point(296, 203);
             this.chkEnumsGlobal.Name = "chkEnumsGlobal";
             this.chkEnumsGlobal.Size = new System.Drawing.Size(111, 17);
             this.chkEnumsGlobal.TabIndex = 100;
@@ -128,7 +129,7 @@
             // chkXmlDescription
             // 
             this.chkXmlDescription.AutoSize = true;
-            this.chkXmlDescription.Location = new System.Drawing.Point(316, 176);
+            this.chkXmlDescription.Location = new System.Drawing.Point(296, 176);
             this.chkXmlDescription.Name = "chkXmlDescription";
             this.chkXmlDescription.Size = new System.Drawing.Size(79, 17);
             this.chkXmlDescription.TabIndex = 80;
@@ -148,7 +149,7 @@
             // chkConstCamelCased
             // 
             this.chkConstCamelCased.AutoSize = true;
-            this.chkConstCamelCased.Location = new System.Drawing.Point(316, 123);
+            this.chkConstCamelCased.Location = new System.Drawing.Point(296, 123);
             this.chkConstCamelCased.Name = "chkConstCamelCased";
             this.chkConstCamelCased.Size = new System.Drawing.Size(85, 17);
             this.chkConstCamelCased.TabIndex = 40;
@@ -198,7 +199,7 @@
             "Logical Name"});
             this.cmbConstantName.Location = new System.Drawing.Point(132, 120);
             this.cmbConstantName.Name = "cmbConstantName";
-            this.cmbConstantName.Size = new System.Drawing.Size(178, 21);
+            this.cmbConstantName.Size = new System.Drawing.Size(158, 21);
             this.cmbConstantName.TabIndex = 30;
             this.cmbConstantName.SelectedIndexChanged += new System.EventHandler(this.cmbConstantName_SelectedIndexChanged);
             // 
@@ -328,7 +329,7 @@
             "Logical Name"});
             this.cmbFileName.Location = new System.Drawing.Point(132, 39);
             this.cmbFileName.Name = "cmbFileName";
-            this.cmbFileName.Size = new System.Drawing.Size(178, 21);
+            this.cmbFileName.Size = new System.Drawing.Size(158, 21);
             this.cmbFileName.TabIndex = 3;
             this.cmbFileName.Visible = false;
             // 
@@ -341,6 +342,16 @@
             this.label1.TabIndex = 146;
             this.label1.Text = "Prompt when generating";
             // 
+            // chkFileIncludeSelection
+            // 
+            this.chkFileIncludeSelection.AutoSize = true;
+            this.chkFileIncludeSelection.Location = new System.Drawing.Point(296, 41);
+            this.chkFileIncludeSelection.Name = "chkFileIncludeSelection";
+            this.chkFileIncludeSelection.Size = new System.Drawing.Size(138, 17);
+            this.chkFileIncludeSelection.TabIndex = 147;
+            this.chkFileIncludeSelection.Text = "Include selection config";
+            this.chkFileIncludeSelection.UseVisualStyleBackColor = true;
+            // 
             // FormatDialogLCG
             // 
             this.AcceptButton = this.btnOK;
@@ -349,6 +360,7 @@
             this.BackColor = System.Drawing.SystemColors.Window;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(467, 313);
+            this.Controls.Add(this.chkFileIncludeSelection);
             this.Controls.Add(this.rbFilePerEntity);
             this.Controls.Add(this.rbFileCommon);
             this.Controls.Add(this.label6);
@@ -417,5 +429,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox cmbFileName;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox chkFileIncludeSelection;
     }
 }
