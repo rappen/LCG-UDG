@@ -5,7 +5,7 @@ namespace Rappen.XTB.Helper
 {
     public static class ConfigurationUtils
     {
-        public static T OpenCSFileWithConfig<T>(string filename, string begintoken, string endtoken)
+        public static T GetEmbeddedConfiguration<T>(string filename, string begintoken, string endtoken)
         {
             string GetTextBetween(string text, string begin, string end, bool includebeginend)
             {
