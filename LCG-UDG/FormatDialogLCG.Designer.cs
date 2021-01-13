@@ -327,7 +327,7 @@
             "Display Name",
             "Schema Name",
             "Logical Name"});
-            this.cmbFileName.Location = new System.Drawing.Point(132, 39);
+            this.cmbFileName.Location = new System.Drawing.Point(133, 40);
             this.cmbFileName.Name = "cmbFileName";
             this.cmbFileName.Size = new System.Drawing.Size(158, 21);
             this.cmbFileName.TabIndex = 3;
@@ -345,11 +345,11 @@
             // chkFileIncludeSelection
             // 
             this.chkFileIncludeSelection.AutoSize = true;
-            this.chkFileIncludeSelection.Location = new System.Drawing.Point(296, 41);
+            this.chkFileIncludeSelection.Location = new System.Drawing.Point(296, 42);
             this.chkFileIncludeSelection.Name = "chkFileIncludeSelection";
-            this.chkFileIncludeSelection.Size = new System.Drawing.Size(138, 17);
+            this.chkFileIncludeSelection.Size = new System.Drawing.Size(125, 17);
             this.chkFileIncludeSelection.TabIndex = 147;
-            this.chkFileIncludeSelection.Text = "Include selection config";
+            this.chkFileIncludeSelection.Text = "Include configuration";
             this.chkFileIncludeSelection.UseVisualStyleBackColor = true;
             // 
             // FormatDialogLCG

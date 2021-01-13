@@ -3,11 +3,11 @@ using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Metadata;
 using Microsoft.Xrm.Sdk.Query;
+using Rappen.XTB.Helper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -109,7 +109,7 @@ namespace Rappen.XTB.LCG
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             LogUse($"Generate {settings.UseCommonFile}");
-            if (!GetFileSettings(sender == btnGenerateAs))
+            if (!GetFileSettings(sender == btnSaveCsAs))
             {
                 return;
             }
@@ -122,7 +122,7 @@ namespace Rappen.XTB.LCG
                 if (isUML)
                 {
                     ShowInfoNotification(message + "\nClick \"learn more\" to the right to open file 👉", new Uri("file://" + settings.CommonFilePath));
-                 }
+                }
                 else
                 {
                     ShowInfoNotification(message, null);
@@ -158,6 +158,26 @@ namespace Rappen.XTB.LCG
         private void btnLoadEntities_Click(object sender, EventArgs e)
         {
             ExecuteMethod(LoadEntities);
+        }
+
+        private void btnOpenGeneratedFile_Click(object sender, EventArgs e)
+        {
+            var ofd = new OpenFileDialog
+            {
+                Title = "Load generated C# file with configuration",
+                Filter = "C# file (*.cs)|*.cs",
+                InitialDirectory = settings.OutputFolder,
+                FileName = settings.CommonFile
+            };
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                settings.OutputFolder = Path.GetDirectoryName(ofd.FileName);
+                settings.CommonFile = Path.GetFileNameWithoutExtension(ofd.FileName);
+                if (File.Exists(ofd.FileName))
+                {
+                    ApplyEmbeddedConfiguration(ofd.FileName);
+                }
+            }
         }
 
         private void btnOptions_Click(object sender, EventArgs e)
@@ -280,7 +300,7 @@ namespace Rappen.XTB.LCG
             lasttriedattributeload = string.Empty;
             chkEntAll.Visible = false;
             chkAttAll.Visible = false;
-            menuConfig.Enabled = false;
+            menuOpen.Enabled = false;
             entities = null;
             selectedEntity = null;
             gridRelationships.DataSource = null;
@@ -378,6 +398,29 @@ namespace Rappen.XTB.LCG
             {
                 filteredAttributes.Insert(0, att);
             }
+        }
+
+        private void ApplyEmbeddedConfiguration(string filename)
+        {
+            Settings inlineconfig;
+            try
+            {
+                inlineconfig = ConfigurationUtils.GetEmbeddedConfiguration<Settings>(filename, settings.commonsettings.Template.InlineConfigBegin, settings.commonsettings.Template.InlineConfigEnd);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to parse configuration.\n\n{ex.Message}", "Open file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (inlineconfig == null)
+            {
+                return;
+            }
+            ShowInfoNotification("Loaded configuration embedded in C# file.", null);
+            tmHideNotification.Start();
+            settings.CopyInlineConfiguration(inlineconfig);
+            ApplySettings();
+            RestoreSelectedEntities();
         }
 
         private void ApplySettings()
@@ -988,7 +1031,7 @@ namespace Rappen.XTB.LCG
                             gridEntities.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader);
                             gridEntities.Columns[0].Width = 30;
                         }
-                        menuConfig.Enabled = true;
+                        menuOpen.Enabled = true;
                         EnableControls(true);
                     });
                 }
@@ -1088,7 +1131,10 @@ namespace Rappen.XTB.LCG
             }
 
             // Settings loaded from pre 2020, so need to reset RelationshipFilter and reflect that on the form and make sure all filters are shown
-            settings.SelectedEntities = settings.Selection.Select(e => ConvertSelectionFromPre2020(e)).ToList();
+            if (settings.SelectedEntities?.Count == 0 && settings.Selection?.Count > 0)
+            {
+                settings.SelectedEntities = settings.Selection.Select(e => ConvertSelectionFromPre2020(e)).ToList();
+            }
             settings.Version = Version;
             settings.EntityFilter.Expanded = true;
             settings.AttributeFilter.Expanded = true;
@@ -1159,9 +1205,22 @@ namespace Rappen.XTB.LCG
             }
 
             restoringselection = true;
-            if (!System.Version.TryParse(settings.Version, out Version version) || version < new Version(1, 2020))
+            var version = System.Version.TryParse(settings.Version, out Version v) ? v : new Version();
+            if (version < new Version(1, 2020))
             {   // Loading old style selection configuration
                 MigrateFromPre2020Settings();
+            }
+            if (version < new Version(1, 2021))
+            {
+                if (!isUML)
+                {
+                    MessageBox.Show(@"Welcome to the new version!
+
+By default the project configuration will now be embedded in a comment block at the end of the generated C# file.
+Using this feature will make the separate project xml files obsolete.
+This behavior can be prevented by unchecking the box 'Include configuration' in the Options dialog", "New version", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    settings.Version = Version;
+                }
             }
 
             var selectedentitywithoutattributes = entities.FirstOrDefault(e => e.Attributes == null && settings.SelectedEntities.Select(se => se.Name).Contains(e.LogicalName));

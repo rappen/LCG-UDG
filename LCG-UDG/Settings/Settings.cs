@@ -85,6 +85,7 @@ namespace Rappen.XTB.LCG
 
         internal void CopyInlineConfiguration(Settings source)
         {
+            Version = source.Version;
             NameSpace = source.NameSpace;
             UseCommonFile = source.UseCommonFile;
             FileName = source.FileName;
@@ -108,7 +109,6 @@ namespace Rappen.XTB.LCG
         internal static Settings GetBlankSettings()
         {
             var result = new Settings();
-            result.Version = null;
             result.OutputFolder = null;
             result.NameSpace = null;
             result.CommonFile = null;
