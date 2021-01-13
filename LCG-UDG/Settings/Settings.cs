@@ -26,7 +26,7 @@ namespace Rappen.XTB.LCG
             if (isUML)
             {
                 UseCommonFile = true;
-                SaveSelectionInCommonFile = false;
+                SaveConfigurationInCommonFile = false;
                 FileName = NameType.DisplayName;
                 CommonAttributes = CommonAttributesType.None;
                 XmlProperties = false;
@@ -49,7 +49,7 @@ namespace Rappen.XTB.LCG
         public string OutputFolder { get; set; }
         public string NameSpace { get; set; }
         public bool UseCommonFile { get; set; }
-        public bool SaveSelectionInCommonFile { get; set; } = true;
+        public bool SaveConfigurationInCommonFile { get; set; } = true;
         public string CommonFile { get; set; }
         public NameType FileName { get; set; } = NameType.DisplayName;
         public NameType ConstantName { get; set; } = NameType.DisplayName;
@@ -81,6 +81,44 @@ namespace Rappen.XTB.LCG
             return UseCommonFile
                 ? (IConstantFileWriter)new CommonFileWriter(orgUrl)
                 : new SeparateFileWriter(orgUrl);
+        }
+
+        internal void CopyInlineConfiguration(Settings source)
+        {
+            NameSpace = source.NameSpace;
+            UseCommonFile = source.UseCommonFile;
+            FileName = source.FileName;
+            ConstantName = source.ConstantName;
+            ConstantCamelCased = source.ConstantCamelCased;
+            DoStripPrefix = source.DoStripPrefix;
+            StripPrefix = source.StripPrefix;
+            XmlProperties = source.XmlProperties;
+            XmlDescription = source.XmlDescription;
+            Regions = source.Regions;
+            RelationShips = source.RelationShips;
+            RelationshipLabels = source.RelationshipLabels;
+            OptionSets = source.OptionSets;
+            GlobalOptionSets = source.GlobalOptionSets;
+            Legend = source.Legend;
+            CommonAttributes = source.CommonAttributes;
+            AttributeSortMode = source.AttributeSortMode;
+            SelectedEntities = source.SelectedEntities;
+        }
+
+        internal static Settings GetBlankSettings()
+        {
+            var result = new Settings();
+            result.Version = null;
+            result.OutputFolder = null;
+            result.NameSpace = null;
+            result.CommonFile = null;
+            result.StripPrefix = null;
+            result.Selection = null;
+            result.SelectedEntities = null;
+            result.EntityFilter = null;
+            result.AttributeFilter = null;
+            result.RelationshipFilter = null;
+            return result;
         }
     }
 

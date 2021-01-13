@@ -31,10 +31,9 @@ namespace Rappen.XTB.LCG
             var content = GetDataContent(data, settings, version);
             content = header + "\r\n\r\n" + content;
             content = content.BeautifyContent(settings.commonsettings.Template.IndentStr);
-            if (settings.SaveSelectionInCommonFile)
+            if (settings.SaveConfigurationInCommonFile)
             {
-                var selection = XmlSerializerHelper.Serialize(settings.SelectedEntities);
-                selection = settings.commonsettings.Template.InlineSelectionConfig.Replace("{selection}", selection);
+                string selection = GetInlineConfiguration(settings);
                 content += "\r\n\r\n" + selection;
             }
             try
@@ -47,6 +46,18 @@ namespace Rappen.XTB.LCG
                 MessageBox.Show(e.Message, "Generate", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+        }
+
+        private static string GetInlineConfiguration(Settings settings)
+        {
+            var inlineconfig = Settings.GetBlankSettings();
+            inlineconfig.CopyInlineConfiguration(settings);
+            var selection = XmlSerializerHelper.Serialize(inlineconfig);
+            var inlineconfigstr = new StringBuilder();
+            inlineconfigstr.AppendLine(settings.commonsettings.Template.InlineConfigBegin);
+            inlineconfigstr.AppendLine(selection);
+            inlineconfigstr.AppendLine(settings.commonsettings.Template.InlineConfigEnd);
+            return inlineconfigstr.ToString();
         }
 
         private static string GetFileHeader(string filename, string orgurl, Settings settings, string version)

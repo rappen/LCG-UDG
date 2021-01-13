@@ -123,11 +123,9 @@ footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
 // Filename   : {filename}
 // Created    : {createdate}
 // *********************************************************************";
-        internal string InlineSelectionConfig = @"/*****LCG-configuration - Do NOT edit configuration below! *****\
 
-{selection}
-
-\*****END-LCG-configuration *****/";
+        internal string InlineConfigBegin = @"/***** LCG-configuration-BEGIN *****\";
+        internal string InlineConfigEnd   = @"\***** LCG-configuration-END   *****/";
         public string Legend { get; set; }
         public string DataContainer { get; set; } = "namespace {namespace}\n{\n{data}\n}";
         public string EntityContainer { get; set; } = "{summary}\n{remarks}\npublic static class {entityname}\n{\n{entitydetail}\n{attributes}\n{relationships}\n{optionsets}\n}";
