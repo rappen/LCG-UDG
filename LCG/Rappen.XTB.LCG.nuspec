@@ -9,10 +9,23 @@
     <projectUrl>https://github.com/rappen/LCG-UDG</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/rappen/LCG-UDG/master/images/LCG-150-tsp.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Generate constant classes from metadata for late bound development on Microsoft Dynamics 365/CRM.</description>
-    <summary>Generate constant classes from metadata for late bound development on Microsoft Dynamics 365/CRM.</summary>
+    <description>Generate constant classes from metadata for late bound development on Microsoft Dataverse.</description>
+    <summary>Generate constant classes from metadata for late bound development on Microsoft Dataverse.</summary>
     <releaseNotes>
 Latest version:
+
+Major improvement!
+Configuration will now by default be stored inline in the generated C# file as a comment block in at the end of the file.
+This makes the "project file" obsolete, and a generated C# file can be opened by Latebound Constants Generator and the configuration is parsed from the comment block.
+
+Also:
+Simplify Save and Generate behavior, not prompting all the time (#66)
+Better handling of identifier strings to ensure compilable results (#70)
+Fixed crash when opening configuration containing entities not in the database (#57)
+
+---
+
+Version 1.2020.2.1:
 
 Hide entities, attributes and relationships grids when nothing matches filter (#47)
 Disable entire Project menu when no subitems are enabled (#46)
@@ -63,10 +76,10 @@ Version 1.2018.9.2:
 #25 Gently forgive file write errors instead of throwing exception
 Template line break bug fixed
     </releaseNotes>
-    <copyright>Copyright 2017-2020 Jonas Rapp</copyright>
+    <copyright>Copyright 2017-2021 Jonas Rapp</copyright>
     <tags>XrmToolBox Plugins LateboundConstantsGenerator</tags>
     <dependencies>
-      <dependency id="XrmToolBox" version="1.2019.11.35" />
+      <dependency id="XrmToolBox" version="1.2020.12.43" />
     </dependencies>
   </metadata>
   <files>
