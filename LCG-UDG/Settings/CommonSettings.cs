@@ -13,6 +13,7 @@ namespace Rappen.XTB.LCG
             {
                 AttributeSeparatorAfterPK = "--";
             }
+            SetFixedValues(isUML);
         }
 
         internal void MigrateFromOldConfig(bool isUML)
@@ -37,13 +38,19 @@ namespace Rappen.XTB.LCG
             if (isUML)
             {
                 ToolName = LCG.toolnameUDG;
+                FileType = "PlantUML";
                 FileSuffix = ".plantuml";
+                InlineConfigBegin = InlineConfigBegin.Replace("/*", "/'").Replace("*/", "'/");
+                InlineConfigEnd = InlineConfigEnd.Replace("/*", "/'").Replace("*/", "'/");
             }
             Template.SetFixedValues(isUML);
         }
 
         internal string ToolName = LCG.toolnameLCG;
+        internal string FileType = "C#";
         internal string FileSuffix = ".cs";
+        internal string InlineConfigBegin = @"/***** LCG-configuration-BEGIN *****\";
+        internal string InlineConfigEnd = @"\***** LCG-configuration-END   *****/";
         public string Version { get; set; }
         public string EntityPrefix { get; set; } = string.Empty;
         public string EntitySuffix { get; set; } = string.Empty;
@@ -123,9 +130,6 @@ footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
 // Filename   : {filename}
 // Created    : {createdate}
 // *********************************************************************";
-
-        internal string InlineConfigBegin = @"/***** LCG-configuration-BEGIN *****\";
-        internal string InlineConfigEnd   = @"\***** LCG-configuration-END   *****/";
         public string Legend { get; set; }
         public string DataContainer { get; set; } = "namespace {namespace}\n{\n{data}\n}";
         public string EntityContainer { get; set; } = "{summary}\n{remarks}\npublic static class {entityname}\n{\n{entitydetail}\n{attributes}\n{relationships}\n{optionsets}\n}";

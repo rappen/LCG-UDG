@@ -14,6 +14,7 @@ namespace Rappen.XTB.LCG
         {
             using (var settingdlg = new FormatDialogUML())
             {
+                settingdlg.chkFileIncludeSelection.Checked = settings.SaveConfigurationInCommonFile;
                 settingdlg.txtNamespace.Text = settings.NameSpace;
                 settingdlg.cmbConstantName.SelectedIndex = (int)settings.ConstantName;
                 settingdlg.chkConstCamelCased.Checked = settings.ConstantCamelCased && settings.ConstantName != NameType.DisplayName;
@@ -24,6 +25,7 @@ namespace Rappen.XTB.LCG
                 settingdlg.chkShowLegend.Checked = settings.Legend;
                 if (settingdlg.ShowDialog(lcg) == DialogResult.OK)
                 {
+                    settings.SaveConfigurationInCommonFile = settingdlg.chkFileIncludeSelection.Checked;
                     settings.NameSpace = settingdlg.txtNamespace.Text;
                     settings.ConstantName = (NameType)Math.Max(settingdlg.cmbConstantName.SelectedIndex, 0);
                     settings.ConstantCamelCased = settingdlg.chkConstCamelCased.Checked;

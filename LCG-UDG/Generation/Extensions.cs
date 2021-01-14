@@ -54,9 +54,9 @@ namespace Rappen.XTB.LCG
             inlineconfig.CopyInlineConfiguration(settings);
             var selection = XmlSerializerHelper.Serialize(inlineconfig);
             var inlineconfigstr = new StringBuilder();
-            inlineconfigstr.AppendLine(settings.commonsettings.Template.InlineConfigBegin);
+            inlineconfigstr.AppendLine(settings.commonsettings.InlineConfigBegin);
             inlineconfigstr.AppendLine(selection);
-            inlineconfigstr.AppendLine(settings.commonsettings.Template.InlineConfigEnd);
+            inlineconfigstr.AppendLine(settings.commonsettings.InlineConfigEnd);
             return inlineconfigstr.ToString();
         }
 

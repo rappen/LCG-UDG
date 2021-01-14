@@ -44,9 +44,11 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.menuOpen = new System.Windows.Forms.ToolStripDropDownButton();
             this.btnOpenGeneratedFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.btnOpenConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.btnGenerate = new System.Windows.Forms.ToolStripSplitButton();
             this.btnSaveCsAs = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.btnSaveConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.btnSaveConfigAs = new System.Windows.Forms.ToolStripMenuItem();
             this.btnOptions = new System.Windows.Forms.ToolStripButton();
@@ -155,8 +157,6 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tmRelSearch = new System.Windows.Forms.Timer(this.components);
             this.tmHideNotification = new System.Windows.Forms.Timer(this.components);
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -204,8 +204,8 @@
             this.toolStripSeparator1,
             this.menuOpen,
             this.btnGenerate,
-            this.btnOptions,
             this.toolStripSeparator2,
+            this.btnOptions,
             this.tslAbout});
             this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
             this.toolStripMenu.Name = "toolStripMenu";
@@ -243,15 +243,20 @@
             // 
             this.btnOpenGeneratedFile.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenGeneratedFile.Image")));
             this.btnOpenGeneratedFile.Name = "btnOpenGeneratedFile";
-            this.btnOpenGeneratedFile.Size = new System.Drawing.Size(188, 30);
+            this.btnOpenGeneratedFile.Size = new System.Drawing.Size(174, 22);
             this.btnOpenGeneratedFile.Text = "Generated C# file...";
             this.btnOpenGeneratedFile.Click += new System.EventHandler(this.btnOpenGeneratedFile_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(171, 6);
             // 
             // btnOpenConfig
             // 
             this.btnOpenConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenConfig.Image")));
             this.btnOpenConfig.Name = "btnOpenConfig";
-            this.btnOpenConfig.Size = new System.Drawing.Size(188, 30);
+            this.btnOpenConfig.Size = new System.Drawing.Size(174, 22);
             this.btnOpenConfig.Text = "Project file...";
             this.btnOpenConfig.Click += new System.EventHandler(this.btnLoadConfig_Click);
             // 
@@ -277,6 +282,11 @@
             this.btnSaveCsAs.Size = new System.Drawing.Size(188, 30);
             this.btnSaveCsAs.Text = "C# file as...";
             this.btnSaveCsAs.Click += new System.EventHandler(this.btnGenerate_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(185, 6);
             // 
             // btnSaveConfig
             // 
@@ -1508,16 +1518,6 @@
             // 
             this.tmHideNotification.Interval = 5000;
             this.tmHideNotification.Tick += new System.EventHandler(this.tmHideNotification_Tick);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(185, 6);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(185, 6);
             // 
             // LCG
             // 

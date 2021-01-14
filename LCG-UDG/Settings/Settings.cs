@@ -26,7 +26,6 @@ namespace Rappen.XTB.LCG
             if (isUML)
             {
                 UseCommonFile = true;
-                SaveConfigurationInCommonFile = false;
                 FileName = NameType.DisplayName;
                 CommonAttributes = CommonAttributesType.None;
                 XmlProperties = false;
@@ -43,6 +42,7 @@ namespace Rappen.XTB.LCG
                 AttributeSortMode = AttributeSortMode.None;
                 Legend = false;
             }
+            commonsettings?.SetFixedValues(isUML);
         }
 
         public string Version { get; set; }

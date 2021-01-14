@@ -245,6 +245,9 @@
   <ItemGroup>
     <None Include="Resources\UDG-4-016-tsp.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UML-24.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

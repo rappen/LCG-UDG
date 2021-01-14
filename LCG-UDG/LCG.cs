@@ -164,8 +164,8 @@ namespace Rappen.XTB.LCG
         {
             var ofd = new OpenFileDialog
             {
-                Title = "Load generated C# file with configuration",
-                Filter = "C# file (*.cs)|*.cs",
+                Title = $"Load generated {settings.commonsettings.FileType} file with configuration",
+                Filter = $"{settings.commonsettings.FileType} file (*{settings.commonsettings.FileSuffix})|*{settings.commonsettings.FileSuffix}",
                 InitialDirectory = settings.OutputFolder,
                 FileName = settings.CommonFile
             };
@@ -405,7 +405,7 @@ namespace Rappen.XTB.LCG
             Settings inlineconfig;
             try
             {
-                inlineconfig = ConfigurationUtils.GetEmbeddedConfiguration<Settings>(filename, settings.commonsettings.Template.InlineConfigBegin, settings.commonsettings.Template.InlineConfigEnd);
+                inlineconfig = ConfigurationUtils.GetEmbeddedConfiguration<Settings>(filename, settings.commonsettings.InlineConfigBegin, settings.commonsettings.InlineConfigEnd);
             }
             catch (Exception ex)
             {
@@ -586,7 +586,10 @@ namespace Rappen.XTB.LCG
             TabIcon = Properties.Resources.UDG16;
             PluginIcon = Properties.Resources.UDG16ico;
             tslAbout.Image = Properties.Resources.UDG24;
-            btnGenerate.Text = "Generate PlantUML";
+            btnOpenGeneratedFile.Text = "Generated PlantUML file...";
+            btnOpenGeneratedFile.Image = Properties.Resources.UML24;
+            btnSaveCsAs.Text = "PlantUML file as...";
+            btnSaveCsAs.Image = Properties.Resources.UML24;
         }
 
         private bool GetFileSettings(bool forceprompt)
@@ -598,10 +601,11 @@ namespace Rappen.XTB.LCG
                 {
                     using (var filedlg = new SaveFileDialog
                     {
+                        Title = $"Save generated {settings.commonsettings.FileType} file",
                         InitialDirectory = settings.OutputFolder,
                         FileName = settings.CommonFile,
-                        DefaultExt = isUML ? ".plantuml" : ".cs",
-                        Filter = isUML ? "PlantUML|*.plantuml|UML|*.uml" : "*.cs|*.cs"
+                        DefaultExt = settings.commonsettings.FileSuffix,
+                        Filter = $"{settings.commonsettings.FileType} file (*{settings.commonsettings.FileSuffix})|*{settings.commonsettings.FileSuffix}"
                     })
                     {
                         result = filedlg.ShowDialog(this) == DialogResult.OK;
@@ -1212,15 +1216,12 @@ namespace Rappen.XTB.LCG
             }
             if (version < new Version(1, 2021))
             {
-                if (!isUML)
-                {
-                    MessageBox.Show(@"Welcome to the new version!
+                MessageBox.Show($@"Welcome to the new version!
 
-By default the project configuration will now be embedded in a comment block at the end of the generated C# file.
+By default the project configuration will now be embedded in a comment block at the end of the generated {settings.commonsettings.FileType} file.
 Using this feature will make the separate project xml files obsolete.
 This behavior can be prevented by unchecking the box 'Include configuration' in the Options dialog", "New version", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    settings.Version = Version;
-                }
+                settings.Version = Version;
             }
 
             var selectedentitywithoutattributes = entities.FirstOrDefault(e => e.Attributes == null && settings.SelectedEntities.Select(se => se.Name).Contains(e.LogicalName));
