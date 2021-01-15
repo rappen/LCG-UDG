@@ -69,7 +69,7 @@ namespace Rappen.XTB.LCG
         {
             isUML = isuml;
             toolname = isUML ? toolnameUDG : toolnameLCG;
-            ai = new AppInsights(new AiConfig(aiEndpoint, aiKey) { PluginName = toolname });
+            ai = new AppInsights(aiEndpoint, aiKey, Assembly.GetExecutingAssembly(), toolname);
             IEnumerable<Control> GetAll(Control control, Type type)
             {
                 var controls = control.Controls.Cast<Control>().ToArray();
