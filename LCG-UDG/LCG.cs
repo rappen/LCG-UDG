@@ -1224,6 +1224,11 @@ This behavior can be prevented by unchecking the box 'Include configuration' in 
                 settings.Version = Version;
             }
 
+            if (settings.SelectedEntities == null)
+            {
+                settings.SelectedEntities = new List<SelectedEntity>();
+            }
+
             var selectedentitywithoutattributes = entities.FirstOrDefault(e => e.Attributes == null && settings.SelectedEntities.Select(se => se.Name).Contains(e.LogicalName));
             if (selectedentitywithoutattributes != null && selectedentitywithoutattributes.Attributes == null)
             {
