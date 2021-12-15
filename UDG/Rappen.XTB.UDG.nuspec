@@ -14,6 +14,13 @@
     <releaseNotes>
 Latest version:
 
+Fixes:
+#73: Load sometime fails for no project
+
+---
+
+Version 1.2021.1.2:
+
 Major improvement!
 Configuration will now by default be stored inline in the generated PlantUML file as a comment block in at the end of the file.
 This makes the "project file" obsolete, and a generated PlantUML file can be opened by UML Diagram Generator and the configuration is parsed from the comment block.
@@ -43,7 +50,7 @@ First release
     <copyright>Copyright 2020-2021 Jonas Rapp</copyright>
     <tags>XrmToolBox Plugins UMLDiagramGenerator</tags>
     <dependencies>
-      <dependency id="XrmToolBox" version="1.2020.12.43" />
+      <dependency id="XrmToolBox" version="1.2021.9.52" />
     </dependencies>
   </metadata>
   <files>
