@@ -14,6 +14,14 @@
     <releaseNotes>
 Latest version:
 
+Fixes:
+#72: Load old project with one-file-per-entity gets include config with every file (not supported)
+#73: Load sometime fails for no project
+
+---
+
+Version 1.2021.1.2
+
 Major improvement!
 Configuration will now by default be stored inline in the generated C# file as a comment block in at the end of the file.
 This makes the "project file" obsolete, and a generated C# file can be opened by Latebound Constants Generator and the configuration is parsed from the comment block.
@@ -79,7 +87,7 @@ Template line break bug fixed
     <copyright>Copyright 2017-2021 Jonas Rapp</copyright>
     <tags>XrmToolBox Plugins LateboundConstantsGenerator</tags>
     <dependencies>
-      <dependency id="XrmToolBox" version="1.2020.12.43" />
+      <dependency id="XrmToolBox" version="1.2021.9.52" />
     </dependencies>
   </metadata>
   <files>
