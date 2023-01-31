@@ -446,6 +446,7 @@ namespace Rappen.XTB.LCG
             chkAttPrimaryKey.Checked = settings.AttributeFilter?.PrimaryKey == true;
             chkAttPrimaryAttribute.Checked = settings.AttributeFilter?.PrimaryAttribute == true;
             chkAttLogical.Checked = settings.AttributeFilter?.Logical == true;
+            chkAttInternal.Checked = settings.AttributeFilter?.Internal == true;
             chkAttCreMod.Checked = settings.AttributeFilter?.CreMod == true;
             chkAttOwners.Checked = settings.AttributeFilter?.Owner == true;
             chkRelCheckAll.Checked = settings.RelationshipFilter?.CheckAll != false;
@@ -667,10 +668,17 @@ namespace Rappen.XTB.LCG
                        a.Metadata.LogicalName.ToLowerInvariant().Contains(txtAttSearch.Text) ||
                        a.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtAttSearch.Text) == true;
             }
-            bool GetLogicalFilter(AttributeMetadataProxy a)
+            bool GetLogicalFilter(AttributeMetadataProxy a, List<AttributeMetadataProxy> attributes)
             {
                 return chkAttLogical.Checked ||
-                       a.Metadata.IsLogical != true;
+                       (a.Metadata.IsLogical != true &&
+                        !IsMoneyBase(a) &&
+                        !IsCustomerLogical(a, attributes));
+            }
+            bool GetInternalFilter(AttributeMetadataProxy a)
+            {
+                return chkAttInternal.Checked ||
+                    !commonsettings.InternalAttributes.Contains(a.LogicalName);
             }
             bool GetCreModFilter(AttributeMetadataProxy a)
             {
@@ -684,13 +692,24 @@ namespace Rappen.XTB.LCG
                        (!a.LogicalName.StartsWith("owner") &&
                         !a.LogicalName.StartsWith("owning"));
             }
+            bool IsMoneyBase(AttributeMetadataProxy a)
+            {
+                return a.Metadata is MoneyAttributeMetadata && a.LogicalName.EndsWith("_base");
+            }
+            bool IsCustomerLogical(AttributeMetadataProxy a, List<AttributeMetadataProxy> attributes)
+            {
+                return !string.IsNullOrEmpty(a.Metadata.AttributeOf) &&
+                    attributes.FirstOrDefault(a2 => a2.LogicalName == a.Metadata.AttributeOf) is AttributeMetadataProxy parentattr &&
+                    parentattr.Type == AttributeTypeCode.Customer;
+            }
 
             return entity.Attributes
                     .Where(
                         a => GetCustomFilter(a)
                            && GetManagedFilter(a)
                            && GetSearchFilter(a)
-                           && GetLogicalFilter(a)
+                           && GetLogicalFilter(a, entity.Attributes)
+                           && GetInternalFilter(a)
                            && GetCreModFilter(a)
                            && GetOwnersFilter(a));
         }
@@ -907,6 +926,7 @@ namespace Rappen.XTB.LCG
             settings.AttributeFilter.PrimaryKey = chkAttPrimaryKey.Checked;
             settings.AttributeFilter.PrimaryAttribute = chkAttPrimaryAttribute.Checked;
             settings.AttributeFilter.Logical = chkAttLogical.Checked;
+            settings.AttributeFilter.Internal = chkAttInternal.Checked;
             settings.AttributeFilter.CreMod = chkAttCreMod.Checked;
             settings.AttributeFilter.Owner = chkAttOwners.Checked;
             if (settings.RelationshipFilter == null)

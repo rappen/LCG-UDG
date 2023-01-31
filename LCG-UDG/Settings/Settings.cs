@@ -150,6 +150,7 @@ namespace Rappen.XTB.LCG
         public bool PrimaryKey { get; set; }
         public bool PrimaryAttribute { get; set; }
         public bool Logical { get; set; }
+        public bool Internal { get; set; }
         public bool CreMod { get; set; } = true;
         public bool Owner { get; set; } = true;
     }
