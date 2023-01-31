@@ -28,8 +28,10 @@ namespace Rappen.XTB.LCG
         internal readonly bool isUML = false;
         internal readonly string toolname = toolnameLCG;
         private const string aiEndpoint = "https://dc.services.visualstudio.com/v2/track";
-        //private const string aiKey = "cc7cb081-b489-421d-bb61-2ee53495c336";    // jonas@rappen.net tenant, TestAI 
+
+        //private const string aiKey = "cc7cb081-b489-421d-bb61-2ee53495c336";    // jonas@rappen.net tenant, TestAI
         private const string aiKey = "eed73022-2444-45fd-928b-5eebd8fa46a6";    // jonas@rappen.net tenant, XrmToolBox
+
         private readonly string commonsettingsfile = "[Common]";
         private AppInsights ai;
         private object checkedrow;
@@ -778,8 +780,10 @@ namespace Rappen.XTB.LCG
                     return true;
                 }
                 return
-                    r.OneToManyRelationshipMetadata.ReferencingAttribute != "ownerid" &&
-                    r.OneToManyRelationshipMetadata.ReferencedAttribute != "ownerid";
+                    !(r.OneToManyRelationshipMetadata.ReferencingAttribute.StartsWith("owner") ||
+                      r.OneToManyRelationshipMetadata.ReferencingAttribute.StartsWith("owning")) &&
+                    !(r.OneToManyRelationshipMetadata.ReferencedAttribute.StartsWith("owner") ||
+                      r.OneToManyRelationshipMetadata.ReferencedAttribute.StartsWith("owning"));
             }
             bool GetRegardingFilter(RelationshipMetadataProxy r)
             {
