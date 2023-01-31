@@ -99,8 +99,49 @@ namespace Rappen.XTB.LCG
 
                 return (string.Join(", ", properties
                     .Where(p => !string.IsNullOrEmpty(p.Value?.ToString()))
-                    .Select(p => p.Key.Split(':')[0] + ": " + p.Value)) + 
+                    .Select(p => p.Key.Split(':')[0] + ": " + p.Value)) +
                     "\n" + AdditionalProperties).Trim();
+            }
+        }
+
+        internal string AttributeTypeFlavour
+        {
+            get
+            {
+                var result = string.Empty;
+                switch (Type)
+                {
+                    case AttributeTypeCode.Customer:
+                    case AttributeTypeCode.Lookup:
+                    case AttributeTypeCode.Owner:
+                        result = Metadata is LookupAttributeMetadata lookup ? string.Join(", ", lookup.Targets) : string.Empty;
+                        break;
+
+                    case AttributeTypeCode.DateTime:
+                        result = Metadata is DateTimeAttributeMetadata dateTime ? dateTime.DateTimeBehavior.Value : string.Empty;
+                        break;
+
+                    case AttributeTypeCode.Decimal:
+                        result = Metadata is DecimalAttributeMetadata decim ? $"{decim.MinValue}/{decim.MaxValue}/{decim.Precision}" : string.Empty;
+                        break;
+
+                    case AttributeTypeCode.Double:
+                        result = Metadata is DoubleAttributeMetadata doub ? $"{doub.MinValue}/{doub.MaxValue}/{doub.Precision}" : string.Empty;
+                        break;
+
+                    case AttributeTypeCode.Integer:
+                        result = Metadata is IntegerAttributeMetadata integ ? $"{integ.MinValue}/{integ.MaxValue}/{integ.Format}" : string.Empty;
+                        break;
+
+                    case AttributeTypeCode.Money:
+                        result = Metadata is MoneyAttributeMetadata money ? $"{money.MinValue}/{money.MaxValue}/{money.Precision}/{(money.IsBaseCurrency == true ? "IsBase" : "UnBase")}/{money.CalculationOf}" : string.Empty;
+                        break;
+
+                    case AttributeTypeCode.String:
+                        result = Metadata is StringAttributeMetadata str ? $"{str.Format}({str.MaxLength})" : string.Empty;
+                        break;
+                }
+                return result;
             }
         }
 
@@ -145,9 +186,11 @@ namespace Rappen.XTB.LCG
                 case NameType.DisplayName:
                     name = StringToCSharpIdentifier(DisplayName);
                     break;
+
                 case NameType.LogicalName:
                     name = settings.GetNonDisplayName(Metadata?.LogicalName);
                     break;
+
                 case NameType.SchemaName:
                     name = settings.GetNonDisplayName(Metadata?.SchemaName);
                     break;

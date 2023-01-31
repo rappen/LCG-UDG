@@ -153,6 +153,7 @@ namespace Rappen.XTB.LCG
                     case AttributeSortMode.Alphabetical:
                         entityattributes = entityattributes.OrderBy(a => a.GetNameTechnical(settings));
                         break;
+
                     case AttributeSortMode.AlphabeticalAndRequired:
                         entityattributes = entityattributes
                             .OrderBy(a => a.GetNameTechnical(settings))
@@ -181,8 +182,10 @@ namespace Rappen.XTB.LCG
                 case AttributeRequiredLevel.ApplicationRequired:
                 case AttributeRequiredLevel.SystemRequired:
                     return 10;
+
                 case AttributeRequiredLevel.Recommended:
                     return 20;
+
                 default:
                     return 100;
             }
@@ -315,9 +318,11 @@ namespace Rappen.XTB.LCG
                 case AttributeRequiredLevel.SystemRequired:
                     name = template.RequiredLevelRequired.ReplaceIfNotEmpty("{attribute}", name);
                     break;
+
                 case AttributeRequiredLevel.Recommended:
                     name = template.RequiredLevelRecommended.ReplaceIfNotEmpty("{attribute}", name);
                     break;
+
                 case AttributeRequiredLevel.None:
                     name = template.RequiredLevelNone.ReplaceIfNotEmpty("{attribute}", name);
                     break;
@@ -341,6 +346,7 @@ namespace Rappen.XTB.LCG
                 .Replace("{attribute}", name)
                 .Replace("{logicalname}", attributemetadata.LogicalName)
                 .Replace("{type}", attributemetadata.Type.ToString())
+                .Replace("{typeflavour}", attributemetadata.AttributeTypeFlavour)
                 .Replace("{summary}", summary)
                 .Replace("{remarks}", remarks)
                 .Replace("'", "\"");

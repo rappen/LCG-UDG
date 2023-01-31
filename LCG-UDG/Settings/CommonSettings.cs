@@ -4,7 +4,9 @@ namespace Rappen.XTB.LCG
 {
     public class CommonSettings
     {
-        public CommonSettings() : this(false) { }
+        public CommonSettings() : this(false)
+        {
+        }
 
         public CommonSettings(bool isUML)
         {
@@ -70,7 +72,9 @@ namespace Rappen.XTB.LCG
 
     public class Template
     {
-        public Template() : this(false) { }
+        public Template() : this(false)
+        {
+        }
 
         public Template(bool isUML)
         {
@@ -80,7 +84,7 @@ namespace Rappen.XTB.LCG
             }
             else
             {
-                TemplateVersion = 3;    // Change this when UML template is updated to revert customizations
+                TemplateVersion = 4;    // Change this when UML template is updated to revert customizations
                 Legend = @"
 entity **Legend** <<standard>> #CCFFEE {
     (PK) = Primary Key
@@ -109,7 +113,7 @@ footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
 {data}
 @enduml";
                 EntityContainer = "entity {entityname} <<{type}>>\n{\n{attributes}\n}";
-                Attribute = "{attribute}: {type}";
+                Attribute = "{attribute}: {type} {typeflavour}";
                 Relationship = "{entity1} {relationtype} {entity2}: {lookup}";
                 PrimaryKeyName = "{attribute} (PK)";
                 PrimaryAttributeName = "{attribute} (PN)";
@@ -122,6 +126,7 @@ footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
         public int TemplateVersion { get; set; }
         internal string IndentStr = "    ";
         internal string FileContainer = "{header}\n{data}";
+
         internal string FileHeader = @"// *********************************************************************
 // Created by : {toolname} {version} for XrmToolBox
 // Author     : Jonas Rapp https://jonasr.app/
@@ -130,6 +135,7 @@ footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
 // Filename   : {filename}
 // Created    : {createdate}
 // *********************************************************************";
+
         public string Legend { get; set; }
         public string DataContainer { get; set; } = "namespace {namespace}\n{\n{data}\n}";
         public string EntityContainer { get; set; } = "{summary}\n{remarks}\npublic static class {entityname}\n{\n{entitydetail}\n{attributes}\n{relationships}\n{optionsets}\n}";
@@ -177,7 +183,7 @@ footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
 }
 
 /*
- 
+
     FileContainer
         FileHeader
         DataContainer
@@ -187,6 +193,5 @@ footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
                 Relationships
                 OptionSets
                     OptionSetValues
-
 
   */
