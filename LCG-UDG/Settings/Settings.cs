@@ -11,7 +11,9 @@ namespace Rappen.XTB.LCG
     /// </remarks>
     public class Settings
     {
-        public Settings() : this(false) { }
+        public Settings() : this(false)
+        {
+        }
 
         public Settings(bool isUML)
         {
@@ -148,7 +150,8 @@ namespace Rappen.XTB.LCG
         public bool PrimaryKey { get; set; }
         public bool PrimaryAttribute { get; set; }
         public bool Logical { get; set; }
-        public bool Internal { get; set; }
+        public bool CreMod { get; set; } = true;
+        public bool Owner { get; set; } = true;
     }
 
     public class RelationshipFilter
@@ -167,6 +170,8 @@ namespace Rappen.XTB.LCG
         public bool Orphans { get; set; }
         public bool Owner { get; set; } = true;
         public bool Regarding { get; set; } = true;
+        public bool CreMod { get; set; } = true;
+        public bool DupRecords { get; set; } = true;
     }
 
     public enum NameType
