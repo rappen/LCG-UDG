@@ -28,8 +28,10 @@ namespace Rappen.XTB.LCG
         internal readonly bool isUML = false;
         internal readonly string toolname = toolnameLCG;
         private const string aiEndpoint = "https://dc.services.visualstudio.com/v2/track";
-        //private const string aiKey = "cc7cb081-b489-421d-bb61-2ee53495c336";    // jonas@rappen.net tenant, TestAI 
+
+        //private const string aiKey = "cc7cb081-b489-421d-bb61-2ee53495c336";    // jonas@rappen.net tenant, TestAI
         private const string aiKey = "eed73022-2444-45fd-928b-5eebd8fa46a6";    // jonas@rappen.net tenant, XrmToolBox
+
         private readonly string commonsettingsfile = "[Common]";
         private AppInsights ai;
         private object checkedrow;
@@ -445,6 +447,8 @@ namespace Rappen.XTB.LCG
             chkAttPrimaryAttribute.Checked = settings.AttributeFilter?.PrimaryAttribute == true;
             chkAttLogical.Checked = settings.AttributeFilter?.Logical == true;
             chkAttInternal.Checked = settings.AttributeFilter?.Internal == true;
+            chkAttCreMod.Checked = settings.AttributeFilter?.CreMod == true;
+            chkAttOwners.Checked = settings.AttributeFilter?.Owner == true;
             chkRelCheckAll.Checked = settings.RelationshipFilter?.CheckAll != false;
             rbRelCustomAll.Checked = settings.RelationshipFilter?.CustomAll != false;
             rbRelCustomFalse.Checked = settings.RelationshipFilter?.CustomFalse == true;
@@ -458,6 +462,8 @@ namespace Rappen.XTB.LCG
             chkRelOrphans.Checked = settings.RelationshipFilter?.Orphans == true;
             chkRelOwners.Checked = settings.RelationshipFilter?.Owner == true;
             chkRelRegarding.Checked = settings.RelationshipFilter?.Regarding == true;
+            chkRelCreMod.Checked = settings.RelationshipFilter?.CreMod == true;
+            chkRelDupRecords.Checked = settings.RelationshipFilter?.DupRecords == true;
             GroupBoxSetState(llEntityExpander, settings.EntityFilter?.Expanded == true);
             GroupBoxSetState(llAttributeExpander, settings.AttributeFilter?.Expanded == true);
             GroupBoxSetState(llRelationshipExpander, settings.RelationshipFilter?.Expanded == true);
@@ -662,15 +668,39 @@ namespace Rappen.XTB.LCG
                        a.Metadata.LogicalName.ToLowerInvariant().Contains(txtAttSearch.Text) ||
                        a.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtAttSearch.Text) == true;
             }
-            bool GetLogicalFilter(AttributeMetadataProxy a)
+            bool GetLogicalFilter(AttributeMetadataProxy a, List<AttributeMetadataProxy> attributes)
             {
                 return chkAttLogical.Checked ||
-                       a.Metadata.IsLogical != true;
+                       (a.Metadata.IsLogical != true &&
+                        !IsMoneyBase(a) &&
+                        !IsCustomerLogical(a, attributes));
             }
             bool GetInternalFilter(AttributeMetadataProxy a)
             {
                 return chkAttInternal.Checked ||
                     !commonsettings.InternalAttributes.Contains(a.LogicalName);
+            }
+            bool GetCreModFilter(AttributeMetadataProxy a)
+            {
+                return chkAttCreMod.Checked ||
+                       (!a.LogicalName.StartsWith("created") &&
+                        !a.LogicalName.StartsWith("modified"));
+            }
+            bool GetOwnersFilter(AttributeMetadataProxy a)
+            {
+                return chkAttOwners.Checked ||
+                       (!a.LogicalName.StartsWith("owner") &&
+                        !a.LogicalName.StartsWith("owning"));
+            }
+            bool IsMoneyBase(AttributeMetadataProxy a)
+            {
+                return a.Metadata is MoneyAttributeMetadata && a.LogicalName.EndsWith("_base");
+            }
+            bool IsCustomerLogical(AttributeMetadataProxy a, List<AttributeMetadataProxy> attributes)
+            {
+                return !string.IsNullOrEmpty(a.Metadata.AttributeOf) &&
+                    attributes.FirstOrDefault(a2 => a2.LogicalName == a.Metadata.AttributeOf) is AttributeMetadataProxy parentattr &&
+                    parentattr.Type == AttributeTypeCode.Customer;
             }
 
             return entity.Attributes
@@ -678,8 +708,10 @@ namespace Rappen.XTB.LCG
                         a => GetCustomFilter(a)
                            && GetManagedFilter(a)
                            && GetSearchFilter(a)
-                           && GetLogicalFilter(a)
-                           && GetInternalFilter(a));
+                           && GetLogicalFilter(a, entity.Attributes)
+                           && GetInternalFilter(a)
+                           && GetCreModFilter(a)
+                           && GetOwnersFilter(a));
         }
 
         private IEnumerable<EntityMetadataProxy> GetFilteredEntities()
@@ -778,8 +810,10 @@ namespace Rappen.XTB.LCG
                     return true;
                 }
                 return
-                    r.OneToManyRelationshipMetadata.ReferencingAttribute != "ownerid" &&
-                    r.OneToManyRelationshipMetadata.ReferencedAttribute != "ownerid";
+                    !(r.OneToManyRelationshipMetadata.ReferencingAttribute.StartsWith("owner") ||
+                      r.OneToManyRelationshipMetadata.ReferencingAttribute.StartsWith("owning")) &&
+                    !(r.OneToManyRelationshipMetadata.ReferencedAttribute.StartsWith("owner") ||
+                      r.OneToManyRelationshipMetadata.ReferencedAttribute.StartsWith("owning"));
             }
             bool GetRegardingFilter(RelationshipMetadataProxy r)
             {
@@ -790,6 +824,25 @@ namespace Rappen.XTB.LCG
                 return
                     r.OneToManyRelationshipMetadata.ReferencingAttribute != "regardingobjectid";
             }
+            bool GetCreModFilter(RelationshipMetadataProxy r)
+            {
+                if (settings.RelationshipFilter.CreMod || r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
+                {
+                    return true;
+                }
+                return
+                    !(r.OneToManyRelationshipMetadata.ReferencingAttribute.StartsWith("created") ||
+                      r.OneToManyRelationshipMetadata.ReferencingAttribute.StartsWith("modified"));
+            }
+            bool GetDupRecordsFilter(RelationshipMetadataProxy r)
+            {
+                if (settings.RelationshipFilter.DupRecords || r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
+                {
+                    return true;
+                }
+                return
+                    r.OneToManyRelationshipMetadata.ReferencingEntity != "duplicaterecord";
+            }
 
             return entity.Relationships
                     .Where(
@@ -799,7 +852,9 @@ namespace Rappen.XTB.LCG
                            && GetSearchFilter(r)
                            && GetOrphansFilter(r)
                            && GetOwnersFilter(r)
-                           && GetRegardingFilter(r));
+                           && GetRegardingFilter(r)
+                           && GetCreModFilter(r)
+                           && GetDupRecordsFilter(r));
         }
 
         private EntityMetadataProxy GetSelectedEntity()
@@ -871,6 +926,9 @@ namespace Rappen.XTB.LCG
             settings.AttributeFilter.PrimaryKey = chkAttPrimaryKey.Checked;
             settings.AttributeFilter.PrimaryAttribute = chkAttPrimaryAttribute.Checked;
             settings.AttributeFilter.Logical = chkAttLogical.Checked;
+            settings.AttributeFilter.Internal = chkAttInternal.Checked;
+            settings.AttributeFilter.CreMod = chkAttCreMod.Checked;
+            settings.AttributeFilter.Owner = chkAttOwners.Checked;
             if (settings.RelationshipFilter == null)
             {
                 settings.RelationshipFilter = new RelationshipFilter();
@@ -889,6 +947,8 @@ namespace Rappen.XTB.LCG
             settings.RelationshipFilter.Orphans = chkRelOrphans.Checked;
             settings.RelationshipFilter.Owner = chkRelOwners.Checked;
             settings.RelationshipFilter.Regarding = chkRelRegarding.Checked;
+            settings.RelationshipFilter.CreMod = chkRelCreMod.Checked;
+            settings.RelationshipFilter.DupRecords = chkRelDupRecords.Checked;
         }
 
         private void GroupBoxCollapse(LinkLabel link)

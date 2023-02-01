@@ -35,8 +35,11 @@ namespace Rappen.XTB.LCG
             "ManyToOneRelationships",
             "ManyToManyRelationships"
         };
+
         public static string[] entityDetails = { "Attributes" };
+
         public static string[] attributeProperties = {
+            "AttributeOf",
             "AttributeType",
             "AttributeTypeName",
             //"AutoNumberFormat",
