@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xrm.Sdk.Metadata;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -28,6 +29,34 @@ namespace Rappen.XTB.LCG
         internal AttributeMetadataProxy PrimaryKey { get => Attributes?.FirstOrDefault(a => a.Metadata.IsPrimaryId == true && a.Metadata.IsLogical == false); }
 
         internal AttributeMetadataProxy PrimaryName { get => Attributes?.FirstOrDefault(a => a.Metadata.IsPrimaryName == true); }
+
+        internal string EntityTypeDetails
+        {
+            get
+            {
+                return string.Empty;
+
+                // This breaks the entity names. Currently not implemented.
+                var types = new List<string>();
+                if (Metadata.IsActivity == true)
+                {
+                    types.Add("Activity");
+                }
+                if (Metadata.IsActivityParty == true)
+                {
+                    types.Add("ActivityParty");
+                }
+                if (Metadata.DataProviderId?.Equals(Guid.Empty) == false)
+                {
+                    types.Add("Virtual");
+                }
+                if (types.Count == 0)
+                {
+                    return string.Empty;
+                }
+                return "\n(" + string.Join(", ", types) + ")";
+            }
+        }
 
         internal string GetEntityProperties(Settings settings)
         {
@@ -68,6 +97,7 @@ namespace Rappen.XTB.LCG
                 Relationships?.Where(r => r.IsSelected).ToList().ForEach(r => r.SetSelected(false));
             }
         }
+
         public override string ToString()
         {
             if (Metadata != null)
@@ -89,9 +119,11 @@ namespace Rappen.XTB.LCG
                 case NameType.DisplayName:
                     name = StringToCSharpIdentifier(DisplayName);
                     break;
+
                 case NameType.LogicalName:
                     name = Metadata?.LogicalName;
                     break;
+
                 case NameType.SchemaName:
                     name = Metadata?.SchemaName;
                     break;

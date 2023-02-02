@@ -112,6 +112,7 @@ namespace Rappen.XTB.LCG
             var entity = template.EntityContainer
                 .Replace("{entityname}", name)
                 .Replace("{entitydetail}", GetEntity(entitymetadata, template))
+                .Replace("{typedetails}", settings.TypeDetails ? entitymetadata.EntityTypeDetails : "")
                 .Replace("{type}", entitymetadata.Metadata.IsCustomEntity == true ? "custom" : "standard")
                 .Replace("{summary}", summary)
                 .Replace("{remarks}", remarks)
@@ -346,7 +347,7 @@ namespace Rappen.XTB.LCG
                 .Replace("{attribute}", name)
                 .Replace("{logicalname}", attributemetadata.LogicalName)
                 .Replace("{type}", attributemetadata.Type.ToString())
-                .Replace("{typeflavour}", attributemetadata.AttributeTypeFlavour)
+                .Replace("{typedetails}", settings.TypeDetails ? attributemetadata.AttributeTypeDetails : "")
                 .Replace("{summary}", summary)
                 .Replace("{remarks}", remarks)
                 .Replace("'", "\"");
@@ -356,7 +357,7 @@ namespace Rappen.XTB.LCG
         private static string GetRelationShip(RelationshipMetadataProxy relationship, Settings settings, string prefix)
         {
             var template = settings.commonsettings.Template;
-            if (relationship.Child?.Attributes == null)
+            if (relationship.Child == null || relationship.Parent == null)
             {
                 return string.Empty;
             }
@@ -387,8 +388,8 @@ namespace Rappen.XTB.LCG
             }
             else if (relationship.Metadata is OneToManyRelationshipMetadata relation1m)
             {
-                if (relationship.LookupAttribute.Metadata.RequiredLevel.Value == AttributeRequiredLevel.ApplicationRequired ||
-                    relationship.LookupAttribute.Metadata.RequiredLevel.Value == AttributeRequiredLevel.SystemRequired)
+                if (relationship.LookupAttribute?.Metadata.RequiredLevel.Value == AttributeRequiredLevel.ApplicationRequired ||
+                    relationship.LookupAttribute?.Metadata.RequiredLevel.Value == AttributeRequiredLevel.SystemRequired)
                 {
                     return "||--{";
                 }

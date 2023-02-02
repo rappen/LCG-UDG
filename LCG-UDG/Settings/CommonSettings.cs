@@ -112,8 +112,8 @@ title {namespace} Entity Model
 footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
 {data}
 @enduml";
-                EntityContainer = "entity {entityname} <<{type}>>\n{\n{attributes}\n}";
-                Attribute = "{attribute}: {type} {typeflavour}";
+                EntityContainer = "entity {entityname}{typedetails} <<{type}>>\n{\n{attributes}\n}";
+                Attribute = "{attribute}: {type}{typedetails}";
                 Relationship = "{entity1} {relationtype} {entity2}: {lookup}";
                 PrimaryKeyName = "{attribute} (PK)";
                 PrimaryAttributeName = "{attribute} (PN)";

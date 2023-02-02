@@ -104,17 +104,71 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        internal string AttributeTypeFlavour
+        internal string AttributeTypeDetails
         {
             get
             {
+                string lookupdetails(LookupAttributeMetadata lookup)
+                {
+                    if (lookup.Targets == null && lookup.Targets.Count() == 0)
+                    {
+                        return "*NONE*";
+                    }
+                    var lookupstring = string.Join(", ", lookup.Targets);
+                    if (lookup.Targets.Count() > 1)
+                    {
+                        return "[" + lookupstring + "]";
+                    }
+                    return lookupstring;
+                }
+                string decimaldetails(DecimalAttributeMetadata decimalmeta)
+                {
+                    var decimalstring = decimalmeta.MinValue <= (decimal)DecimalAttributeMetadata.MinSupportedValue ? "Min" : decimalmeta.MinValue.ToString();
+                    decimalstring += "/";
+                    decimalstring += decimalmeta.MaxValue >= (decimal)DecimalAttributeMetadata.MaxSupportedValue ? "Max" : decimalmeta.MaxValue.ToString();
+                    decimalstring += " Prc:" + decimalmeta.Precision;
+                    return decimalstring;
+                }
+                string doubledetails(DoubleAttributeMetadata doublemeta)
+                {
+                    var decimalstring = doublemeta.MinValue <= DoubleAttributeMetadata.MinSupportedValue ? "Min" : doublemeta.MinValue.ToString();
+                    decimalstring += "/";
+                    decimalstring += doublemeta.MaxValue >= DoubleAttributeMetadata.MaxSupportedValue ? "Max" : doublemeta.MaxValue.ToString();
+                    decimalstring += " Prc:" + doublemeta.Precision;
+                    return decimalstring;
+                }
+                string integerdetails(IntegerAttributeMetadata integermeta)
+                {
+                    if (integermeta.Format == IntegerFormat.None)
+                    {
+                        return
+                            (integermeta.MinValue <= IntegerAttributeMetadata.MinSupportedValue ? "Min" : integermeta.MinValue.ToString()) +
+                            "/" +
+                            (integermeta.MaxValue >= IntegerAttributeMetadata.MaxSupportedValue ? "Max" : integermeta.MaxValue.ToString());
+                    }
+                    return integermeta.Format.ToString();
+                }
+                string moneydetails(MoneyAttributeMetadata money)
+                {
+                    if (money == null)
+                    {
+                        return string.Empty;
+                    }
+                    var moneystring = money.MinValue <= MoneyAttributeMetadata.MinSupportedValue ? "Min" : money.MinValue.ToString();
+                    moneystring += "/";
+                    moneystring += money.MaxValue >= MoneyAttributeMetadata.MaxSupportedValue ? "Max" : money.MaxValue.ToString();
+                    moneystring += money.IsBaseCurrency == true ? " IsBase" : string.Empty;
+                    moneystring += " Prc:" + money.Precision;
+                    moneystring += !string.IsNullOrWhiteSpace(money.CalculationOf) ? " Clc:" + money.CalculationOf : string.Empty;
+                    return moneystring;
+                }
                 var result = string.Empty;
                 switch (Type)
                 {
                     case AttributeTypeCode.Customer:
                     case AttributeTypeCode.Lookup:
                     case AttributeTypeCode.Owner:
-                        result = Metadata is LookupAttributeMetadata lookup ? string.Join(", ", lookup.Targets) : string.Empty;
+                        result = lookupdetails(Metadata as LookupAttributeMetadata);
                         break;
 
                     case AttributeTypeCode.DateTime:
@@ -122,24 +176,28 @@ namespace Rappen.XTB.LCG
                         break;
 
                     case AttributeTypeCode.Decimal:
-                        result = Metadata is DecimalAttributeMetadata decim ? $"{decim.MinValue}/{decim.MaxValue}/{decim.Precision}" : string.Empty;
+                        result = decimaldetails(Metadata as DecimalAttributeMetadata);
                         break;
 
                     case AttributeTypeCode.Double:
-                        result = Metadata is DoubleAttributeMetadata doub ? $"{doub.MinValue}/{doub.MaxValue}/{doub.Precision}" : string.Empty;
+                        result = doubledetails(Metadata as DoubleAttributeMetadata);
                         break;
 
                     case AttributeTypeCode.Integer:
-                        result = Metadata is IntegerAttributeMetadata integ ? $"{integ.MinValue}/{integ.MaxValue}/{integ.Format}" : string.Empty;
+                        result = integerdetails(Metadata as IntegerAttributeMetadata);
                         break;
 
                     case AttributeTypeCode.Money:
-                        result = Metadata is MoneyAttributeMetadata money ? $"{money.MinValue}/{money.MaxValue}/{money.Precision}/{(money.IsBaseCurrency == true ? "IsBase" : "UnBase")}/{money.CalculationOf}" : string.Empty;
+                        result = moneydetails(Metadata as MoneyAttributeMetadata);
                         break;
 
                     case AttributeTypeCode.String:
-                        result = Metadata is StringAttributeMetadata str ? $"{str.Format}({str.MaxLength})" : string.Empty;
+                        result = Metadata is StringAttributeMetadata str ? $"({str.MaxLength}) {str.Format.ToString().Replace("Text", "")}".Trim() : string.Empty;
                         break;
+                }
+                if (!string.IsNullOrWhiteSpace(result) && result[0] != '(')
+                {
+                    result = " " + result;
                 }
                 return result;
             }

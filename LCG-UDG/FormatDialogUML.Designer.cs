@@ -46,6 +46,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.chkFileIncludeSelection = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.chkTypeDetails = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // chkConstCamelCased
@@ -118,7 +120,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(141, 211);
+            this.btnCancel.Location = new System.Drawing.Point(141, 238);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(97, 23);
             this.btnCancel.TabIndex = 120;
@@ -129,7 +131,7 @@
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(274, 211);
+            this.btnOK.Location = new System.Drawing.Point(274, 238);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(97, 23);
             this.btnOK.TabIndex = 110;
@@ -161,7 +163,7 @@
             // chkRelationshipLabels
             // 
             this.chkRelationshipLabels.AutoSize = true;
-            this.chkRelationshipLabels.Location = new System.Drawing.Point(141, 150);
+            this.chkRelationshipLabels.Location = new System.Drawing.Point(141, 177);
             this.chkRelationshipLabels.Name = "chkRelationshipLabels";
             this.chkRelationshipLabels.Size = new System.Drawing.Size(130, 17);
             this.chkRelationshipLabels.TabIndex = 70;
@@ -171,7 +173,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(24, 151);
+            this.label2.Location = new System.Drawing.Point(24, 178);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(70, 13);
             this.label2.TabIndex = 105;
@@ -198,17 +200,17 @@
             // chkShowLegend
             // 
             this.chkShowLegend.AutoSize = true;
-            this.chkShowLegend.Location = new System.Drawing.Point(141, 177);
+            this.chkShowLegend.Location = new System.Drawing.Point(141, 204);
             this.chkShowLegend.Name = "chkShowLegend";
             this.chkShowLegend.Size = new System.Drawing.Size(88, 17);
-            this.chkShowLegend.TabIndex = 121;
+            this.chkShowLegend.TabIndex = 80;
             this.chkShowLegend.Text = "Show legend";
             this.chkShowLegend.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(24, 178);
+            this.label3.Location = new System.Drawing.Point(24, 205);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(25, 13);
             this.label3.TabIndex = 122;
@@ -233,6 +235,25 @@
             this.label6.TabIndex = 149;
             this.label6.Text = "File structure";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(24, 151);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(36, 13);
+            this.label4.TabIndex = 150;
+            this.label4.Text = "Types";
+            // 
+            // chkTypeDetails
+            // 
+            this.chkTypeDetails.AutoSize = true;
+            this.chkTypeDetails.Location = new System.Drawing.Point(141, 150);
+            this.chkTypeDetails.Name = "chkTypeDetails";
+            this.chkTypeDetails.Size = new System.Drawing.Size(85, 17);
+            this.chkTypeDetails.TabIndex = 65;
+            this.chkTypeDetails.Text = "Type Details";
+            this.chkTypeDetails.UseVisualStyleBackColor = true;
+            // 
             // FormatDialogUML
             // 
             this.AcceptButton = this.btnOK;
@@ -240,7 +261,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(467, 248);
+            this.ClientSize = new System.Drawing.Size(467, 275);
+            this.Controls.Add(this.chkTypeDetails);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.chkFileIncludeSelection);
             this.Controls.Add(this.chkShowLegend);
@@ -291,5 +314,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox chkFileIncludeSelection;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckBox chkTypeDetails;
     }
 }
