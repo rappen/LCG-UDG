@@ -1,18 +1,25 @@
 <?xml version="1.0"?>
-<package >
-  <metadata>
-    <id>Rappen.XrmToolBox.LateboundConstantsGenerator</id>
-    <version>1.0.0</version>
-    <title>Latebound Constants Generator for XrmToolBox</title>
-    <authors>Jonas Rapp</authors>
-    <owners>rappen</owners>
-    <projectUrl>https://github.com/rappen/LCG-UDG</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/rappen/LCG-UDG/master/images/LCG-150-tsp.png</iconUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Generate constant classes from metadata for late bound development on Microsoft Dataverse.</description>
-    <summary>Generate constant classes from metadata for late bound development on Microsoft Dataverse.</summary>
-    <releaseNotes>
+<package>
+	<metadata>
+		<id>Rappen.XrmToolBox.LateboundConstantsGenerator</id>
+		<version>1.0.0</version>
+		<title>Latebound Constants Generator for XrmToolBox</title>
+		<authors>Jonas Rapp</authors>
+		<owners>rappen</owners>
+		<projectUrl>https://github.com/rappen/LCG-UDG</projectUrl>
+		<iconUrl>https://raw.githubusercontent.com/rappen/LCG-UDG/master/images/LCG-150-tsp.png</iconUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>Generate constant classes from metadata for late bound development on Microsoft Dataverse.</description>
+		<summary>Generate constant classes from metadata for late bound development on Microsoft Dataverse.</summary>
+		<releaseNotes>
 Latest version:
+
+#79 Handling bugs in the metadata, some should be `IsLogical` but isn't.
+#85 Better filtering options for Attributes and Relationships
+
+---
+
+Version 1.2021.12.1
 
 Fixes:
 #72: Load old project with one-file-per-entity gets include config with every file (not supported)
@@ -83,15 +90,15 @@ Version 1.2018.9.2:
 #24 Add XML documentation for relationship constants
 #25 Gently forgive file write errors instead of throwing exception
 Template line break bug fixed
-    </releaseNotes>
-    <copyright>Copyright 2017-2021 Jonas Rapp</copyright>
-    <tags>XrmToolBox Plugins LateboundConstantsGenerator</tags>
-    <dependencies>
-      <dependency id="XrmToolBox" version="1.2021.9.52" />
-    </dependencies>
-  </metadata>
-  <files>
-    <file src="bin\Release\Rappen.XTB.LCG.dll" target="lib\net452\Plugins" />
-    <file src="bin\Release\Rappen.XTB.LCG.UDG.Common.dll" target="lib\net452\Plugins" />
-  </files>
+		</releaseNotes>
+		<copyright>Copyright 2017-2023 Jonas Rapp</copyright>
+		<tags>XrmToolBox Plugins LateboundConstantsGenerator</tags>
+		<dependencies>
+			<dependency id="XrmToolBox" version="1.2023.1.63" />
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="bin\Release\Rappen.XTB.LCG.dll" target="lib\net452\Plugins" />
+		<file src="bin\Release\Rappen.XTB.LCG.UDG.Common.dll" target="lib\net452\Plugins" />
+	</files>
 </package>
