@@ -42,6 +42,7 @@ namespace Rappen.XTB.LCG
             {
                 RelationshipLabels = false;
                 AttributeSortMode = AttributeSortMode.None;
+                TypeDetails = false;
                 Legend = false;
             }
             commonsettings?.SetFixedValues(isUML);
@@ -60,6 +61,7 @@ namespace Rappen.XTB.LCG
         public string StripPrefix { get; set; }
         public bool XmlProperties { get; set; } = true;
         public bool XmlDescription { get; set; }
+        public bool TypeDetails { get; set; }
         public bool Regions { get; set; } = true;
         public bool RelationShips { get; set; } = true;
         public bool RelationshipLabels { get; set; } = false;

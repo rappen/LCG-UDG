@@ -112,6 +112,7 @@ namespace Rappen.XTB.LCG
             var entity = template.EntityContainer
                 .Replace("{entityname}", name)
                 .Replace("{entitydetail}", GetEntity(entitymetadata, template))
+                .Replace("{typedetails}", settings.TypeDetails ? entitymetadata.EntityTypeDetails : "")
                 .Replace("{type}", entitymetadata.Metadata.IsCustomEntity == true ? "custom" : "standard")
                 .Replace("{summary}", summary)
                 .Replace("{remarks}", remarks)
@@ -153,6 +154,7 @@ namespace Rappen.XTB.LCG
                     case AttributeSortMode.Alphabetical:
                         entityattributes = entityattributes.OrderBy(a => a.GetNameTechnical(settings));
                         break;
+
                     case AttributeSortMode.AlphabeticalAndRequired:
                         entityattributes = entityattributes
                             .OrderBy(a => a.GetNameTechnical(settings))
@@ -181,8 +183,10 @@ namespace Rappen.XTB.LCG
                 case AttributeRequiredLevel.ApplicationRequired:
                 case AttributeRequiredLevel.SystemRequired:
                     return 10;
+
                 case AttributeRequiredLevel.Recommended:
                     return 20;
+
                 default:
                     return 100;
             }
@@ -315,9 +319,11 @@ namespace Rappen.XTB.LCG
                 case AttributeRequiredLevel.SystemRequired:
                     name = template.RequiredLevelRequired.ReplaceIfNotEmpty("{attribute}", name);
                     break;
+
                 case AttributeRequiredLevel.Recommended:
                     name = template.RequiredLevelRecommended.ReplaceIfNotEmpty("{attribute}", name);
                     break;
+
                 case AttributeRequiredLevel.None:
                     name = template.RequiredLevelNone.ReplaceIfNotEmpty("{attribute}", name);
                     break;
@@ -341,6 +347,7 @@ namespace Rappen.XTB.LCG
                 .Replace("{attribute}", name)
                 .Replace("{logicalname}", attributemetadata.LogicalName)
                 .Replace("{type}", attributemetadata.Type.ToString())
+                .Replace("{typedetails}", settings.TypeDetails ? attributemetadata.AttributeTypeDetails : "")
                 .Replace("{summary}", summary)
                 .Replace("{remarks}", remarks)
                 .Replace("'", "\"");
@@ -350,7 +357,7 @@ namespace Rappen.XTB.LCG
         private static string GetRelationShip(RelationshipMetadataProxy relationship, Settings settings, string prefix)
         {
             var template = settings.commonsettings.Template;
-            if (relationship.Child?.Attributes == null)
+            if (relationship.Child == null || relationship.Parent == null)
             {
                 return string.Empty;
             }
@@ -381,8 +388,8 @@ namespace Rappen.XTB.LCG
             }
             else if (relationship.Metadata is OneToManyRelationshipMetadata relation1m)
             {
-                if (relationship.LookupAttribute.Metadata.RequiredLevel.Value == AttributeRequiredLevel.ApplicationRequired ||
-                    relationship.LookupAttribute.Metadata.RequiredLevel.Value == AttributeRequiredLevel.SystemRequired)
+                if (relationship.LookupAttribute?.Metadata.RequiredLevel.Value == AttributeRequiredLevel.ApplicationRequired ||
+                    relationship.LookupAttribute?.Metadata.RequiredLevel.Value == AttributeRequiredLevel.SystemRequired)
                 {
                     return "||--{";
                 }
