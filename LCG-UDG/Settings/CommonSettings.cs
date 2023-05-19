@@ -84,7 +84,7 @@ namespace Rappen.XTB.LCG
             }
             else
             {
-                TemplateVersion = 4;    // Change this when UML template is updated to revert customizations
+                TemplateVersion = 5;    // Change this when UML template is updated to revert customizations
                 Legend = @"
 entity **Legend** <<standard>> #CCFFEE {
     (PK) = Primary Key
@@ -101,7 +101,7 @@ hide circle
 hide stereotype
 skinparam linetype ortho
 skinparam RoundCorner 5
-skinparam Padding 1
+skinparam Padding {paddingsize}
 skinparam ArrowFontSize 12
 skinparam ClassBorderColor Black
 skinparam ClassBorderColor<<custom>> Blue

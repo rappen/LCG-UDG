@@ -48,6 +48,20 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.chkTypeDetails = new System.Windows.Forms.CheckBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.rbTableSize1 = new System.Windows.Forms.RadioButton();
+            this.rbTableSize10 = new System.Windows.Forms.RadioButton();
+            this.rbTableSize20 = new System.Windows.Forms.RadioButton();
+            this.rbTableSize50 = new System.Windows.Forms.RadioButton();
+            this.rbRelSize4 = new System.Windows.Forms.RadioButton();
+            this.rbRelSize3 = new System.Windows.Forms.RadioButton();
+            this.rbRelSize2 = new System.Windows.Forms.RadioButton();
+            this.rbRelSize1 = new System.Windows.Forms.RadioButton();
+            this.panRelSizes = new System.Windows.Forms.Panel();
+            this.panTableSizes = new System.Windows.Forms.Panel();
+            this.panRelSizes.SuspendLayout();
+            this.panTableSizes.SuspendLayout();
             this.SuspendLayout();
             // 
             // chkConstCamelCased
@@ -120,7 +134,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(141, 238);
+            this.btnCancel.Location = new System.Drawing.Point(141, 306);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(97, 23);
             this.btnCancel.TabIndex = 120;
@@ -131,7 +145,7 @@
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(274, 238);
+            this.btnOK.Location = new System.Drawing.Point(274, 306);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(97, 23);
             this.btnOK.TabIndex = 110;
@@ -254,6 +268,138 @@
             this.chkTypeDetails.Text = "Type Details";
             this.chkTypeDetails.UseVisualStyleBackColor = true;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(24, 233);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(57, 13);
+            this.label5.TabIndex = 151;
+            this.label5.Text = "Table Size";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(24, 260);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(88, 13);
+            this.label7.TabIndex = 152;
+            this.label7.Text = "Relationship Size";
+            // 
+            // rbTableSize1
+            // 
+            this.rbTableSize1.AutoSize = true;
+            this.rbTableSize1.Checked = true;
+            this.rbTableSize1.Location = new System.Drawing.Point(3, 6);
+            this.rbTableSize1.Name = "rbTableSize1";
+            this.rbTableSize1.Size = new System.Drawing.Size(49, 17);
+            this.rbTableSize1.TabIndex = 153;
+            this.rbTableSize1.TabStop = true;
+            this.rbTableSize1.Tag = "1";
+            this.rbTableSize1.Text = "Tight";
+            this.rbTableSize1.UseVisualStyleBackColor = true;
+            // 
+            // rbTableSize10
+            // 
+            this.rbTableSize10.AutoSize = true;
+            this.rbTableSize10.Location = new System.Drawing.Point(58, 6);
+            this.rbTableSize10.Name = "rbTableSize10";
+            this.rbTableSize10.Size = new System.Drawing.Size(58, 17);
+            this.rbTableSize10.TabIndex = 154;
+            this.rbTableSize10.Tag = "10";
+            this.rbTableSize10.Text = "Normal";
+            this.rbTableSize10.UseVisualStyleBackColor = true;
+            // 
+            // rbTableSize20
+            // 
+            this.rbTableSize20.AutoSize = true;
+            this.rbTableSize20.Location = new System.Drawing.Point(122, 6);
+            this.rbTableSize20.Name = "rbTableSize20";
+            this.rbTableSize20.Size = new System.Drawing.Size(40, 17);
+            this.rbTableSize20.TabIndex = 155;
+            this.rbTableSize20.Tag = "20";
+            this.rbTableSize20.Text = "Big";
+            this.rbTableSize20.UseVisualStyleBackColor = true;
+            // 
+            // rbTableSize50
+            // 
+            this.rbTableSize50.AutoSize = true;
+            this.rbTableSize50.Location = new System.Drawing.Point(168, 6);
+            this.rbTableSize50.Name = "rbTableSize50";
+            this.rbTableSize50.Size = new System.Drawing.Size(51, 17);
+            this.rbTableSize50.TabIndex = 156;
+            this.rbTableSize50.Tag = "50";
+            this.rbTableSize50.Text = "Huge";
+            this.rbTableSize50.UseVisualStyleBackColor = true;
+            // 
+            // rbRelSize4
+            // 
+            this.rbRelSize4.AutoSize = true;
+            this.rbRelSize4.Location = new System.Drawing.Point(171, 5);
+            this.rbRelSize4.Name = "rbRelSize4";
+            this.rbRelSize4.Size = new System.Drawing.Size(51, 17);
+            this.rbRelSize4.TabIndex = 160;
+            this.rbRelSize4.Tag = "4";
+            this.rbRelSize4.Text = "Huge";
+            this.rbRelSize4.UseVisualStyleBackColor = true;
+            // 
+            // rbRelSize3
+            // 
+            this.rbRelSize3.AutoSize = true;
+            this.rbRelSize3.Location = new System.Drawing.Point(125, 5);
+            this.rbRelSize3.Name = "rbRelSize3";
+            this.rbRelSize3.Size = new System.Drawing.Size(40, 17);
+            this.rbRelSize3.TabIndex = 159;
+            this.rbRelSize3.Tag = "3";
+            this.rbRelSize3.Text = "Big";
+            this.rbRelSize3.UseVisualStyleBackColor = true;
+            // 
+            // rbRelSize2
+            // 
+            this.rbRelSize2.AutoSize = true;
+            this.rbRelSize2.Checked = true;
+            this.rbRelSize2.Location = new System.Drawing.Point(61, 5);
+            this.rbRelSize2.Name = "rbRelSize2";
+            this.rbRelSize2.Size = new System.Drawing.Size(58, 17);
+            this.rbRelSize2.TabIndex = 158;
+            this.rbRelSize2.TabStop = true;
+            this.rbRelSize2.Tag = "2";
+            this.rbRelSize2.Text = "Normal";
+            this.rbRelSize2.UseVisualStyleBackColor = true;
+            // 
+            // rbRelSize1
+            // 
+            this.rbRelSize1.AutoSize = true;
+            this.rbRelSize1.Location = new System.Drawing.Point(6, 5);
+            this.rbRelSize1.Name = "rbRelSize1";
+            this.rbRelSize1.Size = new System.Drawing.Size(49, 17);
+            this.rbRelSize1.TabIndex = 157;
+            this.rbRelSize1.Tag = "1";
+            this.rbRelSize1.Text = "Tight";
+            this.rbRelSize1.UseVisualStyleBackColor = true;
+            // 
+            // panRelSizes
+            // 
+            this.panRelSizes.Controls.Add(this.rbRelSize1);
+            this.panRelSizes.Controls.Add(this.rbRelSize4);
+            this.panRelSizes.Controls.Add(this.rbRelSize2);
+            this.panRelSizes.Controls.Add(this.rbRelSize3);
+            this.panRelSizes.Location = new System.Drawing.Point(135, 253);
+            this.panRelSizes.Name = "panRelSizes";
+            this.panRelSizes.Size = new System.Drawing.Size(234, 30);
+            this.panRelSizes.TabIndex = 161;
+            // 
+            // panTableSizes
+            // 
+            this.panTableSizes.Controls.Add(this.rbTableSize1);
+            this.panTableSizes.Controls.Add(this.rbTableSize10);
+            this.panTableSizes.Controls.Add(this.rbTableSize50);
+            this.panTableSizes.Controls.Add(this.rbTableSize20);
+            this.panTableSizes.Location = new System.Drawing.Point(137, 224);
+            this.panTableSizes.Name = "panTableSizes";
+            this.panTableSizes.Size = new System.Drawing.Size(230, 25);
+            this.panTableSizes.TabIndex = 162;
+            // 
             // FormatDialogUML
             // 
             this.AcceptButton = this.btnOK;
@@ -261,7 +407,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(467, 275);
+            this.ClientSize = new System.Drawing.Size(467, 343);
+            this.Controls.Add(this.panTableSizes);
+            this.Controls.Add(this.panRelSizes);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.chkTypeDetails);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label6);
@@ -290,6 +440,10 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Format Options";
+            this.panRelSizes.ResumeLayout(false);
+            this.panRelSizes.PerformLayout();
+            this.panTableSizes.ResumeLayout(false);
+            this.panTableSizes.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -316,5 +470,17 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox chkTypeDetails;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.RadioButton rbTableSize1;
+        private System.Windows.Forms.RadioButton rbTableSize10;
+        private System.Windows.Forms.RadioButton rbTableSize20;
+        private System.Windows.Forms.RadioButton rbTableSize50;
+        private System.Windows.Forms.RadioButton rbRelSize4;
+        private System.Windows.Forms.RadioButton rbRelSize3;
+        private System.Windows.Forms.RadioButton rbRelSize2;
+        private System.Windows.Forms.RadioButton rbRelSize1;
+        private System.Windows.Forms.Panel panRelSizes;
+        private System.Windows.Forms.Panel panTableSizes;
     }
 }

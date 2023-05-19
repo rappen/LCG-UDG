@@ -372,7 +372,7 @@ namespace Rappen.XTB.LCG
                 .Replace("{schemaname}", relationship.Metadata.SchemaName)
                 .Replace("{entity1}", relationship.Parent.GetNameTechnical(settings.ConstantName, settings))
                 .Replace("{entity2}", relationship.Child.GetNameTechnical(settings.ConstantName, settings))
-                .Replace("{relationtype}", GetRelationUMLNotation(relationship))
+                .Replace("{relationtype}", GetRelationUMLNotation(relationship, settings.RelationShipSize))
                 .Replace("{lookup}", settings.RelationshipLabels ? relationship.LookupAttribute?.GetNameTechnical(settings) : "")
                 .Replace("{summary}", summary)
                 .Replace("'", "\"")
@@ -380,22 +380,23 @@ namespace Rappen.XTB.LCG
             return relation;
         }
 
-        private static string GetRelationUMLNotation(RelationshipMetadataProxy relationship)
+        private static string GetRelationUMLNotation(RelationshipMetadataProxy relationship, int size)
         {
-            if (relationship.Metadata is ManyToManyRelationshipMetadata relationmm)
+            var sizestr = new string('-', size);
+            if (relationship.Metadata is ManyToManyRelationshipMetadata)
             {
-                return "}--{";
+                return "}" + sizestr + "{";
             }
-            else if (relationship.Metadata is OneToManyRelationshipMetadata relation1m)
+            else if (relationship.Metadata is OneToManyRelationshipMetadata)
             {
                 if (relationship.LookupAttribute?.Metadata.RequiredLevel.Value == AttributeRequiredLevel.ApplicationRequired ||
                     relationship.LookupAttribute?.Metadata.RequiredLevel.Value == AttributeRequiredLevel.SystemRequired)
                 {
-                    return "||--{";
+                    return "||" + sizestr + "{";
                 }
-                return "--{";
+                return sizestr + "{";
             }
-            return "--";
+            return sizestr;
         }
 
         private static string GetOptionSet(AttributeMetadataProxy attributemetadata, Settings settings)

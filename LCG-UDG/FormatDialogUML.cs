@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Rappen.XTB.LCG
@@ -24,6 +25,22 @@ namespace Rappen.XTB.LCG
                 settingdlg.chkTypeDetails.Checked = settings.TypeDetails;
                 settingdlg.chkRelationshipLabels.Checked = settings.RelationshipLabels;
                 settingdlg.chkShowLegend.Checked = settings.Legend;
+                if (settingdlg.panTableSizes.Controls.Cast<Control>().FirstOrDefault(c => c.Name == $"rbTableSize{settings.TableSize}") is RadioButton table)
+                {
+                    table.Checked = true;
+                }
+                else
+                {
+                    settingdlg.rbTableSize1.Checked = true;
+                }
+                if (settingdlg.panRelSizes.Controls.Cast<Control>().FirstOrDefault(c => c.Name == $"rbRelSize{settings.RelationShipSize}") is RadioButton rel)
+                {
+                    rel.Checked = true;
+                }
+                else
+                {
+                    settingdlg.rbRelSize1.Checked = true;
+                }
                 if (settingdlg.ShowDialog(lcg) == DialogResult.OK)
                 {
                     settings.SaveConfigurationInCommonFile = settingdlg.chkFileIncludeSelection.Checked;
@@ -36,6 +53,14 @@ namespace Rappen.XTB.LCG
                     settings.TypeDetails = settingdlg.chkTypeDetails.Checked;
                     settings.RelationshipLabels = settingdlg.chkRelationshipLabels.Checked;
                     settings.Legend = settingdlg.chkShowLegend.Checked;
+                    settings.TableSize =
+                        settingdlg.rbTableSize10.Checked ? 10 :
+                        settingdlg.rbTableSize20.Checked ? 20 :
+                        settingdlg.rbTableSize50.Checked ? 50 : 1;
+                    settings.RelationShipSize =
+                        settingdlg.rbRelSize1.Checked ? 1 :
+                        settingdlg.rbRelSize3.Checked ? 3 :
+                        settingdlg.rbRelSize4.Checked ? 4 : 2;
                     settings.CommonAttributes = CommonAttributesType.None;
                     settings.XmlProperties = false;
                     settings.XmlDescription = false;

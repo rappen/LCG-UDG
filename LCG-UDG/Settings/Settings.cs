@@ -68,6 +68,8 @@ namespace Rappen.XTB.LCG
         public bool OptionSets { get; set; } = true;
         public bool GlobalOptionSets { get; set; }
         public bool Legend { get; set; }
+        public int TableSize { get; set; } = 1;
+        public int RelationShipSize { get; set; } = 2;
         public CommonAttributesType CommonAttributes { get; set; } = CommonAttributesType.None;
         public AttributeSortMode AttributeSortMode { get; set; } = AttributeSortMode.None;
         public List<string> Selection { get; set; } = new List<string>();

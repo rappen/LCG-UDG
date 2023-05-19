@@ -81,6 +81,7 @@ namespace Rappen.XTB.LCG
                 .Replace("{version}", version)
                 .Replace("{namespace}", settings.NameSpace)
                 .Replace("{legend}", settings.Legend ? settings.commonsettings.Template.Legend : string.Empty)
+                .Replace("{paddingsize}", settings.TableSize.ToString())
                 .Replace("{data}", data);
         }
 
