@@ -243,6 +243,7 @@
   IF NOT EXIST ..\..\..\Work mkdir ..\..\..\Work
   IF NOT EXIST ..\..\..\Work\Plugins mkdir ..\..\..\Work\Plugins
   copy /Y Rappen.*.dll ..\..\..\Work\Plugins
+  del ..\..\..\Work\Plugins\manifest.json
 )</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Microsoft.Web.WebView2.1.0.1343.22\build\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.1343.22\build\Microsoft.Web.WebView2.targets')" />
