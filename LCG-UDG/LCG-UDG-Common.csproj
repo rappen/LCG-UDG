@@ -267,6 +267,7 @@
     <Compile Include="Settings\Settings.cs" />
     <Compile Include="SolutionProxy.cs" />
     <Compile Include="SortableBindingList.cs" />
+    <Compile Include="StolenFromDynamicsNinja.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
