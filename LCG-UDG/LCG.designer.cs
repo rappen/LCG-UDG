@@ -98,6 +98,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.llAttributeExpander = new System.Windows.Forms.LinkLabel();
             this.pnAttSystem = new System.Windows.Forms.Panel();
+            this.chkAttInternal = new System.Windows.Forms.CheckBox();
+            this.chkAttOwners = new System.Windows.Forms.CheckBox();
+            this.chkAttCreMod = new System.Windows.Forms.CheckBox();
             this.chkAttLogical = new System.Windows.Forms.CheckBox();
             this.label15 = new System.Windows.Forms.Label();
             this.chkAttPrimaryAttribute = new System.Windows.Forms.CheckBox();
@@ -158,9 +161,7 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tmRelSearch = new System.Windows.Forms.Timer(this.components);
             this.tmHideNotification = new System.Windows.Forms.Timer(this.components);
-            this.chkAttCreMod = new System.Windows.Forms.CheckBox();
-            this.chkAttOwners = new System.Windows.Forms.CheckBox();
-            this.chkAttInternal = new System.Windows.Forms.CheckBox();
+            this.chkEntHasRecords = new System.Windows.Forms.CheckBox();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -357,9 +358,9 @@
             this.pnEntityGrid.Controls.Add(this.chkEntAll);
             this.pnEntityGrid.Controls.Add(this.gridEntities);
             this.pnEntityGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnEntityGrid.Location = new System.Drawing.Point(0, 217);
+            this.pnEntityGrid.Location = new System.Drawing.Point(0, 233);
             this.pnEntityGrid.Name = "pnEntityGrid";
-            this.pnEntityGrid.Size = new System.Drawing.Size(347, 307);
+            this.pnEntityGrid.Size = new System.Drawing.Size(347, 291);
             this.pnEntityGrid.TabIndex = 3;
             this.pnEntityGrid.Visible = false;
             // 
@@ -412,7 +413,7 @@
             this.gridEntities.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.gridEntities.RowHeadersVisible = false;
             this.gridEntities.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridEntities.Size = new System.Drawing.Size(347, 307);
+            this.gridEntities.Size = new System.Drawing.Size(347, 291);
             this.gridEntities.TabIndex = 2;
             this.gridEntities.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             this.gridEntities.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridEntities_CellFormatting);
@@ -444,7 +445,7 @@
             // lblEntNoMatch
             // 
             this.lblEntNoMatch.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblEntNoMatch.Location = new System.Drawing.Point(0, 148);
+            this.lblEntNoMatch.Location = new System.Drawing.Point(0, 164);
             this.lblEntNoMatch.Name = "lblEntNoMatch";
             this.lblEntNoMatch.Size = new System.Drawing.Size(347, 69);
             this.lblEntNoMatch.TabIndex = 8;
@@ -463,7 +464,7 @@
             this.gbEntities.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbEntities.Location = new System.Drawing.Point(0, 0);
             this.gbEntities.Name = "gbEntities";
-            this.gbEntities.Size = new System.Drawing.Size(347, 148);
+            this.gbEntities.Size = new System.Drawing.Size(347, 164);
             this.gbEntities.TabIndex = 2;
             this.gbEntities.TabStop = false;
             this.gbEntities.Text = "Entities";
@@ -473,7 +474,7 @@
             this.pnEntSearch.Controls.Add(this.txtEntSearch);
             this.pnEntSearch.Controls.Add(this.label1);
             this.pnEntSearch.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnEntSearch.Location = new System.Drawing.Point(3, 120);
+            this.pnEntSearch.Location = new System.Drawing.Point(3, 139);
             this.pnEntSearch.Name = "pnEntSearch";
             this.pnEntSearch.Size = new System.Drawing.Size(341, 26);
             this.pnEntSearch.TabIndex = 5;
@@ -511,13 +512,14 @@
             // 
             // pnEntIntersect
             // 
+            this.pnEntIntersect.Controls.Add(this.chkEntHasRecords);
             this.pnEntIntersect.Controls.Add(this.label10);
             this.pnEntIntersect.Controls.Add(this.chkEntSelected);
             this.pnEntIntersect.Controls.Add(this.chkEntIntersect);
             this.pnEntIntersect.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnEntIntersect.Location = new System.Drawing.Point(3, 94);
             this.pnEntIntersect.Name = "pnEntIntersect";
-            this.pnEntIntersect.Size = new System.Drawing.Size(341, 26);
+            this.pnEntIntersect.Size = new System.Drawing.Size(341, 45);
             this.pnEntIntersect.TabIndex = 4;
             // 
             // label10
@@ -891,6 +893,40 @@
             this.pnAttSystem.Name = "pnAttSystem";
             this.pnAttSystem.Size = new System.Drawing.Size(326, 44);
             this.pnAttSystem.TabIndex = 4;
+            // 
+            // chkAttInternal
+            // 
+            this.chkAttInternal.AutoSize = true;
+            this.chkAttInternal.Location = new System.Drawing.Point(282, 5);
+            this.chkAttInternal.Name = "chkAttInternal";
+            this.chkAttInternal.Size = new System.Drawing.Size(61, 17);
+            this.chkAttInternal.TabIndex = 7;
+            this.chkAttInternal.Text = "Internal";
+            this.chkAttInternal.UseVisualStyleBackColor = true;
+            this.chkAttInternal.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
+            // 
+            // chkAttOwners
+            // 
+            this.chkAttOwners.AutoSize = true;
+            this.chkAttOwners.Location = new System.Drawing.Point(218, 23);
+            this.chkAttOwners.Name = "chkAttOwners";
+            this.chkAttOwners.Size = new System.Drawing.Size(62, 17);
+            this.chkAttOwners.TabIndex = 6;
+            this.chkAttOwners.Text = "Owners";
+            this.toolTip1.SetToolTip(this.chkAttOwners, "Relationships for Owner fields");
+            this.chkAttOwners.UseVisualStyleBackColor = true;
+            this.chkAttOwners.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
+            // 
+            // chkAttCreMod
+            // 
+            this.chkAttCreMod.AutoSize = true;
+            this.chkAttCreMod.Location = new System.Drawing.Point(99, 23);
+            this.chkAttCreMod.Name = "chkAttCreMod";
+            this.chkAttCreMod.Size = new System.Drawing.Size(108, 17);
+            this.chkAttCreMod.TabIndex = 5;
+            this.chkAttCreMod.Text = "Created/Modified";
+            this.chkAttCreMod.UseVisualStyleBackColor = true;
+            this.chkAttCreMod.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // chkAttLogical
             // 
@@ -1537,39 +1573,16 @@
             this.tmHideNotification.Interval = 5000;
             this.tmHideNotification.Tick += new System.EventHandler(this.tmHideNotification_Tick);
             // 
-            // chkAttCreMod
+            // chkEntHasRecords
             // 
-            this.chkAttCreMod.AutoSize = true;
-            this.chkAttCreMod.Location = new System.Drawing.Point(99, 23);
-            this.chkAttCreMod.Name = "chkAttCreMod";
-            this.chkAttCreMod.Size = new System.Drawing.Size(108, 17);
-            this.chkAttCreMod.TabIndex = 5;
-            this.chkAttCreMod.Text = "Created/Modified";
-            this.chkAttCreMod.UseVisualStyleBackColor = true;
-            this.chkAttCreMod.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
-            // 
-            // chkAttOwners
-            // 
-            this.chkAttOwners.AutoSize = true;
-            this.chkAttOwners.Location = new System.Drawing.Point(218, 23);
-            this.chkAttOwners.Name = "chkAttOwners";
-            this.chkAttOwners.Size = new System.Drawing.Size(62, 17);
-            this.chkAttOwners.TabIndex = 6;
-            this.chkAttOwners.Text = "Owners";
-            this.toolTip1.SetToolTip(this.chkAttOwners, "Relationships for Owner fields");
-            this.chkAttOwners.UseVisualStyleBackColor = true;
-            this.chkAttOwners.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
-            // 
-            // chkAttInternal
-            // 
-            this.chkAttInternal.AutoSize = true;
-            this.chkAttInternal.Location = new System.Drawing.Point(282, 5);
-            this.chkAttInternal.Name = "chkAttInternal";
-            this.chkAttInternal.Size = new System.Drawing.Size(61, 17);
-            this.chkAttInternal.TabIndex = 7;
-            this.chkAttInternal.Text = "Internal";
-            this.chkAttInternal.UseVisualStyleBackColor = true;
-            this.chkAttInternal.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
+            this.chkEntHasRecords.AutoSize = true;
+            this.chkEntHasRecords.Location = new System.Drawing.Point(99, 23);
+            this.chkEntHasRecords.Name = "chkEntHasRecords";
+            this.chkEntHasRecords.Size = new System.Drawing.Size(83, 17);
+            this.chkEntHasRecords.TabIndex = 5;
+            this.chkEntHasRecords.Text = "Has records";
+            this.chkEntHasRecords.UseVisualStyleBackColor = true;
+            this.chkEntHasRecords.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
             // LCG
             // 
@@ -1780,5 +1793,6 @@
         private System.Windows.Forms.CheckBox chkAttOwners;
         private System.Windows.Forms.CheckBox chkAttCreMod;
         private System.Windows.Forms.CheckBox chkAttInternal;
+        private System.Windows.Forms.CheckBox chkEntHasRecords;
     }
 }

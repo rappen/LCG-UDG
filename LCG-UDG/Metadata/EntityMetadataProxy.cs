@@ -13,6 +13,7 @@ namespace Rappen.XTB.LCG
         public List<AttributeMetadataProxy> Attributes;
         public List<RelationshipMetadataProxy> Relationships;
         public EntityMetadata Metadata;
+        public int? Records;
 
         [DisplayName(" \n ")]
         public bool Selected { get => IsSelected; }
@@ -23,8 +24,11 @@ namespace Rappen.XTB.LCG
         [DisplayName("Logical Name")]
         public string LogicalName { get => Metadata?.LogicalName; }
 
-        [DisplayName("Logical Collection Name")]
-        public string LogicalCollectionName { get => Metadata?.LogicalCollectionName; }
+        //[DisplayName("Logical Collection Name")]
+        //public string LogicalCollectionName { get => Metadata?.LogicalCollectionName; }
+
+        [DisplayName("Records")]
+        public int? RecordCount { get => Records == -1 ? null : Records; }
 
         internal AttributeMetadataProxy PrimaryKey { get => Attributes?.FirstOrDefault(a => a.Metadata.IsPrimaryId == true && a.Metadata.IsLogical == false); }
 

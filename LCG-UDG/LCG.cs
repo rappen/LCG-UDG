@@ -435,6 +435,7 @@ namespace Rappen.XTB.LCG
             rbEntMgdTrue.Checked = settings.EntityFilter?.ManagedTrue == true;
             rbEntMgdFalse.Checked = settings.EntityFilter?.ManagedFalse == true;
             chkEntIntersect.Checked = settings.EntityFilter?.Intersect == true;
+            chkEntHasRecords.Checked = settings.EntityFilter?.HasRecords == true;
             //chkEntSelected.Checked = settings.EntityFilter?.SelectedOnly == true;
             chkAttCheckAll.Checked = settings.AttributeFilter?.CheckAll != false;
             rbAttCustomAll.Checked = settings.AttributeFilter?.CustomAll != false;
@@ -737,14 +738,23 @@ namespace Rappen.XTB.LCG
                        rbEntCustomTrue.Checked && e.Metadata.IsCustomEntity.GetValueOrDefault() ||
                        rbEntCustomFalse.Checked && !e.Metadata.IsCustomEntity.GetValueOrDefault();
             }
+            bool GetNoDataFilter(EntityMetadataProxy e) { return !chkEntHasRecords.Checked || e.Records > 0 || e.Records == null; }
 
+            if (ConnectionDetail?.OrganizationMajorVersion < 9 && chkEntHasRecords.Checked)
+            {
+                MessageBox.Show("Sorry, currently not possible to count records with Dynamics 365 before version 9.*.\n\nClick 'Help' for more info!",
+                    "Count Records", MessageBoxButtons.OK, MessageBoxIcon.Stop, MessageBoxDefaultButton.Button1, 0,
+                    "https://learn.microsoft.com/dotnet/api/microsoft.crm.sdk.messages.retrievetotalrecordcountrequest?WT.mc_id=BA-MVP-5002475");
+                chkEntHasRecords.Checked = false;
+            }
             var filteredentities = entities.Where(
                 e => IsNotPrivate(e)
                      && GetSelectedFilter(e)
                      && GetCustomFilter(e)
                      && GetManagedFilter(e)
                      && GetIntersectFilter(e)
-                     && GetSearchFilter(e));
+                     && GetSearchFilter(e)
+                     && GetNoDataFilter(e));
             return filteredentities;
         }
 
@@ -911,6 +921,7 @@ namespace Rappen.XTB.LCG
             settings.EntityFilter.ManagedFalse = rbEntMgdFalse.Checked;
             settings.EntityFilter.Intersect = chkEntIntersect.Checked;
             settings.EntityFilter.SelectedOnly = chkEntSelected.Checked;
+            settings.EntityFilter.HasRecords = chkEntHasRecords.Checked;
             if (settings.AttributeFilter == null)
             {
                 settings.AttributeFilter = new AttributeFilter();
@@ -1085,21 +1096,45 @@ namespace Rappen.XTB.LCG
                                 relationship.PropertyChanged += PropertyChanged_Relationship;
                             }
                         }
-                    }
-                    UpdateUI(() =>
-                    {
-                        RestoreSelectedEntities();
-                        DisplayFilteredEntities();
-                        if (gridEntities.Columns.Count > 0)
+                        if (ConnectionDetail.OrganizationMajorVersion >= 9)
                         {
-                            gridEntities.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader);
-                            gridEntities.Columns[0].Width = 30;
+                            this.CountRecords(entities.Select(e => e.Metadata).ToList(), SetEntityRecords, CountingCompleted);
                         }
-                        menuOpen.Enabled = true;
-                        EnableControls(true);
-                    });
+                    }
                 }
             });
+        }
+
+        private void CountingCompleted()
+        {
+            UpdateUI(() =>
+            {
+                RestoreSelectedEntities();
+                DisplayFilteredEntities();
+                if (gridEntities.Columns.Count > 0)
+                {
+                    gridEntities.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+                    gridEntities.Columns[0].Width = 30;
+                    gridEntities.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                }
+                menuOpen.Enabled = true;
+                EnableControls(true);
+            });
+        }
+
+        private void SetEntityRecords(string entityname, int count, string error)
+        {
+            if (entities.FirstOrDefault(e => e.LogicalName == entityname) is EntityMetadataProxy entity)
+            {
+                if (string.IsNullOrEmpty(error))
+                {
+                    entity.Records = count;
+                }
+                else
+                {
+                    entity.Records = null;
+                }
+            }
         }
 
         private void LoadSettings(string connectionname)

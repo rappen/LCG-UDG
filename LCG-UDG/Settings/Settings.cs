@@ -139,6 +139,7 @@ namespace Rappen.XTB.LCG
         public bool ManagedFalse { get; set; }
         public bool Intersect { get; set; }
         public bool SelectedOnly { get; set; }
+        public bool HasRecords { get; set; }
     }
 
     public class AttributeFilter

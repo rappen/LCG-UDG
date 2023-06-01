@@ -129,7 +129,7 @@ namespace Rappen.XTB.LCG
             {
                 return string.Empty;
             }
-            return template.EntityDetail.Replace("{logicalname}", entitymetadata.LogicalName).Replace("{logicalcollectionname}", entitymetadata.LogicalCollectionName);
+            return template.EntityDetail.Replace("{logicalname}", entitymetadata.LogicalName).Replace("{logicalcollectionname}", entitymetadata.Metadata.LogicalCollectionName);
         }
 
         private static string GetAttributes(EntityMetadataProxy entitymetadata, EntityMetadataProxy commonentity, Settings settings)
