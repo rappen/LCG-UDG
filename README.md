@@ -15,11 +15,18 @@ Read more: **[https://jonasr.app/UML](https://jonasr.app/UML)**
 
 --
 
-### Slightly outdated screen shots
-![image](https://user-images.githubusercontent.com/2572253/33321173-0b906dd0-d445-11e7-92a4-d9c25d567c8a.png)
+## Screenshits
 
-![image](https://user-images.githubusercontent.com/2572253/33321413-e10f0ee4-d445-11e7-84ba-73ace65050a0.png)
+![image](https://github.com/rappen/LCG-UDG/assets/2572253/b2f512e8-a162-4c6e-b319-670aee6351f8)
 
-![image](https://user-images.githubusercontent.com/2572253/33321471-24a7ecac-d446-11e7-9a0c-b2643f70e800.png)
+![image](https://github.com/rappen/LCG-UDG/assets/2572253/aaa032a2-acab-431c-8e94-53885a8c768d)
 
-![image](https://user-images.githubusercontent.com/2572253/33321548-61e693fc-d446-11e7-86d7-c3ed68e34d96.png)
+LCG options:
+
+![image](https://github.com/rappen/LCG-UDG/assets/2572253/982f7ec2-2bdd-4b27-881e-7b3209a42aa3)
+
+UML options:
+
+![image](https://github.com/rappen/LCG-UDG/assets/2572253/c518a486-3645-4dfc-8432-95159fbeedf9)
+
+![image](https://github.com/rappen/LCG-UDG/assets/2572253/2640ba31-c36f-49e6-b995-cca64b84fabb)
