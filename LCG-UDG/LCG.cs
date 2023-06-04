@@ -450,6 +450,9 @@ namespace Rappen.XTB.LCG
             chkAttInternal.Checked = settings.AttributeFilter?.Internal == true;
             chkAttCreMod.Checked = settings.AttributeFilter?.CreMod == true;
             chkAttOwners.Checked = settings.AttributeFilter?.Owner == true;
+            chkAttRequired.Checked = settings.AttributeFilter?.Required == true;
+            chkAttUsed.Checked = settings.AttributeFilter?.AreUsed == true;
+            chkAttUniques.Checked = settings.AttributeFilter?.UniqueValues == true;
             chkRelCheckAll.Checked = settings.RelationshipFilter?.CheckAll != false;
             rbRelCustomAll.Checked = settings.RelationshipFilter?.CustomAll != false;
             rbRelCustomFalse.Checked = settings.RelationshipFilter?.CustomFalse == true;
@@ -489,8 +492,13 @@ namespace Rappen.XTB.LCG
             }
             if (selectedEntity?.Attributes != null && selectedEntity.Attributes.Count > 0)
             {
+                chkAttUniques.Enabled = chkAttUsed.Checked;
+                if (!chkAttUniques.Enabled && chkAttUniques.Checked)
+                {
+                    chkAttUniques.Checked = false;
+                }
                 GetSettingsFromUI();
-                var filteredAttributes = GetFilteredAttributes(selectedEntity).ToList();
+                var filteredAttributes = GetFilteredAttributes(selectedEntity)?.ToList() ?? new List<AttributeMetadataProxy>();
                 if (chkAttPrimaryAttribute.Checked)
                 {
                     AddToFilteredAttributes(filteredAttributes, selectedEntity.Metadata.PrimaryNameAttribute);
@@ -502,8 +510,10 @@ namespace Rappen.XTB.LCG
                 gridAttributes.DataSource = new SortableBindingList<AttributeMetadataProxy>(filteredAttributes);
                 if (gridAttributes.Columns.Count > 0)
                 {
-                    gridAttributes.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader);
+                    gridAttributes.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
                     gridAttributes.Columns[0].Width = 30;
+                    gridAttributes.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                    gridAttributes.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
                 }
             }
             else
@@ -703,7 +713,20 @@ namespace Rappen.XTB.LCG
                     attributes.FirstOrDefault(a2 => a2.LogicalName == a.Metadata.AttributeOf) is AttributeMetadataProxy parentattr &&
                     parentattr.Type == AttributeTypeCode.Customer;
             }
+            // Required funkar risigt
+            bool IsRequired(AttributeMetadataProxy a) { return !chkAttRequired.Checked || a.Metadata.RequiredLevel.Value == AttributeRequiredLevel.ApplicationRequired || a.Metadata.RequiredLevel.Value == AttributeRequiredLevel.SystemRequired; }
 
+            bool AreUsed(AttributeMetadataProxy a) { return !chkAttUsed.Checked || a.WithValues == null || a.WithValues > 0; }
+
+            bool AreUniques(AttributeMetadataProxy a) { return !chkAttUniques.Checked || a.UniqueValues > 1; }
+
+            if (chkAttUsed.Checked && !entity.CountedAttributes)
+            {
+                LoadCountingDatas(entity);
+                splitContainer2.Panel1.Enabled = false;
+                return null;
+            }
+            splitContainer2.Panel1.Enabled = true;
             return entity.Attributes
                     .Where(
                         a => GetCustomFilter(a)
@@ -712,7 +735,100 @@ namespace Rappen.XTB.LCG
                            && GetLogicalFilter(a, entity.Attributes)
                            && GetInternalFilter(a)
                            && GetCreModFilter(a)
-                           && GetOwnersFilter(a));
+                           && GetOwnersFilter(a)
+                           && IsRequired(a)
+                           && AreUsed(a)
+                           && AreUniques(a));
+        }
+
+        private void LoadCountingDatas(EntityMetadataProxy entity)
+        {
+            WorkAsync(new WorkAsyncInfo
+            {
+                Message = $"Counting attributes for {entity.DisplayName}{Environment.NewLine}...",
+                Work = (w, arg) =>
+                {
+                    var q = new QueryExpression(entity.LogicalName);
+                    q.ColumnSet = new ColumnSet(true);
+                    arg.Result = Service.RetrieveMultipleAll(q, w, $"Counting attributes for {entity.DisplayName}{Environment.NewLine}{{0}} / {entity.RecordCount}");
+                },
+                ProgressChanged = (c) =>
+                {
+                    SetWorkingMessage(c.UserState.ToString());
+                },
+                PostWorkCallBack = (arg) =>
+                {
+                    entity.CountedAttributes = true;
+                    if (arg.Error != null)
+                    {
+                        ShowErrorDialog(arg.Error);
+                    }
+                    else if (arg.Result is EntityCollection records)
+                    {
+                        entity.Attributes
+                            .ForEach(attr => attr.WithValues = records.Entities.Count(r => r.Contains(attr.LogicalName)));
+                        entity.Attributes
+                            .ForEach(attr => attr.UnDefaultValues = records.Entities.Count(r => !IsDefaultValue(r, attr)));
+                        entity.Attributes
+                            .ForEach(attr => attr.UniqueValues = records.Entities.Select(e => e.Contains(attr.LogicalName) ? AttributeToBaseType(e[attr.LogicalName]) : null).Distinct().Count());
+                        DisplayFilteredAttributes();
+                    }
+                }
+            });
+        }
+
+        public static object AttributeToBaseType(object attribute)
+        {
+            if (attribute is AliasedValue aliasedvalue)
+            {
+                return AttributeToBaseType(aliasedvalue.Value);
+            }
+            else if (attribute is EntityReference entref)
+            {
+                if (!string.IsNullOrEmpty(entref.LogicalName) && !entref.Id.Equals(Guid.Empty))
+                {
+                    return entref.Id;
+                }
+                return null;
+            }
+            else if (attribute is OptionSetValue osv)
+            {
+                return osv.Value;
+            }
+            else if (attribute is OptionSetValueCollection copt)
+            {
+                return copt.Select(c => c.Value);
+            }
+            else if (attribute is Money money)
+            {
+                return money.Value;
+            }
+            else
+            {
+                return attribute;
+            }
+        }
+
+        private static bool IsDefaultValue(Entity record, AttributeMetadataProxy attribute)
+        {
+            if (!record.Contains(attribute.LogicalName))
+            {
+                return true;
+            }
+            var value = record[attribute.LogicalName];
+            if (attribute.Metadata is BooleanAttributeMetadata atbool)
+            {
+                return value is bool vabool ? vabool == atbool.DefaultValue : true;
+            }
+            else if (attribute.Metadata is PicklistAttributeMetadata atpick)
+            {
+                return value is OptionSetValue vaopt ? vaopt.Value == atpick.DefaultFormValue : true;
+            }
+            else if (attribute.Metadata is StringAttributeMetadata)
+            {
+                return value is string vastr ? string.IsNullOrWhiteSpace(vastr) : true;
+            }
+            return false;
         }
 
         private IEnumerable<EntityMetadataProxy> GetFilteredEntities()
@@ -940,6 +1056,8 @@ namespace Rappen.XTB.LCG
             settings.AttributeFilter.Internal = chkAttInternal.Checked;
             settings.AttributeFilter.CreMod = chkAttCreMod.Checked;
             settings.AttributeFilter.Owner = chkAttOwners.Checked;
+            settings.AttributeFilter.AreUsed = chkAttUsed.Checked;
+            settings.AttributeFilter.UniqueValues = chkAttUsed.Checked && chkAttUniques.Checked;
             if (settings.RelationshipFilter == null)
             {
                 settings.RelationshipFilter = new RelationshipFilter();
@@ -1494,6 +1612,18 @@ This behavior can be prevented by unchecking the box 'Include configuration' in 
         {
             tmHideNotification.Stop();
             HideNotification();
+        }
+
+        private void picAttReloadRecords_Click(object sender, EventArgs e)
+        {
+            if (selectedEntity == null)
+            {
+                return;
+            }
+            selectedEntity.CountedAttributes = false;
+            selectedEntity.Attributes.ForEach(a => a.WithValues = null);
+            selectedEntity.Attributes.ForEach(a => a.UniqueValues = null);
+            DisplayFilteredAttributes();
         }
     }
 }

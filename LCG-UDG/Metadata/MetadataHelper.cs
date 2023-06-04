@@ -2,7 +2,9 @@
 using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Metadata;
 using Microsoft.Xrm.Sdk.Metadata.Query;
+using Microsoft.Xrm.Sdk.Query;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Rappen.XTB.LCG
 {
@@ -55,6 +57,7 @@ namespace Rappen.XTB.LCG
             "IsManaged",
             "IsPrimaryId",
             "IsPrimaryName",
+            "IsValidForRead",
             "IsValidForCreate",
             "LogicalName",
             "MaxLength",
@@ -65,7 +68,8 @@ namespace Rappen.XTB.LCG
             "RequiredLevel",
             "SchemaName",
             "Targets",
-            "IsLogical"
+            "IsLogical",
+            "RequiredLevel"
         };
 
         #endregion Public Fields
@@ -159,6 +163,45 @@ namespace Rappen.XTB.LCG
                 ClientVersionStamp = null
             };
             return service.Execute(req) as RetrieveMetadataChangesResponse;
+        }
+
+        public static EntityCollection RetrieveMultipleAll(this IOrganizationService service, QueryBase query, BackgroundWorker worker = null, string message = null)
+        {
+            EntityCollection resultCollection = null;
+            EntityCollection tmpResult;
+            if (string.IsNullOrEmpty(message))
+            {
+                message = "Retrieving records... ({0})";
+            }
+            worker?.ReportProgress(0, string.Format(message, 0));
+            if (query is QueryExpression queryex && queryex.PageInfo.PageNumber == 0)
+            {
+                queryex.PageInfo.PageNumber = 1;
+            }
+            do
+            {
+                tmpResult = service.RetrieveMultiple(query);
+                if (resultCollection == null)
+                {
+                    resultCollection = tmpResult;
+                }
+                else
+                {
+                    resultCollection.Entities.AddRange(tmpResult.Entities);
+                    resultCollection.MoreRecords = tmpResult.MoreRecords;
+                    resultCollection.PagingCookie = tmpResult.PagingCookie;
+                    resultCollection.TotalRecordCount = tmpResult.TotalRecordCount;
+                    resultCollection.TotalRecordCountLimitExceeded = tmpResult.TotalRecordCountLimitExceeded;
+                }
+                if (query is QueryExpression qex && tmpResult.MoreRecords)
+                {
+                    qex.PageInfo.PageNumber++;
+                    qex.PageInfo.PagingCookie = tmpResult.PagingCookie;
+                }
+                worker?.ReportProgress(0, string.Format(message, resultCollection.Entities.Count));
+            }
+            while (query is QueryExpression && tmpResult.MoreRecords);
+            return resultCollection;
         }
 
         #endregion Public Methods

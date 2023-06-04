@@ -158,6 +158,9 @@ namespace Rappen.XTB.LCG
         public bool Internal { get; set; }
         public bool CreMod { get; set; } = true;
         public bool Owner { get; set; } = true;
+        public bool Required { get; set; }
+        public bool AreUsed { get; set; }
+        public bool UniqueValues { get; set; }
     }
 
     public class RelationshipFilter

@@ -40,7 +40,27 @@ namespace Rappen.XTB.LCG
         [DisplayName("Logical Name")]
         public string LogicalName => Metadata?.LogicalName;
 
+        [DisplayName("Type")]
         public AttributeTypeCode? Type => Metadata?.AttributeType;
+
+        [DisplayName("Values")]
+        public int? Values { get => WithValues; }
+
+        //[DisplayName("Changed")]
+        //public int? Undefaulted { get => UnDefaultValues; }
+
+        [DisplayName("Uniques")]
+        public int? Uniques { get => UniqueValues; }
+
+        //[DisplayName("Used By")]
+        //public string UsedBy
+        //{
+        //    get =>
+        //        WithValues == null ? "---" :
+        //        entity.Records == null ? "--" :
+        //        entity.Records == 0 ? "NaN" :
+        //        ((WithValues * 100) / entity.Records).ToString() + "%";
+        //}
 
         internal string AttributeProperties
         {
@@ -208,6 +228,9 @@ namespace Rappen.XTB.LCG
         internal EntityMetadataProxy Entity => entity;
 
         internal string AdditionalProperties;
+        internal int? WithValues;
+        internal int? UnDefaultValues;
+        internal int? UniqueValues;
 
         #endregion Public Properties
 

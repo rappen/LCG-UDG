@@ -13,7 +13,6 @@ namespace Rappen.XTB.LCG
         public List<AttributeMetadataProxy> Attributes;
         public List<RelationshipMetadataProxy> Relationships;
         public EntityMetadata Metadata;
-        public int? Records;
 
         [DisplayName(" \n ")]
         public bool Selected { get => IsSelected; }
@@ -77,6 +76,8 @@ namespace Rappen.XTB.LCG
         }
 
         internal string Description { get => Metadata?.Description?.UserLocalizedLabel?.Label; }
+        internal int? Records;
+        internal bool CountedAttributes = false;
 
         #endregion Public Fields
 
