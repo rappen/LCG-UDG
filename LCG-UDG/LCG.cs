@@ -56,7 +56,7 @@ namespace Rappen.XTB.LCG
 
         public string Version => Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-        public string HelpUrl => isUML ? "https://jonasr.app/UML" : "https://jonasr.app/";
+        public string HelpUrl => isUML ? "https://jonasr.app/UML" : "https://github.com/rappen/LCG-UDG/blob/master/README.md";
 
         public void ShowAboutDialog()
         {
@@ -770,7 +770,7 @@ namespace Rappen.XTB.LCG
                         entity.Attributes
                             .ForEach(attr => attr.UnDefaultValues = records.Entities.Count(r => !IsDefaultValue(r, attr)));
                         entity.Attributes
-                            .ForEach(attr => attr.UniqueValues = records.Entities.Select(e => e.Contains(attr.LogicalName) ? AttributeToBaseType(e[attr.LogicalName]) : null).Distinct().Count());
+                            .ForEach(attr => attr.UniqueValues = records.Entities.Select(e => e.Contains(attr.LogicalName) ? AttributeToBaseType(e[attr.LogicalName]) : null).Where(v => v != null).Distinct().Count());
                         DisplayFilteredAttributes();
                     }
                 }
