@@ -137,9 +137,9 @@ namespace Rappen.XTB.LCG
         public bool ManagedAll { get; set; } = true;
         public bool ManagedTrue { get; set; }
         public bool ManagedFalse { get; set; }
-        public bool Intersect { get; set; }
-        public bool SelectedOnly { get; set; }
-        public bool HasRecords { get; set; }
+        public bool ExcludeIntersect { get; set; }
+        public bool ExcludeUnSelected { get; set; }
+        public bool ExcludeNoRecords { get; set; }
     }
 
     public class AttributeFilter
@@ -154,11 +154,12 @@ namespace Rappen.XTB.LCG
         public bool ManagedFalse { get; set; }
         public bool PrimaryKey { get; set; }
         public bool PrimaryAttribute { get; set; }
-        public bool Logical { get; set; }
-        public bool Internal { get; set; }
-        public bool CreMod { get; set; } = true;
-        public bool Owner { get; set; } = true;
         public bool Required { get; set; }
+        public bool ExcludeLogical { get; set; }
+        public bool ExcludeInternal { get; set; }
+        public bool ExcludeCreMod { get; set; } = true;
+        public bool ExcludeOwner { get; set; } = true;
+        public bool ExcludeUnrequired { get; set; }
         public bool AreUsed { get; set; }
         public bool UniqueValues { get; set; }
     }
@@ -176,11 +177,11 @@ namespace Rappen.XTB.LCG
         public bool Type1N { get; set; } = true;
         public bool TypeN1 { get; set; } = true;
         public bool TypeNN { get; set; } = true;
-        public bool Orphans { get; set; }
-        public bool Owner { get; set; } = true;
-        public bool Regarding { get; set; } = true;
-        public bool CreMod { get; set; } = true;
-        public bool DupRecords { get; set; } = true;
+        public bool ExcludeOrphans { get; set; }
+        public bool ExcludeOwner { get; set; } = true;
+        public bool ExcludeRegarding { get; set; } = true;
+        public bool ExcludeCreMod { get; set; } = true;
+        public bool ExcludeDupRecords { get; set; } = true;
     }
 
     public enum NameType

@@ -1,11 +1,12 @@
 ﻿using Microsoft.Xrm.Sdk.Metadata;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
 namespace Rappen.XTB.LCG
 {
-    public class AttributeMetadataProxy : MetadataProxy
+    public class AttributeMetadataProxy : MetadataProxy, IComparable
     {
         #region Public Fields
 
@@ -35,7 +36,7 @@ namespace Rappen.XTB.LCG
         public bool Selected => IsSelected;
 
         [DisplayName("Name")]
-        public string DisplayName => Metadata?.DisplayName?.UserLocalizedLabel?.Label ?? Metadata?.LogicalName;
+        public string DisplayName => (Required ? "* " : "") + Metadata?.DisplayName?.UserLocalizedLabel?.Label ?? Metadata?.LogicalName;
 
         [DisplayName("Logical Name")]
         public string LogicalName => Metadata?.LogicalName;
@@ -46,21 +47,8 @@ namespace Rappen.XTB.LCG
         [DisplayName("Values")]
         public int? Values { get => WithValues; }
 
-        //[DisplayName("Changed")]
-        //public int? Undefaulted { get => UnDefaultValues; }
-
         [DisplayName("Uniques")]
         public int? Uniques { get => UniqueValues; }
-
-        //[DisplayName("Used By")]
-        //public string UsedBy
-        //{
-        //    get =>
-        //        WithValues == null ? "---" :
-        //        entity.Records == null ? "--" :
-        //        entity.Records == 0 ? "NaN" :
-        //        ((WithValues * 100) / entity.Records).ToString() + "%";
-        //}
 
         internal string AttributeProperties
         {
@@ -225,6 +213,14 @@ namespace Rappen.XTB.LCG
 
         internal string Description => Metadata?.Description?.UserLocalizedLabel?.Label;
 
+        internal bool PrimaryId => Metadata?.IsPrimaryId.Value == true && Metadata?.IsLogical.Value == false;
+        internal bool PrimaryName => Metadata?.IsPrimaryName.Value == true;
+
+        internal bool Required =>
+            (Metadata?.RequiredLevel?.Value == AttributeRequiredLevel.SystemRequired
+             || Metadata?.RequiredLevel?.Value == AttributeRequiredLevel.ApplicationRequired)
+            && string.IsNullOrEmpty(Metadata?.AttributeOf);
+
         internal EntityMetadataProxy Entity => entity;
 
         internal string AdditionalProperties;
@@ -277,6 +273,18 @@ namespace Rappen.XTB.LCG
                     break;
             }
             return name;
+        }
+
+        public int CompareTo(object y)
+        {
+            if (!(y is AttributeMetadataProxy yattr)) return -1;
+            if (PrimaryId && !yattr.PrimaryId) return -1;
+            if (yattr.PrimaryId && !PrimaryId) return 1;
+            if (PrimaryName && !yattr.PrimaryName) return -1;
+            if (yattr.PrimaryName && !PrimaryName) return 1;
+            if (Required && !yattr.Required) return -1;
+            if (yattr.Required && !Required) return 1;
+            return Metadata?.ColumnNumber ?? 0 - yattr.Metadata?.ColumnNumber ?? 0;
         }
 
         #endregion Public Methods

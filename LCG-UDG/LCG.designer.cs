@@ -30,15 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LCG));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStripMenu = new System.Windows.Forms.ToolStrip();
             this.btnLoadEntities = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -54,10 +45,11 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnOptions = new System.Windows.Forms.ToolStripButton();
             this.tslAbout = new System.Windows.Forms.ToolStripLabel();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitEntityRest = new System.Windows.Forms.SplitContainer();
             this.pnEntityGrid = new System.Windows.Forms.Panel();
             this.chkEntAll = new System.Windows.Forms.CheckBox();
             this.gridEntities = new System.Windows.Forms.DataGridView();
+            this.lblEntUnShown = new System.Windows.Forms.Label();
             this.statusEntities = new System.Windows.Forms.StatusStrip();
             this.statusEntitiesShowing = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusEntitiesSelected = new System.Windows.Forms.ToolStripStatusLabel();
@@ -68,10 +60,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.llEntityExpander = new System.Windows.Forms.LinkLabel();
             this.pnEntIntersect = new System.Windows.Forms.Panel();
-            this.chkEntHasRecords = new System.Windows.Forms.CheckBox();
+            this.chkEntExclNoRecords = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.chkEntSelected = new System.Windows.Forms.CheckBox();
-            this.chkEntIntersect = new System.Windows.Forms.CheckBox();
+            this.chkEntExclUnselected = new System.Windows.Forms.CheckBox();
+            this.chkEntExclIntersect = new System.Windows.Forms.CheckBox();
             this.pnEntManaged = new System.Windows.Forms.Panel();
             this.label12 = new System.Windows.Forms.Label();
             this.rbEntMgdFalse = new System.Windows.Forms.RadioButton();
@@ -85,29 +77,37 @@
             this.pnEntSolution = new System.Windows.Forms.Panel();
             this.cmbSolution = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btnEntSelectAllVisible = new System.Windows.Forms.Button();
+            this.btnEntUnselectAll = new System.Windows.Forms.Button();
+            this.btnEntShowAll = new System.Windows.Forms.Button();
+            this.splitAttRel = new System.Windows.Forms.SplitContainer();
             this.pnAttributeGrid = new System.Windows.Forms.Panel();
             this.chkAttAll = new System.Windows.Forms.CheckBox();
             this.gridAttributes = new System.Windows.Forms.DataGridView();
+            this.lblAttUnShown = new System.Windows.Forms.Label();
             this.statusAttributes = new System.Windows.Forms.StatusStrip();
             this.statusAttributesShowing = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusAttributesSelected = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblAttNoMatch = new System.Windows.Forms.Label();
             this.gbAttributes = new System.Windows.Forms.GroupBox();
+            this.pnAttExclude = new System.Windows.Forms.Panel();
+            this.chkAttExclUnRequired = new System.Windows.Forms.CheckBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.chkAttUniques = new System.Windows.Forms.CheckBox();
+            this.chkAttExclLogical = new System.Windows.Forms.CheckBox();
+            this.picAttReloadRecords = new System.Windows.Forms.PictureBox();
+            this.chkAttExclInternal = new System.Windows.Forms.CheckBox();
+            this.chkAttUsed = new System.Windows.Forms.CheckBox();
+            this.chkAttExclCreMod = new System.Windows.Forms.CheckBox();
+            this.chkAttExclOwners = new System.Windows.Forms.CheckBox();
             this.pnAttSearch = new System.Windows.Forms.Panel();
             this.txtAttSearch = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.llAttributeExpander = new System.Windows.Forms.LinkLabel();
-            this.imgAttRefreshCounts = new System.Windows.Forms.Panel();
+            this.pnAttInclude = new System.Windows.Forms.Panel();
             this.chkAttRequired = new System.Windows.Forms.CheckBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.chkAttUniques = new System.Windows.Forms.CheckBox();
-            this.picAttReloadRecords = new System.Windows.Forms.PictureBox();
-            this.chkAttUsed = new System.Windows.Forms.CheckBox();
-            this.chkAttInternal = new System.Windows.Forms.CheckBox();
-            this.chkAttOwners = new System.Windows.Forms.CheckBox();
-            this.chkAttCreMod = new System.Windows.Forms.CheckBox();
-            this.chkAttLogical = new System.Windows.Forms.CheckBox();
             this.label15 = new System.Windows.Forms.Label();
             this.chkAttPrimaryAttribute = new System.Windows.Forms.CheckBox();
             this.chkAttPrimaryKey = new System.Windows.Forms.CheckBox();
@@ -124,9 +124,16 @@
             this.pnAttBehavior = new System.Windows.Forms.Panel();
             this.label16 = new System.Windows.Forms.Label();
             this.chkAttCheckAll = new System.Windows.Forms.CheckBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.btnAttShowAll = new System.Windows.Forms.Button();
+            this.btnAttSelectAllVisible = new System.Windows.Forms.Button();
+            this.btnAttUnselectAll = new System.Windows.Forms.Button();
             this.pnRelationshipGrid = new System.Windows.Forms.Panel();
             this.chkRelAll = new System.Windows.Forms.CheckBox();
             this.gridRelationships = new System.Windows.Forms.DataGridView();
+            this.ctxRelationshipMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ctxRelAddRemAccount = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblRelUnShown = new System.Windows.Forms.Label();
             this.statusRelationships = new System.Windows.Forms.StatusStrip();
             this.statusRelationshipsShowing = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusRelationshipsSelected = new System.Windows.Forms.ToolStripStatusLabel();
@@ -136,12 +143,12 @@
             this.txtRelSearch = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panRel4 = new System.Windows.Forms.Panel();
-            this.chkRelDupRecords = new System.Windows.Forms.CheckBox();
-            this.chkRelCreMod = new System.Windows.Forms.CheckBox();
-            this.chkRelRegarding = new System.Windows.Forms.CheckBox();
+            this.chkRelExclDupRecords = new System.Windows.Forms.CheckBox();
+            this.chkRelExclCreMod = new System.Windows.Forms.CheckBox();
+            this.chkRelExclRegarding = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.chkRelOwners = new System.Windows.Forms.CheckBox();
-            this.chkRelOrphans = new System.Windows.Forms.CheckBox();
+            this.chkRelExclOwners = new System.Windows.Forms.CheckBox();
+            this.chkRelExclOrphans = new System.Windows.Forms.CheckBox();
             this.panRelType = new System.Windows.Forms.Panel();
             this.chkRelNN = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -161,6 +168,10 @@
             this.label8 = new System.Windows.Forms.Label();
             this.chkRelCheckAll = new System.Windows.Forms.CheckBox();
             this.llRelationshipExpander = new System.Windows.Forms.LinkLabel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.btnRelShowAll = new System.Windows.Forms.Button();
+            this.btnRelSelectAllVisible = new System.Windows.Forms.Button();
+            this.btnRelUnselectAll = new System.Windows.Forms.Button();
             this.tmEntSearch = new System.Windows.Forms.Timer(this.components);
             this.tmAttSearch = new System.Windows.Forms.Timer(this.components);
             this.pnWindowTopSpacer = new System.Windows.Forms.Panel();
@@ -168,10 +179,10 @@
             this.tmRelSearch = new System.Windows.Forms.Timer(this.components);
             this.tmHideNotification = new System.Windows.Forms.Timer(this.components);
             this.toolStripMenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitEntityRest)).BeginInit();
+            this.splitEntityRest.Panel1.SuspendLayout();
+            this.splitEntityRest.Panel2.SuspendLayout();
+            this.splitEntityRest.SuspendLayout();
             this.pnEntityGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridEntities)).BeginInit();
             this.statusEntities.SuspendLayout();
@@ -181,22 +192,26 @@
             this.pnEntManaged.SuspendLayout();
             this.pnEntCustom.SuspendLayout();
             this.pnEntSolution.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
-            this.splitContainer2.Panel1.SuspendLayout();
-            this.splitContainer2.Panel2.SuspendLayout();
-            this.splitContainer2.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitAttRel)).BeginInit();
+            this.splitAttRel.Panel1.SuspendLayout();
+            this.splitAttRel.Panel2.SuspendLayout();
+            this.splitAttRel.SuspendLayout();
             this.pnAttributeGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridAttributes)).BeginInit();
             this.statusAttributes.SuspendLayout();
             this.gbAttributes.SuspendLayout();
-            this.pnAttSearch.SuspendLayout();
-            this.imgAttRefreshCounts.SuspendLayout();
+            this.pnAttExclude.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picAttReloadRecords)).BeginInit();
+            this.pnAttSearch.SuspendLayout();
+            this.pnAttInclude.SuspendLayout();
             this.pnAttManaged.SuspendLayout();
             this.pnAttCustom.SuspendLayout();
             this.pnAttBehavior.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.pnRelationshipGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRelationships)).BeginInit();
+            this.ctxRelationshipMenu.SuspendLayout();
             this.statusRelationships.SuspendLayout();
             this.gbRelationships.SuspendLayout();
             this.panRelSearch.SuspendLayout();
@@ -205,6 +220,7 @@
             this.panRel3.SuspendLayout();
             this.panRel2.SuspendLayout();
             this.panRel1.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripMenu
@@ -339,34 +355,35 @@
             this.tslAbout.Text = "by Jonas Rapp";
             this.tslAbout.Click += new System.EventHandler(this.tslAbout_Click);
             // 
-            // splitContainer1
+            // splitEntityRest
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 48);
-            this.splitContainer1.Name = "splitContainer1";
+            this.splitEntityRest.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitEntityRest.Location = new System.Drawing.Point(0, 48);
+            this.splitEntityRest.Name = "splitEntityRest";
             // 
-            // splitContainer1.Panel1
+            // splitEntityRest.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.pnEntityGrid);
-            this.splitContainer1.Panel1.Controls.Add(this.statusEntities);
-            this.splitContainer1.Panel1.Controls.Add(this.lblEntNoMatch);
-            this.splitContainer1.Panel1.Controls.Add(this.gbEntities);
+            this.splitEntityRest.Panel1.Controls.Add(this.pnEntityGrid);
+            this.splitEntityRest.Panel1.Controls.Add(this.lblEntUnShown);
+            this.splitEntityRest.Panel1.Controls.Add(this.statusEntities);
+            this.splitEntityRest.Panel1.Controls.Add(this.lblEntNoMatch);
+            this.splitEntityRest.Panel1.Controls.Add(this.gbEntities);
             // 
-            // splitContainer1.Panel2
+            // splitEntityRest.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(1028, 546);
-            this.splitContainer1.SplitterDistance = 347;
-            this.splitContainer1.TabIndex = 2;
+            this.splitEntityRest.Panel2.Controls.Add(this.splitAttRel);
+            this.splitEntityRest.Size = new System.Drawing.Size(1028, 546);
+            this.splitEntityRest.SplitterDistance = 347;
+            this.splitEntityRest.TabIndex = 2;
             // 
             // pnEntityGrid
             // 
             this.pnEntityGrid.Controls.Add(this.chkEntAll);
             this.pnEntityGrid.Controls.Add(this.gridEntities);
             this.pnEntityGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnEntityGrid.Location = new System.Drawing.Point(0, 233);
+            this.pnEntityGrid.Location = new System.Drawing.Point(0, 316);
             this.pnEntityGrid.Name = "pnEntityGrid";
-            this.pnEntityGrid.Size = new System.Drawing.Size(347, 291);
+            this.pnEntityGrid.Size = new System.Drawing.Size(347, 182);
             this.pnEntityGrid.TabIndex = 3;
             this.pnEntityGrid.Visible = false;
             // 
@@ -388,42 +405,30 @@
             this.gridEntities.AllowUserToOrderColumns = true;
             this.gridEntities.AllowUserToResizeRows = false;
             this.gridEntities.BackgroundColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridEntities.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.gridEntities.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridEntities.DefaultCellStyle = dataGridViewCellStyle2;
             this.gridEntities.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridEntities.EnableHeadersVisualStyles = false;
             this.gridEntities.Location = new System.Drawing.Point(0, 0);
             this.gridEntities.Name = "gridEntities";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridEntities.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.gridEntities.RowHeadersVisible = false;
             this.gridEntities.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridEntities.Size = new System.Drawing.Size(347, 291);
+            this.gridEntities.Size = new System.Drawing.Size(347, 182);
             this.gridEntities.TabIndex = 2;
             this.gridEntities.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             this.gridEntities.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridEntities_CellFormatting);
             this.gridEntities.SelectionChanged += new System.EventHandler(this.gridEntities_SelectionChanged);
+            // 
+            // lblEntUnShown
+            // 
+            this.lblEntUnShown.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblEntUnShown.ForeColor = System.Drawing.Color.Red;
+            this.lblEntUnShown.Location = new System.Drawing.Point(0, 498);
+            this.lblEntUnShown.Name = "lblEntUnShown";
+            this.lblEntUnShown.Size = new System.Drawing.Size(347, 26);
+            this.lblEntUnShown.TabIndex = 9;
+            this.lblEntUnShown.Text = "Selected but not shown";
+            this.lblEntUnShown.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblEntUnShown.Visible = false;
             // 
             // statusEntities
             // 
@@ -451,7 +456,7 @@
             // lblEntNoMatch
             // 
             this.lblEntNoMatch.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblEntNoMatch.Location = new System.Drawing.Point(0, 164);
+            this.lblEntNoMatch.Location = new System.Drawing.Point(0, 247);
             this.lblEntNoMatch.Name = "lblEntNoMatch";
             this.lblEntNoMatch.Size = new System.Drawing.Size(347, 69);
             this.lblEntNoMatch.TabIndex = 8;
@@ -467,10 +472,11 @@
             this.gbEntities.Controls.Add(this.pnEntManaged);
             this.gbEntities.Controls.Add(this.pnEntCustom);
             this.gbEntities.Controls.Add(this.pnEntSolution);
+            this.gbEntities.Controls.Add(this.panel1);
             this.gbEntities.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbEntities.Location = new System.Drawing.Point(0, 0);
             this.gbEntities.Name = "gbEntities";
-            this.gbEntities.Size = new System.Drawing.Size(347, 164);
+            this.gbEntities.Size = new System.Drawing.Size(347, 247);
             this.gbEntities.TabIndex = 2;
             this.gbEntities.TabStop = false;
             this.gbEntities.Text = "Entities";
@@ -479,8 +485,8 @@
             // 
             this.pnEntSearch.Controls.Add(this.txtEntSearch);
             this.pnEntSearch.Controls.Add(this.label1);
-            this.pnEntSearch.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnEntSearch.Location = new System.Drawing.Point(3, 139);
+            this.pnEntSearch.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnEntSearch.Location = new System.Drawing.Point(3, 181);
             this.pnEntSearch.Name = "pnEntSearch";
             this.pnEntSearch.Size = new System.Drawing.Size(341, 26);
             this.pnEntSearch.TabIndex = 5;
@@ -508,7 +514,7 @@
             // 
             this.llEntityExpander.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.llEntityExpander.AutoSize = true;
-            this.llEntityExpander.Location = new System.Drawing.Point(290, 0);
+            this.llEntityExpander.Location = new System.Drawing.Point(291, 0);
             this.llEntityExpander.Name = "llEntityExpander";
             this.llEntityExpander.Size = new System.Drawing.Size(51, 13);
             this.llEntityExpander.TabIndex = 3;
@@ -518,59 +524,59 @@
             // 
             // pnEntIntersect
             // 
-            this.pnEntIntersect.Controls.Add(this.chkEntHasRecords);
+            this.pnEntIntersect.Controls.Add(this.chkEntExclNoRecords);
             this.pnEntIntersect.Controls.Add(this.label10);
-            this.pnEntIntersect.Controls.Add(this.chkEntSelected);
-            this.pnEntIntersect.Controls.Add(this.chkEntIntersect);
+            this.pnEntIntersect.Controls.Add(this.chkEntExclUnselected);
+            this.pnEntIntersect.Controls.Add(this.chkEntExclIntersect);
             this.pnEntIntersect.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnEntIntersect.Location = new System.Drawing.Point(3, 94);
             this.pnEntIntersect.Name = "pnEntIntersect";
-            this.pnEntIntersect.Size = new System.Drawing.Size(341, 45);
+            this.pnEntIntersect.Size = new System.Drawing.Size(341, 46);
             this.pnEntIntersect.TabIndex = 4;
             // 
-            // chkEntHasRecords
+            // chkEntExclNoRecords
             // 
-            this.chkEntHasRecords.AutoSize = true;
-            this.chkEntHasRecords.Location = new System.Drawing.Point(99, 23);
-            this.chkEntHasRecords.Name = "chkEntHasRecords";
-            this.chkEntHasRecords.Size = new System.Drawing.Size(83, 17);
-            this.chkEntHasRecords.TabIndex = 5;
-            this.chkEntHasRecords.Text = "Has records";
-            this.chkEntHasRecords.UseVisualStyleBackColor = true;
-            this.chkEntHasRecords.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
+            this.chkEntExclNoRecords.AutoSize = true;
+            this.chkEntExclNoRecords.Location = new System.Drawing.Point(99, 23);
+            this.chkEntExclNoRecords.Name = "chkEntExclNoRecords";
+            this.chkEntExclNoRecords.Size = new System.Drawing.Size(78, 17);
+            this.chkEntExclNoRecords.TabIndex = 5;
+            this.chkEntExclNoRecords.Text = "No records";
+            this.chkEntExclNoRecords.UseVisualStyleBackColor = true;
+            this.chkEntExclNoRecords.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(12, 6);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(42, 13);
+            this.label10.Size = new System.Drawing.Size(45, 13);
             this.label10.TabIndex = 3;
-            this.label10.Text = "Include";
+            this.label10.Text = "Exclude";
             // 
-            // chkEntSelected
+            // chkEntExclUnselected
             // 
-            this.chkEntSelected.AutoSize = true;
-            this.chkEntSelected.Location = new System.Drawing.Point(218, 5);
-            this.chkEntSelected.Name = "chkEntSelected";
-            this.chkEntSelected.Size = new System.Drawing.Size(90, 17);
-            this.chkEntSelected.TabIndex = 1;
-            this.chkEntSelected.Text = "Selected only";
-            this.chkEntSelected.UseVisualStyleBackColor = true;
-            this.chkEntSelected.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
+            this.chkEntExclUnselected.AutoSize = true;
+            this.chkEntExclUnselected.Location = new System.Drawing.Point(218, 5);
+            this.chkEntExclUnselected.Name = "chkEntExclUnselected";
+            this.chkEntExclUnselected.Size = new System.Drawing.Size(80, 17);
+            this.chkEntExclUnselected.TabIndex = 1;
+            this.chkEntExclUnselected.Text = "Unselected";
+            this.chkEntExclUnselected.UseVisualStyleBackColor = true;
+            this.chkEntExclUnselected.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
-            // chkEntIntersect
+            // chkEntExclIntersect
             // 
-            this.chkEntIntersect.AutoSize = true;
-            this.chkEntIntersect.Checked = true;
-            this.chkEntIntersect.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkEntIntersect.Location = new System.Drawing.Point(99, 5);
-            this.chkEntIntersect.Name = "chkEntIntersect";
-            this.chkEntIntersect.Size = new System.Drawing.Size(67, 17);
-            this.chkEntIntersect.TabIndex = 0;
-            this.chkEntIntersect.Text = "Intersect";
-            this.chkEntIntersect.UseVisualStyleBackColor = true;
-            this.chkEntIntersect.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
+            this.chkEntExclIntersect.AutoSize = true;
+            this.chkEntExclIntersect.Checked = true;
+            this.chkEntExclIntersect.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkEntExclIntersect.Location = new System.Drawing.Point(99, 5);
+            this.chkEntExclIntersect.Name = "chkEntExclIntersect";
+            this.chkEntExclIntersect.Size = new System.Drawing.Size(67, 17);
+            this.chkEntExclIntersect.TabIndex = 0;
+            this.chkEntExclIntersect.Text = "Intersect";
+            this.chkEntExclIntersect.UseVisualStyleBackColor = true;
+            this.chkEntExclIntersect.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
             // pnEntManaged
             // 
@@ -587,7 +593,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(12, 7);
+            this.label12.Location = new System.Drawing.Point(12, 6);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(52, 13);
             this.label12.TabIndex = 3;
@@ -643,7 +649,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(12, 7);
+            this.label11.Location = new System.Drawing.Point(12, 6);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(61, 13);
             this.label11.TabIndex = 3;
@@ -711,43 +717,86 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 7);
+            this.label4.Location = new System.Drawing.Point(12, 6);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(45, 13);
             this.label4.TabIndex = 0;
             this.label4.Text = "Solution";
             // 
-            // splitContainer2
+            // panel1
             // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Name = "splitContainer2";
+            this.panel1.Controls.Add(this.btnEntSelectAllVisible);
+            this.panel1.Controls.Add(this.btnEntUnselectAll);
+            this.panel1.Controls.Add(this.btnEntShowAll);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(3, 207);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(341, 37);
+            this.panel1.TabIndex = 6;
             // 
-            // splitContainer2.Panel1
+            // btnEntSelectAllVisible
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.pnAttributeGrid);
-            this.splitContainer2.Panel1.Controls.Add(this.statusAttributes);
-            this.splitContainer2.Panel1.Controls.Add(this.lblAttNoMatch);
-            this.splitContainer2.Panel1.Controls.Add(this.gbAttributes);
+            this.btnEntSelectAllVisible.Location = new System.Drawing.Point(7, 6);
+            this.btnEntSelectAllVisible.Name = "btnEntSelectAllVisible";
+            this.btnEntSelectAllVisible.Size = new System.Drawing.Size(93, 23);
+            this.btnEntSelectAllVisible.TabIndex = 1;
+            this.btnEntSelectAllVisible.Text = "Select all visible";
+            this.btnEntSelectAllVisible.UseVisualStyleBackColor = true;
+            this.btnEntSelectAllVisible.Click += new System.EventHandler(this.btnEntSelectAllVisible_Click);
             // 
-            // splitContainer2.Panel2
+            // btnEntUnselectAll
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.pnRelationshipGrid);
-            this.splitContainer2.Panel2.Controls.Add(this.statusRelationships);
-            this.splitContainer2.Panel2.Controls.Add(this.lblRelNoMatch);
-            this.splitContainer2.Panel2.Controls.Add(this.gbRelationships);
-            this.splitContainer2.Size = new System.Drawing.Size(677, 546);
-            this.splitContainer2.SplitterDistance = 332;
-            this.splitContainer2.TabIndex = 4;
+            this.btnEntUnselectAll.Location = new System.Drawing.Point(106, 6);
+            this.btnEntUnselectAll.Name = "btnEntUnselectAll";
+            this.btnEntUnselectAll.Size = new System.Drawing.Size(75, 23);
+            this.btnEntUnselectAll.TabIndex = 2;
+            this.btnEntUnselectAll.Text = "Unselect all";
+            this.btnEntUnselectAll.UseVisualStyleBackColor = true;
+            this.btnEntUnselectAll.Click += new System.EventHandler(this.btnEntUnselectAll_Click);
+            // 
+            // btnEntShowAll
+            // 
+            this.btnEntShowAll.Location = new System.Drawing.Point(187, 6);
+            this.btnEntShowAll.Name = "btnEntShowAll";
+            this.btnEntShowAll.Size = new System.Drawing.Size(69, 23);
+            this.btnEntShowAll.TabIndex = 3;
+            this.btnEntShowAll.Text = "Show all";
+            this.btnEntShowAll.UseVisualStyleBackColor = true;
+            this.btnEntShowAll.Click += new System.EventHandler(this.btnEntShowAll_Click);
+            // 
+            // splitAttRel
+            // 
+            this.splitAttRel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitAttRel.Location = new System.Drawing.Point(0, 0);
+            this.splitAttRel.Name = "splitAttRel";
+            // 
+            // splitAttRel.Panel1
+            // 
+            this.splitAttRel.Panel1.Controls.Add(this.pnAttributeGrid);
+            this.splitAttRel.Panel1.Controls.Add(this.lblAttUnShown);
+            this.splitAttRel.Panel1.Controls.Add(this.statusAttributes);
+            this.splitAttRel.Panel1.Controls.Add(this.lblAttNoMatch);
+            this.splitAttRel.Panel1.Controls.Add(this.gbAttributes);
+            // 
+            // splitAttRel.Panel2
+            // 
+            this.splitAttRel.Panel2.Controls.Add(this.pnRelationshipGrid);
+            this.splitAttRel.Panel2.Controls.Add(this.lblRelUnShown);
+            this.splitAttRel.Panel2.Controls.Add(this.statusRelationships);
+            this.splitAttRel.Panel2.Controls.Add(this.lblRelNoMatch);
+            this.splitAttRel.Panel2.Controls.Add(this.gbRelationships);
+            this.splitAttRel.Size = new System.Drawing.Size(677, 546);
+            this.splitAttRel.SplitterDistance = 332;
+            this.splitAttRel.TabIndex = 4;
             // 
             // pnAttributeGrid
             // 
             this.pnAttributeGrid.Controls.Add(this.chkAttAll);
             this.pnAttributeGrid.Controls.Add(this.gridAttributes);
             this.pnAttributeGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnAttributeGrid.Location = new System.Drawing.Point(0, 251);
+            this.pnAttributeGrid.Location = new System.Drawing.Point(0, 316);
             this.pnAttributeGrid.Name = "pnAttributeGrid";
-            this.pnAttributeGrid.Size = new System.Drawing.Size(332, 273);
+            this.pnAttributeGrid.Size = new System.Drawing.Size(332, 182);
             this.pnAttributeGrid.TabIndex = 3;
             this.pnAttributeGrid.Visible = false;
             // 
@@ -769,40 +818,28 @@
             this.gridAttributes.AllowUserToOrderColumns = true;
             this.gridAttributes.AllowUserToResizeRows = false;
             this.gridAttributes.BackgroundColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridAttributes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.gridAttributes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridAttributes.DefaultCellStyle = dataGridViewCellStyle5;
             this.gridAttributes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridAttributes.EnableHeadersVisualStyles = false;
             this.gridAttributes.Location = new System.Drawing.Point(0, 0);
             this.gridAttributes.Name = "gridAttributes";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridAttributes.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.gridAttributes.RowHeadersVisible = false;
             this.gridAttributes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridAttributes.Size = new System.Drawing.Size(332, 273);
+            this.gridAttributes.Size = new System.Drawing.Size(332, 182);
             this.gridAttributes.TabIndex = 2;
             this.gridAttributes.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
+            // 
+            // lblAttUnShown
+            // 
+            this.lblAttUnShown.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblAttUnShown.ForeColor = System.Drawing.Color.Red;
+            this.lblAttUnShown.Location = new System.Drawing.Point(0, 498);
+            this.lblAttUnShown.Name = "lblAttUnShown";
+            this.lblAttUnShown.Size = new System.Drawing.Size(332, 26);
+            this.lblAttUnShown.TabIndex = 8;
+            this.lblAttUnShown.Text = "Selected but not shown";
+            this.lblAttUnShown.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblAttUnShown.Visible = false;
             // 
             // statusAttributes
             // 
@@ -830,7 +867,7 @@
             // lblAttNoMatch
             // 
             this.lblAttNoMatch.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblAttNoMatch.Location = new System.Drawing.Point(0, 182);
+            this.lblAttNoMatch.Location = new System.Drawing.Point(0, 247);
             this.lblAttNoMatch.Name = "lblAttNoMatch";
             this.lblAttNoMatch.Size = new System.Drawing.Size(332, 69);
             this.lblAttNoMatch.TabIndex = 7;
@@ -840,29 +877,158 @@
             // 
             // gbAttributes
             // 
+            this.gbAttributes.Controls.Add(this.pnAttExclude);
             this.gbAttributes.Controls.Add(this.pnAttSearch);
             this.gbAttributes.Controls.Add(this.llAttributeExpander);
-            this.gbAttributes.Controls.Add(this.imgAttRefreshCounts);
+            this.gbAttributes.Controls.Add(this.pnAttInclude);
             this.gbAttributes.Controls.Add(this.pnAttManaged);
             this.gbAttributes.Controls.Add(this.pnAttCustom);
             this.gbAttributes.Controls.Add(this.pnAttBehavior);
+            this.gbAttributes.Controls.Add(this.panel2);
             this.gbAttributes.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbAttributes.Location = new System.Drawing.Point(0, 0);
             this.gbAttributes.Name = "gbAttributes";
-            this.gbAttributes.Size = new System.Drawing.Size(332, 182);
+            this.gbAttributes.Size = new System.Drawing.Size(332, 247);
             this.gbAttributes.TabIndex = 2;
             this.gbAttributes.TabStop = false;
             this.gbAttributes.Text = "Attributes";
+            // 
+            // pnAttExclude
+            // 
+            this.pnAttExclude.Controls.Add(this.chkAttExclUnRequired);
+            this.pnAttExclude.Controls.Add(this.label19);
+            this.pnAttExclude.Controls.Add(this.label17);
+            this.pnAttExclude.Controls.Add(this.chkAttUniques);
+            this.pnAttExclude.Controls.Add(this.chkAttExclLogical);
+            this.pnAttExclude.Controls.Add(this.picAttReloadRecords);
+            this.pnAttExclude.Controls.Add(this.chkAttExclInternal);
+            this.pnAttExclude.Controls.Add(this.chkAttUsed);
+            this.pnAttExclude.Controls.Add(this.chkAttExclCreMod);
+            this.pnAttExclude.Controls.Add(this.chkAttExclOwners);
+            this.pnAttExclude.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnAttExclude.Location = new System.Drawing.Point(3, 120);
+            this.pnAttExclude.Name = "pnAttExclude";
+            this.pnAttExclude.Size = new System.Drawing.Size(326, 62);
+            this.pnAttExclude.TabIndex = 5;
+            // 
+            // chkAttExclUnRequired
+            // 
+            this.chkAttExclUnRequired.AutoSize = true;
+            this.chkAttExclUnRequired.Location = new System.Drawing.Point(235, 2);
+            this.chkAttExclUnRequired.Name = "chkAttExclUnRequired";
+            this.chkAttExclUnRequired.Size = new System.Drawing.Size(78, 17);
+            this.chkAttExclUnRequired.TabIndex = 13;
+            this.chkAttExclUnRequired.Text = "Unrequired";
+            this.chkAttExclUnRequired.UseVisualStyleBackColor = true;
+            this.chkAttExclUnRequired.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(12, 3);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(45, 13);
+            this.label19.TabIndex = 4;
+            this.label19.Text = "Exclude";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(12, 39);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(71, 13);
+            this.label17.TabIndex = 11;
+            this.label17.Text = "Records data";
+            // 
+            // chkAttUniques
+            // 
+            this.chkAttUniques.AutoSize = true;
+            this.chkAttUniques.Enabled = false;
+            this.chkAttUniques.Location = new System.Drawing.Point(165, 38);
+            this.chkAttUniques.Name = "chkAttUniques";
+            this.chkAttUniques.Size = new System.Drawing.Size(72, 17);
+            this.chkAttUniques.TabIndex = 6;
+            this.chkAttUniques.Text = ">1 values";
+            this.chkAttUniques.UseVisualStyleBackColor = true;
+            this.chkAttUniques.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
+            // 
+            // chkAttExclLogical
+            // 
+            this.chkAttExclLogical.AutoSize = true;
+            this.chkAttExclLogical.Location = new System.Drawing.Point(99, 2);
+            this.chkAttExclLogical.Name = "chkAttExclLogical";
+            this.chkAttExclLogical.Size = new System.Drawing.Size(60, 17);
+            this.chkAttExclLogical.TabIndex = 1;
+            this.chkAttExclLogical.Text = "Logical";
+            this.chkAttExclLogical.UseVisualStyleBackColor = true;
+            this.chkAttExclLogical.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
+            // 
+            // picAttReloadRecords
+            // 
+            this.picAttReloadRecords.Image = global::Rappen.XTB.LCG.Properties.Resources.refresh;
+            this.picAttReloadRecords.Location = new System.Drawing.Point(240, 38);
+            this.picAttReloadRecords.Margin = new System.Windows.Forms.Padding(2);
+            this.picAttReloadRecords.Name = "picAttReloadRecords";
+            this.picAttReloadRecords.Size = new System.Drawing.Size(16, 16);
+            this.picAttReloadRecords.TabIndex = 9;
+            this.picAttReloadRecords.TabStop = false;
+            this.toolTip1.SetToolTip(this.picAttReloadRecords, "Reloading record datas");
+            this.picAttReloadRecords.Click += new System.EventHandler(this.picAttReloadRecords_Click);
+            // 
+            // chkAttExclInternal
+            // 
+            this.chkAttExclInternal.AutoSize = true;
+            this.chkAttExclInternal.Location = new System.Drawing.Point(165, 2);
+            this.chkAttExclInternal.Name = "chkAttExclInternal";
+            this.chkAttExclInternal.Size = new System.Drawing.Size(61, 17);
+            this.chkAttExclInternal.TabIndex = 2;
+            this.chkAttExclInternal.Text = "Internal";
+            this.chkAttExclInternal.UseVisualStyleBackColor = true;
+            this.chkAttExclInternal.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
+            // 
+            // chkAttUsed
+            // 
+            this.chkAttUsed.AutoSize = true;
+            this.chkAttUsed.Location = new System.Drawing.Point(99, 38);
+            this.chkAttUsed.Name = "chkAttUsed";
+            this.chkAttUsed.Size = new System.Drawing.Size(44, 17);
+            this.chkAttUsed.TabIndex = 5;
+            this.chkAttUsed.Text = "Any";
+            this.chkAttUsed.UseVisualStyleBackColor = true;
+            this.chkAttUsed.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
+            // 
+            // chkAttExclCreMod
+            // 
+            this.chkAttExclCreMod.AutoSize = true;
+            this.chkAttExclCreMod.Location = new System.Drawing.Point(165, 20);
+            this.chkAttExclCreMod.Name = "chkAttExclCreMod";
+            this.chkAttExclCreMod.Size = new System.Drawing.Size(108, 17);
+            this.chkAttExclCreMod.TabIndex = 4;
+            this.chkAttExclCreMod.Text = "Created/Modified";
+            this.chkAttExclCreMod.UseVisualStyleBackColor = true;
+            this.chkAttExclCreMod.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
+            // 
+            // chkAttExclOwners
+            // 
+            this.chkAttExclOwners.AutoSize = true;
+            this.chkAttExclOwners.Location = new System.Drawing.Point(99, 20);
+            this.chkAttExclOwners.Name = "chkAttExclOwners";
+            this.chkAttExclOwners.Size = new System.Drawing.Size(62, 17);
+            this.chkAttExclOwners.TabIndex = 3;
+            this.chkAttExclOwners.Text = "Owners";
+            this.toolTip1.SetToolTip(this.chkAttExclOwners, "Relationships for Owner fields");
+            this.chkAttExclOwners.UseVisualStyleBackColor = true;
+            this.chkAttExclOwners.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // pnAttSearch
             // 
             this.pnAttSearch.Controls.Add(this.txtAttSearch);
             this.pnAttSearch.Controls.Add(this.label2);
-            this.pnAttSearch.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnAttSearch.Location = new System.Drawing.Point(3, 160);
+            this.pnAttSearch.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnAttSearch.Location = new System.Drawing.Point(3, 181);
             this.pnAttSearch.Name = "pnAttSearch";
             this.pnAttSearch.Size = new System.Drawing.Size(326, 26);
-            this.pnAttSearch.TabIndex = 5;
+            this.pnAttSearch.TabIndex = 6;
             // 
             // txtAttSearch
             // 
@@ -896,126 +1062,29 @@
             this.llAttributeExpander.Text = "Hide filter";
             this.llAttributeExpander.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
             // 
-            // imgAttRefreshCounts
+            // pnAttInclude
             // 
-            this.imgAttRefreshCounts.Controls.Add(this.chkAttRequired);
-            this.imgAttRefreshCounts.Controls.Add(this.label17);
-            this.imgAttRefreshCounts.Controls.Add(this.chkAttUniques);
-            this.imgAttRefreshCounts.Controls.Add(this.picAttReloadRecords);
-            this.imgAttRefreshCounts.Controls.Add(this.chkAttUsed);
-            this.imgAttRefreshCounts.Controls.Add(this.chkAttInternal);
-            this.imgAttRefreshCounts.Controls.Add(this.chkAttOwners);
-            this.imgAttRefreshCounts.Controls.Add(this.chkAttCreMod);
-            this.imgAttRefreshCounts.Controls.Add(this.chkAttLogical);
-            this.imgAttRefreshCounts.Controls.Add(this.label15);
-            this.imgAttRefreshCounts.Controls.Add(this.chkAttPrimaryAttribute);
-            this.imgAttRefreshCounts.Controls.Add(this.chkAttPrimaryKey);
-            this.imgAttRefreshCounts.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.imgAttRefreshCounts.Dock = System.Windows.Forms.DockStyle.Top;
-            this.imgAttRefreshCounts.Location = new System.Drawing.Point(3, 94);
-            this.imgAttRefreshCounts.Name = "imgAttRefreshCounts";
-            this.imgAttRefreshCounts.Size = new System.Drawing.Size(326, 66);
-            this.imgAttRefreshCounts.TabIndex = 4;
+            this.pnAttInclude.Controls.Add(this.chkAttRequired);
+            this.pnAttInclude.Controls.Add(this.label15);
+            this.pnAttInclude.Controls.Add(this.chkAttPrimaryAttribute);
+            this.pnAttInclude.Controls.Add(this.chkAttPrimaryKey);
+            this.pnAttInclude.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pnAttInclude.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnAttInclude.Location = new System.Drawing.Point(3, 94);
+            this.pnAttInclude.Name = "pnAttInclude";
+            this.pnAttInclude.Size = new System.Drawing.Size(326, 26);
+            this.pnAttInclude.TabIndex = 4;
             // 
             // chkAttRequired
             // 
             this.chkAttRequired.AutoSize = true;
-            this.chkAttRequired.Location = new System.Drawing.Point(282, 23);
+            this.chkAttRequired.Location = new System.Drawing.Point(235, 5);
             this.chkAttRequired.Name = "chkAttRequired";
             this.chkAttRequired.Size = new System.Drawing.Size(69, 17);
             this.chkAttRequired.TabIndex = 12;
             this.chkAttRequired.Text = "Required";
             this.chkAttRequired.UseVisualStyleBackColor = true;
             this.chkAttRequired.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(12, 46);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(66, 13);
-            this.label17.TabIndex = 11;
-            this.label17.Text = "Record data";
-            // 
-            // chkAttUniques
-            // 
-            this.chkAttUniques.AutoSize = true;
-            this.chkAttUniques.Enabled = false;
-            this.chkAttUniques.Location = new System.Drawing.Point(148, 45);
-            this.chkAttUniques.Name = "chkAttUniques";
-            this.chkAttUniques.Size = new System.Drawing.Size(65, 17);
-            this.chkAttUniques.TabIndex = 10;
-            this.chkAttUniques.Text = "Uniques";
-            this.chkAttUniques.UseVisualStyleBackColor = true;
-            this.chkAttUniques.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
-            // 
-            // picAttReloadRecords
-            // 
-            this.picAttReloadRecords.Image = global::Rappen.XTB.LCG.Properties.Resources.refresh;
-            this.picAttReloadRecords.Location = new System.Drawing.Point(218, 45);
-            this.picAttReloadRecords.Margin = new System.Windows.Forms.Padding(2);
-            this.picAttReloadRecords.Name = "picAttReloadRecords";
-            this.picAttReloadRecords.Size = new System.Drawing.Size(16, 16);
-            this.picAttReloadRecords.TabIndex = 9;
-            this.picAttReloadRecords.TabStop = false;
-            this.toolTip1.SetToolTip(this.picAttReloadRecords, "Reloading record datas");
-            this.picAttReloadRecords.Click += new System.EventHandler(this.picAttReloadRecords_Click);
-            // 
-            // chkAttUsed
-            // 
-            this.chkAttUsed.AutoSize = true;
-            this.chkAttUsed.Location = new System.Drawing.Point(99, 45);
-            this.chkAttUsed.Name = "chkAttUsed";
-            this.chkAttUsed.Size = new System.Drawing.Size(44, 17);
-            this.chkAttUsed.TabIndex = 8;
-            this.chkAttUsed.Text = "Any";
-            this.chkAttUsed.UseVisualStyleBackColor = true;
-            this.chkAttUsed.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
-            // 
-            // chkAttInternal
-            // 
-            this.chkAttInternal.AutoSize = true;
-            this.chkAttInternal.Location = new System.Drawing.Point(282, 5);
-            this.chkAttInternal.Name = "chkAttInternal";
-            this.chkAttInternal.Size = new System.Drawing.Size(61, 17);
-            this.chkAttInternal.TabIndex = 7;
-            this.chkAttInternal.Text = "Internal";
-            this.chkAttInternal.UseVisualStyleBackColor = true;
-            this.chkAttInternal.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
-            // 
-            // chkAttOwners
-            // 
-            this.chkAttOwners.AutoSize = true;
-            this.chkAttOwners.Location = new System.Drawing.Point(218, 23);
-            this.chkAttOwners.Name = "chkAttOwners";
-            this.chkAttOwners.Size = new System.Drawing.Size(62, 17);
-            this.chkAttOwners.TabIndex = 6;
-            this.chkAttOwners.Text = "Owners";
-            this.toolTip1.SetToolTip(this.chkAttOwners, "Relationships for Owner fields");
-            this.chkAttOwners.UseVisualStyleBackColor = true;
-            this.chkAttOwners.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
-            // 
-            // chkAttCreMod
-            // 
-            this.chkAttCreMod.AutoSize = true;
-            this.chkAttCreMod.Location = new System.Drawing.Point(99, 23);
-            this.chkAttCreMod.Name = "chkAttCreMod";
-            this.chkAttCreMod.Size = new System.Drawing.Size(108, 17);
-            this.chkAttCreMod.TabIndex = 5;
-            this.chkAttCreMod.Text = "Created/Modified";
-            this.chkAttCreMod.UseVisualStyleBackColor = true;
-            this.chkAttCreMod.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
-            // 
-            // chkAttLogical
-            // 
-            this.chkAttLogical.AutoSize = true;
-            this.chkAttLogical.Location = new System.Drawing.Point(218, 5);
-            this.chkAttLogical.Name = "chkAttLogical";
-            this.chkAttLogical.Size = new System.Drawing.Size(60, 17);
-            this.chkAttLogical.TabIndex = 3;
-            this.chkAttLogical.Text = "Logical";
-            this.chkAttLogical.UseVisualStyleBackColor = true;
-            this.chkAttLogical.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // label15
             // 
@@ -1029,7 +1098,7 @@
             // chkAttPrimaryAttribute
             // 
             this.chkAttPrimaryAttribute.AutoSize = true;
-            this.chkAttPrimaryAttribute.Location = new System.Drawing.Point(148, 5);
+            this.chkAttPrimaryAttribute.Location = new System.Drawing.Point(165, 5);
             this.chkAttPrimaryAttribute.Name = "chkAttPrimaryAttribute";
             this.chkAttPrimaryAttribute.Size = new System.Drawing.Size(54, 17);
             this.chkAttPrimaryAttribute.TabIndex = 1;
@@ -1063,7 +1132,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(12, 7);
+            this.label14.Location = new System.Drawing.Point(12, 6);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(52, 13);
             this.label14.TabIndex = 4;
@@ -1072,7 +1141,7 @@
             // rbAttMgdFalse
             // 
             this.rbAttMgdFalse.AutoSize = true;
-            this.rbAttMgdFalse.Location = new System.Drawing.Point(218, 5);
+            this.rbAttMgdFalse.Location = new System.Drawing.Point(235, 5);
             this.rbAttMgdFalse.Name = "rbAttMgdFalse";
             this.rbAttMgdFalse.Size = new System.Drawing.Size(83, 17);
             this.rbAttMgdFalse.TabIndex = 2;
@@ -1083,7 +1152,7 @@
             // rbAttMgdTrue
             // 
             this.rbAttMgdTrue.AutoSize = true;
-            this.rbAttMgdTrue.Location = new System.Drawing.Point(148, 5);
+            this.rbAttMgdTrue.Location = new System.Drawing.Point(165, 5);
             this.rbAttMgdTrue.Name = "rbAttMgdTrue";
             this.rbAttMgdTrue.Size = new System.Drawing.Size(70, 17);
             this.rbAttMgdTrue.TabIndex = 1;
@@ -1119,7 +1188,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(12, 7);
+            this.label13.Location = new System.Drawing.Point(12, 6);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(61, 13);
             this.label13.TabIndex = 4;
@@ -1128,7 +1197,7 @@
             // rbAttCustomTrue
             // 
             this.rbAttCustomTrue.AutoSize = true;
-            this.rbAttCustomTrue.Location = new System.Drawing.Point(218, 5);
+            this.rbAttCustomTrue.Location = new System.Drawing.Point(235, 5);
             this.rbAttCustomTrue.Name = "rbAttCustomTrue";
             this.rbAttCustomTrue.Size = new System.Drawing.Size(60, 17);
             this.rbAttCustomTrue.TabIndex = 2;
@@ -1139,7 +1208,7 @@
             // rbAttCustomFalse
             // 
             this.rbAttCustomFalse.AutoSize = true;
-            this.rbAttCustomFalse.Location = new System.Drawing.Point(148, 5);
+            this.rbAttCustomFalse.Location = new System.Drawing.Point(165, 5);
             this.rbAttCustomFalse.Name = "rbAttCustomFalse";
             this.rbAttCustomFalse.Size = new System.Drawing.Size(59, 17);
             this.rbAttCustomFalse.TabIndex = 1;
@@ -1173,7 +1242,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(13, 7);
+            this.label16.Location = new System.Drawing.Point(13, 6);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(49, 13);
             this.label16.TabIndex = 1;
@@ -1189,14 +1258,55 @@
             this.chkAttCheckAll.Text = "Check all visible when checking an entity";
             this.chkAttCheckAll.UseVisualStyleBackColor = true;
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.btnAttShowAll);
+            this.panel2.Controls.Add(this.btnAttSelectAllVisible);
+            this.panel2.Controls.Add(this.btnAttUnselectAll);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel2.Location = new System.Drawing.Point(3, 207);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(326, 37);
+            this.panel2.TabIndex = 7;
+            // 
+            // btnAttShowAll
+            // 
+            this.btnAttShowAll.Location = new System.Drawing.Point(187, 6);
+            this.btnAttShowAll.Name = "btnAttShowAll";
+            this.btnAttShowAll.Size = new System.Drawing.Size(69, 23);
+            this.btnAttShowAll.TabIndex = 3;
+            this.btnAttShowAll.Text = "Show all";
+            this.btnAttShowAll.UseVisualStyleBackColor = true;
+            this.btnAttShowAll.Click += new System.EventHandler(this.btnEntShowAll_Click);
+            // 
+            // btnAttSelectAllVisible
+            // 
+            this.btnAttSelectAllVisible.Location = new System.Drawing.Point(7, 6);
+            this.btnAttSelectAllVisible.Name = "btnAttSelectAllVisible";
+            this.btnAttSelectAllVisible.Size = new System.Drawing.Size(93, 23);
+            this.btnAttSelectAllVisible.TabIndex = 1;
+            this.btnAttSelectAllVisible.Text = "Select all visible";
+            this.btnAttSelectAllVisible.UseVisualStyleBackColor = true;
+            this.btnAttSelectAllVisible.Click += new System.EventHandler(this.btnEntSelectAllVisible_Click);
+            // 
+            // btnAttUnselectAll
+            // 
+            this.btnAttUnselectAll.Location = new System.Drawing.Point(106, 6);
+            this.btnAttUnselectAll.Name = "btnAttUnselectAll";
+            this.btnAttUnselectAll.Size = new System.Drawing.Size(75, 23);
+            this.btnAttUnselectAll.TabIndex = 2;
+            this.btnAttUnselectAll.Text = "Unselect all";
+            this.btnAttUnselectAll.UseVisualStyleBackColor = true;
+            this.btnAttUnselectAll.Click += new System.EventHandler(this.btnEntUnselectAll_Click);
+            // 
             // pnRelationshipGrid
             // 
             this.pnRelationshipGrid.Controls.Add(this.chkRelAll);
             this.pnRelationshipGrid.Controls.Add(this.gridRelationships);
             this.pnRelationshipGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnRelationshipGrid.Location = new System.Drawing.Point(0, 259);
+            this.pnRelationshipGrid.Location = new System.Drawing.Point(0, 316);
             this.pnRelationshipGrid.Name = "pnRelationshipGrid";
-            this.pnRelationshipGrid.Size = new System.Drawing.Size(341, 265);
+            this.pnRelationshipGrid.Size = new System.Drawing.Size(341, 182);
             this.pnRelationshipGrid.TabIndex = 4;
             this.pnRelationshipGrid.Visible = false;
             // 
@@ -1218,40 +1328,43 @@
             this.gridRelationships.AllowUserToOrderColumns = true;
             this.gridRelationships.AllowUserToResizeRows = false;
             this.gridRelationships.BackgroundColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridRelationships.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.gridRelationships.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridRelationships.DefaultCellStyle = dataGridViewCellStyle8;
+            this.gridRelationships.ContextMenuStrip = this.ctxRelationshipMenu;
             this.gridRelationships.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridRelationships.EnableHeadersVisualStyles = false;
             this.gridRelationships.Location = new System.Drawing.Point(0, 0);
             this.gridRelationships.Name = "gridRelationships";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridRelationships.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.gridRelationships.RowHeadersVisible = false;
             this.gridRelationships.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridRelationships.Size = new System.Drawing.Size(341, 265);
+            this.gridRelationships.Size = new System.Drawing.Size(341, 182);
             this.gridRelationships.TabIndex = 2;
             this.gridRelationships.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
+            // 
+            // ctxRelationshipMenu
+            // 
+            this.ctxRelationshipMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ctxRelAddRemAccount});
+            this.ctxRelationshipMenu.Name = "ctxRelationshipMenu";
+            this.ctxRelationshipMenu.Size = new System.Drawing.Size(193, 26);
+            // 
+            // ctxRelAddRemAccount
+            // 
+            this.ctxRelAddRemAccount.Name = "ctxRelAddRemAccount";
+            this.ctxRelAddRemAccount.Size = new System.Drawing.Size(192, 22);
+            this.ctxRelAddRemAccount.Text = "Add/Remove Account";
+            this.ctxRelAddRemAccount.Click += new System.EventHandler(this.ctxRelAddRemAccount_Click);
+            // 
+            // lblRelUnShown
+            // 
+            this.lblRelUnShown.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblRelUnShown.ForeColor = System.Drawing.Color.Red;
+            this.lblRelUnShown.Location = new System.Drawing.Point(0, 498);
+            this.lblRelUnShown.Name = "lblRelUnShown";
+            this.lblRelUnShown.Size = new System.Drawing.Size(341, 26);
+            this.lblRelUnShown.TabIndex = 7;
+            this.lblRelUnShown.Text = "Selected but not shown";
+            this.lblRelUnShown.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblRelUnShown.Visible = false;
             // 
             // statusRelationships
             // 
@@ -1279,7 +1392,7 @@
             // lblRelNoMatch
             // 
             this.lblRelNoMatch.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblRelNoMatch.Location = new System.Drawing.Point(0, 190);
+            this.lblRelNoMatch.Location = new System.Drawing.Point(0, 247);
             this.lblRelNoMatch.Name = "lblRelNoMatch";
             this.lblRelNoMatch.Size = new System.Drawing.Size(341, 69);
             this.lblRelNoMatch.TabIndex = 6;
@@ -1296,10 +1409,11 @@
             this.gbRelationships.Controls.Add(this.panRel2);
             this.gbRelationships.Controls.Add(this.panRel1);
             this.gbRelationships.Controls.Add(this.llRelationshipExpander);
+            this.gbRelationships.Controls.Add(this.panel3);
             this.gbRelationships.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbRelationships.Location = new System.Drawing.Point(0, 0);
             this.gbRelationships.Name = "gbRelationships";
-            this.gbRelationships.Size = new System.Drawing.Size(341, 190);
+            this.gbRelationships.Size = new System.Drawing.Size(341, 247);
             this.gbRelationships.TabIndex = 3;
             this.gbRelationships.TabStop = false;
             this.gbRelationships.Text = "Relationships";
@@ -1308,8 +1422,8 @@
             // 
             this.panRelSearch.Controls.Add(this.txtRelSearch);
             this.panRelSearch.Controls.Add(this.label3);
-            this.panRelSearch.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panRelSearch.Location = new System.Drawing.Point(3, 164);
+            this.panRelSearch.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panRelSearch.Location = new System.Drawing.Point(3, 181);
             this.panRelSearch.Name = "panRelSearch";
             this.panRelSearch.Size = new System.Drawing.Size(335, 26);
             this.panRelSearch.TabIndex = 10;
@@ -1336,84 +1450,84 @@
             // 
             // panRel4
             // 
-            this.panRel4.Controls.Add(this.chkRelDupRecords);
-            this.panRel4.Controls.Add(this.chkRelCreMod);
-            this.panRel4.Controls.Add(this.chkRelRegarding);
+            this.panRel4.Controls.Add(this.chkRelExclDupRecords);
+            this.panRel4.Controls.Add(this.chkRelExclCreMod);
+            this.panRel4.Controls.Add(this.chkRelExclRegarding);
             this.panRel4.Controls.Add(this.label5);
-            this.panRel4.Controls.Add(this.chkRelOwners);
-            this.panRel4.Controls.Add(this.chkRelOrphans);
+            this.panRel4.Controls.Add(this.chkRelExclOwners);
+            this.panRel4.Controls.Add(this.chkRelExclOrphans);
             this.panRel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.panRel4.Location = new System.Drawing.Point(3, 120);
             this.panRel4.Name = "panRel4";
             this.panRel4.Size = new System.Drawing.Size(335, 44);
             this.panRel4.TabIndex = 9;
             // 
-            // chkRelDupRecords
+            // chkRelExclDupRecords
             // 
-            this.chkRelDupRecords.AutoSize = true;
-            this.chkRelDupRecords.Location = new System.Drawing.Point(231, 23);
-            this.chkRelDupRecords.Name = "chkRelDupRecords";
-            this.chkRelDupRecords.Size = new System.Drawing.Size(79, 17);
-            this.chkRelDupRecords.TabIndex = 5;
-            this.chkRelDupRecords.Text = "Duplication";
-            this.chkRelDupRecords.UseVisualStyleBackColor = true;
-            this.chkRelDupRecords.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
+            this.chkRelExclDupRecords.AutoSize = true;
+            this.chkRelExclDupRecords.Location = new System.Drawing.Point(231, 23);
+            this.chkRelExclDupRecords.Name = "chkRelExclDupRecords";
+            this.chkRelExclDupRecords.Size = new System.Drawing.Size(84, 17);
+            this.chkRelExclDupRecords.TabIndex = 5;
+            this.chkRelExclDupRecords.Text = "Duplications";
+            this.chkRelExclDupRecords.UseVisualStyleBackColor = true;
+            this.chkRelExclDupRecords.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
-            // chkRelCreMod
+            // chkRelExclCreMod
             // 
-            this.chkRelCreMod.AutoSize = true;
-            this.chkRelCreMod.Location = new System.Drawing.Point(99, 23);
-            this.chkRelCreMod.Name = "chkRelCreMod";
-            this.chkRelCreMod.Size = new System.Drawing.Size(108, 17);
-            this.chkRelCreMod.TabIndex = 4;
-            this.chkRelCreMod.Text = "Created/Modified";
-            this.chkRelCreMod.UseVisualStyleBackColor = true;
-            this.chkRelCreMod.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
+            this.chkRelExclCreMod.AutoSize = true;
+            this.chkRelExclCreMod.Location = new System.Drawing.Point(99, 23);
+            this.chkRelExclCreMod.Name = "chkRelExclCreMod";
+            this.chkRelExclCreMod.Size = new System.Drawing.Size(108, 17);
+            this.chkRelExclCreMod.TabIndex = 4;
+            this.chkRelExclCreMod.Text = "Created/Modified";
+            this.chkRelExclCreMod.UseVisualStyleBackColor = true;
+            this.chkRelExclCreMod.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
-            // chkRelRegarding
+            // chkRelExclRegarding
             // 
-            this.chkRelRegarding.AutoSize = true;
-            this.chkRelRegarding.Location = new System.Drawing.Point(231, 5);
-            this.chkRelRegarding.Name = "chkRelRegarding";
-            this.chkRelRegarding.Size = new System.Drawing.Size(75, 17);
-            this.chkRelRegarding.TabIndex = 3;
-            this.chkRelRegarding.Text = "Regarding";
-            this.toolTip1.SetToolTip(this.chkRelRegarding, "Relationships for Regarding fields");
-            this.chkRelRegarding.UseVisualStyleBackColor = true;
-            this.chkRelRegarding.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
+            this.chkRelExclRegarding.AutoSize = true;
+            this.chkRelExclRegarding.Location = new System.Drawing.Point(231, 5);
+            this.chkRelExclRegarding.Name = "chkRelExclRegarding";
+            this.chkRelExclRegarding.Size = new System.Drawing.Size(80, 17);
+            this.chkRelExclRegarding.TabIndex = 3;
+            this.chkRelExclRegarding.Text = "Regardings";
+            this.toolTip1.SetToolTip(this.chkRelExclRegarding, "Relationships for Regarding fields");
+            this.chkRelExclRegarding.UseVisualStyleBackColor = true;
+            this.chkRelExclRegarding.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(12, 6);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(42, 13);
+            this.label5.Size = new System.Drawing.Size(45, 13);
             this.label5.TabIndex = 2;
-            this.label5.Text = "Include";
+            this.label5.Text = "Exclude";
             // 
-            // chkRelOwners
+            // chkRelExclOwners
             // 
-            this.chkRelOwners.AutoSize = true;
-            this.chkRelOwners.Location = new System.Drawing.Point(162, 5);
-            this.chkRelOwners.Name = "chkRelOwners";
-            this.chkRelOwners.Size = new System.Drawing.Size(62, 17);
-            this.chkRelOwners.TabIndex = 1;
-            this.chkRelOwners.Text = "Owners";
-            this.toolTip1.SetToolTip(this.chkRelOwners, "Relationships for Owner fields");
-            this.chkRelOwners.UseVisualStyleBackColor = true;
-            this.chkRelOwners.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
+            this.chkRelExclOwners.AutoSize = true;
+            this.chkRelExclOwners.Location = new System.Drawing.Point(162, 5);
+            this.chkRelExclOwners.Name = "chkRelExclOwners";
+            this.chkRelExclOwners.Size = new System.Drawing.Size(62, 17);
+            this.chkRelExclOwners.TabIndex = 1;
+            this.chkRelExclOwners.Text = "Owners";
+            this.toolTip1.SetToolTip(this.chkRelExclOwners, "Relationships for Owner fields");
+            this.chkRelExclOwners.UseVisualStyleBackColor = true;
+            this.chkRelExclOwners.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
-            // chkRelOrphans
+            // chkRelExclOrphans
             // 
-            this.chkRelOrphans.AutoSize = true;
-            this.chkRelOrphans.Location = new System.Drawing.Point(99, 5);
-            this.chkRelOrphans.Name = "chkRelOrphans";
-            this.chkRelOrphans.Size = new System.Drawing.Size(66, 17);
-            this.chkRelOrphans.TabIndex = 0;
-            this.chkRelOrphans.Text = "Orphans";
-            this.toolTip1.SetToolTip(this.chkRelOrphans, "Relationships where the \"other\" entity is not selected");
-            this.chkRelOrphans.UseVisualStyleBackColor = true;
-            this.chkRelOrphans.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
+            this.chkRelExclOrphans.AutoSize = true;
+            this.chkRelExclOrphans.Location = new System.Drawing.Point(99, 5);
+            this.chkRelExclOrphans.Name = "chkRelExclOrphans";
+            this.chkRelExclOrphans.Size = new System.Drawing.Size(66, 17);
+            this.chkRelExclOrphans.TabIndex = 0;
+            this.chkRelExclOrphans.Text = "Orphans";
+            this.toolTip1.SetToolTip(this.chkRelExclOrphans, "Relationships where the \"other\" entity is not selected");
+            this.chkRelExclOrphans.UseVisualStyleBackColor = true;
+            this.chkRelExclOrphans.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
             // panRelType
             // 
@@ -1485,7 +1599,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 7);
+            this.label6.Location = new System.Drawing.Point(12, 6);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(52, 13);
             this.label6.TabIndex = 4;
@@ -1541,7 +1655,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 7);
+            this.label7.Location = new System.Drawing.Point(12, 6);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(61, 13);
             this.label7.TabIndex = 4;
@@ -1595,7 +1709,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(13, 7);
+            this.label8.Location = new System.Drawing.Point(13, 6);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(49, 13);
             this.label8.TabIndex = 1;
@@ -1622,6 +1736,47 @@
             this.llRelationshipExpander.TabStop = true;
             this.llRelationshipExpander.Text = "Hide filter";
             this.llRelationshipExpander.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.btnRelShowAll);
+            this.panel3.Controls.Add(this.btnRelSelectAllVisible);
+            this.panel3.Controls.Add(this.btnRelUnselectAll);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel3.Location = new System.Drawing.Point(3, 207);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(335, 37);
+            this.panel3.TabIndex = 12;
+            // 
+            // btnRelShowAll
+            // 
+            this.btnRelShowAll.Location = new System.Drawing.Point(187, 6);
+            this.btnRelShowAll.Name = "btnRelShowAll";
+            this.btnRelShowAll.Size = new System.Drawing.Size(69, 23);
+            this.btnRelShowAll.TabIndex = 3;
+            this.btnRelShowAll.Text = "Show all";
+            this.btnRelShowAll.UseVisualStyleBackColor = true;
+            this.btnRelShowAll.Click += new System.EventHandler(this.btnEntShowAll_Click);
+            // 
+            // btnRelSelectAllVisible
+            // 
+            this.btnRelSelectAllVisible.Location = new System.Drawing.Point(7, 6);
+            this.btnRelSelectAllVisible.Name = "btnRelSelectAllVisible";
+            this.btnRelSelectAllVisible.Size = new System.Drawing.Size(93, 23);
+            this.btnRelSelectAllVisible.TabIndex = 1;
+            this.btnRelSelectAllVisible.Text = "Select all visible";
+            this.btnRelSelectAllVisible.UseVisualStyleBackColor = true;
+            this.btnRelSelectAllVisible.Click += new System.EventHandler(this.btnEntSelectAllVisible_Click);
+            // 
+            // btnRelUnselectAll
+            // 
+            this.btnRelUnselectAll.Location = new System.Drawing.Point(106, 6);
+            this.btnRelUnselectAll.Name = "btnRelUnselectAll";
+            this.btnRelUnselectAll.Size = new System.Drawing.Size(75, 23);
+            this.btnRelUnselectAll.TabIndex = 2;
+            this.btnRelUnselectAll.Text = "Unselect all";
+            this.btnRelUnselectAll.UseVisualStyleBackColor = true;
+            this.btnRelUnselectAll.Click += new System.EventHandler(this.btnEntUnselectAll_Click);
             // 
             // tmEntSearch
             // 
@@ -1656,10 +1811,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.splitEntityRest);
             this.Controls.Add(this.pnWindowTopSpacer);
             this.Controls.Add(this.toolStripMenu);
             this.DoubleBuffered = true;
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "LCG";
             this.PluginIcon = ((System.Drawing.Icon)(resources.GetObject("$this.PluginIcon")));
             this.Size = new System.Drawing.Size(1028, 594);
@@ -1668,11 +1824,11 @@
             this.Load += new System.EventHandler(this.LCG_Load);
             this.toolStripMenu.ResumeLayout(false);
             this.toolStripMenu.PerformLayout();
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel1.PerformLayout();
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
+            this.splitEntityRest.Panel1.ResumeLayout(false);
+            this.splitEntityRest.Panel1.PerformLayout();
+            this.splitEntityRest.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitEntityRest)).EndInit();
+            this.splitEntityRest.ResumeLayout(false);
             this.pnEntityGrid.ResumeLayout(false);
             this.pnEntityGrid.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridEntities)).EndInit();
@@ -1690,12 +1846,13 @@
             this.pnEntCustom.PerformLayout();
             this.pnEntSolution.ResumeLayout(false);
             this.pnEntSolution.PerformLayout();
-            this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel1.PerformLayout();
-            this.splitContainer2.Panel2.ResumeLayout(false);
-            this.splitContainer2.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
-            this.splitContainer2.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.splitAttRel.Panel1.ResumeLayout(false);
+            this.splitAttRel.Panel1.PerformLayout();
+            this.splitAttRel.Panel2.ResumeLayout(false);
+            this.splitAttRel.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitAttRel)).EndInit();
+            this.splitAttRel.ResumeLayout(false);
             this.pnAttributeGrid.ResumeLayout(false);
             this.pnAttributeGrid.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridAttributes)).EndInit();
@@ -1703,20 +1860,24 @@
             this.statusAttributes.PerformLayout();
             this.gbAttributes.ResumeLayout(false);
             this.gbAttributes.PerformLayout();
+            this.pnAttExclude.ResumeLayout(false);
+            this.pnAttExclude.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picAttReloadRecords)).EndInit();
             this.pnAttSearch.ResumeLayout(false);
             this.pnAttSearch.PerformLayout();
-            this.imgAttRefreshCounts.ResumeLayout(false);
-            this.imgAttRefreshCounts.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picAttReloadRecords)).EndInit();
+            this.pnAttInclude.ResumeLayout(false);
+            this.pnAttInclude.PerformLayout();
             this.pnAttManaged.ResumeLayout(false);
             this.pnAttManaged.PerformLayout();
             this.pnAttCustom.ResumeLayout(false);
             this.pnAttCustom.PerformLayout();
             this.pnAttBehavior.ResumeLayout(false);
             this.pnAttBehavior.PerformLayout();
+            this.panel2.ResumeLayout(false);
             this.pnRelationshipGrid.ResumeLayout(false);
             this.pnRelationshipGrid.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRelationships)).EndInit();
+            this.ctxRelationshipMenu.ResumeLayout(false);
             this.statusRelationships.ResumeLayout(false);
             this.statusRelationships.PerformLayout();
             this.gbRelationships.ResumeLayout(false);
@@ -1733,6 +1894,7 @@
             this.panRel2.PerformLayout();
             this.panRel1.ResumeLayout(false);
             this.panRel1.PerformLayout();
+            this.panel3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1741,7 +1903,7 @@
         #endregion
         private System.Windows.Forms.ToolStrip toolStripMenu;
         private System.Windows.Forms.ToolStripButton btnLoadEntities;
-        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.SplitContainer splitEntityRest;
         private System.Windows.Forms.GroupBox gbEntities;
         private System.Windows.Forms.DataGridView gridEntities;
         private System.Windows.Forms.StatusStrip statusEntities;
@@ -1774,8 +1936,8 @@
         private System.Windows.Forms.ComboBox cmbSolution;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel pnEntIntersect;
-        private System.Windows.Forms.CheckBox chkEntSelected;
-        private System.Windows.Forms.CheckBox chkEntIntersect;
+        private System.Windows.Forms.CheckBox chkEntExclUnselected;
+        private System.Windows.Forms.CheckBox chkEntExclIntersect;
         private System.Windows.Forms.Panel pnEntManaged;
         private System.Windows.Forms.RadioButton rbEntMgdFalse;
         private System.Windows.Forms.RadioButton rbEntMgdTrue;
@@ -1786,7 +1948,7 @@
         private System.Windows.Forms.RadioButton rbEntCustomAll;
         private System.Windows.Forms.Timer tmEntSearch;
         private System.Windows.Forms.Timer tmAttSearch;
-        private System.Windows.Forms.Panel imgAttRefreshCounts;
+        private System.Windows.Forms.Panel pnAttInclude;
         private System.Windows.Forms.CheckBox chkAttPrimaryAttribute;
         private System.Windows.Forms.CheckBox chkAttPrimaryKey;
         private System.Windows.Forms.Panel pnAttBehavior;
@@ -1804,11 +1966,11 @@
         private System.Windows.Forms.CheckBox chkAttCheckAll;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolStripLabel tslAbout;
-        private System.Windows.Forms.CheckBox chkAttLogical;
+        private System.Windows.Forms.CheckBox chkAttExclLogical;
         private System.Windows.Forms.ToolStripButton btnOptions;
         private System.Windows.Forms.ToolStripMenuItem btnOpenConfig;
         private System.Windows.Forms.ToolStripMenuItem btnSaveConfigAs;
-        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.SplitContainer splitAttRel;
         private System.Windows.Forms.GroupBox gbRelationships;
         private System.Windows.Forms.LinkLabel llRelationshipExpander;
         private System.Windows.Forms.Panel pnRelationshipGrid;
@@ -1818,10 +1980,10 @@
         private System.Windows.Forms.TextBox txtRelSearch;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panRel4;
-        private System.Windows.Forms.CheckBox chkRelRegarding;
+        private System.Windows.Forms.CheckBox chkRelExclRegarding;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.CheckBox chkRelOwners;
-        private System.Windows.Forms.CheckBox chkRelOrphans;
+        private System.Windows.Forms.CheckBox chkRelExclOwners;
+        private System.Windows.Forms.CheckBox chkRelExclOrphans;
         private System.Windows.Forms.Panel panRel3;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.RadioButton rbRelMgdFalse;
@@ -1856,16 +2018,36 @@
         private System.Windows.Forms.ToolStripMenuItem btnOpenGeneratedFile;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.CheckBox chkRelCreMod;
-        private System.Windows.Forms.CheckBox chkRelDupRecords;
-        private System.Windows.Forms.CheckBox chkAttOwners;
-        private System.Windows.Forms.CheckBox chkAttCreMod;
-        private System.Windows.Forms.CheckBox chkAttInternal;
-        private System.Windows.Forms.CheckBox chkEntHasRecords;
+        private System.Windows.Forms.CheckBox chkRelExclCreMod;
+        private System.Windows.Forms.CheckBox chkRelExclDupRecords;
+        private System.Windows.Forms.CheckBox chkAttExclOwners;
+        private System.Windows.Forms.CheckBox chkAttExclCreMod;
+        private System.Windows.Forms.CheckBox chkAttExclInternal;
+        private System.Windows.Forms.CheckBox chkEntExclNoRecords;
         private System.Windows.Forms.CheckBox chkAttUsed;
         private System.Windows.Forms.PictureBox picAttReloadRecords;
         private System.Windows.Forms.CheckBox chkAttUniques;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.CheckBox chkAttRequired;
+        private System.Windows.Forms.ContextMenuStrip ctxRelationshipMenu;
+        private System.Windows.Forms.ToolStripMenuItem ctxRelAddRemAccount;
+        private System.Windows.Forms.Label lblRelUnShown;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnEntSelectAllVisible;
+        private System.Windows.Forms.Button btnEntUnselectAll;
+        private System.Windows.Forms.Button btnEntShowAll;
+        private System.Windows.Forms.Label lblEntUnShown;
+        private System.Windows.Forms.Label lblAttUnShown;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button btnAttSelectAllVisible;
+        private System.Windows.Forms.Button btnAttUnselectAll;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Button btnRelSelectAllVisible;
+        private System.Windows.Forms.Button btnRelUnselectAll;
+        private System.Windows.Forms.Button btnAttShowAll;
+        private System.Windows.Forms.Button btnRelShowAll;
+        private System.Windows.Forms.Panel pnAttExclude;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.CheckBox chkAttExclUnRequired;
     }
 }

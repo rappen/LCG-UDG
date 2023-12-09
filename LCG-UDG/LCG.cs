@@ -385,6 +385,7 @@ namespace Rappen.XTB.LCG
 
         private static void SelectAllRows(DataGridView grid, bool select)
         {
+            if (grid == null) return;
             grid.Rows
                 .Cast<DataGridViewRow>()
                 .Select(r => r.DataBoundItem)
@@ -393,12 +394,22 @@ namespace Rappen.XTB.LCG
                 .ForEach(m => m.SetSelected(select));
         }
 
-        private void AddToFilteredAttributes(List<AttributeMetadataProxy> filteredAttributes, string attributeName)
+        private static void UnselectAll(IEnumerable<MetadataProxy> metadatas)
         {
-            var att = selectedEntity.Attributes.FirstOrDefault(a => a.LogicalName == attributeName);
-            if (att != null && !filteredAttributes.Contains(att))
+            metadatas?.ToList().ForEach(m => m.SetSelected(false));
+        }
+
+        private void AddToFilteredAttributes(IEnumerable<AttributeMetadataProxy> filteredAttributes, string attributeName)
+        {
+            if (selectedEntity.Attributes.FirstOrDefault(a => a.LogicalName == attributeName) is AttributeMetadataProxy att)
             {
-                filteredAttributes.Insert(0, att);
+                var result = filteredAttributes.ToList();
+                if (result.Contains(att))
+                {
+                    result.Remove(att);
+                }
+                result.Insert(0, att);
+                filteredAttributes = result;
             }
         }
 
@@ -434,8 +445,8 @@ namespace Rappen.XTB.LCG
             rbEntMgdAll.Checked = settings.EntityFilter?.ManagedAll != false;
             rbEntMgdTrue.Checked = settings.EntityFilter?.ManagedTrue == true;
             rbEntMgdFalse.Checked = settings.EntityFilter?.ManagedFalse == true;
-            chkEntIntersect.Checked = settings.EntityFilter?.Intersect == true;
-            chkEntHasRecords.Checked = settings.EntityFilter?.HasRecords == true;
+            chkEntExclIntersect.Checked = settings.EntityFilter?.ExcludeIntersect == false;
+            chkEntExclNoRecords.Checked = settings.EntityFilter?.ExcludeNoRecords == false;
             //chkEntSelected.Checked = settings.EntityFilter?.SelectedOnly == true;
             chkAttCheckAll.Checked = settings.AttributeFilter?.CheckAll != false;
             rbAttCustomAll.Checked = settings.AttributeFilter?.CustomAll != false;
@@ -446,10 +457,11 @@ namespace Rappen.XTB.LCG
             rbAttMgdFalse.Checked = settings.AttributeFilter?.ManagedFalse == true;
             chkAttPrimaryKey.Checked = settings.AttributeFilter?.PrimaryKey == true;
             chkAttPrimaryAttribute.Checked = settings.AttributeFilter?.PrimaryAttribute == true;
-            chkAttLogical.Checked = settings.AttributeFilter?.Logical == true;
-            chkAttInternal.Checked = settings.AttributeFilter?.Internal == true;
-            chkAttCreMod.Checked = settings.AttributeFilter?.CreMod == true;
-            chkAttOwners.Checked = settings.AttributeFilter?.Owner == true;
+            chkAttExclLogical.Checked = settings.AttributeFilter?.ExcludeLogical == false;
+            chkAttExclInternal.Checked = settings.AttributeFilter?.ExcludeInternal == false;
+            chkAttExclCreMod.Checked = settings.AttributeFilter?.ExcludeCreMod == false;
+            chkAttExclOwners.Checked = settings.AttributeFilter?.ExcludeOwner == false;
+            chkAttExclUnRequired.Checked = settings.AttributeFilter?.ExcludeUnrequired == false;
             chkAttRequired.Checked = settings.AttributeFilter?.Required == true;
             chkAttUsed.Checked = settings.AttributeFilter?.AreUsed == true;
             chkAttUniques.Checked = settings.AttributeFilter?.UniqueValues == true;
@@ -463,11 +475,11 @@ namespace Rappen.XTB.LCG
             chkRel1N.Checked = settings.RelationshipFilter?.Type1N == true;
             chkRelN1.Checked = settings.RelationshipFilter?.TypeN1 == true;
             chkRelNN.Checked = settings.RelationshipFilter?.TypeNN == true;
-            chkRelOrphans.Checked = settings.RelationshipFilter?.Orphans == true;
-            chkRelOwners.Checked = settings.RelationshipFilter?.Owner == true;
-            chkRelRegarding.Checked = settings.RelationshipFilter?.Regarding == true;
-            chkRelCreMod.Checked = settings.RelationshipFilter?.CreMod == true;
-            chkRelDupRecords.Checked = settings.RelationshipFilter?.DupRecords == true;
+            chkRelExclOrphans.Checked = settings.RelationshipFilter?.ExcludeOrphans == false;
+            chkRelExclOwners.Checked = settings.RelationshipFilter?.ExcludeOwner == false;
+            chkRelExclRegarding.Checked = settings.RelationshipFilter?.ExcludeRegarding == false;
+            chkRelExclCreMod.Checked = settings.RelationshipFilter?.ExcludeCreMod == false;
+            chkRelExclDupRecords.Checked = settings.RelationshipFilter?.ExcludeDupRecords == false;
             GroupBoxSetState(llEntityExpander, settings.EntityFilter?.Expanded == true);
             GroupBoxSetState(llAttributeExpander, settings.AttributeFilter?.Expanded == true);
             GroupBoxSetState(llRelationshipExpander, settings.RelationshipFilter?.Expanded == true);
@@ -499,14 +511,6 @@ namespace Rappen.XTB.LCG
                 }
                 GetSettingsFromUI();
                 var filteredAttributes = GetFilteredAttributes(selectedEntity)?.ToList() ?? new List<AttributeMetadataProxy>();
-                if (chkAttPrimaryAttribute.Checked)
-                {
-                    AddToFilteredAttributes(filteredAttributes, selectedEntity.Metadata.PrimaryNameAttribute);
-                }
-                if (chkAttPrimaryKey.Checked)
-                {
-                    AddToFilteredAttributes(filteredAttributes, selectedEntity.Metadata.PrimaryIdAttribute);
-                }
                 gridAttributes.DataSource = new SortableBindingList<AttributeMetadataProxy>(filteredAttributes);
                 if (gridAttributes.Columns.Count > 0)
                 {
@@ -681,25 +685,30 @@ namespace Rappen.XTB.LCG
             }
             bool GetLogicalFilter(AttributeMetadataProxy a, List<AttributeMetadataProxy> attributes)
             {
-                return chkAttLogical.Checked ||
+                return !chkAttExclLogical.Checked ||
                        (a.Metadata.IsLogical != true &&
                         !IsMoneyBase(a) &&
                         !IsCustomerLogical(a, attributes));
             }
             bool GetInternalFilter(AttributeMetadataProxy a)
             {
-                return chkAttInternal.Checked ||
-                    !commonsettings.InternalAttributes.Contains(a.LogicalName);
+                return !chkAttExclInternal.Checked ||
+                       !commonsettings.InternalAttributes.Contains(a.LogicalName);
+            }
+            bool GetUnrequiredFilter(AttributeMetadataProxy a)
+            {
+                return !chkAttExclUnRequired.Checked ||
+                       a.Required;
             }
             bool GetCreModFilter(AttributeMetadataProxy a)
             {
-                return chkAttCreMod.Checked ||
+                return !chkAttExclCreMod.Checked ||
                        (!a.LogicalName.StartsWith("created") &&
                         !a.LogicalName.StartsWith("modified"));
             }
             bool GetOwnersFilter(AttributeMetadataProxy a)
             {
-                return chkAttOwners.Checked ||
+                return !chkAttExclOwners.Checked ||
                        (!a.LogicalName.StartsWith("owner") &&
                         !a.LogicalName.StartsWith("owning"));
             }
@@ -713,32 +722,41 @@ namespace Rappen.XTB.LCG
                     attributes.FirstOrDefault(a2 => a2.LogicalName == a.Metadata.AttributeOf) is AttributeMetadataProxy parentattr &&
                     parentattr.Type == AttributeTypeCode.Customer;
             }
-            // Required funkar risigt
-            bool IsRequired(AttributeMetadataProxy a) { return !chkAttRequired.Checked || a.Metadata.RequiredLevel.Value == AttributeRequiredLevel.ApplicationRequired || a.Metadata.RequiredLevel.Value == AttributeRequiredLevel.SystemRequired; }
 
             bool AreUsed(AttributeMetadataProxy a) { return !chkAttUsed.Checked || a.WithValues == null || a.WithValues > 0; }
 
             bool AreUniques(AttributeMetadataProxy a) { return !chkAttUniques.Checked || a.UniqueValues > 1; }
 
+            bool AllPrimaryIDs(AttributeMetadataProxy a) => chkAttPrimaryKey.Checked && a.Metadata?.IsPrimaryId.Value == true && a.Metadata?.IsLogical.Value == false;
+            bool AllPrimaryNames(AttributeMetadataProxy a) => chkAttPrimaryAttribute.Checked && a.Metadata?.IsPrimaryName.Value == true;
+            bool AllRequired(AttributeMetadataProxy a) => chkAttRequired.Checked && a.Required;
+
             if (chkAttUsed.Checked && !entity.CountedAttributes)
             {
                 LoadCountingDatas(entity);
-                splitContainer2.Panel1.Enabled = false;
+                splitAttRel.Panel1.Enabled = false;
                 return null;
             }
-            splitContainer2.Panel1.Enabled = true;
-            return entity.Attributes
-                    .Where(
-                        a => GetCustomFilter(a)
-                           && GetManagedFilter(a)
-                           && GetSearchFilter(a)
-                           && GetLogicalFilter(a, entity.Attributes)
-                           && GetInternalFilter(a)
-                           && GetCreModFilter(a)
-                           && GetOwnersFilter(a)
-                           && IsRequired(a)
-                           && AreUsed(a)
-                           && AreUniques(a));
+            splitAttRel.Panel1.Enabled = true;
+
+            var result = entity.Attributes
+                .Where(a => AllPrimaryIDs(a))
+                .Union(entity.Attributes.Where(a => AllPrimaryNames(a)))
+                .Union(entity.Attributes.Where(a => AllRequired(a)))
+                .Union(entity.Attributes.Where(a =>
+                    GetCustomFilter(a)
+                    && GetManagedFilter(a)
+                    && GetLogicalFilter(a, entity.Attributes)
+                    && GetInternalFilter(a)
+                    && GetUnrequiredFilter(a)
+                    && GetCreModFilter(a)
+                    && GetOwnersFilter(a)
+                    && AreUsed(a)
+                    && AreUniques(a)))
+                .Where(a => GetSearchFilter(a))
+                .Distinct()
+                .OrderBy(a => a);
+            return result;
         }
 
         private void LoadCountingDatas(EntityMetadataProxy entity)
@@ -839,9 +857,9 @@ namespace Rappen.XTB.LCG
                        e.Metadata.LogicalName.ToLowerInvariant().Contains(txtEntSearch.Text) ||
                        e.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtEntSearch.Text) == true;
             }
-            bool GetIntersectFilter(EntityMetadataProxy e) { return !e.Metadata.IsIntersect.GetValueOrDefault() || chkEntIntersect.Checked; }
+            bool GetIntersectFilter(EntityMetadataProxy e) { return !e.Metadata.IsIntersect.GetValueOrDefault() || !chkEntExclIntersect.Checked; }
             bool IsNotPrivate(EntityMetadataProxy e) { return !e.Metadata.IsPrivate.GetValueOrDefault(); }
-            bool GetSelectedFilter(EntityMetadataProxy e) { return !chkEntSelected.Checked || e.IsSelected; }
+            bool GetSelectedFilter(EntityMetadataProxy e) { return !chkEntExclUnselected.Checked || e.IsSelected; }
             bool GetManagedFilter(EntityMetadataProxy e)
             {
                 return rbEntMgdAll.Checked ||
@@ -854,14 +872,14 @@ namespace Rappen.XTB.LCG
                        rbEntCustomTrue.Checked && e.Metadata.IsCustomEntity.GetValueOrDefault() ||
                        rbEntCustomFalse.Checked && !e.Metadata.IsCustomEntity.GetValueOrDefault();
             }
-            bool GetNoDataFilter(EntityMetadataProxy e) { return !chkEntHasRecords.Checked || e.Records > 0 || e.Records == null; }
+            bool GetNoDataFilter(EntityMetadataProxy e) { return !chkEntExclNoRecords.Checked || e.Records > 0 || e.Records == null; }
 
-            if (ConnectionDetail?.OrganizationMajorVersion < 9 && chkEntHasRecords.Checked)
+            if (ConnectionDetail?.OrganizationMajorVersion < 9 && chkEntExclNoRecords.Checked)
             {
                 MessageBox.Show("Sorry, currently not possible to count records with Dynamics 365 before version 9.*.\n\nClick 'Help' for more info!",
                     "Count Records", MessageBoxButtons.OK, MessageBoxIcon.Stop, MessageBoxDefaultButton.Button1, 0,
                     "https://learn.microsoft.com/dotnet/api/microsoft.crm.sdk.messages.retrievetotalrecordcountrequest?WT.mc_id=BA-MVP-5002475");
-                chkEntHasRecords.Checked = false;
+                chkEntExclNoRecords.Checked = false;
             }
             var filteredentities = entities.Where(
                 e => IsNotPrivate(e)
@@ -916,7 +934,7 @@ namespace Rappen.XTB.LCG
             }
             bool GetOrphansFilter(RelationshipMetadataProxy r)
             {
-                if (settings.RelationshipFilter.Orphans)
+                if (!settings.RelationshipFilter.ExcludeOrphans)
                 {
                     return true;
                 }
@@ -931,7 +949,7 @@ namespace Rappen.XTB.LCG
             }
             bool GetOwnersFilter(RelationshipMetadataProxy r)
             {
-                if (settings.RelationshipFilter.Owner || r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
+                if (!settings.RelationshipFilter.ExcludeOwner || r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
                 {
                     return true;
                 }
@@ -943,16 +961,15 @@ namespace Rappen.XTB.LCG
             }
             bool GetRegardingFilter(RelationshipMetadataProxy r)
             {
-                if (settings.RelationshipFilter.Regarding || r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
+                if (!settings.RelationshipFilter.ExcludeRegarding || r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
                 {
                     return true;
                 }
-                return
-                    r.OneToManyRelationshipMetadata.ReferencingAttribute != "regardingobjectid";
+                return r.OneToManyRelationshipMetadata.ReferencingAttribute != "regardingobjectid";
             }
             bool GetCreModFilter(RelationshipMetadataProxy r)
             {
-                if (settings.RelationshipFilter.CreMod || r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
+                if (!settings.RelationshipFilter.ExcludeCreMod || r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
                 {
                     return true;
                 }
@@ -962,12 +979,11 @@ namespace Rappen.XTB.LCG
             }
             bool GetDupRecordsFilter(RelationshipMetadataProxy r)
             {
-                if (settings.RelationshipFilter.DupRecords || r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
+                if (!settings.RelationshipFilter.ExcludeDupRecords || r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
                 {
                     return true;
                 }
-                return
-                    r.OneToManyRelationshipMetadata.ReferencingEntity != "duplicaterecord";
+                return r.OneToManyRelationshipMetadata.ReferencingEntity != "duplicaterecord";
             }
 
             return entity.Relationships
@@ -1035,9 +1051,9 @@ namespace Rappen.XTB.LCG
             settings.EntityFilter.ManagedAll = rbEntMgdAll.Checked;
             settings.EntityFilter.ManagedTrue = rbEntMgdTrue.Checked;
             settings.EntityFilter.ManagedFalse = rbEntMgdFalse.Checked;
-            settings.EntityFilter.Intersect = chkEntIntersect.Checked;
-            settings.EntityFilter.SelectedOnly = chkEntSelected.Checked;
-            settings.EntityFilter.HasRecords = chkEntHasRecords.Checked;
+            settings.EntityFilter.ExcludeIntersect = chkEntExclIntersect.Checked;
+            settings.EntityFilter.ExcludeUnSelected = chkEntExclUnselected.Checked;
+            settings.EntityFilter.ExcludeNoRecords = chkEntExclNoRecords.Checked;
             if (settings.AttributeFilter == null)
             {
                 settings.AttributeFilter = new AttributeFilter();
@@ -1052,10 +1068,11 @@ namespace Rappen.XTB.LCG
             settings.AttributeFilter.ManagedFalse = rbAttMgdFalse.Checked;
             settings.AttributeFilter.PrimaryKey = chkAttPrimaryKey.Checked;
             settings.AttributeFilter.PrimaryAttribute = chkAttPrimaryAttribute.Checked;
-            settings.AttributeFilter.Logical = chkAttLogical.Checked;
-            settings.AttributeFilter.Internal = chkAttInternal.Checked;
-            settings.AttributeFilter.CreMod = chkAttCreMod.Checked;
-            settings.AttributeFilter.Owner = chkAttOwners.Checked;
+            settings.AttributeFilter.ExcludeLogical = chkAttExclLogical.Checked;
+            settings.AttributeFilter.ExcludeInternal = chkAttExclInternal.Checked;
+            settings.AttributeFilter.ExcludeUnrequired = chkAttExclUnRequired.Checked;
+            settings.AttributeFilter.ExcludeCreMod = chkAttExclCreMod.Checked;
+            settings.AttributeFilter.ExcludeOwner = chkAttExclOwners.Checked;
             settings.AttributeFilter.AreUsed = chkAttUsed.Checked;
             settings.AttributeFilter.UniqueValues = chkAttUsed.Checked && chkAttUniques.Checked;
             if (settings.RelationshipFilter == null)
@@ -1073,11 +1090,11 @@ namespace Rappen.XTB.LCG
             settings.RelationshipFilter.Type1N = chkRel1N.Checked;
             settings.RelationshipFilter.TypeN1 = chkRelN1.Checked;
             settings.RelationshipFilter.TypeNN = chkRelNN.Checked;
-            settings.RelationshipFilter.Orphans = chkRelOrphans.Checked;
-            settings.RelationshipFilter.Owner = chkRelOwners.Checked;
-            settings.RelationshipFilter.Regarding = chkRelRegarding.Checked;
-            settings.RelationshipFilter.CreMod = chkRelCreMod.Checked;
-            settings.RelationshipFilter.DupRecords = chkRelDupRecords.Checked;
+            settings.RelationshipFilter.ExcludeOrphans = chkRelExclOrphans.Checked;
+            settings.RelationshipFilter.ExcludeOwner = chkRelExclOwners.Checked;
+            settings.RelationshipFilter.ExcludeRegarding = chkRelExclRegarding.Checked;
+            settings.RelationshipFilter.ExcludeCreMod = chkRelExclCreMod.Checked;
+            settings.RelationshipFilter.ExcludeDupRecords = chkRelExclDupRecords.Checked;
         }
 
         private void GroupBoxCollapse(LinkLabel link)
@@ -1547,11 +1564,16 @@ This behavior can be prevented by unchecking the box 'Include configuration' in 
             chkAttAll.Visible = gridAttributes.Rows.Count > 0;
             if (gridAttributes.DataSource != null && selectedEntity != null && selectedEntity.Attributes != null)
             {
+                var unshownselects = selectedEntity?.Attributes?.Count(e => e.IsSelected) -
+                    gridAttributes.Rows.Cast<DataGridViewRow>().Count(r => r.DataBoundItem is MetadataProxy meta ? meta.IsSelected : false);
+                lblAttUnShown.Text = $"{unshownselects} selected not shown with current filter.";
+                lblAttUnShown.Visible = unshownselects > 0;
                 statusAttributesShowing.Text = $"Showing {gridAttributes.Rows.Count} of {selectedEntity.Attributes?.Count} attributes.";
                 statusAttributesSelected.Text = $"{selectedEntity?.Attributes?.Count(att => att.Selected)} selected.";
             }
             else
             {
+                lblAttUnShown.Visible = false;
                 statusAttributesShowing.Text = "No attributes available";
                 statusAttributesSelected.Text = "";
             }
@@ -1565,11 +1587,16 @@ This behavior can be prevented by unchecking the box 'Include configuration' in 
             btnGenerate.Enabled = entities != null && (bool)entities?.Any(e => e.IsSelected);
             if (gridEntities.DataSource != null && entities != null)
             {
+                var unshownselects = entities.Count(e => e.IsSelected) -
+                    gridEntities.Rows.Cast<DataGridViewRow>().Count(r => r.DataBoundItem is MetadataProxy meta ? meta.IsSelected : false);
+                lblEntUnShown.Text = $"{unshownselects} selected not shown with current filter.";
+                lblEntUnShown.Visible = unshownselects > 0;
                 statusEntitiesShowing.Text = $"Showing {gridEntities.Rows.Count} of {entities.Count} entities.";
                 statusEntitiesSelected.Text = $"{entities.Count(ent => ent.Selected)} selected.";
             }
             else
             {
+                lblEntUnShown.Visible = false;
                 statusEntitiesShowing.Text = "No entities available";
                 statusEntitiesSelected.Text = "";
             }
@@ -1580,13 +1607,18 @@ This behavior can be prevented by unchecking the box 'Include configuration' in 
             pnRelationshipGrid.Visible = gridRelationships.RowCount > 0;
             lblRelNoMatch.Visible = gridRelationships.DataSource != null && gridRelationships.RowCount == 0;
             chkRelAll.Visible = gridRelationships.Rows.Count > 0;
-            if (gridRelationships.DataSource != null && selectedEntity != null && selectedEntity.Attributes != null)
+            if (gridRelationships.DataSource != null && selectedEntity != null && selectedEntity.Relationships != null)
             {
+                var unshownselects = selectedEntity?.Relationships?.Count(r => r.IsSelected) -
+                    gridRelationships.Rows.Cast<DataGridViewRow>().Count(r => r.DataBoundItem is MetadataProxy meta ? meta.IsSelected : false);
+                lblRelUnShown.Text = $"{unshownselects} selected not shown with current filter.";
+                lblRelUnShown.Visible = unshownselects > 0;
                 statusRelationshipsShowing.Text = $"Showing {gridRelationships.Rows.Count} of {selectedEntity.Relationships?.Count} relationships.";
                 statusRelationshipsSelected.Text = $"{selectedEntity?.Relationships?.Count(r => r.IsSelected)} selected.";
             }
             else
             {
+                lblEntUnShown.Visible = false;
                 statusRelationshipsShowing.Text = "No relationships available";
                 statusRelationshipsSelected.Text = "";
             }
@@ -1624,6 +1656,77 @@ This behavior can be prevented by unchecking the box 'Include configuration' in 
             selectedEntity.Attributes.ForEach(a => a.WithValues = null);
             selectedEntity.Attributes.ForEach(a => a.UniqueValues = null);
             DisplayFilteredAttributes();
+        }
+
+        private void ctxRelAddRemAccount_Click(object sender, EventArgs e)
+        {
+            if (entities.FirstOrDefault(ent => ent.LogicalName == "account") is EntityMetadataProxy entity)
+            {
+                entity.SetSelected(!entity.Selected);
+            }
+        }
+
+        private void btnEntSelectAllVisible_Click(object sender, EventArgs e)
+        {
+            SelectAllRows(sender == btnEntSelectAllVisible ? gridEntities :
+                          sender == btnAttSelectAllVisible ? gridAttributes :
+                          sender == btnRelSelectAllVisible ? gridRelationships : null, true);
+        }
+
+        private void btnEntUnselectAll_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Confirm removing all selected items!", "Unselect all", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) != DialogResult.OK)
+            {
+                return;
+            }
+            UnselectAll(sender == btnEntUnselectAll ? entities?.Select(m => (MetadataProxy)m) :
+                        sender == btnAttUnselectAll ? selectedEntity?.Attributes?.Select(m => (MetadataProxy)m) :
+                        sender == btnRelUnselectAll ? selectedEntity?.Relationships?.Select(m => (MetadataProxy)m) : null);
+        }
+
+        private void btnEntShowAll_Click(object sender, EventArgs e)
+        {
+            if (sender == btnEntShowAll)
+            {
+                cmbSolution.SelectedIndex = -1;
+                cmbSolution.SelectedItem = null;
+                rbEntCustomAll.Checked = true;
+                rbEntMgdAll.Checked = true;
+                chkEntExclIntersect.Checked = false;
+                chkEntExclUnselected.Checked = false;
+                chkEntExclNoRecords.Checked = false;
+                txtEntSearch.Text = "";
+            }
+            else if (sender == btnAttShowAll)
+            {
+                rbAttCustomAll.Checked = true;
+                rbAttMgdAll.Checked = true;
+                chkAttPrimaryKey.Checked = false;
+                chkAttPrimaryAttribute.Checked = false;
+                chkAttRequired.Checked = false;
+                chkAttExclLogical.Checked = false;
+                chkAttExclInternal.Checked = false;
+                chkAttExclUnRequired.Checked = false;
+                chkAttExclOwners.Checked = false;
+                chkAttExclCreMod.Checked = false;
+                chkAttUsed.Checked = false;
+                chkAttUniques.Checked = false;
+                txtAttSearch.Text = "";
+            }
+            else if (sender == btnRelShowAll)
+            {
+                rbRelCustomAll.Checked = true;
+                rbRelMgdAll.Checked = true;
+                chkRel1N.Checked = true;
+                chkRelN1.Checked = true;
+                chkRelNN.Checked = true;
+                chkRelExclOrphans.Checked = false;
+                chkRelExclOwners.Checked = false;
+                chkRelExclRegarding.Checked = false;
+                chkRelExclCreMod.Checked = false;
+                chkRelExclDupRecords.Checked = false;
+                txtRelSearch.Text = "";
+            }
         }
     }
 }

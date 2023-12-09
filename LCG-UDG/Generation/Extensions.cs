@@ -238,5 +238,14 @@ namespace Rappen.XTB.LCG
         {
             return string.IsNullOrEmpty(template) ? newValue : template.Replace(oldValue, newValue);
         }
+
+        public static string MessageDetails(this Exception ex, int level = 0)
+        {
+            if (ex == null)
+            {
+                return string.Empty;
+            }
+            return new string(' ', level * 2) + (ex.Message + Environment.NewLine + ex.InnerException.MessageDetails(level + 1)).Trim();
+        }
     }
 }
