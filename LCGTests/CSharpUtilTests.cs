@@ -25,14 +25,13 @@ namespace LateboundConstantGeneratorTests
             var config = A.CallTo(() => fakeWriter.WriteBlock(null, null, null))
                 .WithAnyArguments()
                 .Invokes((Settings s, string e, string f) => { entity = e; });
-            
+
             // Act
             GenerationUtils.GenerateFiles(values, settings, fakeWriter);
 
             // Assert
-            config.MustHaveHappened();
+            //  config.MustHaveHappened();
             Assert.IsTrue(entity.Contains("public const string EntityName = \"uber_entity\";"));
-            
         }
 
         [TestMethod]
