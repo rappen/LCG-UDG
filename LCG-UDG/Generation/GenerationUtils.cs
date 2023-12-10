@@ -169,7 +169,7 @@ namespace Rappen.XTB.LCG
             }
             DeduplicateIdentifiers(ref attributes);
             var result = string.Join("\r\n", attributes);
-            if (settings.Regions && attributes.Count > 0)
+            if (settings.Regions && !string.IsNullOrWhiteSpace(result))
             {
                 return settings.commonsettings.Template.Region.ReplaceIfNotEmpty("{region}", "Attributes").Replace("{content}", result);
             }
