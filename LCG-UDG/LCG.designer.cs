@@ -1827,9 +1827,9 @@
             this.chkEntExclMS.AutoSize = true;
             this.chkEntExclMS.Location = new System.Drawing.Point(99, 23);
             this.chkEntExclMS.Name = "chkEntExclMS";
-            this.chkEntExclMS.Size = new System.Drawing.Size(88, 17);
+            this.chkEntExclMS.Size = new System.Drawing.Size(94, 17);
             this.chkEntExclMS.TabIndex = 2;
-            this.chkEntExclMS.Text = "MSFT prefixs";
+            this.chkEntExclMS.Text = "MSFT prefixes";
             this.toolTip1.SetToolTip(this.chkEntExclMS, "Will not include with prefix...");
             this.chkEntExclMS.UseVisualStyleBackColor = true;
             this.chkEntExclMS.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
