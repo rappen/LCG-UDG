@@ -903,11 +903,16 @@ namespace Rappen.XTB.LCG
             }
             bool GetNoDataFilter(EntityMetadataProxy e) { return !chkEntExclNoRecords.Checked || e.Records > 0 || e.Records == null; }
 
+            bool GetNoMSFT(EntityMetadataProxy e) =>
+                !chkEntExclMS.Checked ||
+                !e.LogicalName.Contains("_") ||
+                !(commonsettings.MicrosoftPrefixes.Contains(e.LogicalName.Split('_')[0] + "_"));
+
             if (ConnectionDetail?.OrganizationMajorVersion < 9 && chkEntExclNoRecords.Checked)
             {
                 MessageBox.Show("Sorry, currently not possible to count records with Dynamics 365 before version 9.*.\n\nClick 'Help' for more info!",
                     "Count Records", MessageBoxButtons.OK, MessageBoxIcon.Stop, MessageBoxDefaultButton.Button1, 0,
-                    "https://learn.microsoft.com/dotnet/api/microsoft.crm.sdk.messages.retrievetotalrecordcountrequest?WT.mc_id=BA-MVP-5002475");
+                    "https://learn.microsoft.com/dotnet/api/microsoft.crm.sdk.messages.retrievetotalrecordcountrequest?WT.mc_id=DX-MVP-5002475");
                 chkEntExclNoRecords.Checked = false;
             }
             var filteredentities = entities.Where(
@@ -917,7 +922,8 @@ namespace Rappen.XTB.LCG
                      && GetManagedFilter(e)
                      && GetIntersectFilter(e)
                      && GetSearchFilter(e)
-                     && GetNoDataFilter(e));
+                     && GetNoDataFilter(e)
+                     && GetNoMSFT(e));
             return filteredentities;
         }
 
@@ -1216,6 +1222,8 @@ namespace Rappen.XTB.LCG
             }
             commonsettings.MigrateFromOldConfig(isUML);
             commonsettings.SetFixedValues(isUML);
+            toolTip1.SetToolTip(chkEntExclMS, $"Will not include with prefix:\r\n  {string.Join($"\r\n  ", commonsettings.MicrosoftPrefixes)}");
+
         }
 
         private void LoadEntities()

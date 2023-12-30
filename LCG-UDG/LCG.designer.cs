@@ -179,6 +179,7 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tmRelSearch = new System.Windows.Forms.Timer(this.components);
             this.tmHideNotification = new System.Windows.Forms.Timer(this.components);
+            this.chkEntExclMS = new System.Windows.Forms.CheckBox();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitEntityRest)).BeginInit();
             this.splitEntityRest.Panel1.SuspendLayout();
@@ -538,6 +539,7 @@
             // 
             // pnEntIntersect
             // 
+            this.pnEntIntersect.Controls.Add(this.chkEntExclMS);
             this.pnEntIntersect.Controls.Add(this.chkEntExclNoRecords);
             this.pnEntIntersect.Controls.Add(this.label10);
             this.pnEntIntersect.Controls.Add(this.chkEntExclUnselected);
@@ -545,16 +547,16 @@
             this.pnEntIntersect.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnEntIntersect.Location = new System.Drawing.Point(3, 94);
             this.pnEntIntersect.Name = "pnEntIntersect";
-            this.pnEntIntersect.Size = new System.Drawing.Size(341, 46);
+            this.pnEntIntersect.Size = new System.Drawing.Size(341, 70);
             this.pnEntIntersect.TabIndex = 4;
             // 
             // chkEntExclNoRecords
             // 
             this.chkEntExclNoRecords.AutoSize = true;
-            this.chkEntExclNoRecords.Location = new System.Drawing.Point(99, 23);
+            this.chkEntExclNoRecords.Location = new System.Drawing.Point(218, 23);
             this.chkEntExclNoRecords.Name = "chkEntExclNoRecords";
             this.chkEntExclNoRecords.Size = new System.Drawing.Size(78, 17);
-            this.chkEntExclNoRecords.TabIndex = 5;
+            this.chkEntExclNoRecords.TabIndex = 3;
             this.chkEntExclNoRecords.Text = "No records";
             this.chkEntExclNoRecords.UseVisualStyleBackColor = true;
             this.chkEntExclNoRecords.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
@@ -1820,6 +1822,18 @@
             this.tmHideNotification.Interval = 5000;
             this.tmHideNotification.Tick += new System.EventHandler(this.tmHideNotification_Tick);
             // 
+            // chkEntExclMS
+            // 
+            this.chkEntExclMS.AutoSize = true;
+            this.chkEntExclMS.Location = new System.Drawing.Point(99, 23);
+            this.chkEntExclMS.Name = "chkEntExclMS";
+            this.chkEntExclMS.Size = new System.Drawing.Size(88, 17);
+            this.chkEntExclMS.TabIndex = 2;
+            this.chkEntExclMS.Text = "MSFT prefixs";
+            this.toolTip1.SetToolTip(this.chkEntExclMS, "Will not include with prefix...");
+            this.chkEntExclMS.UseVisualStyleBackColor = true;
+            this.chkEntExclMS.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
+            // 
             // LCG
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2064,5 +2078,6 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.CheckBox chkAttExclUnRequired;
         private System.Windows.Forms.ToolStripButton btnCancel;
+        private System.Windows.Forms.CheckBox chkEntExclMS;
     }
 }
