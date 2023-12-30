@@ -45,6 +45,7 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnOptions = new System.Windows.Forms.ToolStripButton();
             this.tslAbout = new System.Windows.Forms.ToolStripLabel();
+            this.btnCancel = new System.Windows.Forms.ToolStripButton();
             this.splitEntityRest = new System.Windows.Forms.SplitContainer();
             this.pnEntityGrid = new System.Windows.Forms.Panel();
             this.chkEntAll = new System.Windows.Forms.CheckBox();
@@ -233,7 +234,8 @@
             this.btnGenerate,
             this.toolStripSeparator2,
             this.btnOptions,
-            this.tslAbout});
+            this.tslAbout,
+            this.btnCancel});
             this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
             this.toolStripMenu.Name = "toolStripMenu";
             this.toolStripMenu.Size = new System.Drawing.Size(1028, 31);
@@ -354,6 +356,18 @@
             this.tslAbout.Size = new System.Drawing.Size(106, 28);
             this.tslAbout.Text = "by Jonas Rapp";
             this.tslAbout.Click += new System.EventHandler(this.tslAbout_Click);
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Enabled = false;
+            this.btnCancel.Image = ((System.Drawing.Image)(resources.GetObject("btnCancel.Image")));
+            this.btnCancel.ImageAlign = System.Drawing.ContentAlignment.TopRight;
+            this.btnCancel.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(71, 28);
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.Visible = false;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // splitEntityRest
             // 
@@ -2049,5 +2063,6 @@
         private System.Windows.Forms.Panel pnAttExclude;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.CheckBox chkAttExclUnRequired;
+        private System.Windows.Forms.ToolStripButton btnCancel;
     }
 }

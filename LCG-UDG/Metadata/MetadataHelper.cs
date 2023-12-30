@@ -165,7 +165,13 @@ namespace Rappen.XTB.LCG
             return service.Execute(req) as RetrieveMetadataChangesResponse;
         }
 
-        public static EntityCollection RetrieveMultipleAll(this IOrganizationService service, QueryBase query, BackgroundWorker worker = null, string message = null)
+        public static EntityCollection RetrieveMultipleAll(this IOrganizationService service, QueryBase query) => RetrieveMultipleAll(service, query, null, null, null);
+
+        public static EntityCollection RetrieveMultipleAll(this IOrganizationService service, QueryBase query, BackgroundWorker worker) => RetrieveMultipleAll(service, query, worker, null, null);
+
+        public static EntityCollection RetrieveMultipleAll(this IOrganizationService service, QueryBase query, BackgroundWorker worker, string message) => RetrieveMultipleAll(service, query, worker, null, message);
+
+        public static EntityCollection RetrieveMultipleAll(this IOrganizationService service, QueryBase query, BackgroundWorker worker, DoWorkEventArgs eventargs, string message)
         {
             EntityCollection resultCollection = null;
             EntityCollection tmpResult;
@@ -180,6 +186,14 @@ namespace Rappen.XTB.LCG
             }
             do
             {
+                if (worker?.CancellationPending == true)
+                {
+                    if (eventargs != null)
+                    {
+                        eventargs.Cancel = true;
+                    }
+                    break;
+                }
                 tmpResult = service.RetrieveMultiple(query);
                 if (resultCollection == null)
                 {

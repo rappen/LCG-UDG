@@ -439,50 +439,50 @@ namespace Rappen.XTB.LCG
         private void ApplySettings()
         {
             restoringselection = true;
-            rbEntCustomAll.Checked = settings.EntityFilter?.CustomAll != false;
-            rbEntCustomFalse.Checked = settings.EntityFilter?.CustomFalse == true;
-            rbEntCustomTrue.Checked = settings.EntityFilter?.CustomTrue == true;
-            rbEntMgdAll.Checked = settings.EntityFilter?.ManagedAll != false;
-            rbEntMgdTrue.Checked = settings.EntityFilter?.ManagedTrue == true;
-            rbEntMgdFalse.Checked = settings.EntityFilter?.ManagedFalse == true;
-            chkEntExclIntersect.Checked = settings.EntityFilter?.ExcludeIntersect == false;
-            chkEntExclNoRecords.Checked = settings.EntityFilter?.ExcludeNoRecords == false;
-            //chkEntSelected.Checked = settings.EntityFilter?.SelectedOnly == true;
-            chkAttCheckAll.Checked = settings.AttributeFilter?.CheckAll != false;
-            rbAttCustomAll.Checked = settings.AttributeFilter?.CustomAll != false;
-            rbAttCustomFalse.Checked = settings.AttributeFilter?.CustomFalse == true;
-            rbAttCustomTrue.Checked = settings.AttributeFilter?.CustomTrue == true;
-            rbAttMgdAll.Checked = settings.AttributeFilter?.ManagedAll != false;
-            rbAttMgdTrue.Checked = settings.AttributeFilter?.ManagedTrue == true;
-            rbAttMgdFalse.Checked = settings.AttributeFilter?.ManagedFalse == true;
-            chkAttPrimaryKey.Checked = settings.AttributeFilter?.PrimaryKey == true;
-            chkAttPrimaryAttribute.Checked = settings.AttributeFilter?.PrimaryAttribute == true;
-            chkAttExclLogical.Checked = settings.AttributeFilter?.ExcludeLogical == false;
-            chkAttExclInternal.Checked = settings.AttributeFilter?.ExcludeInternal == false;
-            chkAttExclCreMod.Checked = settings.AttributeFilter?.ExcludeCreMod == false;
-            chkAttExclOwners.Checked = settings.AttributeFilter?.ExcludeOwner == false;
-            chkAttExclUnRequired.Checked = settings.AttributeFilter?.ExcludeUnrequired == false;
-            chkAttRequired.Checked = settings.AttributeFilter?.Required == true;
-            chkAttUsed.Checked = settings.AttributeFilter?.AreUsed == true;
-            chkAttUniques.Checked = settings.AttributeFilter?.UniqueValues == true;
-            chkRelCheckAll.Checked = settings.RelationshipFilter?.CheckAll != false;
-            rbRelCustomAll.Checked = settings.RelationshipFilter?.CustomAll != false;
-            rbRelCustomFalse.Checked = settings.RelationshipFilter?.CustomFalse == true;
-            rbRelCustomTrue.Checked = settings.RelationshipFilter?.CustomTrue == true;
-            rbRelMgdAll.Checked = settings.RelationshipFilter?.ManagedAll != false;
-            rbRelMgdTrue.Checked = settings.RelationshipFilter?.ManagedTrue == true;
-            rbRelMgdFalse.Checked = settings.RelationshipFilter?.ManagedFalse == true;
-            chkRel1N.Checked = settings.RelationshipFilter?.Type1N == true;
-            chkRelN1.Checked = settings.RelationshipFilter?.TypeN1 == true;
-            chkRelNN.Checked = settings.RelationshipFilter?.TypeNN == true;
-            chkRelExclOrphans.Checked = settings.RelationshipFilter?.ExcludeOrphans == false;
-            chkRelExclOwners.Checked = settings.RelationshipFilter?.ExcludeOwner == false;
-            chkRelExclRegarding.Checked = settings.RelationshipFilter?.ExcludeRegarding == false;
-            chkRelExclCreMod.Checked = settings.RelationshipFilter?.ExcludeCreMod == false;
-            chkRelExclDupRecords.Checked = settings.RelationshipFilter?.ExcludeDupRecords == false;
-            GroupBoxSetState(llEntityExpander, settings.EntityFilter?.Expanded == true);
-            GroupBoxSetState(llAttributeExpander, settings.AttributeFilter?.Expanded == true);
-            GroupBoxSetState(llRelationshipExpander, settings.RelationshipFilter?.Expanded == true);
+            rbEntCustomAll.Checked = settings.EntityFilter?.CustomAll ?? true;
+            rbEntCustomFalse.Checked = settings.EntityFilter?.CustomFalse ?? false;
+            rbEntCustomTrue.Checked = settings.EntityFilter?.CustomTrue ?? false;
+            rbEntMgdAll.Checked = settings.EntityFilter?.ManagedAll ?? true;
+            rbEntMgdTrue.Checked = settings.EntityFilter?.ManagedTrue ?? false;
+            rbEntMgdFalse.Checked = settings.EntityFilter?.ManagedFalse ?? false;
+            chkEntExclIntersect.Checked = settings.EntityFilter?.ExcludeIntersect ?? false;
+            chkEntExclNoRecords.Checked = settings.EntityFilter?.ExcludeNoRecords ?? false;
+            //chkEntSelected.Checked = settings.EntityFilter?.SelectedOnly ?? false;
+            chkAttCheckAll.Checked = settings.AttributeFilter?.CheckAll ?? false;
+            rbAttCustomAll.Checked = settings.AttributeFilter?.CustomAll ?? true;
+            rbAttCustomFalse.Checked = settings.AttributeFilter?.CustomFalse ?? false;
+            rbAttCustomTrue.Checked = settings.AttributeFilter?.CustomTrue ?? false;
+            rbAttMgdAll.Checked = settings.AttributeFilter?.ManagedAll ?? true;
+            rbAttMgdTrue.Checked = settings.AttributeFilter?.ManagedTrue ?? false;
+            rbAttMgdFalse.Checked = settings.AttributeFilter?.ManagedFalse ?? false;
+            chkAttPrimaryKey.Checked = settings.AttributeFilter?.PrimaryKey ?? true;
+            chkAttPrimaryAttribute.Checked = settings.AttributeFilter?.PrimaryAttribute ?? true;
+            chkAttRequired.Checked = settings.AttributeFilter?.Required ?? false;
+            chkAttExclLogical.Checked = settings.AttributeFilter?.ExcludeLogical ?? false;
+            chkAttExclInternal.Checked = settings.AttributeFilter?.ExcludeInternal ?? false;
+            chkAttExclCreMod.Checked = settings.AttributeFilter?.ExcludeCreMod ?? false;
+            chkAttExclOwners.Checked = settings.AttributeFilter?.ExcludeOwner ?? false;
+            chkAttExclUnRequired.Checked = settings.AttributeFilter?.ExcludeUnrequired ?? false;
+            //chkAttUsed.Checked = settings.AttributeFilter?.AreUsed ?? false;
+            //chkAttUniques.Checked = settings.AttributeFilter?.UniqueValues ?? false;
+            chkRelCheckAll.Checked = settings.RelationshipFilter?.CheckAll ?? false;
+            rbRelCustomAll.Checked = settings.RelationshipFilter?.CustomAll ?? true;
+            rbRelCustomFalse.Checked = settings.RelationshipFilter?.CustomFalse ?? false;
+            rbRelCustomTrue.Checked = settings.RelationshipFilter?.CustomTrue ?? false;
+            rbRelMgdAll.Checked = settings.RelationshipFilter?.ManagedAll ?? true;
+            rbRelMgdTrue.Checked = settings.RelationshipFilter?.ManagedTrue ?? false;
+            rbRelMgdFalse.Checked = settings.RelationshipFilter?.ManagedFalse ?? false;
+            chkRel1N.Checked = settings.RelationshipFilter?.Type1N ?? true;
+            chkRelN1.Checked = settings.RelationshipFilter?.TypeN1 ?? true;
+            chkRelNN.Checked = settings.RelationshipFilter?.TypeNN ?? true;
+            chkRelExclOrphans.Checked = settings.RelationshipFilter?.ExcludeOrphans ?? false;
+            chkRelExclOwners.Checked = settings.RelationshipFilter?.ExcludeOwner ?? false;
+            chkRelExclRegarding.Checked = settings.RelationshipFilter?.ExcludeRegarding ?? false;
+            chkRelExclCreMod.Checked = settings.RelationshipFilter?.ExcludeCreMod ?? false;
+            chkRelExclDupRecords.Checked = settings.RelationshipFilter?.ExcludeDupRecords ?? false;
+            GroupBoxSetState(llEntityExpander, settings.EntityFilter?.Expanded ?? true);
+            GroupBoxSetState(llAttributeExpander, settings.AttributeFilter?.Expanded ?? true);
+            GroupBoxSetState(llRelationshipExpander, settings.RelationshipFilter?.Expanded ?? true);
             restoringselection = false;
         }
 
@@ -505,7 +505,7 @@ namespace Rappen.XTB.LCG
             if (selectedEntity?.Attributes != null && selectedEntity.Attributes.Count > 0)
             {
                 chkAttUniques.Enabled = chkAttUsed.Checked;
-                if (!chkAttUniques.Enabled && chkAttUniques.Checked)
+                if (!chkAttUsed.Checked && chkAttUniques.Checked)
                 {
                     chkAttUniques.Checked = false;
                 }
@@ -733,11 +733,12 @@ namespace Rappen.XTB.LCG
 
             if (chkAttUsed.Checked && !entity.CountedAttributes)
             {
-                LoadCountingDatas(entity);
-                splitAttRel.Panel1.Enabled = false;
-                return null;
+                if (LoadCountingDatas(entity))
+                {
+                    return null;
+                }
             }
-            splitAttRel.Panel1.Enabled = true;
+            splitEntityRest.Enabled = true;
 
             var result = entity.Attributes
                 .Where(a => AllPrimaryIDs(a))
@@ -755,20 +756,39 @@ namespace Rappen.XTB.LCG
                     && AreUniques(a)))
                 .Where(a => GetSearchFilter(a))
                 .Distinct()
-                .OrderBy(a => a);
+                .OrderBy(a => a)
+                .ToList();
             return result;
         }
 
-        private void LoadCountingDatas(EntityMetadataProxy entity)
+        private bool LoadCountingDatas(EntityMetadataProxy entity)
         {
+            if (entity.RecordCount == 0)
+            {
+                entity.CountedAttributes = true;
+                entity.Attributes.ForEach(attr => attr.WithValues = 0);
+                entity.Attributes.ForEach(attr => attr.UnDefaultValues = 0);
+                entity.Attributes.ForEach(attr => attr.UniqueValues = 0);
+                return false;
+            }
+            if (selectedEntity?.RecordCount > 5000 &&
+                MessageBox.Show($"This might take more than a few seconds...\nCounting values on attributes for {selectedEntity.RecordCount} records.\n\nIf it takes too long, you can cancel it with the button in the menu.", "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) != DialogResult.OK)
+            {
+                chkAttUsed.Checked = false;
+                return false;
+            }
+            splitEntityRest.Enabled = false;
+            btnCancel.Visible = true;
+            btnCancel.Enabled = true;
             WorkAsync(new WorkAsyncInfo
             {
                 Message = $"Counting attributes for {entity.DisplayName}{Environment.NewLine}...",
+                IsCancelable = true,
                 Work = (w, arg) =>
                 {
                     var q = new QueryExpression(entity.LogicalName);
                     q.ColumnSet = new ColumnSet(true);
-                    arg.Result = Service.RetrieveMultipleAll(q, w, $"Counting attributes for {entity.DisplayName}{Environment.NewLine}{{0}} / {entity.RecordCount}");
+                    arg.Result = Service.RetrieveMultipleAll(q, w, arg, $"Counting attributes for {entity.DisplayName}{Environment.NewLine}{{0}} / {entity.RecordCount}");
                 },
                 ProgressChanged = (c) =>
                 {
@@ -777,9 +797,17 @@ namespace Rappen.XTB.LCG
                 PostWorkCallBack = (arg) =>
                 {
                     entity.CountedAttributes = true;
+                    btnCancel.Visible = false;
                     if (arg.Error != null)
                     {
                         ShowErrorDialog(arg.Error);
+                    }
+                    else if (arg.Cancelled)
+                    {
+                        Cursor = Cursors.Default;
+                        MessageBox.Show("Cancelling load of all data.", "Abort", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        chkAttUsed.Checked = false;
+                        entity.CountedAttributes = false;
                     }
                     else if (arg.Result is EntityCollection records)
                     {
@@ -789,10 +817,11 @@ namespace Rappen.XTB.LCG
                             .ForEach(attr => attr.UnDefaultValues = records.Entities.Count(r => !IsDefaultValue(r, attr)));
                         entity.Attributes
                             .ForEach(attr => attr.UniqueValues = records.Entities.Select(e => e.Contains(attr.LogicalName) ? AttributeToBaseType(e[attr.LogicalName]) : null).Where(v => v != null).Distinct().Count());
-                        DisplayFilteredAttributes();
                     }
+                    DisplayFilteredAttributes();
                 }
             });
+            return true;
         }
 
         public static object AttributeToBaseType(object attribute)
@@ -1652,9 +1681,13 @@ This behavior can be prevented by unchecking the box 'Include configuration' in 
             {
                 return;
             }
+            var withvalue = chkAttUsed.Checked;
+            var uniques = chkAttUniques.Checked;
             selectedEntity.CountedAttributes = false;
             selectedEntity.Attributes.ForEach(a => a.WithValues = null);
             selectedEntity.Attributes.ForEach(a => a.UniqueValues = null);
+            chkAttUsed.Checked = withvalue;
+            chkAttUniques.Checked = uniques;
             DisplayFilteredAttributes();
         }
 
@@ -1727,6 +1760,13 @@ This behavior can be prevented by unchecking the box 'Include configuration' in 
                 chkRelExclDupRecords.Checked = false;
                 txtRelSearch.Text = "";
             }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            Cursor = Cursors.WaitCursor;
+            btnCancel.Enabled = false;
+            CancelWorker();
         }
     }
 }

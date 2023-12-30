@@ -138,8 +138,8 @@ namespace Rappen.XTB.LCG
         public bool ManagedTrue { get; set; }
         public bool ManagedFalse { get; set; }
         public bool ExcludeIntersect { get; set; }
-        public bool ExcludeUnSelected { get; set; }
-        public bool ExcludeNoRecords { get; set; }
+        internal bool ExcludeUnSelected { get; set; }
+        public bool ExcludeNoRecords { get; set; } = false;
     }
 
     public class AttributeFilter
@@ -160,8 +160,8 @@ namespace Rappen.XTB.LCG
         public bool ExcludeCreMod { get; set; } = true;
         public bool ExcludeOwner { get; set; } = true;
         public bool ExcludeUnrequired { get; set; }
-        public bool AreUsed { get; set; }
-        public bool UniqueValues { get; set; }
+        internal bool AreUsed { get; set; } = false;
+        internal bool UniqueValues { get; set; } = false;
     }
 
     public class RelationshipFilter
