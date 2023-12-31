@@ -19,7 +19,7 @@ using XrmToolBox.Extensibility.Interfaces;
 
 namespace Rappen.XTB.LCG
 {
-    public partial class LCG : PluginControlBase, IGitHubPlugin, IPayPalPlugin, IAboutPlugin, IHelpPlugin
+    public partial class LCG : PluginControlBase, IGitHubPlugin, IPayPalPlugin, IAboutPlugin, IHelpPlugin, IMessageBusHost
     {
         #region Private Fields
 
@@ -57,6 +57,8 @@ namespace Rappen.XTB.LCG
         public string Version => Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         public string HelpUrl => isUML ? "https://jonasr.app/UML" : "https://github.com/rappen/LCG-UDG/blob/master/README.md";
+
+        public event EventHandler<MessageBusEventArgs> OnOutgoingMessage;
 
         public void ShowAboutDialog()
         {
@@ -1223,7 +1225,6 @@ namespace Rappen.XTB.LCG
             commonsettings.MigrateFromOldConfig(isUML);
             commonsettings.SetFixedValues(isUML);
             toolTip1.SetToolTip(chkEntExclMS, $"Will not include with prefix:\r\n  {string.Join($"\r\n  ", commonsettings.MicrosoftPrefixes)}");
-
         }
 
         private void LoadEntities()
@@ -1775,6 +1776,24 @@ This behavior can be prevented by unchecking the box 'Include configuration' in 
             Cursor = Cursors.WaitCursor;
             btnCancel.Enabled = false;
             CancelWorker();
+        }
+
+        private void linkShowDataInFXB_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (selectedEntity == null)
+            {
+                MessageBox.Show("An entity has to be selected to retrieve the data.", "Show in FXB", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            var fetch = $"<fetch top='1000'><entity name='{selectedEntity.LogicalName}'>";
+            fetch += string.Join("\n", selectedEntity.Attributes.Where(a => a.Selected).Select(a => $"<attribute name='{a.LogicalName}'/>"));
+            fetch += "</entity></fetch>";
+            OnOutgoingMessage(this, new MessageBusEventArgs("FetchXML Builder", true) { TargetArgument = fetch });
+        }
+
+        public void OnIncomingMessage(MessageBusEventArgs message)
+        {
+            MessageBox.Show("Sorry, we can't handle incoming from other tools.\n\nWhat features would you like to see?\nClick on the Help button to add your requests there!", "Incoming", MessageBoxButtons.OK, MessageBoxIcon.Stop, MessageBoxDefaultButton.Button1, 0, "https://github.com/rappen/LCG-UDG/issues/new");
         }
     }
 }

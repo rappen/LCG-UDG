@@ -56,11 +56,14 @@
             this.statusEntitiesSelected = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblEntNoMatch = new System.Windows.Forms.Label();
             this.gbEntities = new System.Windows.Forms.GroupBox();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.linkShowDataInFXB = new System.Windows.Forms.LinkLabel();
             this.pnEntSearch = new System.Windows.Forms.Panel();
             this.txtEntSearch = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.llEntityExpander = new System.Windows.Forms.LinkLabel();
             this.pnEntIntersect = new System.Windows.Forms.Panel();
+            this.label18 = new System.Windows.Forms.Label();
             this.chkEntExclMS = new System.Windows.Forms.CheckBox();
             this.chkEntExclNoRecords = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -180,7 +183,6 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tmRelSearch = new System.Windows.Forms.Timer(this.components);
             this.tmHideNotification = new System.Windows.Forms.Timer(this.components);
-            this.label18 = new System.Windows.Forms.Label();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitEntityRest)).BeginInit();
             this.splitEntityRest.Panel1.SuspendLayout();
@@ -274,20 +276,20 @@
             // 
             this.btnOpenGeneratedFile.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenGeneratedFile.Image")));
             this.btnOpenGeneratedFile.Name = "btnOpenGeneratedFile";
-            this.btnOpenGeneratedFile.Size = new System.Drawing.Size(186, 34);
+            this.btnOpenGeneratedFile.Size = new System.Drawing.Size(174, 22);
             this.btnOpenGeneratedFile.Text = "Generated C# file...";
             this.btnOpenGeneratedFile.Click += new System.EventHandler(this.btnOpenGeneratedFile_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(183, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(171, 6);
             // 
             // btnOpenConfig
             // 
             this.btnOpenConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenConfig.Image")));
             this.btnOpenConfig.Name = "btnOpenConfig";
-            this.btnOpenConfig.Size = new System.Drawing.Size(186, 34);
+            this.btnOpenConfig.Size = new System.Drawing.Size(174, 22);
             this.btnOpenConfig.Text = "Project file...";
             this.btnOpenConfig.Click += new System.EventHandler(this.btnLoadConfig_Click);
             // 
@@ -310,20 +312,20 @@
             // 
             this.btnSaveCsAs.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveCsAs.Image")));
             this.btnSaveCsAs.Name = "btnSaveCsAs";
-            this.btnSaveCsAs.Size = new System.Drawing.Size(165, 34);
+            this.btnSaveCsAs.Size = new System.Drawing.Size(153, 22);
             this.btnSaveCsAs.Text = "C# file as...";
             this.btnSaveCsAs.Click += new System.EventHandler(this.btnGenerate_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(162, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(150, 6);
             // 
             // btnSaveConfig
             // 
             this.btnSaveConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveConfig.Image")));
             this.btnSaveConfig.Name = "btnSaveConfig";
-            this.btnSaveConfig.Size = new System.Drawing.Size(165, 34);
+            this.btnSaveConfig.Size = new System.Drawing.Size(153, 22);
             this.btnSaveConfig.Text = "Project file";
             this.btnSaveConfig.Click += new System.EventHandler(this.btnSaveConfigAs_Click);
             // 
@@ -331,7 +333,7 @@
             // 
             this.btnSaveConfigAs.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveConfigAs.Image")));
             this.btnSaveConfigAs.Name = "btnSaveConfigAs";
-            this.btnSaveConfigAs.Size = new System.Drawing.Size(165, 34);
+            this.btnSaveConfigAs.Size = new System.Drawing.Size(153, 22);
             this.btnSaveConfigAs.Text = "Project file as...";
             this.btnSaveConfigAs.Click += new System.EventHandler(this.btnSaveConfigAs_Click);
             // 
@@ -483,6 +485,7 @@
             // 
             // gbEntities
             // 
+            this.gbEntities.Controls.Add(this.panel4);
             this.gbEntities.Controls.Add(this.pnEntSearch);
             this.gbEntities.Controls.Add(this.llEntityExpander);
             this.gbEntities.Controls.Add(this.pnEntIntersect);
@@ -497,6 +500,25 @@
             this.gbEntities.TabIndex = 2;
             this.gbEntities.TabStop = false;
             this.gbEntities.Text = "Entities";
+            // 
+            // panel4
+            // 
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel4.Location = new System.Drawing.Point(3, 158);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(341, 23);
+            this.panel4.TabIndex = 7;
+            // 
+            // linkShowDataInFXB
+            // 
+            this.linkShowDataInFXB.AutoSize = true;
+            this.linkShowDataInFXB.Location = new System.Drawing.Point(188, 42);
+            this.linkShowDataInFXB.Name = "linkShowDataInFXB";
+            this.linkShowDataInFXB.Size = new System.Drawing.Size(143, 13);
+            this.linkShowDataInFXB.TabIndex = 0;
+            this.linkShowDataInFXB.TabStop = true;
+            this.linkShowDataInFXB.Text = "Show in FetchXML Builder ↗️";
+            this.linkShowDataInFXB.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkShowDataInFXB_LinkClicked);
             // 
             // pnEntSearch
             // 
@@ -541,6 +563,7 @@
             // 
             // pnEntIntersect
             // 
+            this.pnEntIntersect.Controls.Add(this.linkShowDataInFXB);
             this.pnEntIntersect.Controls.Add(this.label18);
             this.pnEntIntersect.Controls.Add(this.chkEntExclMS);
             this.pnEntIntersect.Controls.Add(this.chkEntExclNoRecords);
@@ -550,8 +573,17 @@
             this.pnEntIntersect.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnEntIntersect.Location = new System.Drawing.Point(3, 94);
             this.pnEntIntersect.Name = "pnEntIntersect";
-            this.pnEntIntersect.Size = new System.Drawing.Size(341, 70);
+            this.pnEntIntersect.Size = new System.Drawing.Size(341, 63);
             this.pnEntIntersect.TabIndex = 4;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(12, 42);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(30, 13);
+            this.label18.TabIndex = 12;
+            this.label18.Text = "Data";
             // 
             // chkEntExclMS
             // 
@@ -1840,15 +1872,6 @@
             this.tmHideNotification.Interval = 5000;
             this.tmHideNotification.Tick += new System.EventHandler(this.tmHideNotification_Tick);
             // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(12, 42);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(30, 13);
-            this.label18.TabIndex = 12;
-            this.label18.Text = "Data";
-            // 
             // LCG
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2095,5 +2118,7 @@
         private System.Windows.Forms.ToolStripButton btnCancel;
         private System.Windows.Forms.CheckBox chkEntExclMS;
         private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.LinkLabel linkShowDataInFXB;
     }
 }
