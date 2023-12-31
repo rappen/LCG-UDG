@@ -61,6 +61,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.llEntityExpander = new System.Windows.Forms.LinkLabel();
             this.pnEntIntersect = new System.Windows.Forms.Panel();
+            this.chkEntExclMS = new System.Windows.Forms.CheckBox();
             this.chkEntExclNoRecords = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
             this.chkEntExclUnselected = new System.Windows.Forms.CheckBox();
@@ -179,7 +180,7 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tmRelSearch = new System.Windows.Forms.Timer(this.components);
             this.tmHideNotification = new System.Windows.Forms.Timer(this.components);
-            this.chkEntExclMS = new System.Windows.Forms.CheckBox();
+            this.label18 = new System.Windows.Forms.Label();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitEntityRest)).BeginInit();
             this.splitEntityRest.Panel1.SuspendLayout();
@@ -273,20 +274,20 @@
             // 
             this.btnOpenGeneratedFile.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenGeneratedFile.Image")));
             this.btnOpenGeneratedFile.Name = "btnOpenGeneratedFile";
-            this.btnOpenGeneratedFile.Size = new System.Drawing.Size(174, 22);
+            this.btnOpenGeneratedFile.Size = new System.Drawing.Size(186, 34);
             this.btnOpenGeneratedFile.Text = "Generated C# file...";
             this.btnOpenGeneratedFile.Click += new System.EventHandler(this.btnOpenGeneratedFile_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(171, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(183, 6);
             // 
             // btnOpenConfig
             // 
             this.btnOpenConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenConfig.Image")));
             this.btnOpenConfig.Name = "btnOpenConfig";
-            this.btnOpenConfig.Size = new System.Drawing.Size(174, 22);
+            this.btnOpenConfig.Size = new System.Drawing.Size(186, 34);
             this.btnOpenConfig.Text = "Project file...";
             this.btnOpenConfig.Click += new System.EventHandler(this.btnLoadConfig_Click);
             // 
@@ -309,20 +310,20 @@
             // 
             this.btnSaveCsAs.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveCsAs.Image")));
             this.btnSaveCsAs.Name = "btnSaveCsAs";
-            this.btnSaveCsAs.Size = new System.Drawing.Size(153, 22);
+            this.btnSaveCsAs.Size = new System.Drawing.Size(165, 34);
             this.btnSaveCsAs.Text = "C# file as...";
             this.btnSaveCsAs.Click += new System.EventHandler(this.btnGenerate_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(150, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(162, 6);
             // 
             // btnSaveConfig
             // 
             this.btnSaveConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveConfig.Image")));
             this.btnSaveConfig.Name = "btnSaveConfig";
-            this.btnSaveConfig.Size = new System.Drawing.Size(153, 22);
+            this.btnSaveConfig.Size = new System.Drawing.Size(165, 34);
             this.btnSaveConfig.Text = "Project file";
             this.btnSaveConfig.Click += new System.EventHandler(this.btnSaveConfigAs_Click);
             // 
@@ -330,7 +331,7 @@
             // 
             this.btnSaveConfigAs.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveConfigAs.Image")));
             this.btnSaveConfigAs.Name = "btnSaveConfigAs";
-            this.btnSaveConfigAs.Size = new System.Drawing.Size(153, 22);
+            this.btnSaveConfigAs.Size = new System.Drawing.Size(165, 34);
             this.btnSaveConfigAs.Text = "Project file as...";
             this.btnSaveConfigAs.Click += new System.EventHandler(this.btnSaveConfigAs_Click);
             // 
@@ -447,6 +448,7 @@
             // 
             // statusEntities
             // 
+            this.statusEntities.ImageScalingSize = new System.Drawing.Size(28, 28);
             this.statusEntities.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusEntitiesShowing,
             this.statusEntitiesSelected});
@@ -539,6 +541,7 @@
             // 
             // pnEntIntersect
             // 
+            this.pnEntIntersect.Controls.Add(this.label18);
             this.pnEntIntersect.Controls.Add(this.chkEntExclMS);
             this.pnEntIntersect.Controls.Add(this.chkEntExclNoRecords);
             this.pnEntIntersect.Controls.Add(this.label10);
@@ -550,14 +553,26 @@
             this.pnEntIntersect.Size = new System.Drawing.Size(341, 70);
             this.pnEntIntersect.TabIndex = 4;
             // 
+            // chkEntExclMS
+            // 
+            this.chkEntExclMS.AutoSize = true;
+            this.chkEntExclMS.Location = new System.Drawing.Point(99, 23);
+            this.chkEntExclMS.Name = "chkEntExclMS";
+            this.chkEntExclMS.Size = new System.Drawing.Size(94, 17);
+            this.chkEntExclMS.TabIndex = 2;
+            this.chkEntExclMS.Text = "MSFT prefixes";
+            this.toolTip1.SetToolTip(this.chkEntExclMS, "Will not include with prefix...");
+            this.chkEntExclMS.UseVisualStyleBackColor = true;
+            this.chkEntExclMS.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
+            // 
             // chkEntExclNoRecords
             // 
             this.chkEntExclNoRecords.AutoSize = true;
-            this.chkEntExclNoRecords.Location = new System.Drawing.Point(218, 23);
+            this.chkEntExclNoRecords.Location = new System.Drawing.Point(99, 41);
             this.chkEntExclNoRecords.Name = "chkEntExclNoRecords";
-            this.chkEntExclNoRecords.Size = new System.Drawing.Size(78, 17);
+            this.chkEntExclNoRecords.Size = new System.Drawing.Size(83, 17);
             this.chkEntExclNoRecords.TabIndex = 3;
-            this.chkEntExclNoRecords.Text = "No records";
+            this.chkEntExclNoRecords.Text = "Has records";
             this.chkEntExclNoRecords.UseVisualStyleBackColor = true;
             this.chkEntExclNoRecords.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
@@ -859,6 +874,7 @@
             // 
             // statusAttributes
             // 
+            this.statusAttributes.ImageScalingSize = new System.Drawing.Size(28, 28);
             this.statusAttributes.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusAttributesShowing,
             this.statusAttributesSelected});
@@ -1358,6 +1374,7 @@
             // 
             // ctxRelationshipMenu
             // 
+            this.ctxRelationshipMenu.ImageScalingSize = new System.Drawing.Size(28, 28);
             this.ctxRelationshipMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ctxRelAddRemAccount});
             this.ctxRelationshipMenu.Name = "ctxRelationshipMenu";
@@ -1384,6 +1401,7 @@
             // 
             // statusRelationships
             // 
+            this.statusRelationships.ImageScalingSize = new System.Drawing.Size(28, 28);
             this.statusRelationships.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusRelationshipsShowing,
             this.statusRelationshipsSelected});
@@ -1822,17 +1840,14 @@
             this.tmHideNotification.Interval = 5000;
             this.tmHideNotification.Tick += new System.EventHandler(this.tmHideNotification_Tick);
             // 
-            // chkEntExclMS
+            // label18
             // 
-            this.chkEntExclMS.AutoSize = true;
-            this.chkEntExclMS.Location = new System.Drawing.Point(99, 23);
-            this.chkEntExclMS.Name = "chkEntExclMS";
-            this.chkEntExclMS.Size = new System.Drawing.Size(94, 17);
-            this.chkEntExclMS.TabIndex = 2;
-            this.chkEntExclMS.Text = "MSFT prefixes";
-            this.toolTip1.SetToolTip(this.chkEntExclMS, "Will not include with prefix...");
-            this.chkEntExclMS.UseVisualStyleBackColor = true;
-            this.chkEntExclMS.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(12, 42);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(30, 13);
+            this.label18.TabIndex = 12;
+            this.label18.Text = "Data";
             // 
             // LCG
             // 
@@ -2079,5 +2094,6 @@
         private System.Windows.Forms.CheckBox chkAttExclUnRequired;
         private System.Windows.Forms.ToolStripButton btnCancel;
         private System.Windows.Forms.CheckBox chkEntExclMS;
+        private System.Windows.Forms.Label label18;
     }
 }
