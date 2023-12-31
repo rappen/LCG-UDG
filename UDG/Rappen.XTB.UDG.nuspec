@@ -9,10 +9,50 @@
 		<projectUrl>https://jonasr.app/UML</projectUrl>
 		<iconUrl>https://raw.githubusercontent.com/rappen/LCG-UDG/master/images/UDG-150-tsp.png</iconUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
-		<description>Generate PlantUML diagram files from metadata in Microsoft Dataverse.</description>
+		<description>
+Generate PlantUML diagram files from metadata in Microsoft Dataverse.
+Read docs: https://jonasr.app/UML
+		</description>
 		<summary>Generate PlantUML diagram files from metadata in Microsoft Dataverse.</summary>
 		<releaseNotes>
 Latest version:
+
+Solving issue 'XrmToolBox.PluginStore missing' - read more: https://jonasr.app/missing-xrmtoolbox-pluginsstore/
+
+Added options to set how much space added for tables and relationships.
+
+Kindly stolen code from Ivan Ficko @DynamicsNinja to count records. #89
+
+Displays number of records for all entities (only for v9.0 or later). #89
+
+Possibility to only show entities that have any records. #92
+
+Can count and displays all attributes that are not-null. #90
+
+Attributes with data count will also display how many unique values.
+
+Filter to only show attributes with any values. #93
+
+Filter to only show attributes with >1 unique values.
+
+Feature to filter out all Microsoft related apps. #88 requested by @jellevervloessem
+  Current MS prefixes are listed as:
+		msdyn_
+		msdynce_
+		msdyncrm_
+		msdynmkt_
+		msfp_
+		mspcat_
+		mspp_
+		sales_
+		adx_
+		bot_
+		botcomponent_
+	Need more? Please comment here! https://github.com/rappen/LCG-UDG/issues/88
+
+---
+
+Version 1.2023.2.1
 
 #74 Option to include type details in the model.
 #79 Handling bugs in the metadata, some should be `IsLogical` but isn't.
@@ -55,14 +95,14 @@ Version 1.2020.1.3:
 
 First release
 		</releaseNotes>
-		<copyright>Copyright 2020-2023 Jonas Rapp</copyright>
+		<copyright>Copyright 2020-2024 Jonas Rapp</copyright>
 		<tags>XrmToolBox Plugins UMLDiagramGenerator</tags>
 		<dependencies>
 			<dependency id="XrmToolBox" version="1.2023.10.67" />
 		</dependencies>
 	</metadata>
 	<files>
-		<file src="bin\Release\Rappen.XTB.UDG.dll" target="lib\net452\Plugins" />
-		<file src="bin\Release\Rappen.XTB.LCG.UDG.Common.dll" target="lib\net452\Plugins" />
+		<file src="bin\Release\Rappen.XTB.UDG.dll" target="lib\net48\Plugins" />
+		<file src="bin\Release\Rappen.XTB.LCG.UDG.Common.dll" target="lib\net48\Plugins" />
 	</files>
 </package>
