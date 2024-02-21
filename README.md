@@ -15,7 +15,7 @@ Read more: **[https://jonasr.app/UML](https://jonasr.app/UML)**
 
 --
 
-## Screenshits
+## Screenshots
 
 ![image](https://github.com/rappen/LCG-UDG/assets/2572253/b2f512e8-a162-4c6e-b319-670aee6351f8)
 
