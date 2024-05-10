@@ -25,7 +25,8 @@ namespace Rappen.XTB.LCG
 
         internal static string toolnameLCG = "Latebound Constants Generator";
         internal static string toolnameUDG = "UML Diagram Generator";
-        internal readonly bool isUML = false;
+        internal bool isUML => toolname == toolnameUDG;
+        internal readonly TemplateFormat templFormat = TemplateFormat.Constants;
         internal readonly string toolname = toolnameLCG;
         private const string aiEndpoint = "https://dc.services.visualstudio.com/v2/track";
 
@@ -56,7 +57,8 @@ namespace Rappen.XTB.LCG
 
         public string Version => Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-        public string HelpUrl => isUML ? "https://jonasr.app/UML" : "https://github.com/rappen/LCG-UDG/blob/master/README.md";
+        // public string HelpUrl => isUML ? "https://jonasr.app/UML" : "https://github.com/rappen/LCG-UDG/blob/master/README.md";
+        public string HelpUrl => templFormat != TemplateFormat.Constants ? "https://jonasr.app/UML" : "https://github.com/rappen/LCG-UDG/blob/master/README.md";
 
         public event EventHandler<MessageBusEventArgs> OnOutgoingMessage;
 
@@ -71,8 +73,8 @@ namespace Rappen.XTB.LCG
 
         public LCG(bool isuml)
         {
-            isUML = isuml;
-            toolname = isUML ? toolnameUDG : toolnameLCG;
+            toolname = (isuml) ? toolnameUDG : toolnameLCG;
+
             ai = new AppInsights(aiEndpoint, aiKey, Assembly.GetExecutingAssembly(), toolname);
             IEnumerable<Control> GetAll(Control control, Type type)
             {
@@ -122,7 +124,7 @@ namespace Rappen.XTB.LCG
             var filewriter = settings.GetWriter(ConnectionDetail.WebApplicationUrl);
             if (GenerationUtils.GenerateFiles(entities, settings, filewriter))
             {
-                var message = filewriter.GetResult(settings);
+                var message = filewriter.GetResult(settings);                
                 if (isUML)
                 {
                     ShowInfoNotification(message + "\nClick \"learn more\" to the right to open file 👉", new Uri("file://" + settings.CommonFilePath));
@@ -152,7 +154,7 @@ namespace Rappen.XTB.LCG
                     var document = new XmlDocument();
                     document.Load(settingsfile);
                     settings = (Settings)XmlSerializerHelper.Deserialize(document.OuterXml, typeof(Settings));
-                    settings.SetFixedValues(isUML);
+                    settings.SetFixedValues(settings.TemplateFormat);
                     ApplySettings();
                     RestoreSelectedEntities();
                 }
@@ -1221,9 +1223,9 @@ namespace Rappen.XTB.LCG
             else
             {
                 LogInfo("Common Settings found and loaded");
-            }
+            }            
             commonsettings.MigrateFromOldConfig(isUML);
-            commonsettings.SetFixedValues(isUML);
+            commonsettings.SetFixedValues(settings.TemplateFormat);
             toolTip1.SetToolTip(chkEntExclMS, $"Will not include with prefix:\r\n  {string.Join($"\r\n  ", commonsettings.MicrosoftPrefixes)}");
         }
 
@@ -1316,7 +1318,7 @@ namespace Rappen.XTB.LCG
             {
                 settings = new Settings(isUML);
             }
-            settings.SetFixedValues(isUML);
+            settings.SetFixedValues(settings.TemplateFormat);
             ApplySettings();
         }
 

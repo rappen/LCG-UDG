@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using McTools.Xrm.Connection;
+using Microsoft.Xrm.Sdk.Metadata;
 
 namespace Rappen.XTB.LCG.Cmd
 {
@@ -53,7 +54,6 @@ namespace Rappen.XTB.LCG.Cmd
             {
                 Console.WriteLine("Error");
             }
-
         }
 
         private void LoadEntities() // ToDo: Deduplicate with LCG.cs
@@ -73,6 +73,8 @@ namespace Rappen.XTB.LCG.Cmd
                     entity.Metadata.OneToManyRelationships
                         .Where(r => !entity.Metadata.ManyToOneRelationships.Select(r1m => r1m.SchemaName).Contains(r.SchemaName))
                         .Select(r => new RelationshipMetadataProxy(entities, entity, r)));
+                entity.Relationships.AddRange(
+                    entity.Metadata.ManyToManyRelationships.Select(m => new RelationshipMetadataProxy(entities, entity, m)));
             }
         }
 
@@ -81,8 +83,8 @@ namespace Rappen.XTB.LCG.Cmd
             entity.Attributes = null;
 
             var retreiveMetadataChangeResponse = MetadataHelper.LoadEntityDetails(this.crmConnection.OrganizationService, entity.LogicalName);
-            if (retreiveMetadataChangeResponse != null 
-                && retreiveMetadataChangeResponse.EntityMetadata != null  
+            if (retreiveMetadataChangeResponse != null
+                && retreiveMetadataChangeResponse.EntityMetadata != null
                 && retreiveMetadataChangeResponse.EntityMetadata.Count > 0)
             {
                 var entityMetadata = retreiveMetadataChangeResponse.EntityMetadata[0];
@@ -146,7 +148,113 @@ namespace Rappen.XTB.LCG.Cmd
                         attribute.SetSelected(true);
                     }
                 }
+
+                if (selectedentity.Relationships == null)
+                {   // Needs to be defaulted since it was not stored in config
+                    selectedentity.Relationships = GetDefaultRelationships(entity);
+                }
+
+                foreach (var relationshipname in selectedentity.Relationships)
+                {
+                    var relatioship = entity.Relationships.FirstOrDefault(r => r.LogicalName == relationshipname);
+                    if (relatioship != null && !relatioship.Selected)
+                    {
+                        relatioship.SetSelected(true);
+                    }
+                }
             }
+        }
+        private List<string> GetDefaultRelationships(EntityMetadataProxy entity)
+        {
+            var selectedrelationships = GetFilteredRelationships(entity, string.Empty);
+            return selectedrelationships.Select(r => r.LogicalName).ToList();
+        }
+
+        private IEnumerable<RelationshipMetadataProxy> GetFilteredRelationships(EntityMetadataProxy entity, string search)
+        {
+            bool GetTypeFilter(RelationshipMetadataProxy r)
+            {   // Exclude relationships where selected entity is just child of the relationship
+                if (Settings.RelationshipFilter.Type1N &&
+                    r.OneToManyRelationshipMetadata?.ReferencedEntity == entity?.LogicalName)
+                {
+                    return true;
+                }
+                if (Settings.RelationshipFilter.TypeN1 &&
+                    r.OneToManyRelationshipMetadata?.ReferencingEntity == entity?.LogicalName &&
+                    r.OneToManyRelationshipMetadata?.ReferencedEntity != entity?.LogicalName)   // Exclude self-referencing relationships, they are included as 1:N
+                {
+                    return true;
+                }
+                if (Settings.RelationshipFilter.TypeNN &&
+                    r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
+                {
+                    return true;
+                }
+                return false;
+            }
+            bool GetCustomFilter(RelationshipMetadataProxy r)
+            {
+                return Settings.RelationshipFilter.CustomAll ||
+                       Settings.RelationshipFilter.CustomTrue && r.Metadata.IsCustomRelationship.GetValueOrDefault() ||
+                       Settings.RelationshipFilter.CustomFalse && !r.Metadata.IsCustomRelationship.GetValueOrDefault();
+            }
+            bool GetManagedFilter(RelationshipMetadataProxy r)
+            {
+                return Settings.RelationshipFilter.ManagedAll ||
+                       Settings.RelationshipFilter.ManagedTrue && r.Metadata.IsManaged.GetValueOrDefault() ||
+                       Settings.RelationshipFilter.ManagedFalse && !r.Metadata.IsManaged.GetValueOrDefault();
+            }
+            bool GetSearchFilter(RelationshipMetadataProxy r)
+            {
+                return string.IsNullOrWhiteSpace(search) ||
+                       r.Metadata.SchemaName.ToLowerInvariant().Contains(search) ||
+                       r.Parent?.DisplayName?.ToLowerInvariant().Contains(search) == true;
+            }
+
+            bool GetOrphansFilter(RelationshipMetadataProxy r)
+            {
+                if (Settings.RelationshipFilter.Orphans)
+                {
+                    return true;
+                }
+                var selectedentities = entities.Where(e => e.Selected).Select(e => e.LogicalName).Union(new string[] { entity.LogicalName }).Distinct();
+                if (r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
+                {
+                    return selectedentities.Contains(r.ManyToManyRelationshipMetadata.Entity1LogicalName)
+                        && selectedentities.Contains(r.ManyToManyRelationshipMetadata.Entity2LogicalName);
+                }
+                return selectedentities.Contains(r.OneToManyRelationshipMetadata.ReferencedEntity)
+                    && selectedentities.Contains(r.OneToManyRelationshipMetadata.ReferencingEntity);
+            }
+            bool GetOwnersFilter(RelationshipMetadataProxy r)
+            {
+                if (Settings.RelationshipFilter.Owner || r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
+                {
+                    return true;
+                }
+                return
+                    r.OneToManyRelationshipMetadata.ReferencingAttribute != "ownerid" &&
+                    r.OneToManyRelationshipMetadata.ReferencedAttribute != "ownerid";
+            }
+            bool GetRegardingFilter(RelationshipMetadataProxy r)
+            {
+                if (Settings.RelationshipFilter.Regarding || r.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship)
+                {
+                    return true;
+                }
+                return
+                    r.OneToManyRelationshipMetadata.ReferencingAttribute != "regardingobjectid";
+            }
+
+            return entity.Relationships
+                    .Where(
+                        r => GetTypeFilter(r)
+                           && GetCustomFilter(r)
+                           && GetManagedFilter(r)
+                           && GetSearchFilter(r)
+                           && GetOrphansFilter(r)
+                           && GetOwnersFilter(r)
+                           && GetRegardingFilter(r));
         }
     }
 }

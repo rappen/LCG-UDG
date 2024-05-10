@@ -1,9 +1,10 @@
-﻿using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Client;
-using Microsoft.Xrm.Tooling.Connector;
-using System;
+﻿using System;
 using System.Net;
 using System.ServiceModel.Description;
+
+using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk.Client;
+using Microsoft.Xrm.Tooling.Connector;
 
 namespace Rappen.XTB.LCG.Cmd
 {
