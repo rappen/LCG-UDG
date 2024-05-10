@@ -257,8 +257,13 @@ namespace Rappen.XTB.LCG
 
         public string GetNameTechnical(Settings settings)
         {
+            var name = GetNameTechnical(settings, settings.ConstantName);
+            return name;
+        }
+        public string GetNameTechnical(Settings settings, NameType nameType)
+        {
             var name = string.Empty;
-            switch (settings.ConstantName)
+            switch (nameType)
             {
                 case NameType.DisplayName:
                     name = StringToCSharpIdentifier(DisplayName);

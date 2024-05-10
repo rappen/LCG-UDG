@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xrm.Sdk.Metadata;
 using System;
 using System.Collections.Generic;
+using System.DirectoryServices.ActiveDirectory;
 using System.Linq;
 using System.Text;
 
@@ -24,7 +25,7 @@ namespace Rappen.XTB.LCG
                 var fileName = entitymetadata.GetNameTechnical(settings.FileName, settings) + settings.commonsettings.FileSuffix;
                 fileWriter.WriteBlock(settings, entity, fileName);
             }
-            if (settings.commonsettings.Template.AddAllRelationshipsAfterEntities)
+            if (settings.commonsettings.GetTemplate().AddAllRelationshipsAfterEntities)
             {
                 var relationships = selectedentities.SelectMany(e => e.Relationships.Where(r => r.IsSelected));
                 relationships = relationships.GroupBy(r => r.LogicalName).Select(r => r.FirstOrDefault());    // This will make it distinct by LogicalName
@@ -95,7 +96,7 @@ namespace Rappen.XTB.LCG
 
         private static string GetClass(EntityMetadataProxy entitymetadata, EntityMetadataProxy commonentity, Settings settings)
         {
-            var template = settings.commonsettings.Template;
+            var template = settings.commonsettings.GetTemplate();
             var name = entitymetadata.GetNameTechnical(settings.ConstantName, settings);
             name = settings.commonsettings.EntityPrefix + name + settings.commonsettings.EntitySuffix;
             var description = entitymetadata.Description?.Replace("\n", "\n/// ");
@@ -123,7 +124,7 @@ namespace Rappen.XTB.LCG
             return entity;
         }
 
-        private static string GetEntity(EntityMetadataProxy entitymetadata, Template template)
+        private static string GetEntity(EntityMetadataProxy entitymetadata, ITemplate template)
         {
             if (entitymetadata.LogicalName == "[common]")
             {
@@ -171,7 +172,7 @@ namespace Rappen.XTB.LCG
             var result = string.Join("\r\n", attributes);
             if (settings.Regions && !string.IsNullOrWhiteSpace(result))
             {
-                return settings.commonsettings.Template.Region.ReplaceIfNotEmpty("{region}", "Attributes").Replace("{content}", result);
+                return settings.commonsettings.GetTemplate().Region.ReplaceIfNotEmpty("{region}", "Attributes").Replace("{content}", result);
             }
             return result;
         }
@@ -195,28 +196,37 @@ namespace Rappen.XTB.LCG
         private static string GetRelationships(EntityMetadataProxy entitymetadata, Settings settings)
         {
             var relationships = new List<string>();
+            var relation = string.Empty;
             if (settings.RelationShips && entitymetadata.Relationships != null)
             {
                 foreach (var relationship in entitymetadata.Relationships.Where(r => r.Parent != entitymetadata && r.IsSelected).Distinct())
                 {
-                    relationships.Add(GetRelationShip(relationship, settings,
+                    relation = GetRelationShip(relationship, settings,
                         (relationship.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship) ?
                             settings.commonsettings.ManyManyRelationshipPrefix :
-                            settings.commonsettings.ManyOneRelationshipPrefix));
+                            settings.commonsettings.ManyOneRelationshipPrefix);
+                    // N : 1 and 1 : N are the same, so we only add one of them
+                    if (!relationships.Contains(relation)) { 
+                        relationships.Add(relation); 
+                    }
                 }
                 foreach (var relationship in entitymetadata.Relationships.Where(r => r.Parent == entitymetadata && r.IsSelected).Distinct())
                 {
-                    relationships.Add(GetRelationShip(relationship, settings,
+                    relation = GetRelationShip(relationship, settings,
                         (relationship.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship) ?
                             settings.commonsettings.ManyManyRelationshipPrefix :
-                            settings.commonsettings.OneManyRelationshipPrefix));
+                            settings.commonsettings.OneManyRelationshipPrefix);
+                    // N : 1 and 1 : N are the same, so we only add one of them
+                    if (!relationships.Contains(relation)) {
+                        relationships.Add(relation);
+                    }
                 }
             }
             DeduplicateIdentifiers(ref relationships);
             var result = string.Join("\r\n", relationships);
             if (settings.Regions && !string.IsNullOrEmpty(result))
             {
-                return settings.commonsettings.Template.Region.Replace("{region}", "Relationships").Replace("{content}", result);
+                return settings.commonsettings.GetTemplate().Region.Replace("{region}", "Relationships").Replace("{content}", result);
             }
             return result;
         }
@@ -287,14 +297,15 @@ namespace Rappen.XTB.LCG
             var result = string.Join("\r\n", optionsets);
             if (settings.Regions && !string.IsNullOrEmpty(result))
             {
-                return settings.commonsettings.Template.Region.Replace("{region}", "OptionSets").Replace("{content}", result);
+                return settings.commonsettings.GetTemplate().Region.Replace("{region}", "OptionSets").Replace("{content}", result);
             }
             return result;
         }
 
         private static string GetAttribute(AttributeMetadataProxy attributemetadata, Settings settings)
         {
-            var template = settings.commonsettings.Template;
+            var template = settings.commonsettings.GetTemplate();
+            var type = attributemetadata.Type.ToString();
             var name = attributemetadata.GetNameTechnical(settings);
             if (attributemetadata == attributemetadata.Entity.PrimaryKey)
             {
@@ -304,15 +315,15 @@ namespace Rappen.XTB.LCG
             {
                 name = template.PrimaryAttributeName.Replace("{attribute}", name);
             }
-            name = settings.commonsettings.AttributePrefix + name + settings.commonsettings.AttributeSuffix;
+            name = settings.commonsettings.AttributePrefix + name + settings.commonsettings.AttributeSuffix;            
             var entityname = attributemetadata.Entity.GetNameTechnical(settings.ConstantName, settings);
             if (name.Equals(entityname))
             {
-                name += "_";
+                name += template.TableAttributeNameClashSuffix;
             }
             name = attributemetadata.Metadata.IsCustomAttribute.Value ?
-                template.CustomAttribute.ReplaceIfNotEmpty("{attribute}", name) :
-                template.StandardAttribute.ReplaceIfNotEmpty("{attribute}", name);
+                    template.CustomAttribute.ReplaceIfNotEmpty("{attribute}", name) :
+                    template.StandardAttribute.ReplaceIfNotEmpty("{attribute}", name);
             switch (attributemetadata.Metadata.RequiredLevel.Value)
             {
                 case AttributeRequiredLevel.ApplicationRequired:
@@ -356,7 +367,7 @@ namespace Rappen.XTB.LCG
 
         private static string GetRelationShip(RelationshipMetadataProxy relationship, Settings settings, string prefix)
         {
-            var template = settings.commonsettings.Template;
+            var template = settings.commonsettings.GetTemplate();
             if (relationship.Child == null || relationship.Parent == null)
             {
                 return string.Empty;
@@ -367,10 +378,38 @@ namespace Rappen.XTB.LCG
             {
                 summary = template.Summary.Replace("{summary}", summary);
             }
-            var relation = template.Relationship
+            // default to Relationship if no specific template is defined
+            var relationTemplate = template.Relationship;
+
+            var parentAttrib = relationship.Parent.Attributes.Where(a => a.LogicalName == relationship.Referenced).FirstOrDefault();
+            var childAttrib = relationship.Child.Attributes.Where(a => a.LogicalName == relationship.Referencing).FirstOrDefault();
+            var referencedName = parentAttrib.GetNameTechnical(settings);
+            var referencingName = childAttrib.GetNameTechnical(settings);
+
+            if (relationTemplate == string.Empty)
+            {
+                switch (relationship.Type)
+                {
+                    case "1 : N":
+                        relationTemplate = template.Relationship1_N;
+                        break;
+                    case "N : N":
+                        relationTemplate = template.RelationshipN_N;
+                        break;
+                    case "N : 1":
+                        relationTemplate = template.RelationshipN_1;
+                        break;
+                }
+            }
+            var relation = relationTemplate
                 .Replace("{relationship}", name)
                 .Replace("{schemaname}", relationship.Metadata.SchemaName)
                 .Replace("{entity1}", relationship.Parent.GetNameTechnical(settings.ConstantName, settings))
+                .Replace("{referenced}", relationship.Referenced)
+                .Replace("{referencing}", relationship.Referencing)
+                .Replace("{referencedName}", referencedName)
+                .Replace("{referencingName}", referencingName)
+                .Replace("{referencedAttribute}", relationship.LookupName)
                 .Replace("{entity2}", relationship.Child.GetNameTechnical(settings.ConstantName, settings))
                 .Replace("{relationtype}", GetRelationUMLNotation(relationship, settings.RelationShipSize))
                 .Replace("{lookup}", settings.RelationshipLabels ? relationship.LookupAttribute?.GetNameTechnical(settings) : "")
@@ -402,7 +441,7 @@ namespace Rappen.XTB.LCG
         private static string GetOptionSet(AttributeMetadataProxy attributemetadata, Settings settings)
         {
             var name = settings.commonsettings.OptionSetEnumPrefix + attributemetadata.GetNameTechnical(settings) + settings.commonsettings.OptionSetEnumSuffix;
-            var optionset = settings.commonsettings.Template.OptionSet.Replace("{name}", name);
+            var optionset = settings.commonsettings.GetTemplate().OptionSet.Replace("{name}", name);
             var options = new List<string>();
             if (attributemetadata.Metadata is EnumAttributeMetadata optionsetmetadata && optionsetmetadata.OptionSet != null)
             {
@@ -417,7 +456,7 @@ namespace Rappen.XTB.LCG
                     {
                         label = "_" + label;
                     }
-                    var option = settings.commonsettings.Template.OptionSetValue
+                    var option = settings.commonsettings.GetTemplate().OptionSetValue
                         .Replace("{name}", label)
                         .Replace("{value}", optionmetadata.Value.ToString());
                     options.Add(option);
