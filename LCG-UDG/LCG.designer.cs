@@ -57,12 +57,12 @@
             this.lblEntNoMatch = new System.Windows.Forms.Label();
             this.gbEntities = new System.Windows.Forms.GroupBox();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.linkShowDataInFXB = new System.Windows.Forms.LinkLabel();
             this.pnEntSearch = new System.Windows.Forms.Panel();
             this.txtEntSearch = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.llEntityExpander = new System.Windows.Forms.LinkLabel();
             this.pnEntIntersect = new System.Windows.Forms.Panel();
+            this.linkShowDataInFXB = new System.Windows.Forms.LinkLabel();
             this.label18 = new System.Windows.Forms.Label();
             this.chkEntExclMS = new System.Windows.Forms.CheckBox();
             this.chkEntExclNoRecords = new System.Windows.Forms.CheckBox();
@@ -509,17 +509,6 @@
             this.panel4.Size = new System.Drawing.Size(341, 23);
             this.panel4.TabIndex = 7;
             // 
-            // linkShowDataInFXB
-            // 
-            this.linkShowDataInFXB.AutoSize = true;
-            this.linkShowDataInFXB.Location = new System.Drawing.Point(188, 42);
-            this.linkShowDataInFXB.Name = "linkShowDataInFXB";
-            this.linkShowDataInFXB.Size = new System.Drawing.Size(143, 13);
-            this.linkShowDataInFXB.TabIndex = 0;
-            this.linkShowDataInFXB.TabStop = true;
-            this.linkShowDataInFXB.Text = "Show in FetchXML Builder ↗️";
-            this.linkShowDataInFXB.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkShowDataInFXB_LinkClicked);
-            // 
             // pnEntSearch
             // 
             this.pnEntSearch.Controls.Add(this.txtEntSearch);
@@ -575,6 +564,17 @@
             this.pnEntIntersect.Name = "pnEntIntersect";
             this.pnEntIntersect.Size = new System.Drawing.Size(341, 63);
             this.pnEntIntersect.TabIndex = 4;
+            // 
+            // linkShowDataInFXB
+            // 
+            this.linkShowDataInFXB.AutoSize = true;
+            this.linkShowDataInFXB.Location = new System.Drawing.Point(188, 42);
+            this.linkShowDataInFXB.Name = "linkShowDataInFXB";
+            this.linkShowDataInFXB.Size = new System.Drawing.Size(143, 13);
+            this.linkShowDataInFXB.TabIndex = 0;
+            this.linkShowDataInFXB.TabStop = true;
+            this.linkShowDataInFXB.Text = "Show in FetchXML Builder ↗️";
+            this.linkShowDataInFXB.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkShowDataInFXB_LinkClicked);
             // 
             // label18
             // 

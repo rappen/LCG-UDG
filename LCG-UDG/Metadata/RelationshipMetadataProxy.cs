@@ -42,8 +42,10 @@ namespace Rappen.XTB.LCG
 
         #endregion Public Constructors
 
-        internal OneToManyRelationshipMetadata OneToManyRelationshipMetadata => Metadata as OneToManyRelationshipMetadata;
-        internal ManyToManyRelationshipMetadata ManyToManyRelationshipMetadata => Metadata as ManyToManyRelationshipMetadata;
+        [Browsable(false)]
+        public OneToManyRelationshipMetadata OneToManyRelationshipMetadata => Metadata as OneToManyRelationshipMetadata;
+        [Browsable(false)]
+        public ManyToManyRelationshipMetadata ManyToManyRelationshipMetadata => Metadata as ManyToManyRelationshipMetadata;
         internal EntityMetadataProxy OtherEntity => originatingentity == Parent ? Child : Parent;
         internal AttributeMetadataProxy LookupAttribute
         {
@@ -64,7 +66,7 @@ namespace Rappen.XTB.LCG
 
         [DisplayName("Type")]
         public string Type => Metadata.RelationshipType == RelationshipType.ManyToManyRelationship ? "N : N" : originatingentity == Parent ? "1 : N" : originatingentity == Child ? "N : 1" : "?";
-    
+
         [DisplayName("Related Entity")]
         public string RelatedEntityName => OtherEntity?.DisplayName;
 
@@ -90,8 +92,16 @@ namespace Rappen.XTB.LCG
         public string LogicalName => Metadata?.SchemaName;
 
         // Two nice to have properties for debugging
-        //public string Referenced => Metadata.RelationshipType == RelationshipType.ManyToManyRelationship ? ManyToManyRelationshipMetadata.Entity1LogicalName : OneToManyRelationshipMetadata.ReferencedEntity + "/" + OneToManyRelationshipMetadata.ReferencedAttribute;
-        //public string Referencing => Metadata.RelationshipType == RelationshipType.ManyToManyRelationship ? ManyToManyRelationshipMetadata.Entity2LogicalName : OneToManyRelationshipMetadata.ReferencingEntity + "/" + OneToManyRelationshipMetadata.ReferencingAttribute;
+        // public string Referenced => Metadata.RelationshipType == RelationshipType.ManyToManyRelationship ? ManyToManyRelationshipMetadata.Entity1LogicalName : OneToManyRelationshipMetadata.ReferencedEntity + "/" + OneToManyRelationshipMetadata.ReferencedAttribute;
+        // public string Referencing => Metadata.RelationshipType == RelationshipType.ManyToManyRelationship ? ManyToManyRelationshipMetadata.Entity2LogicalName : OneToManyRelationshipMetadata.ReferencingEntity + "/" + OneToManyRelationshipMetadata.ReferencingAttribute;
+
+        [DisplayName("Referenced")]
+        [Browsable(false)]
+        public string Referenced => Metadata.RelationshipType == RelationshipType.ManyToManyRelationship ? ManyToManyRelationshipMetadata.Entity1IntersectAttribute : OneToManyRelationshipMetadata.ReferencedAttribute;
+
+        [DisplayName("Referencing")]
+        [Browsable(false)]
+        public string Referencing => Metadata.RelationshipType == RelationshipType.ManyToManyRelationship ? ManyToManyRelationshipMetadata.Entity2IntersectAttribute: OneToManyRelationshipMetadata.ReferencingAttribute;
 
         public string Summary(Settings settings)
         {
