@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29521.150
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35201.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LCG-UDG-Common", "LCG-UDG\LCG-UDG-Common.csproj", "{78225251-A3A4-471F-9066-00D7EB90F3FA}"
 EndProject
@@ -12,6 +12,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UDG", "UDG\UDG.csproj", "{2257E924-19EF-496D-8F03-7E07A82C20C3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LCG", "LCG\LCG.csproj", "{9F7A2F95-25F0-405F-9013-CA21A3EC1146}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Rappen.XRM.Helpers", "Rappen.XTB.Helper\Rappen.XRM.Helpers\Rappen.XRM.Helpers.shproj", "{2EBF1257-150F-46C8-8BBD-2A9235C0EB45}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Rappen.XTB.Helpers", "Rappen.XTB.Helper\Rappen.XTB.Helpers\Rappen.XTB.Helpers.shproj", "{0B88B381-EE9D-41E8-A62C-90152C42DE90}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,5 +49,11 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E074392-EFCB-46F1-BFCB-22A7AE52E6C9}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Rappen.XTB.Helper\Rappen.XTB.Helpers\Rappen.XTB.Helpers.projitems*{0b88b381-ee9d-41e8-a62c-90152c42de90}*SharedItemsImports = 13
+		Rappen.XTB.Helper\Rappen.XRM.Helpers\Rappen.XRM.Helpers.projitems*{2ebf1257-150f-46c8-8bbd-2a9235c0eb45}*SharedItemsImports = 13
+		Rappen.XTB.Helper\Rappen.XRM.Helpers\Rappen.XRM.Helpers.projitems*{78225251-a3a4-471f-9066-00d7eb90f3fa}*SharedItemsImports = 4
+		Rappen.XTB.Helper\Rappen.XTB.Helpers\Rappen.XTB.Helpers.projitems*{78225251-a3a4-471f-9066-00d7eb90f3fa}*SharedItemsImports = 4
 	EndGlobalSection
 EndGlobal
