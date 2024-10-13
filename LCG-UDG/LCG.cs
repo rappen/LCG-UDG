@@ -65,6 +65,11 @@ namespace Rappen.XTB.LCG
             tslAbout_Click(null, null);
         }
 
+        public void OnIncomingMessage(MessageBusEventArgs message)
+        {
+            MessageBox.Show("Sorry, we can't handle incoming from other tools.\n\nWhat features would you like to see?\nClick on the Help button to add your requests there!", "Incoming", MessageBoxButtons.OK, MessageBoxIcon.Stop, MessageBoxDefaultButton.Button1, 0, "https://github.com/rappen/LCG-UDG/issues/new");
+        }
+
         #endregion Interface implementations
 
         #region Public Constructors
@@ -374,6 +379,119 @@ namespace Rappen.XTB.LCG
         {
             tmRelSearch.Stop();
             tmRelSearch.Start();
+        }
+
+        private void tmHideNotification_Tick(object sender, EventArgs e)
+        {
+            tmHideNotification.Stop();
+            HideNotification();
+        }
+
+        private void picAttReloadRecords_Click(object sender, EventArgs e)
+        {
+            if (selectedEntity == null)
+            {
+                return;
+            }
+            var withvalue = chkAttUsed.Checked;
+            var uniques = chkAttUniques.Checked;
+            selectedEntity.CountedAttributes = false;
+            selectedEntity.Attributes.ForEach(a => a.WithValues = null);
+            selectedEntity.Attributes.ForEach(a => a.UniqueValues = null);
+            chkAttUsed.Checked = withvalue;
+            chkAttUniques.Checked = uniques;
+            DisplayFilteredAttributes();
+        }
+
+        private void ctxRelAddRemAccount_Click(object sender, EventArgs e)
+        {
+            if (entities.FirstOrDefault(ent => ent.LogicalName == "account") is EntityMetadataProxy entity)
+            {
+                entity.SetSelected(!entity.Selected);
+            }
+        }
+
+        private void btnEntSelectAllVisible_Click(object sender, EventArgs e)
+        {
+            SelectAllRows(sender == btnEntSelectAllVisible ? gridEntities :
+                          sender == btnAttSelectAllVisible ? gridAttributes :
+                          sender == btnRelSelectAllVisible ? gridRelationships : null, true);
+        }
+
+        private void btnEntUnselectAll_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Confirm removing all selected items!", "Unselect all", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) != DialogResult.OK)
+            {
+                return;
+            }
+            UnselectAll(sender == btnEntUnselectAll ? entities?.Select(m => (MetadataProxy)m) :
+                        sender == btnAttUnselectAll ? selectedEntity?.Attributes?.Select(m => (MetadataProxy)m) :
+                        sender == btnRelUnselectAll ? selectedEntity?.Relationships?.Select(m => (MetadataProxy)m) : null);
+        }
+
+        private void btnEntShowAll_Click(object sender, EventArgs e)
+        {
+            if (sender == btnEntShowAll)
+            {
+                cmbSolution.SelectedIndex = -1;
+                cmbSolution.SelectedItem = null;
+                rbEntCustomAll.Checked = true;
+                rbEntMgdAll.Checked = true;
+                chkEntExclIntersect.Checked = false;
+                chkEntExclUnselected.Checked = false;
+                chkEntExclNoRecords.Checked = false;
+                txtEntSearch.Text = "";
+            }
+            else if (sender == btnAttShowAll)
+            {
+                rbAttCustomAll.Checked = true;
+                rbAttMgdAll.Checked = true;
+                chkAttPrimaryKey.Checked = false;
+                chkAttPrimaryAttribute.Checked = false;
+                chkAttRequired.Checked = false;
+                chkAttExclLogical.Checked = false;
+                chkAttExclInternal.Checked = false;
+                chkAttExclUnRequired.Checked = false;
+                chkAttExclOwners.Checked = false;
+                chkAttExclCreMod.Checked = false;
+                chkAttUsed.Checked = false;
+                chkAttUniques.Checked = false;
+                txtAttSearch.Text = "";
+            }
+            else if (sender == btnRelShowAll)
+            {
+                rbRelCustomAll.Checked = true;
+                rbRelMgdAll.Checked = true;
+                chkRel1N.Checked = true;
+                chkRelN1.Checked = true;
+                chkRelNN.Checked = true;
+                chkRelExclOrphans.Checked = false;
+                chkRelExclOwners.Checked = false;
+                chkRelExclRegarding.Checked = false;
+                chkRelExclCreMod.Checked = false;
+                chkRelExclDupRecords.Checked = false;
+                txtRelSearch.Text = "";
+            }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            Cursor = Cursors.WaitCursor;
+            btnCancel.Enabled = false;
+            CancelWorker();
+        }
+
+        private void linkShowDataInFXB_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (selectedEntity == null)
+            {
+                MessageBox.Show("An entity has to be selected to retrieve the data.", "Show in FXB", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            var fetch = $"<fetch top='1000'><entity name='{selectedEntity.LogicalName}'>";
+            fetch += string.Join("\n", selectedEntity.Attributes.Where(a => a.Selected).Select(a => $"<attribute name='{a.LogicalName}'/>"));
+            fetch += "</entity></fetch>";
+            OnOutgoingMessage(this, new MessageBusEventArgs("FetchXML Builder", true) { TargetArgument = fetch });
         }
 
         #endregion Private Event Handlers
@@ -1677,123 +1795,5 @@ This behavior can be prevented by unchecking the box 'Include configuration' in 
         }
 
         #endregion Private Methods
-
-        private void tmHideNotification_Tick(object sender, EventArgs e)
-        {
-            tmHideNotification.Stop();
-            HideNotification();
-        }
-
-        private void picAttReloadRecords_Click(object sender, EventArgs e)
-        {
-            if (selectedEntity == null)
-            {
-                return;
-            }
-            var withvalue = chkAttUsed.Checked;
-            var uniques = chkAttUniques.Checked;
-            selectedEntity.CountedAttributes = false;
-            selectedEntity.Attributes.ForEach(a => a.WithValues = null);
-            selectedEntity.Attributes.ForEach(a => a.UniqueValues = null);
-            chkAttUsed.Checked = withvalue;
-            chkAttUniques.Checked = uniques;
-            DisplayFilteredAttributes();
-        }
-
-        private void ctxRelAddRemAccount_Click(object sender, EventArgs e)
-        {
-            if (entities.FirstOrDefault(ent => ent.LogicalName == "account") is EntityMetadataProxy entity)
-            {
-                entity.SetSelected(!entity.Selected);
-            }
-        }
-
-        private void btnEntSelectAllVisible_Click(object sender, EventArgs e)
-        {
-            SelectAllRows(sender == btnEntSelectAllVisible ? gridEntities :
-                          sender == btnAttSelectAllVisible ? gridAttributes :
-                          sender == btnRelSelectAllVisible ? gridRelationships : null, true);
-        }
-
-        private void btnEntUnselectAll_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Confirm removing all selected items!", "Unselect all", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) != DialogResult.OK)
-            {
-                return;
-            }
-            UnselectAll(sender == btnEntUnselectAll ? entities?.Select(m => (MetadataProxy)m) :
-                        sender == btnAttUnselectAll ? selectedEntity?.Attributes?.Select(m => (MetadataProxy)m) :
-                        sender == btnRelUnselectAll ? selectedEntity?.Relationships?.Select(m => (MetadataProxy)m) : null);
-        }
-
-        private void btnEntShowAll_Click(object sender, EventArgs e)
-        {
-            if (sender == btnEntShowAll)
-            {
-                cmbSolution.SelectedIndex = -1;
-                cmbSolution.SelectedItem = null;
-                rbEntCustomAll.Checked = true;
-                rbEntMgdAll.Checked = true;
-                chkEntExclIntersect.Checked = false;
-                chkEntExclUnselected.Checked = false;
-                chkEntExclNoRecords.Checked = false;
-                txtEntSearch.Text = "";
-            }
-            else if (sender == btnAttShowAll)
-            {
-                rbAttCustomAll.Checked = true;
-                rbAttMgdAll.Checked = true;
-                chkAttPrimaryKey.Checked = false;
-                chkAttPrimaryAttribute.Checked = false;
-                chkAttRequired.Checked = false;
-                chkAttExclLogical.Checked = false;
-                chkAttExclInternal.Checked = false;
-                chkAttExclUnRequired.Checked = false;
-                chkAttExclOwners.Checked = false;
-                chkAttExclCreMod.Checked = false;
-                chkAttUsed.Checked = false;
-                chkAttUniques.Checked = false;
-                txtAttSearch.Text = "";
-            }
-            else if (sender == btnRelShowAll)
-            {
-                rbRelCustomAll.Checked = true;
-                rbRelMgdAll.Checked = true;
-                chkRel1N.Checked = true;
-                chkRelN1.Checked = true;
-                chkRelNN.Checked = true;
-                chkRelExclOrphans.Checked = false;
-                chkRelExclOwners.Checked = false;
-                chkRelExclRegarding.Checked = false;
-                chkRelExclCreMod.Checked = false;
-                chkRelExclDupRecords.Checked = false;
-                txtRelSearch.Text = "";
-            }
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            Cursor = Cursors.WaitCursor;
-            btnCancel.Enabled = false;
-            CancelWorker();
-        }
-
-        private void linkShowDataInFXB_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            if (selectedEntity == null)
-            {
-                MessageBox.Show("An entity has to be selected to retrieve the data.", "Show in FXB", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            var fetch = $"<fetch top='1000'><entity name='{selectedEntity.LogicalName}'>";
-            fetch += string.Join("\n", selectedEntity.Attributes.Where(a => a.Selected).Select(a => $"<attribute name='{a.LogicalName}'/>"));
-            fetch += "</entity></fetch>";
-            OnOutgoingMessage(this, new MessageBusEventArgs("FetchXML Builder", true) { TargetArgument = fetch });
-        }
-
-        public void OnIncomingMessage(MessageBusEventArgs message)
-        {
-            MessageBox.Show("Sorry, we can't handle incoming from other tools.\n\nWhat features would you like to see?\nClick on the Help button to add your requests there!", "Incoming", MessageBoxButtons.OK, MessageBoxIcon.Stop, MessageBoxDefaultButton.Button1, 0, "https://github.com/rappen/LCG-UDG/issues/new");
-        }
     }
 }
