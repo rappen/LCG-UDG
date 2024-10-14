@@ -4,6 +4,8 @@ using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Metadata;
 using Microsoft.Xrm.Sdk.Query;
 using Rappen.XTB.Helper;
+using Rappen.XTB.Helpers;
+using Rappen.XTB.LCG.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,13 +29,14 @@ namespace Rappen.XTB.LCG
         internal static string toolnameUDG = "UML Diagram Generator";
         internal readonly bool isUML = false;
         internal readonly string toolname = toolnameLCG;
-        private const string aiEndpoint = "https://dc.services.visualstudio.com/v2/track";
 
-        //private const string aiKey = "cc7cb081-b489-421d-bb61-2ee53495c336";    // jonas@rappen.net tenant, TestAI
-        private const string aiKey = "eed73022-2444-45fd-928b-5eebd8fa46a6";    // jonas@rappen.net tenant, XrmToolBox
+        private const string aiEndpoint = "https://dc.services.visualstudio.com/v2/track";
+        private const string aiKey1 = "eed73022-2444-45fd-928b-5eebd8fa46a6";    // jonas@rappen.net tenant, XrmToolBox
+        private const string aiKey2 = "d46e9c12-ee8b-4b28-9643-dae62ae7d3d4";    // jonas@jonasr.app, XrmToolBoxTools
+        private readonly AppInsights ai1;
+        private readonly AppInsights ai2;
 
         private readonly string commonsettingsfile = "[Common]";
-        private AppInsights ai;
         private object checkedrow;
         private CommonSettings commonsettings;
         private List<EntityMetadataProxy> entities;
@@ -78,7 +81,11 @@ namespace Rappen.XTB.LCG
         {
             isUML = isuml;
             toolname = isUML ? toolnameUDG : toolnameLCG;
-            ai = new AppInsights(aiEndpoint, aiKey, Assembly.GetExecutingAssembly(), toolname);
+            UrlUtils.TOOL_NAME = toolname.Replace(" ", "");
+
+            ai1 = new AppInsights(aiEndpoint, aiKey1, Assembly.GetExecutingAssembly(), toolname);
+            ai2 = new AppInsights(aiEndpoint, aiKey2, Assembly.GetExecutingAssembly(), toolname);
+
             IEnumerable<Control> GetAll(Control control, Type type)
             {
                 var controls = control.Controls.Cast<Control>().ToArray();
@@ -88,6 +95,7 @@ namespace Rappen.XTB.LCG
             }
 
             InitializeComponent();
+            tslAbout.ToolTipText = $"Version: {Assembly.GetExecutingAssembly().GetName().Version}";
             groupBoxHeights = new Dictionary<string, int>();
             foreach (var gb in GetAll(this, typeof(GroupBox)))
             {
@@ -326,7 +334,31 @@ namespace Rappen.XTB.LCG
             {
                 LoadCommonSettings();
             }
-            LogUse("Load");
+            LogUse("Load", ai2: true);
+            Supporting.ShowIf(this, false, true, ai2);
+            if (Supporting.IsEnabled(this))
+            {
+                tsbSupporting.Visible = true;
+                var supptype = Supporting.IsSupporting(this);
+                switch (supptype)
+                {
+                    case SupportType.Company:
+                        tsbSupporting.Image = Resources.We_Support_icon;
+                        break;
+
+                    case SupportType.Personal:
+                        tsbSupporting.Image = Resources.I_Support_icon;
+                        break;
+
+                    case SupportType.Contribute:
+                        tsbSupporting.Image = Resources.I_Contribute_icon;
+                        break;
+                }
+            }
+            else
+            {
+                tsbSupporting.Visible = false;
+            }
         }
 
         private void llGroupBoxExpander_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -494,13 +526,19 @@ namespace Rappen.XTB.LCG
             OnOutgoingMessage(this, new MessageBusEventArgs("FetchXML Builder", true) { TargetArgument = fetch });
         }
 
+        private void tsbSupporting_Click(object sender, EventArgs e)
+        {
+            Supporting.ShowIf(this, true, false, ai2);
+        }
+
         #endregion Private Event Handlers
 
         #region Private Methods
 
-        internal void LogUse(string action)
+        internal void LogUse(string action, bool ai1 = true, bool ai2 = false)
         {
-            ai.WriteEvent(action);
+            if (ai1) this.ai1.WriteEvent(action);
+            if (ai2) this.ai2.WriteEvent(action);
         }
 
         private static void SelectAllRows(DataGridView grid, bool select)
@@ -726,7 +764,7 @@ namespace Rappen.XTB.LCG
         {
             TabIcon = Properties.Resources.UDG16;
             PluginIcon = Properties.Resources.UDG16ico;
-            tslAbout.Image = Properties.Resources.UDG24;
+            tslAbout.Image = Properties.Resources.UDG32;
             btnOpenGeneratedFile.Text = "Generated PlantUML file...";
             btnOpenGeneratedFile.Image = Properties.Resources.UML24;
             btnSaveCsAs.Text = "PlantUML file as...";
@@ -1302,7 +1340,7 @@ namespace Rappen.XTB.LCG
                 {
                     if (completedArgs.Error != null)
                     {
-                        MessageBox.Show(completedArgs.Error.Message);
+                        ShowErrorDialog(completedArgs.Error);
                     }
                     else if (completedArgs.Result is RetrieveMetadataChangesResponse response)
                     {
@@ -1362,7 +1400,7 @@ namespace Rappen.XTB.LCG
                 {
                     if (args.Error != null)
                     {
-                        MessageBox.Show(args.Error.Message);
+                        ShowErrorDialog(args.Error);
                     }
                     else if (args.Result is RetrieveMetadataChangesResponse response)
                     {
@@ -1455,7 +1493,7 @@ namespace Rappen.XTB.LCG
                 {
                     if (args.Error != null)
                     {
-                        MessageBox.Show(args.Error.Message);
+                        ShowErrorDialog(args.Error);
                     }
                     if (args.Result is EntityCollection solutionentities)
                     {
@@ -1492,7 +1530,7 @@ namespace Rappen.XTB.LCG
                 {
                     if (completedargs.Error != null)
                     {
-                        MessageBox.Show(completedargs.Error.Message);
+                        ShowErrorDialog(completedargs.Error);
                     }
                     else
                     {
@@ -1600,7 +1638,7 @@ namespace Rappen.XTB.LCG
             {   // Loading old style selection configuration
                 MigrateFromPre2020Settings();
             }
-            if (version < new Version(1, 2021))
+            if (version.Major > 0 && version < new Version(1, 2021))
             {
                 MessageBox.Show($@"Welcome to the new version!
 

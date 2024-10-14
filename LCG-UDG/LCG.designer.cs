@@ -46,6 +46,7 @@
             this.btnOptions = new System.Windows.Forms.ToolStripButton();
             this.tslAbout = new System.Windows.Forms.ToolStripLabel();
             this.btnCancel = new System.Windows.Forms.ToolStripButton();
+            this.tsbSupporting = new System.Windows.Forms.ToolStripButton();
             this.splitEntityRest = new System.Windows.Forms.SplitContainer();
             this.pnEntityGrid = new System.Windows.Forms.Panel();
             this.chkEntAll = new System.Windows.Forms.CheckBox();
@@ -57,12 +58,12 @@
             this.lblEntNoMatch = new System.Windows.Forms.Label();
             this.gbEntities = new System.Windows.Forms.GroupBox();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.linkShowDataInFXB = new System.Windows.Forms.LinkLabel();
             this.pnEntSearch = new System.Windows.Forms.Panel();
             this.txtEntSearch = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.llEntityExpander = new System.Windows.Forms.LinkLabel();
             this.pnEntIntersect = new System.Windows.Forms.Panel();
+            this.linkShowDataInFXB = new System.Windows.Forms.LinkLabel();
             this.label18 = new System.Windows.Forms.Label();
             this.chkEntExclMS = new System.Windows.Forms.CheckBox();
             this.chkEntExclNoRecords = new System.Windows.Forms.CheckBox();
@@ -230,7 +231,7 @@
             // 
             // toolStripMenu
             // 
-            this.toolStripMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.toolStripMenu.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.toolStripMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnLoadEntities,
             this.toolStripSeparator1,
@@ -239,26 +240,27 @@
             this.toolStripSeparator2,
             this.btnOptions,
             this.tslAbout,
-            this.btnCancel});
+            this.btnCancel,
+            this.tsbSupporting});
             this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
             this.toolStripMenu.Name = "toolStripMenu";
-            this.toolStripMenu.Size = new System.Drawing.Size(1028, 31);
+            this.toolStripMenu.Size = new System.Drawing.Size(1028, 39);
             this.toolStripMenu.TabIndex = 4;
             this.toolStripMenu.Text = "toolStrip1";
             // 
             // btnLoadEntities
             // 
-            this.btnLoadEntities.Image = ((System.Drawing.Image)(resources.GetObject("btnLoadEntities.Image")));
+            this.btnLoadEntities.Image = global::Rappen.XTB.LCG.Properties.Resources.icons8_reset_32__2_;
             this.btnLoadEntities.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLoadEntities.Name = "btnLoadEntities";
-            this.btnLoadEntities.Size = new System.Drawing.Size(124, 28);
+            this.btnLoadEntities.Size = new System.Drawing.Size(132, 36);
             this.btnLoadEntities.Text = "Reload metadata";
             this.btnLoadEntities.Click += new System.EventHandler(this.btnLoadEntities_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 39);
             // 
             // menuOpen
             // 
@@ -266,10 +268,10 @@
             this.btnOpenGeneratedFile,
             this.toolStripSeparator4,
             this.btnOpenConfig});
-            this.menuOpen.Image = ((System.Drawing.Image)(resources.GetObject("menuOpen.Image")));
+            this.menuOpen.Image = global::Rappen.XTB.LCG.Properties.Resources.icons8_open_32;
             this.menuOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.menuOpen.Name = "menuOpen";
-            this.menuOpen.Size = new System.Drawing.Size(73, 28);
+            this.menuOpen.Size = new System.Drawing.Size(81, 36);
             this.menuOpen.Text = "Open";
             // 
             // btnOpenGeneratedFile
@@ -301,10 +303,10 @@
             this.btnSaveConfig,
             this.btnSaveConfigAs});
             this.btnGenerate.Enabled = false;
-            this.btnGenerate.Image = ((System.Drawing.Image)(resources.GetObject("btnGenerate.Image")));
+            this.btnGenerate.Image = global::Rappen.XTB.LCG.Properties.Resources.icons8_run_command_32;
             this.btnGenerate.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnGenerate.Name = "btnGenerate";
-            this.btnGenerate.Size = new System.Drawing.Size(94, 28);
+            this.btnGenerate.Size = new System.Drawing.Size(102, 36);
             this.btnGenerate.Text = "Generate";
             this.btnGenerate.ButtonClick += new System.EventHandler(this.btnGenerate_Click);
             // 
@@ -340,43 +342,56 @@
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 39);
             // 
             // btnOptions
             // 
-            this.btnOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnOptions.Image")));
+            this.btnOptions.Image = global::Rappen.XTB.LCG.Properties.Resources.icons8_options_32__3_;
             this.btnOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnOptions.Name = "btnOptions";
-            this.btnOptions.Size = new System.Drawing.Size(77, 28);
+            this.btnOptions.Size = new System.Drawing.Size(85, 36);
             this.btnOptions.Text = "Options";
             this.btnOptions.Click += new System.EventHandler(this.btnOptions_Click);
             // 
             // tslAbout
             // 
             this.tslAbout.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.tslAbout.Image = ((System.Drawing.Image)(resources.GetObject("tslAbout.Image")));
+            this.tslAbout.Image = global::Rappen.XTB.LCG.Properties.Resources.LCG32;
             this.tslAbout.IsLink = true;
             this.tslAbout.Name = "tslAbout";
-            this.tslAbout.Size = new System.Drawing.Size(106, 28);
+            this.tslAbout.Size = new System.Drawing.Size(114, 36);
             this.tslAbout.Text = "by Jonas Rapp";
             this.tslAbout.Click += new System.EventHandler(this.tslAbout_Click);
             // 
             // btnCancel
             // 
             this.btnCancel.Enabled = false;
-            this.btnCancel.Image = ((System.Drawing.Image)(resources.GetObject("btnCancel.Image")));
+            this.btnCancel.Image = global::Rappen.XTB.LCG.Properties.Resources.icons8_stop_sign_32;
             this.btnCancel.ImageAlign = System.Drawing.ContentAlignment.TopRight;
             this.btnCancel.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(71, 28);
+            this.btnCancel.Size = new System.Drawing.Size(79, 36);
             this.btnCancel.Text = "Cancel";
             this.btnCancel.Visible = false;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // tsbSupporting
+            // 
+            this.tsbSupporting.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsbSupporting.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbSupporting.Image = global::Rappen.XTB.LCG.Properties.Resources.Supporting_icon;
+            this.tsbSupporting.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.tsbSupporting.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbSupporting.Name = "tsbSupporting";
+            this.tsbSupporting.Size = new System.Drawing.Size(56, 36);
+            this.tsbSupporting.ToolTipText = "We all support these free, open-source tools - either\r\nas a company, personally, " +
+    "or by contribution.";
+            this.tsbSupporting.Click += new System.EventHandler(this.tsbSupporting_Click);
+            // 
             // splitEntityRest
             // 
             this.splitEntityRest.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitEntityRest.Location = new System.Drawing.Point(0, 48);
+            this.splitEntityRest.Location = new System.Drawing.Point(0, 56);
             this.splitEntityRest.Name = "splitEntityRest";
             // 
             // splitEntityRest.Panel1
@@ -390,7 +405,7 @@
             // splitEntityRest.Panel2
             // 
             this.splitEntityRest.Panel2.Controls.Add(this.splitAttRel);
-            this.splitEntityRest.Size = new System.Drawing.Size(1028, 546);
+            this.splitEntityRest.Size = new System.Drawing.Size(1028, 538);
             this.splitEntityRest.SplitterDistance = 347;
             this.splitEntityRest.TabIndex = 2;
             // 
@@ -401,7 +416,7 @@
             this.pnEntityGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnEntityGrid.Location = new System.Drawing.Point(0, 316);
             this.pnEntityGrid.Name = "pnEntityGrid";
-            this.pnEntityGrid.Size = new System.Drawing.Size(347, 182);
+            this.pnEntityGrid.Size = new System.Drawing.Size(347, 174);
             this.pnEntityGrid.TabIndex = 3;
             this.pnEntityGrid.Visible = false;
             // 
@@ -430,7 +445,7 @@
             this.gridEntities.Name = "gridEntities";
             this.gridEntities.RowHeadersVisible = false;
             this.gridEntities.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridEntities.Size = new System.Drawing.Size(347, 182);
+            this.gridEntities.Size = new System.Drawing.Size(347, 174);
             this.gridEntities.TabIndex = 2;
             this.gridEntities.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             this.gridEntities.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridEntities_CellFormatting);
@@ -440,7 +455,7 @@
             // 
             this.lblEntUnShown.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblEntUnShown.ForeColor = System.Drawing.Color.Red;
-            this.lblEntUnShown.Location = new System.Drawing.Point(0, 498);
+            this.lblEntUnShown.Location = new System.Drawing.Point(0, 490);
             this.lblEntUnShown.Name = "lblEntUnShown";
             this.lblEntUnShown.Size = new System.Drawing.Size(347, 26);
             this.lblEntUnShown.TabIndex = 9;
@@ -454,7 +469,7 @@
             this.statusEntities.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusEntitiesShowing,
             this.statusEntitiesSelected});
-            this.statusEntities.Location = new System.Drawing.Point(0, 524);
+            this.statusEntities.Location = new System.Drawing.Point(0, 516);
             this.statusEntities.Name = "statusEntities";
             this.statusEntities.Size = new System.Drawing.Size(347, 22);
             this.statusEntities.SizingGrip = false;
@@ -508,17 +523,6 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(341, 23);
             this.panel4.TabIndex = 7;
-            // 
-            // linkShowDataInFXB
-            // 
-            this.linkShowDataInFXB.AutoSize = true;
-            this.linkShowDataInFXB.Location = new System.Drawing.Point(188, 42);
-            this.linkShowDataInFXB.Name = "linkShowDataInFXB";
-            this.linkShowDataInFXB.Size = new System.Drawing.Size(143, 13);
-            this.linkShowDataInFXB.TabIndex = 0;
-            this.linkShowDataInFXB.TabStop = true;
-            this.linkShowDataInFXB.Text = "Show in FetchXML Builder ↗️";
-            this.linkShowDataInFXB.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkShowDataInFXB_LinkClicked);
             // 
             // pnEntSearch
             // 
@@ -575,6 +579,17 @@
             this.pnEntIntersect.Name = "pnEntIntersect";
             this.pnEntIntersect.Size = new System.Drawing.Size(341, 63);
             this.pnEntIntersect.TabIndex = 4;
+            // 
+            // linkShowDataInFXB
+            // 
+            this.linkShowDataInFXB.AutoSize = true;
+            this.linkShowDataInFXB.Location = new System.Drawing.Point(188, 42);
+            this.linkShowDataInFXB.Name = "linkShowDataInFXB";
+            this.linkShowDataInFXB.Size = new System.Drawing.Size(143, 13);
+            this.linkShowDataInFXB.TabIndex = 0;
+            this.linkShowDataInFXB.TabStop = true;
+            this.linkShowDataInFXB.Text = "Show in FetchXML Builder ↗️";
+            this.linkShowDataInFXB.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkShowDataInFXB_LinkClicked);
             // 
             // label18
             // 
@@ -848,7 +863,7 @@
             this.splitAttRel.Panel2.Controls.Add(this.statusRelationships);
             this.splitAttRel.Panel2.Controls.Add(this.lblRelNoMatch);
             this.splitAttRel.Panel2.Controls.Add(this.gbRelationships);
-            this.splitAttRel.Size = new System.Drawing.Size(677, 546);
+            this.splitAttRel.Size = new System.Drawing.Size(677, 538);
             this.splitAttRel.SplitterDistance = 332;
             this.splitAttRel.TabIndex = 4;
             // 
@@ -859,7 +874,7 @@
             this.pnAttributeGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnAttributeGrid.Location = new System.Drawing.Point(0, 316);
             this.pnAttributeGrid.Name = "pnAttributeGrid";
-            this.pnAttributeGrid.Size = new System.Drawing.Size(332, 182);
+            this.pnAttributeGrid.Size = new System.Drawing.Size(332, 174);
             this.pnAttributeGrid.TabIndex = 3;
             this.pnAttributeGrid.Visible = false;
             // 
@@ -888,7 +903,7 @@
             this.gridAttributes.Name = "gridAttributes";
             this.gridAttributes.RowHeadersVisible = false;
             this.gridAttributes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridAttributes.Size = new System.Drawing.Size(332, 182);
+            this.gridAttributes.Size = new System.Drawing.Size(332, 174);
             this.gridAttributes.TabIndex = 2;
             this.gridAttributes.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             // 
@@ -896,7 +911,7 @@
             // 
             this.lblAttUnShown.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblAttUnShown.ForeColor = System.Drawing.Color.Red;
-            this.lblAttUnShown.Location = new System.Drawing.Point(0, 498);
+            this.lblAttUnShown.Location = new System.Drawing.Point(0, 490);
             this.lblAttUnShown.Name = "lblAttUnShown";
             this.lblAttUnShown.Size = new System.Drawing.Size(332, 26);
             this.lblAttUnShown.TabIndex = 8;
@@ -910,7 +925,7 @@
             this.statusAttributes.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusAttributesShowing,
             this.statusAttributesSelected});
-            this.statusAttributes.Location = new System.Drawing.Point(0, 524);
+            this.statusAttributes.Location = new System.Drawing.Point(0, 516);
             this.statusAttributes.Name = "statusAttributes";
             this.statusAttributes.Size = new System.Drawing.Size(332, 22);
             this.statusAttributes.SizingGrip = false;
@@ -1370,7 +1385,7 @@
             this.pnRelationshipGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnRelationshipGrid.Location = new System.Drawing.Point(0, 316);
             this.pnRelationshipGrid.Name = "pnRelationshipGrid";
-            this.pnRelationshipGrid.Size = new System.Drawing.Size(341, 182);
+            this.pnRelationshipGrid.Size = new System.Drawing.Size(341, 174);
             this.pnRelationshipGrid.TabIndex = 4;
             this.pnRelationshipGrid.Visible = false;
             // 
@@ -1400,7 +1415,7 @@
             this.gridRelationships.Name = "gridRelationships";
             this.gridRelationships.RowHeadersVisible = false;
             this.gridRelationships.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridRelationships.Size = new System.Drawing.Size(341, 182);
+            this.gridRelationships.Size = new System.Drawing.Size(341, 174);
             this.gridRelationships.TabIndex = 2;
             this.gridRelationships.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             // 
@@ -1423,7 +1438,7 @@
             // 
             this.lblRelUnShown.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblRelUnShown.ForeColor = System.Drawing.Color.Red;
-            this.lblRelUnShown.Location = new System.Drawing.Point(0, 498);
+            this.lblRelUnShown.Location = new System.Drawing.Point(0, 490);
             this.lblRelUnShown.Name = "lblRelUnShown";
             this.lblRelUnShown.Size = new System.Drawing.Size(341, 26);
             this.lblRelUnShown.TabIndex = 7;
@@ -1437,7 +1452,7 @@
             this.statusRelationships.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusRelationshipsShowing,
             this.statusRelationshipsSelected});
-            this.statusRelationships.Location = new System.Drawing.Point(0, 524);
+            this.statusRelationships.Location = new System.Drawing.Point(0, 516);
             this.statusRelationships.Name = "statusRelationships";
             this.statusRelationships.Size = new System.Drawing.Size(341, 22);
             this.statusRelationships.SizingGrip = false;
@@ -1857,7 +1872,7 @@
             // pnWindowTopSpacer
             // 
             this.pnWindowTopSpacer.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnWindowTopSpacer.Location = new System.Drawing.Point(0, 31);
+            this.pnWindowTopSpacer.Location = new System.Drawing.Point(0, 39);
             this.pnWindowTopSpacer.Name = "pnWindowTopSpacer";
             this.pnWindowTopSpacer.Size = new System.Drawing.Size(1028, 17);
             this.pnWindowTopSpacer.TabIndex = 11;
@@ -2120,5 +2135,6 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.LinkLabel linkShowDataInFXB;
+        private System.Windows.Forms.ToolStripButton tsbSupporting;
     }
 }
