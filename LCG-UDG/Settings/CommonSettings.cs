@@ -82,11 +82,11 @@ namespace Rappen.XTB.LCG
         {
             if (!isUML)
             {
-                TemplateVersion = 3;    // Change this when LCG template is updated to revert customizations
+                TemplateVersion = 4;    // Change this when LCG template is updated to revert customizations
             }
             else
             {
-                TemplateVersion = 5;    // Change this when UML template is updated to revert customizations
+                TemplateVersion = 6;    // Change this when UML template is updated to revert customizations
                 Legend = @"
 entity **Legend** <<standard>> #CCFFEE {
     (PK) = Primary Key
@@ -114,6 +114,7 @@ title {namespace} Entity Model
 footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
 {data}
 @enduml";
+                EntityGroup = "package \"{group}\" {color}\n{\n{entities}\n}";
                 EntityContainer = "entity {entityname}{typedetails} <<{type}>>\n{\n{attributes}\n}";
                 Attribute = "{attribute}: {type}{typedetails}";
                 Relationship = "{entity1} {relationtype} {entity2}: {lookup}";
@@ -140,6 +141,7 @@ footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
 
         public string Legend { get; set; }
         public string DataContainer { get; set; } = "namespace {namespace}\n{\n{data}\n}";
+        public string EntityGroup { get; set; } = "#region {group}\n{entities}\n#endregion {group}\n";
         public string EntityContainer { get; set; } = "{summary}\n{remarks}\npublic static class {entityname}\n{\n{entitydetail}\n{attributes}\n{relationships}\n{optionsets}\n}";
         public string EntityDetail { get; set; } = "public const string EntityName = '{logicalname}';\npublic const string EntityCollectionName = '{logicalcollectionname}';";
         public string Attribute { get; set; } = "{summary}\n{remarks}\npublic const string {attribute} = '{logicalname}';";
@@ -189,6 +191,7 @@ footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
     FileContainer
         FileHeader
         DataContainer
+          [Group]
             EntityContainer
                 EntityDetails
                 Attributes

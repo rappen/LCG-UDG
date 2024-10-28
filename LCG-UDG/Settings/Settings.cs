@@ -73,6 +73,7 @@ namespace Rappen.XTB.LCG
         public CommonAttributesType CommonAttributes { get; set; } = CommonAttributesType.None;
         public AttributeSortMode AttributeSortMode { get; set; } = AttributeSortMode.None;
         public List<string> Selection { get; set; } = new List<string>();
+        public List<EntityGroup> Groups { get; set; } = new List<EntityGroup>();
         public List<SelectedEntity> SelectedEntities { get; set; }
         public EntityFilter EntityFilter { get; set; } = new EntityFilter();
         public AttributeFilter AttributeFilter { get; set; } = new AttributeFilter();
@@ -109,6 +110,7 @@ namespace Rappen.XTB.LCG
             Legend = source.Legend;
             CommonAttributes = source.CommonAttributes;
             AttributeSortMode = source.AttributeSortMode;
+            Groups = source.Groups;
             SelectedEntities = source.SelectedEntities;
         }
 
@@ -208,6 +210,7 @@ namespace Rappen.XTB.LCG
     public class SelectedEntity
     {
         public string Name { get; set; }
+        public string Group { get; set; }
         public List<string> Attributes { get; set; }
         public List<string> Relationships { get; set; }
     }
