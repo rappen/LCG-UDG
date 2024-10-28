@@ -716,6 +716,7 @@ namespace Rappen.XTB.LCG
             GroupBoxSetState(llEntityExpander, settings.EntityFilter?.Expanded ?? true);
             GroupBoxSetState(llAttributeExpander, settings.AttributeFilter?.Expanded ?? true);
             GroupBoxSetState(llRelationshipExpander, settings.RelationshipFilter?.Expanded ?? true);
+            FillGroups();
             restoringselection = false;
         }
 
@@ -1555,7 +1556,6 @@ namespace Rappen.XTB.LCG
             }
             settings.SetFixedValues(isUML);
             ApplySettings();
-            FillGroups();
         }
 
         private void LoadSolutionEntities(SolutionProxy solution, Action callback)
@@ -1756,6 +1756,7 @@ This behavior can be prevented by unchecking the box 'Include configuration' in 
             }
 
             entities.ForEach(e => e.SetSelected(false));
+            entities.ForEach(e => e.Group = null);
             entities.Where(e => settings.SelectedEntities.Select(se => se.Name).Contains(e.LogicalName)).ToList().ForEach(e => e.SetSelected(true));
             var missingentities = new List<string>();
             foreach (var selectedentity in settings.SelectedEntities)
