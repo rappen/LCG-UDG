@@ -51,6 +51,13 @@
             this.pnEntityGrid = new System.Windows.Forms.Panel();
             this.chkEntAll = new System.Windows.Forms.CheckBox();
             this.gridEntities = new System.Windows.Forms.DataGridView();
+            this.panEntityGroup = new System.Windows.Forms.Panel();
+            this.posGroupUpDown = new System.Windows.Forms.NumericUpDown();
+            this.btnGroupDelete = new System.Windows.Forms.Button();
+            this.btnGroupAdd = new System.Windows.Forms.Button();
+            this.btnGroupColor = new System.Windows.Forms.Button();
+            this.cmbGroup = new System.Windows.Forms.ComboBox();
+            this.label20 = new System.Windows.Forms.Label();
             this.lblEntUnShown = new System.Windows.Forms.Label();
             this.statusEntities = new System.Windows.Forms.StatusStrip();
             this.statusEntitiesShowing = new System.Windows.Forms.ToolStripStatusLabel();
@@ -184,6 +191,7 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tmRelSearch = new System.Windows.Forms.Timer(this.components);
             this.tmHideNotification = new System.Windows.Forms.Timer(this.components);
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitEntityRest)).BeginInit();
             this.splitEntityRest.Panel1.SuspendLayout();
@@ -191,6 +199,8 @@
             this.splitEntityRest.SuspendLayout();
             this.pnEntityGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridEntities)).BeginInit();
+            this.panEntityGroup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.posGroupUpDown)).BeginInit();
             this.statusEntities.SuspendLayout();
             this.gbEntities.SuspendLayout();
             this.pnEntSearch.SuspendLayout();
@@ -278,20 +288,20 @@
             // 
             this.btnOpenGeneratedFile.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenGeneratedFile.Image")));
             this.btnOpenGeneratedFile.Name = "btnOpenGeneratedFile";
-            this.btnOpenGeneratedFile.Size = new System.Drawing.Size(174, 22);
+            this.btnOpenGeneratedFile.Size = new System.Drawing.Size(190, 38);
             this.btnOpenGeneratedFile.Text = "Generated C# file...";
             this.btnOpenGeneratedFile.Click += new System.EventHandler(this.btnOpenGeneratedFile_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(171, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(187, 6);
             // 
             // btnOpenConfig
             // 
             this.btnOpenConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenConfig.Image")));
             this.btnOpenConfig.Name = "btnOpenConfig";
-            this.btnOpenConfig.Size = new System.Drawing.Size(174, 22);
+            this.btnOpenConfig.Size = new System.Drawing.Size(190, 38);
             this.btnOpenConfig.Text = "Project file...";
             this.btnOpenConfig.Click += new System.EventHandler(this.btnLoadConfig_Click);
             // 
@@ -314,20 +324,20 @@
             // 
             this.btnSaveCsAs.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveCsAs.Image")));
             this.btnSaveCsAs.Name = "btnSaveCsAs";
-            this.btnSaveCsAs.Size = new System.Drawing.Size(153, 22);
+            this.btnSaveCsAs.Size = new System.Drawing.Size(169, 38);
             this.btnSaveCsAs.Text = "C# file as...";
             this.btnSaveCsAs.Click += new System.EventHandler(this.btnGenerate_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(150, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(166, 6);
             // 
             // btnSaveConfig
             // 
             this.btnSaveConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveConfig.Image")));
             this.btnSaveConfig.Name = "btnSaveConfig";
-            this.btnSaveConfig.Size = new System.Drawing.Size(153, 22);
+            this.btnSaveConfig.Size = new System.Drawing.Size(169, 38);
             this.btnSaveConfig.Text = "Project file";
             this.btnSaveConfig.Click += new System.EventHandler(this.btnSaveConfigAs_Click);
             // 
@@ -335,7 +345,7 @@
             // 
             this.btnSaveConfigAs.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveConfigAs.Image")));
             this.btnSaveConfigAs.Name = "btnSaveConfigAs";
-            this.btnSaveConfigAs.Size = new System.Drawing.Size(153, 22);
+            this.btnSaveConfigAs.Size = new System.Drawing.Size(169, 38);
             this.btnSaveConfigAs.Text = "Project file as...";
             this.btnSaveConfigAs.Click += new System.EventHandler(this.btnSaveConfigAs_Click);
             // 
@@ -413,6 +423,7 @@
             // 
             this.pnEntityGrid.Controls.Add(this.chkEntAll);
             this.pnEntityGrid.Controls.Add(this.gridEntities);
+            this.pnEntityGrid.Controls.Add(this.panEntityGroup);
             this.pnEntityGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnEntityGrid.Location = new System.Drawing.Point(0, 316);
             this.pnEntityGrid.Name = "pnEntityGrid";
@@ -445,11 +456,94 @@
             this.gridEntities.Name = "gridEntities";
             this.gridEntities.RowHeadersVisible = false;
             this.gridEntities.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridEntities.Size = new System.Drawing.Size(347, 174);
+            this.gridEntities.Size = new System.Drawing.Size(347, 144);
             this.gridEntities.TabIndex = 2;
             this.gridEntities.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             this.gridEntities.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridEntities_CellFormatting);
             this.gridEntities.SelectionChanged += new System.EventHandler(this.gridEntities_SelectionChanged);
+            // 
+            // panEntityGroup
+            // 
+            this.panEntityGroup.Controls.Add(this.posGroupUpDown);
+            this.panEntityGroup.Controls.Add(this.btnGroupDelete);
+            this.panEntityGroup.Controls.Add(this.btnGroupAdd);
+            this.panEntityGroup.Controls.Add(this.btnGroupColor);
+            this.panEntityGroup.Controls.Add(this.cmbGroup);
+            this.panEntityGroup.Controls.Add(this.label20);
+            this.panEntityGroup.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panEntityGroup.Location = new System.Drawing.Point(0, 144);
+            this.panEntityGroup.Name = "panEntityGroup";
+            this.panEntityGroup.Size = new System.Drawing.Size(347, 30);
+            this.panEntityGroup.TabIndex = 9;
+            // 
+            // posGroupUpDown
+            // 
+            this.posGroupUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.posGroupUpDown.Enabled = false;
+            this.posGroupUpDown.Location = new System.Drawing.Point(217, 5);
+            this.posGroupUpDown.Maximum = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.posGroupUpDown.Name = "posGroupUpDown";
+            this.posGroupUpDown.Size = new System.Drawing.Size(18, 20);
+            this.posGroupUpDown.TabIndex = 5;
+            this.posGroupUpDown.ValueChanged += new System.EventHandler(this.posGroupUpDown_ValueChanged);
+            // 
+            // btnGroupDelete
+            // 
+            this.btnGroupDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnGroupDelete.Location = new System.Drawing.Point(313, 4);
+            this.btnGroupDelete.Name = "btnGroupDelete";
+            this.btnGroupDelete.Size = new System.Drawing.Size(34, 23);
+            this.btnGroupDelete.TabIndex = 4;
+            this.btnGroupDelete.Text = "Del";
+            this.btnGroupDelete.UseVisualStyleBackColor = true;
+            this.btnGroupDelete.Click += new System.EventHandler(this.btnGroupDelete_Click);
+            // 
+            // btnGroupAdd
+            // 
+            this.btnGroupAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnGroupAdd.Location = new System.Drawing.Point(277, 4);
+            this.btnGroupAdd.Name = "btnGroupAdd";
+            this.btnGroupAdd.Size = new System.Drawing.Size(34, 23);
+            this.btnGroupAdd.TabIndex = 3;
+            this.btnGroupAdd.Text = "Add";
+            this.btnGroupAdd.UseVisualStyleBackColor = true;
+            this.btnGroupAdd.Click += new System.EventHandler(this.btnGroupAdd_Click);
+            // 
+            // btnGroupColor
+            // 
+            this.btnGroupColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnGroupColor.Location = new System.Drawing.Point(241, 4);
+            this.btnGroupColor.Name = "btnGroupColor";
+            this.btnGroupColor.Size = new System.Drawing.Size(34, 23);
+            this.btnGroupColor.TabIndex = 2;
+            this.btnGroupColor.UseVisualStyleBackColor = true;
+            this.btnGroupColor.Click += new System.EventHandler(this.btnGroupColor_Click);
+            // 
+            // cmbGroup
+            // 
+            this.cmbGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbGroup.Enabled = false;
+            this.cmbGroup.FormattingEnabled = true;
+            this.cmbGroup.Location = new System.Drawing.Point(49, 5);
+            this.cmbGroup.Name = "cmbGroup";
+            this.cmbGroup.Size = new System.Drawing.Size(168, 21);
+            this.cmbGroup.TabIndex = 1;
+            this.cmbGroup.SelectedIndexChanged += new System.EventHandler(this.cmbGroup_SelectedIndexChanged);
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(7, 9);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(36, 13);
+            this.label20.TabIndex = 0;
+            this.label20.Text = "Group";
             // 
             // lblEntUnShown
             // 
@@ -1913,6 +2007,9 @@
             this.pnEntityGrid.ResumeLayout(false);
             this.pnEntityGrid.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridEntities)).EndInit();
+            this.panEntityGroup.ResumeLayout(false);
+            this.panEntityGroup.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.posGroupUpDown)).EndInit();
             this.statusEntities.ResumeLayout(false);
             this.statusEntities.PerformLayout();
             this.gbEntities.ResumeLayout(false);
@@ -2136,5 +2233,13 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.LinkLabel linkShowDataInFXB;
         private System.Windows.Forms.ToolStripButton tsbSupporting;
+        private System.Windows.Forms.Panel panEntityGroup;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Button btnGroupDelete;
+        private System.Windows.Forms.Button btnGroupAdd;
+        private System.Windows.Forms.Button btnGroupColor;
+        private System.Windows.Forms.ComboBox cmbGroup;
+        private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.NumericUpDown posGroupUpDown;
     }
 }

@@ -13,6 +13,7 @@ namespace Rappen.XTB.LCG
         public List<AttributeMetadataProxy> Attributes;
         public List<RelationshipMetadataProxy> Relationships;
         public EntityMetadata Metadata;
+        public EntityGroup Group;
 
         [DisplayName(" \n ")]
         public bool Selected { get => IsSelected; }
@@ -22,6 +23,9 @@ namespace Rappen.XTB.LCG
 
         [DisplayName("Logical Name")]
         public string LogicalName { get => Metadata?.LogicalName; }
+
+        [DisplayName("Group")]
+        public string GroupName { get => Group?.Name; }
 
         //[DisplayName("Logical Collection Name")]
         //public string LogicalCollectionName { get => Metadata?.LogicalCollectionName; }

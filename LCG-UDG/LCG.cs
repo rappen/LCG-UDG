@@ -133,7 +133,7 @@ namespace Rappen.XTB.LCG
             GetSettingsFromUI();
             GetSelectionFromUI();
             var filewriter = settings.GetWriter(ConnectionDetail.WebApplicationUrl);
-            if (GenerationUtils.GenerateFiles(entities, settings, filewriter))
+            if (GenerationUtils.GenerateFiles(entities.Where(ent => ent.Selected).ToList(), settings, filewriter))
             {
                 var message = filewriter.GetResult(settings);
                 if (isUML)
@@ -297,12 +297,20 @@ namespace Rappen.XTB.LCG
 
         private void gridEntities_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.ColumnIndex == 0
-                && sender is DataGridView dgv
-                && dgv.Rows[e.RowIndex].DataBoundItem is EntityMetadataProxy data
-                && !string.IsNullOrEmpty(data.Metadata.EntityColor))
+            if (sender is DataGridView dgv &&
+                dgv.Rows[e.RowIndex].DataBoundItem is EntityMetadataProxy data)
             {
-                e.CellStyle.BackColor = ColorTranslator.FromHtml(data.Metadata.EntityColor);
+                if (e.ColumnIndex == 0 &&
+                    !string.IsNullOrEmpty(data.Metadata.EntityColor))
+                {
+                    e.CellStyle.BackColor = ColorTranslator.FromHtml(data.Metadata.EntityColor);
+                }
+                if (e.ColumnIndex == 3 &&
+                    data.Group is EntityGroup group &&
+                    group.Color != null)
+                {
+                    e.CellStyle.BackColor = group.Color;
+                }
             }
         }
 
@@ -531,6 +539,73 @@ namespace Rappen.XTB.LCG
             Supporting.ShowIf(this, true, false, ai2);
         }
 
+        private void cmbGroup_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var group = cmbGroup.SelectedItem as EntityGroup;
+            if (selectedEntity != null)
+            {
+                selectedEntity.Group = group;
+                gridEntities.Refresh();
+            }
+            SelectGroup(group);
+        }
+
+        private void posGroupUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            if (!(cmbGroup.SelectedItem is EntityGroup group))
+            {
+                return;
+            }
+            var pos = settings.Groups.IndexOf(group) + 1;
+            if (pos == posGroupUpDown.Value)
+            {
+                return;
+            }
+            settings.Groups.Move(group, pos > (int)posGroupUpDown.Value);
+            FillGroups(group);
+            cmbGroup.DroppedDown = true;
+        }
+
+        private void btnGroupColor_Click(object sender, EventArgs e)
+        {
+            if (cmbGroup.SelectedItem is EntityGroup group)
+            {
+                colorDialog1.Color = group.Color;
+                if (colorDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    group.Color = colorDialog1.Color;
+                    SelectGroup(group);
+                }
+            }
+        }
+
+        private void btnGroupAdd_Click(object sender, EventArgs e)
+        {
+            var groupname = Extensions.ShowPrompt("Enter name of the new group.", "New Group");
+            if (!string.IsNullOrEmpty(groupname))
+            {
+                SelectGroup(new EntityGroup { Name = groupname });
+                gridEntities.Refresh();
+            }
+        }
+
+        private void btnGroupDelete_Click(object sender, EventArgs e)
+        {
+            if (!(cmbGroup.SelectedItem is EntityGroup group))
+            {
+                return;
+            }
+            var grpents = entities.Where(ent => ent.Group == group).ToList();
+            if (MessageBoxEx.Show(this, $"Deleting Group '{group}', used by {grpents.Count} entities.\n\nPlease confirm.", "Delete Group", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
+            {
+                grpents.ForEach(ent => ent.Group = null);
+                gridEntities.Refresh();
+                settings.Groups.Remove(group);
+                cmbGroup.Items.Remove(group);
+                SelectGroup(null);
+            }
+        }
+
         #endregion Private Event Handlers
 
         #region Private Methods
@@ -755,6 +830,7 @@ namespace Rappen.XTB.LCG
             if (entity != null && (force || entity != selectedEntity))
             {
                 selectedEntity = entity;
+                SelectGroup(entity.Group);
                 DisplayAttributes();
                 DisplayFilteredRelationships();
             }
@@ -974,7 +1050,11 @@ namespace Rappen.XTB.LCG
                         entity.Attributes
                             .ForEach(attr => attr.UnDefaultValues = records.Entities.Count(r => !IsDefaultValue(r, attr)));
                         entity.Attributes
-                            .ForEach(attr => attr.UniqueValues = records.Entities.Select(e => e.Contains(attr.LogicalName) ? AttributeToBaseType(e[attr.LogicalName]) : null).Where(v => v != null).Distinct().Count());
+                            .ForEach(attr => attr.UniqueValues = records.Entities
+                                .Select(e => e.Contains(attr.LogicalName) ? AttributeToBaseType(e[attr.LogicalName]) : null)
+                                .Where(v => v != null)
+                                .Distinct()
+                                .Count());
                     }
                     DisplayFilteredAttributes();
                 }
@@ -1212,6 +1292,7 @@ namespace Rappen.XTB.LCG
                     .Select(e => new SelectedEntity
                     {
                         Name = e.LogicalName,
+                        Group = e.Group?.Name,
                         Attributes = e.Attributes != null ?
                             e.Attributes
                                 .Where(a => a.IsSelected)
@@ -1474,6 +1555,7 @@ namespace Rappen.XTB.LCG
             }
             settings.SetFixedValues(isUML);
             ApplySettings();
+            FillGroups();
         }
 
         private void LoadSolutionEntities(SolutionProxy solution, Action callback)
@@ -1692,6 +1774,10 @@ This behavior can be prevented by unchecking the box 'Include configuration' in 
                 {
                     entity.SetSelected(true);
                 }
+                if (!string.IsNullOrEmpty(selectedentity.Group))
+                {  // Set group if it was stored in config
+                    entity.Group = settings.Groups.FirstOrDefault(g => g.Name == selectedentity.Group);
+                }
                 entity.Attributes.ForEach(a => a.SetSelected(false));
                 entity.Relationships.ForEach(r => r.SetSelected(false));
                 foreach (var attributename in selectedentity.Attributes)
@@ -1830,6 +1916,48 @@ This behavior can be prevented by unchecking the box 'Include configuration' in 
             {
                 Mi();
             }
+        }
+
+        private void FillGroups(EntityGroup selected = null)
+        {
+            cmbGroup.Items.Clear();
+            cmbGroup.Items.Add("");
+            cmbGroup.Items.AddRange(settings.Groups.ToArray());
+            SelectGroup(selected);
+        }
+
+        private void SelectGroup(EntityGroup group)
+        {
+            posGroupUpDown.Minimum = 0;
+            posGroupUpDown.Maximum = settings.Groups.Count;
+            if (group != null)
+            {
+                if (!settings.Groups.Contains(group))
+                {
+                    settings.Groups.Add(group);
+                }
+                if (cmbGroup.Items.IndexOf(group) < 0)
+                {
+                    cmbGroup.Items.Add(group);
+                }
+                posGroupUpDown.Value = Math.Max(posGroupUpDown.Minimum, cmbGroup.SelectedIndex);
+            }
+            if (cmbGroup.SelectedItem != group)
+            {
+                if (group != null)
+                {
+                    cmbGroup.SelectedItem = group;
+                }
+                else
+                {
+                    cmbGroup.SelectedIndex = 0;
+                }
+            }
+            cmbGroup.Enabled = settings.Groups.Count > 0;
+            posGroupUpDown.Enabled = group != null && settings.Groups.Count >= 2;
+            btnGroupColor.Enabled = group != null;
+            btnGroupDelete.Enabled = group != null;
+            btnGroupColor.BackColor = group?.Color ?? Color.White;
         }
 
         #endregion Private Methods
