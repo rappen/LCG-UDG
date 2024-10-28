@@ -8,9 +8,8 @@ namespace Rappen.XTB.LCG
 {
     public class GenerationUtils
     {
-        public static bool GenerateFiles(List<EntityMetadataProxy> entitiesmetadata, Settings settings, IConstantFileWriter fileWriter)
+        public static bool GenerateFiles(List<EntityMetadataProxy> selectedentities, Settings settings, IConstantFileWriter fileWriter)
         {
-            var selectedentities = entitiesmetadata.Where(e => e.Selected).ToList();
             var commonentity = GetCommonEntity(selectedentities, settings);
             if (commonentity != null)
             {
@@ -18,7 +17,15 @@ namespace Rappen.XTB.LCG
                 var fileName = commonentity.GetNameTechnical(settings.FileName, settings) + settings.commonsettings.FileSuffix;
                 fileWriter.WriteBlock(settings, entity, fileName);
             }
-            foreach (var entitymetadata in selectedentities)
+            if (settings.Groups?.Count > 0)
+            {
+                foreach (var group in settings.Groups.Where(g => selectedentities.Any(e => e.Group == g)))
+                {
+                    var groupstr = GetGroup(group, selectedentities.Where(e => e.Group == group).ToList(), settings);
+                    fileWriter.WriteBlock(settings, groupstr, group.Name);
+                }
+            }
+            foreach (var entitymetadata in selectedentities.Where(e => e.Group == null))
             {
                 var entity = GetClass(entitymetadata, commonentity, settings);
                 var fileName = entitymetadata.GetNameTechnical(settings.FileName, settings) + settings.commonsettings.FileSuffix;
@@ -91,6 +98,27 @@ namespace Rappen.XTB.LCG
             };
 
             return result;
+        }
+
+        private static string GetGroup(EntityGroup group, List<EntityMetadataProxy> selectedentities, Settings settings)
+        {
+            var template = settings.commonsettings.Template;
+
+            var entities = new StringBuilder();
+            foreach (var entitymetadata in selectedentities)
+            {
+                var entity = GetClass(entitymetadata, null, settings);
+                entities.AppendLine(entity);
+            }
+            var color = group.ColorToString ?? "";
+            if (!string.IsNullOrEmpty(color))
+            {
+                color = "#" + color;
+            }
+            return settings.commonsettings.Template.EntityGroup
+                .Replace("{group}", group.Name)
+                .Replace("{color}", color)
+                .Replace("{entities}", entities.ToString());
         }
 
         private static string GetClass(EntityMetadataProxy entitymetadata, EntityMetadataProxy commonentity, Settings settings)
