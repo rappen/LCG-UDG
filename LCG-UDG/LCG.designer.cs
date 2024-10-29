@@ -288,20 +288,20 @@
             // 
             this.btnOpenGeneratedFile.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenGeneratedFile.Image")));
             this.btnOpenGeneratedFile.Name = "btnOpenGeneratedFile";
-            this.btnOpenGeneratedFile.Size = new System.Drawing.Size(190, 38);
+            this.btnOpenGeneratedFile.Size = new System.Drawing.Size(174, 22);
             this.btnOpenGeneratedFile.Text = "Generated C# file...";
             this.btnOpenGeneratedFile.Click += new System.EventHandler(this.btnOpenGeneratedFile_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(187, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(171, 6);
             // 
             // btnOpenConfig
             // 
             this.btnOpenConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenConfig.Image")));
             this.btnOpenConfig.Name = "btnOpenConfig";
-            this.btnOpenConfig.Size = new System.Drawing.Size(190, 38);
+            this.btnOpenConfig.Size = new System.Drawing.Size(174, 22);
             this.btnOpenConfig.Text = "Project file...";
             this.btnOpenConfig.Click += new System.EventHandler(this.btnLoadConfig_Click);
             // 
@@ -324,20 +324,20 @@
             // 
             this.btnSaveCsAs.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveCsAs.Image")));
             this.btnSaveCsAs.Name = "btnSaveCsAs";
-            this.btnSaveCsAs.Size = new System.Drawing.Size(169, 38);
+            this.btnSaveCsAs.Size = new System.Drawing.Size(153, 22);
             this.btnSaveCsAs.Text = "C# file as...";
             this.btnSaveCsAs.Click += new System.EventHandler(this.btnGenerate_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(166, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(150, 6);
             // 
             // btnSaveConfig
             // 
             this.btnSaveConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveConfig.Image")));
             this.btnSaveConfig.Name = "btnSaveConfig";
-            this.btnSaveConfig.Size = new System.Drawing.Size(169, 38);
+            this.btnSaveConfig.Size = new System.Drawing.Size(153, 22);
             this.btnSaveConfig.Text = "Project file";
             this.btnSaveConfig.Click += new System.EventHandler(this.btnSaveConfigAs_Click);
             // 
@@ -345,7 +345,7 @@
             // 
             this.btnSaveConfigAs.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveConfigAs.Image")));
             this.btnSaveConfigAs.Name = "btnSaveConfigAs";
-            this.btnSaveConfigAs.Size = new System.Drawing.Size(169, 38);
+            this.btnSaveConfigAs.Size = new System.Drawing.Size(153, 22);
             this.btnSaveConfigAs.Text = "Project file as...";
             this.btnSaveConfigAs.Click += new System.EventHandler(this.btnSaveConfigAs_Click);
             // 
@@ -1138,11 +1138,13 @@
             // 
             // picAttReloadRecords
             // 
-            this.picAttReloadRecords.Image = global::Rappen.XTB.LCG.Properties.Resources.refresh;
+            this.picAttReloadRecords.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picAttReloadRecords.Image = global::Rappen.XTB.LCG.Properties.Resources.icons8_reset_32__2_1;
             this.picAttReloadRecords.Location = new System.Drawing.Point(240, 38);
             this.picAttReloadRecords.Margin = new System.Windows.Forms.Padding(2);
             this.picAttReloadRecords.Name = "picAttReloadRecords";
             this.picAttReloadRecords.Size = new System.Drawing.Size(16, 16);
+            this.picAttReloadRecords.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picAttReloadRecords.TabIndex = 9;
             this.picAttReloadRecords.TabStop = false;
             this.toolTip1.SetToolTip(this.picAttReloadRecords, "Reloading record datas");

@@ -349,6 +349,9 @@
   <ItemGroup>
     <None Include="Resources\We-Support-icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-reset-32 %282%291.png" />
+  </ItemGroup>
   <Import Project="..\Rappen.XTB.Helper\Rappen.XRM.Helpers\Rappen.XRM.Helpers.projitems" Label="Shared" />
   <Import Project="..\Rappen.XTB.Helper\Rappen.XTB.Helpers\Rappen.XTB.Helpers.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

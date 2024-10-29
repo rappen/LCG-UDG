@@ -739,6 +739,7 @@ namespace Rappen.XTB.LCG
             if (selectedEntity?.Attributes != null && selectedEntity.Attributes.Count > 0)
             {
                 chkAttUniques.Enabled = chkAttUsed.Checked;
+                picAttReloadRecords.Visible = chkAttUsed.Checked;
                 if (!chkAttUsed.Checked && chkAttUniques.Checked)
                 {
                     chkAttUniques.Checked = false;
