@@ -774,11 +774,10 @@ namespace Rappen.XTB.LCG
                         LoadSolutionEntities(solution, DisplayFilteredEntities);
                         return;
                     }
-                    filteredentities = filteredentities
-                        .Where(e => solution.Entities.Contains(e.LogicalName));
+                    filteredentities = filteredentities.Where(e => solution.Entities.Contains(e.LogicalName));
                 }
-
                 gridEntities.DataSource = new SortableBindingList<EntityMetadataProxy>(filteredentities);
+                FixingEntityColumnWidths();
             }
             else
             {
@@ -1523,15 +1522,21 @@ namespace Rappen.XTB.LCG
             {
                 RestoreSelectedEntities();
                 DisplayFilteredEntities();
-                if (gridEntities.Columns.Count > 0)
-                {
-                    gridEntities.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
-                    gridEntities.Columns[0].Width = 30;
-                    gridEntities.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                }
+                FixingEntityColumnWidths();
                 menuOpen.Enabled = true;
                 EnableControls(true);
             });
+        }
+
+        private void FixingEntityColumnWidths()
+        {
+            if (gridEntities.Columns.Count < 4)
+            {
+                return;
+            }
+            gridEntities.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+            gridEntities.Columns[0].Width = 30;
+            gridEntities.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
         }
 
         private void SetEntityRecords(string entityname, int count, string error)
