@@ -1530,13 +1530,22 @@ namespace Rappen.XTB.LCG
 
         private void FixingEntityColumnWidths()
         {
-            if (gridEntities.Columns.Count < 4)
+            if (gridEntities.Columns.Count < 5)
             {
                 return;
             }
             gridEntities.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
             gridEntities.Columns[0].Width = 30;
-            gridEntities.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            var widthavailable = gridEntities.Width - gridEntities.Columns[0].Width - 10;
+            if (gridEntities.Columns[1].Width > widthavailable / 2)
+            {
+                gridEntities.Columns[1].Width = widthavailable / 2;
+            }
+            if (gridEntities.Columns[1].Width + gridEntities.Columns[2].Width + gridEntities.Columns[3].Width > widthavailable)
+            {
+                gridEntities.Columns[2].Width = widthavailable / 4;
+            }
+            gridEntities.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
         }
 
         private void SetEntityRecords(string entityname, int count, string error)
