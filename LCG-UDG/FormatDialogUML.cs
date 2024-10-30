@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rappen.XTB.Helpers;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -17,6 +18,7 @@ namespace Rappen.XTB.LCG
             {
                 settingdlg.chkFileIncludeSelection.Checked = settings.SaveConfigurationInCommonFile;
                 settingdlg.txtNamespace.Text = settings.NameSpace;
+                settingdlg.cmbTheme.Text = settings.Theme;
                 settingdlg.cmbConstantName.SelectedIndex = (int)settings.ConstantName;
                 settingdlg.chkConstCamelCased.Checked = settings.ConstantCamelCased && settings.ConstantName != NameType.DisplayName;
                 settingdlg.chkConstStripPrefix.Checked = settings.DoStripPrefix && settings.ConstantName != NameType.DisplayName;
@@ -45,6 +47,7 @@ namespace Rappen.XTB.LCG
                 {
                     settings.SaveConfigurationInCommonFile = settingdlg.chkFileIncludeSelection.Checked;
                     settings.NameSpace = settingdlg.txtNamespace.Text;
+                    settings.Theme = settingdlg.cmbTheme.Text.Trim();
                     settings.ConstantName = (NameType)Math.Max(settingdlg.cmbConstantName.SelectedIndex, 0);
                     settings.ConstantCamelCased = settingdlg.chkConstCamelCased.Checked;
                     settings.DoStripPrefix = settingdlg.chkConstStripPrefix.Checked;
@@ -92,6 +95,11 @@ namespace Rappen.XTB.LCG
             {
                 txtConstStripPrefix.Text = txtConstStripPrefix.Text.ToLowerInvariant().TrimEnd('_') + "_";
             }
+        }
+
+        private void link_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            UrlUtils.OpenUrl(sender);
         }
     }
 }

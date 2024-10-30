@@ -51,6 +51,7 @@ namespace Rappen.XTB.LCG
         public string Version { get; set; }
         public string OutputFolder { get; set; }
         public string NameSpace { get; set; }
+        public string Theme { get; set; }
         public bool UseCommonFile { get; set; }
         public bool SaveConfigurationInCommonFile { get; set; } = true;
         public string CommonFile { get; set; }
@@ -81,6 +82,7 @@ namespace Rappen.XTB.LCG
 
         internal CommonSettings commonsettings;
         internal string CommonFilePath => Path.Combine(OutputFolder, CommonFile + commonsettings.FileSuffix);
+
         internal bool ValidateIdentifiers = true;
 
         public IConstantFileWriter GetWriter(string orgUrl)
@@ -94,6 +96,7 @@ namespace Rappen.XTB.LCG
         {
             Version = source.Version;
             NameSpace = source.NameSpace;
+            Theme = source.Theme;
             UseCommonFile = source.UseCommonFile;
             FileName = source.FileName;
             ConstantName = source.ConstantName;
@@ -119,6 +122,7 @@ namespace Rappen.XTB.LCG
             var result = new Settings();
             result.OutputFolder = null;
             result.NameSpace = null;
+            result.Theme = null;
             result.CommonFile = null;
             result.StripPrefix = null;
             result.Selection = null;
@@ -127,6 +131,19 @@ namespace Rappen.XTB.LCG
             result.AttributeFilter = null;
             result.RelationshipFilter = null;
             return result;
+        }
+
+        internal string GetTheme()
+        {
+            if (Theme.ToLowerInvariant().StartsWith("http"))
+            {
+                return $"!include {Theme}";
+            }
+            if (!string.IsNullOrWhiteSpace(Theme))
+            {
+                return $"!theme {Theme}";
+            }
+            return "";
         }
     }
 

@@ -338,7 +338,7 @@ namespace Rappen.XTB.LCG
             {
                 name += "_";
             }
-            name = attributemetadata.Metadata.IsCustomAttribute.Value ?
+            name = attributemetadata.Metadata.IsCustomAttribute.Value && string.IsNullOrEmpty(settings.Theme) ?
                 template.CustomAttribute.ReplaceIfNotEmpty("{attribute}", name) :
                 template.StandardAttribute.ReplaceIfNotEmpty("{attribute}", name);
             switch (attributemetadata.Metadata.RequiredLevel.Value)

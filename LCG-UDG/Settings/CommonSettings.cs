@@ -86,7 +86,7 @@ namespace Rappen.XTB.LCG
             }
             else
             {
-                TemplateVersion = 6;    // Change this when UML template is updated to revert customizations
+                TemplateVersion = 7;    // Change this when UML template is updated to revert customizations
                 Legend = @"
 entity **Legend** <<standard>> #CCFFEE {
     (PK) = Primary Key
@@ -99,14 +99,13 @@ entity **Legend** <<standard>> #CCFFEE {
 }";
                 DataContainer = @"
 @startuml {namespace}
+
+{theme}
+
+skinparam Padding {paddingsize}
+skinparam linetype ortho
 hide circle
 hide stereotype
-skinparam linetype ortho
-skinparam RoundCorner 5
-skinparam Padding {paddingsize}
-skinparam ArrowFontSize 12
-skinparam ClassBorderColor Black
-skinparam ClassBorderColor<<custom>> Blue
 
 {legend}
 
@@ -114,6 +113,11 @@ title {namespace} Entity Model
 footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
 {data}
 @enduml";
+                Theme = @"
+skinparam RoundCorner 5
+skinparam ArrowFontSize 12
+skinparam ClassBorderColor Black
+skinparam ClassBorderColor<<custom>> Blue";
                 EntityGroup = "package \"{group}\" {color}\n{\n{entities}\n}";
                 EntityContainer = "entity {entityname}{typedetails} <<{type}>>\n{\n{attributes}\n}";
                 Attribute = "{attribute}: {type}{typedetails}";
@@ -141,6 +145,7 @@ footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
 
         public string Legend { get; set; }
         public string DataContainer { get; set; } = "namespace {namespace}\n{\n{data}\n}";
+        public string Theme { get; set; } = "";
         public string EntityGroup { get; set; } = "#region {group}\n{entities}\n#endregion {group}\n";
         public string EntityContainer { get; set; } = "{summary}\n{remarks}\npublic static class {entityname}\n{\n{entitydetail}\n{attributes}\n{relationships}\n{optionsets}\n}";
         public string EntityDetail { get; set; } = "public const string EntityName = '{logicalname}';\npublic const string EntityCollectionName = '{logicalcollectionname}';";
@@ -191,6 +196,7 @@ footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
     FileContainer
         FileHeader
         DataContainer
+          [Theme]
           [Group]
             EntityContainer
                 EntityDetails
