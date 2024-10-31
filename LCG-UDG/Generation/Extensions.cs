@@ -30,7 +30,7 @@ namespace Rappen.XTB.LCG
             var header = GetFileHeader(filename, orgurl, settings, version);
             var content = GetDataContent(data, settings, version);
             content = header + "\r\n\r\n" + content;
-            content = content.BeautifyContent(settings.commonsettings.Template.IndentStr);
+            content = content.BeautifyContent(settings.commonsettings.GetTemplate().IndentStr);
             if (settings.SaveConfigurationInCommonFile)
             {
                 string selection = GetInlineConfiguration(settings);
@@ -62,13 +62,13 @@ namespace Rappen.XTB.LCG
 
         private static string GetFileHeader(string filename, string orgurl, Settings settings, string version)
         {
-            var header = settings.commonsettings.Template.FileHeader
+            var header = settings.commonsettings.GetTemplate().FileHeader
                 .Replace("{toolname}", settings.commonsettings.ToolName)
                 .Replace("{version}", version)
                 .Replace("{organization}", orgurl)
                 .Replace("{filename}", filename)
                 .Replace("{createdate}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
-                .Replace("{legend}", settings.Legend ? settings.commonsettings.Template.Legend : string.Empty)
+                .Replace("{legend}", settings.Legend ? settings.commonsettings.GetTemplate().Legend : string.Empty)
                 .Replace("{namespace}", settings.NameSpace)
                 .Replace("\r\n\r\n", "\r\n");
             return header;
@@ -76,12 +76,12 @@ namespace Rappen.XTB.LCG
 
         private static string GetDataContent(string data, Settings settings, string version)
         {
-            return settings.commonsettings.Template.DataContainer
+            return settings.commonsettings.GetTemplate().DataContainer
                 .Replace("{toolname}", settings.commonsettings.ToolName)
                 .Replace("{version}", version)
                 .Replace("{namespace}", settings.NameSpace)
-                .Replace("{theme}", string.IsNullOrEmpty(settings.Theme) ? settings.commonsettings.Template.Theme : settings.GetTheme())
-                .Replace("{legend}", settings.Legend ? settings.commonsettings.Template.Legend : string.Empty)
+                .Replace("{theme}", string.IsNullOrEmpty(settings.Theme) ? settings.commonsettings.GetTemplate().Theme : settings.GetTheme())
+                .Replace("{legend}", settings.Legend ? settings.commonsettings.GetTemplate().Legend : string.Empty)
                 .Replace("{paddingsize}", settings.TableSize.ToString())
                 .Replace("{data}", data);
         }

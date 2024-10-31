@@ -1,21 +1,26 @@
-﻿using System.Collections.Generic;
-
-namespace Rappen.XTB.LCG
+﻿namespace Rappen.XTB.LCG
 {
     public class CommonSettings
     {
         public CommonSettings() : this(false)
         {
         }
+        public CommonSettings(TemplateFormat templateFormat)
+        {
+            SetFixedValues(templateFormat);
+        }
 
         public CommonSettings(bool isUML)
         {
+            var templateFormat = TemplateFormat.Constants;
             Template = new Template(isUML);
+
             if (isUML)
             {
-                AttributeSeparatorAfterPK = "--";
+                templateFormat = TemplateFormat.UML;
+                // AttributeSeparatorAfterPK = "--";
             }
-            SetFixedValues(isUML);
+            SetFixedValues(templateFormat);
         }
 
         internal void MigrateFromOldConfig(bool isUML)
@@ -35,17 +40,36 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        internal void SetFixedValues(bool isUML)
+        internal void SetFixedValues(TemplateFormat templateFormat)
         {
-            if (isUML)
+            switch (templateFormat)
             {
-                ToolName = LCG.toolnameUDG;
-                FileType = "PlantUML";
-                FileSuffix = ".plantuml";
-                InlineConfigBegin = InlineConfigBegin.Replace("/*", "/'").Replace("*/", "'/");
-                InlineConfigEnd = InlineConfigEnd.Replace("/*", "/'").Replace("*/", "'/");
+                case TemplateFormat.Constants:
+                    Template = new Template(false);
+                    break;
+
+                case TemplateFormat.DBML:
+                    Template = new TemplateDBML();
+                    ToolName = LCG.toolnameUDG;
+                    FileType = TemplateBase.OutputFormatDBML;
+                    FileSuffix = ".dbml";
+
+                    AttributeSeparatorAfterPK = string.Empty;
+
+                    break;
+
+                case TemplateFormat.UML:
+                    Template = new Template(true);
+
+                    ToolName = LCG.toolnameUDG;
+                    FileType = "PlantUML";
+                    FileSuffix = ".plantuml";
+                    InlineConfigBegin = InlineConfigBegin.Replace("/*", "/'").Replace("*/", "'/");
+                    InlineConfigEnd = InlineConfigEnd.Replace("/*", "/'").Replace("*/", "'/");
+                    AttributeSeparatorAfterPK = "--";
+                    break;
             }
-            Template.SetFixedValues(isUML);
+            Template.SetFixedValues(templateFormat);
         }
 
         internal string ToolName = LCG.toolnameLCG;
@@ -69,10 +93,12 @@ namespace Rappen.XTB.LCG
         public string[] InternalAttributes { get; set; } = new string[] { "importsequencenumber", "owneridname", "owneridtype", "owneridyominame", "createdbyname", "createdbyyominame", "createdonbehalfby", "createdonbehalfbyname", "createdonbehalfbyyominame", "modifiedbyname", "modifiedbyyominame", "modifiedonbehalfby", "modifiedonbehalfbyname", "modifiedonbehalfbyyominame", "overriddencreatedon", "owningbusinessunit", "owningteam", "owninguser", "regardingobjectidname", "regardingobjectidyominame", "regardingobjecttypecode", "timezoneruleversionnumber", "transactioncurrencyidname", "utcconversiontimezonecode", "versionnumber" };
         public string[] MicrosoftPrefixes { get; set; } = new string[] { "msdyn_", "msdynce_", "msdyncrm_", "msdynmkt_", "msfp_", "mspcat_", "mspp_", "sales_", "adx_", "bot_", "botcomponent_" };
 
-        public Template Template { get; set; }
+        // changed to an accessor because serialization was failing with an Interface
+        private ITemplate Template { get; set; }
+        public ITemplate GetTemplate() => this.Template;
     }
 
-    public class Template
+    public class Template : TemplateBase
     {
         public Template() : this(false)
         {
@@ -127,65 +153,6 @@ skinparam ClassBorderColor<<custom>> Blue";
                 CustomAttribute = "<color:blue>{attribute}</color>";
                 RequiredLevelRequired = "*{attribute}";
                 RequiredLevelRecommended = "+{attribute}";
-            }
-        }
-
-        public int TemplateVersion { get; set; }
-        internal string IndentStr = "    ";
-        internal string FileContainer = "{header}\n{data}";
-
-        internal string FileHeader = @"// *********************************************************************
-// Created by : {toolname} {version} for XrmToolBox
-// Author     : Jonas Rapp https://jonasr.app/
-// GitHub     : https://github.com/rappen/LCG-UDG/
-// Source Org : {organization}
-// Filename   : {filename}
-// Created    : {createdate}
-// *********************************************************************";
-
-        public string Legend { get; set; }
-        public string DataContainer { get; set; } = "namespace {namespace}\n{\n{data}\n}";
-        public string Theme { get; set; } = "";
-        public string EntityGroup { get; set; } = "#region {group}\n{entities}\n#endregion {group}\n";
-        public string EntityContainer { get; set; } = "{summary}\n{remarks}\npublic static class {entityname}\n{\n{entitydetail}\n{attributes}\n{relationships}\n{optionsets}\n}";
-        public string EntityDetail { get; set; } = "public const string EntityName = '{logicalname}';\npublic const string EntityCollectionName = '{logicalcollectionname}';";
-        public string Attribute { get; set; } = "{summary}\n{remarks}\npublic const string {attribute} = '{logicalname}';";
-        public string Relationship { get; set; } = "{summary}\npublic const string {relationship} = '{schemaname}';";
-        public string OptionSet { get; set; } = "public enum {name}\n{\n{values}\n}";
-        public string OptionSetValue { get; set; } = "{name} = {value}";
-        public string Region { get; set; } = "#region {region}\n{content}\n#endregion {region}";
-        public string Summary { get; set; } = "/// <summary>{summary}</summary>";
-        public string Remarks { get; set; } = "/// <remarks>{remarks}</remarks>";
-        public string PrimaryKeyName { get; set; } = "PrimaryKey";
-        public string PrimaryAttributeName { get; set; } = "PrimaryName";
-        public string StandardAttribute { get; set; } = string.Empty;
-        public string CustomAttribute { get; set; } = string.Empty;
-        public string RequiredLevelRequired { get; set; } = string.Empty;
-        public string RequiredLevelRecommended { get; set; } = string.Empty;
-        public string RequiredLevelNone { get; set; } = string.Empty;
-        public bool AddAllRelationshipsAfterEntities { get; set; } = false;
-
-        internal void SetFixedValues(bool isUML)
-        {
-            if (!isUML)
-            {
-                StandardAttribute = string.Empty;
-                CustomAttribute = string.Empty;
-                RequiredLevelRequired = string.Empty;
-                RequiredLevelRecommended = string.Empty;
-                RequiredLevelNone = string.Empty;
-                AddAllRelationshipsAfterEntities = false;
-            }
-            else
-            {
-                FileHeader = "/'" + FileHeader.Replace("// ", "") + "'/";
-                EntityDetail = string.Empty;
-                OptionSet = string.Empty;
-                OptionSetValue = string.Empty;
-                Region = string.Empty;
-                Summary = string.Empty;
-                Remarks = string.Empty;
-                AddAllRelationshipsAfterEntities = true;
             }
         }
     }
