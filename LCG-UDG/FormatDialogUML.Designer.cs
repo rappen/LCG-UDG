@@ -46,7 +46,9 @@
             this.chkShowLegend = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.chkFileIncludeSelection = new System.Windows.Forms.CheckBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.labelFileStructure = new System.Windows.Forms.Label();
+            this.labelOutputFormat = new System.Windows.Forms.Label();
+            this.cmbOutputFormat = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.chkTypeDetails = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -72,7 +74,7 @@
             // chkConstCamelCased
             // 
             this.chkConstCamelCased.AutoSize = true;
-            this.chkConstCamelCased.Location = new System.Drawing.Point(325, 96);
+            this.chkConstCamelCased.Location = new System.Drawing.Point(355, 124);
             this.chkConstCamelCased.Name = "chkConstCamelCased";
             this.chkConstCamelCased.Size = new System.Drawing.Size(85, 17);
             this.chkConstCamelCased.TabIndex = 6;
@@ -85,7 +87,7 @@
             this.txtConstStripPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtConstStripPrefix.Enabled = false;
-            this.txtConstStripPrefix.Location = new System.Drawing.Point(226, 121);
+            this.txtConstStripPrefix.Location = new System.Drawing.Point(226, 149);
             this.txtConstStripPrefix.Name = "txtConstStripPrefix";
             this.txtConstStripPrefix.Size = new System.Drawing.Size(214, 20);
             this.txtConstStripPrefix.TabIndex = 8;
@@ -94,7 +96,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(24, 124);
+            this.label10.Location = new System.Drawing.Point(24, 152);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(33, 13);
             this.label10.TabIndex = 14;
@@ -104,7 +106,7 @@
             // 
             this.chkConstStripPrefix.AutoSize = true;
             this.chkConstStripPrefix.Enabled = false;
-            this.chkConstStripPrefix.Location = new System.Drawing.Point(141, 123);
+            this.chkConstStripPrefix.Location = new System.Drawing.Point(141, 151);
             this.chkConstStripPrefix.Name = "chkConstStripPrefix";
             this.chkConstStripPrefix.Size = new System.Drawing.Size(89, 17);
             this.chkConstStripPrefix.TabIndex = 7;
@@ -120,16 +122,16 @@
             "Display Name",
             "Schema Name",
             "Logical Name"});
-            this.cmbConstantName.Location = new System.Drawing.Point(141, 93);
+            this.cmbConstantName.Location = new System.Drawing.Point(141, 122);
             this.cmbConstantName.Name = "cmbConstantName";
-            this.cmbConstantName.Size = new System.Drawing.Size(178, 21);
+            this.cmbConstantName.Size = new System.Drawing.Size(189, 21);
             this.cmbConstantName.TabIndex = 5;
             this.cmbConstantName.SelectedIndexChanged += new System.EventHandler(this.cmbConstantName_SelectedIndexChanged);
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(24, 97);
+            this.label8.Location = new System.Drawing.Point(24, 125);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(47, 13);
             this.label8.TabIndex = 8;
@@ -165,15 +167,15 @@
             "No sorting",
             "Alphabetically",
             "Required Level and Alphabetically"});
-            this.cmbSortAttributes.Location = new System.Drawing.Point(141, 147);
+            this.cmbSortAttributes.Location = new System.Drawing.Point(141, 175);
             this.cmbSortAttributes.Name = "cmbSortAttributes";
-            this.cmbSortAttributes.Size = new System.Drawing.Size(178, 21);
+            this.cmbSortAttributes.Size = new System.Drawing.Size(189, 21);
             this.cmbSortAttributes.TabIndex = 9;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(24, 151);
+            this.label1.Location = new System.Drawing.Point(24, 178);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(86, 13);
             this.label1.TabIndex = 104;
@@ -182,7 +184,7 @@
             // chkRelationshipLabels
             // 
             this.chkRelationshipLabels.AutoSize = true;
-            this.chkRelationshipLabels.Location = new System.Drawing.Point(141, 204);
+            this.chkRelationshipLabels.Location = new System.Drawing.Point(141, 225);
             this.chkRelationshipLabels.Name = "chkRelationshipLabels";
             this.chkRelationshipLabels.Size = new System.Drawing.Size(130, 17);
             this.chkRelationshipLabels.TabIndex = 12;
@@ -192,7 +194,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(24, 205);
+            this.label2.Location = new System.Drawing.Point(24, 226);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(70, 13);
             this.label2.TabIndex = 105;
@@ -201,7 +203,7 @@
             // lblNamespace
             // 
             this.lblNamespace.AutoSize = true;
-            this.lblNamespace.Location = new System.Drawing.Point(24, 43);
+            this.lblNamespace.Location = new System.Drawing.Point(24, 99);
             this.lblNamespace.Name = "lblNamespace";
             this.lblNamespace.Size = new System.Drawing.Size(27, 13);
             this.lblNamespace.TabIndex = 107;
@@ -211,15 +213,15 @@
             // 
             this.txtNamespace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtNamespace.Location = new System.Drawing.Point(141, 40);
+            this.txtNamespace.Location = new System.Drawing.Point(141, 96);
             this.txtNamespace.Name = "txtNamespace";
             this.txtNamespace.Size = new System.Drawing.Size(299, 20);
-            this.txtNamespace.TabIndex = 2;
+            this.txtNamespace.TabIndex = 4;
             // 
             // chkShowLegend
             // 
             this.chkShowLegend.AutoSize = true;
-            this.chkShowLegend.Location = new System.Drawing.Point(141, 231);
+            this.chkShowLegend.Location = new System.Drawing.Point(141, 248);
             this.chkShowLegend.Name = "chkShowLegend";
             this.chkShowLegend.Size = new System.Drawing.Size(88, 17);
             this.chkShowLegend.TabIndex = 13;
@@ -229,7 +231,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(24, 232);
+            this.label3.Location = new System.Drawing.Point(24, 249);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(25, 13);
             this.label3.TabIndex = 122;
@@ -238,26 +240,47 @@
             // chkFileIncludeSelection
             // 
             this.chkFileIncludeSelection.AutoSize = true;
-            this.chkFileIncludeSelection.Location = new System.Drawing.Point(141, 15);
+            this.chkFileIncludeSelection.Location = new System.Drawing.Point(141, 46);
             this.chkFileIncludeSelection.Name = "chkFileIncludeSelection";
             this.chkFileIncludeSelection.Size = new System.Drawing.Size(125, 17);
             this.chkFileIncludeSelection.TabIndex = 1;
             this.chkFileIncludeSelection.Text = "Include configuration";
             this.chkFileIncludeSelection.UseVisualStyleBackColor = true;
             // 
-            // label6
+            // labelFileStructure
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(24, 16);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(67, 13);
-            this.label6.TabIndex = 149;
-            this.label6.Text = "File structure";
+            this.labelFileStructure.AutoSize = true;
+            this.labelFileStructure.Location = new System.Drawing.Point(24, 47);
+            this.labelFileStructure.Name = "labelFileStructure";
+            this.labelFileStructure.Size = new System.Drawing.Size(67, 13);
+            this.labelFileStructure.TabIndex = 149;
+            this.labelFileStructure.Text = "File structure";
+            // 
+            // labelOutputFormat
+            // 
+            this.labelOutputFormat.AutoSize = true;
+            this.labelOutputFormat.Location = new System.Drawing.Point(24, 22);
+            this.labelOutputFormat.Name = "labelOutputFormat";
+            this.labelOutputFormat.Size = new System.Drawing.Size(71, 13);
+            this.labelOutputFormat.TabIndex = 150;
+            this.labelOutputFormat.Text = "Output format";
+            // 
+            // cmbOutputFormat
+            // 
+            this.cmbOutputFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbOutputFormat.FormattingEnabled = true;
+            this.cmbOutputFormat.Items.AddRange(new object[] {
+            "PlantUML",
+            "DBML"});
+            this.cmbOutputFormat.Location = new System.Drawing.Point(141, 19);
+            this.cmbOutputFormat.Name = "cmbOutputFormat";
+            this.cmbOutputFormat.Size = new System.Drawing.Size(299, 21);
+            this.cmbOutputFormat.TabIndex = 0;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(24, 178);
+            this.label4.Location = new System.Drawing.Point(24, 203);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(36, 13);
             this.label4.TabIndex = 150;
@@ -266,7 +289,7 @@
             // chkTypeDetails
             // 
             this.chkTypeDetails.AutoSize = true;
-            this.chkTypeDetails.Location = new System.Drawing.Point(141, 177);
+            this.chkTypeDetails.Location = new System.Drawing.Point(141, 202);
             this.chkTypeDetails.Name = "chkTypeDetails";
             this.chkTypeDetails.Size = new System.Drawing.Size(85, 17);
             this.chkTypeDetails.TabIndex = 10;
@@ -276,7 +299,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(24, 260);
+            this.label5.Location = new System.Drawing.Point(24, 276);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(57, 13);
             this.label5.TabIndex = 151;
@@ -285,7 +308,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(24, 287);
+            this.label7.Location = new System.Drawing.Point(24, 304);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(88, 13);
             this.label7.TabIndex = 152;
@@ -389,7 +412,7 @@
             this.panRelSizes.Controls.Add(this.rbRelSize4);
             this.panRelSizes.Controls.Add(this.rbRelSize2);
             this.panRelSizes.Controls.Add(this.rbRelSize3);
-            this.panRelSizes.Location = new System.Drawing.Point(135, 280);
+            this.panRelSizes.Location = new System.Drawing.Point(137, 297);
             this.panRelSizes.Name = "panRelSizes";
             this.panRelSizes.Size = new System.Drawing.Size(234, 30);
             this.panRelSizes.TabIndex = 15;
@@ -400,7 +423,7 @@
             this.panTableSizes.Controls.Add(this.rbTableSize10);
             this.panTableSizes.Controls.Add(this.rbTableSize50);
             this.panTableSizes.Controls.Add(this.rbTableSize20);
-            this.panTableSizes.Location = new System.Drawing.Point(137, 251);
+            this.panTableSizes.Location = new System.Drawing.Point(139, 268);
             this.panTableSizes.Name = "panTableSizes";
             this.panTableSizes.Size = new System.Drawing.Size(230, 25);
             this.panTableSizes.TabIndex = 14;
@@ -408,7 +431,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(24, 70);
+            this.label9.Location = new System.Drawing.Point(24, 72);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(40, 13);
             this.label9.TabIndex = 163;
@@ -462,19 +485,19 @@
             "toy",
             "united",
             "vibrant"});
-            this.cmbTheme.Location = new System.Drawing.Point(141, 66);
+            this.cmbTheme.Location = new System.Drawing.Point(141, 69);
             this.cmbTheme.Name = "cmbTheme";
-            this.cmbTheme.Size = new System.Drawing.Size(178, 21);
-            this.cmbTheme.TabIndex = 3;
+            this.cmbTheme.Size = new System.Drawing.Size(189, 21);
+            this.cmbTheme.TabIndex = 2;
             this.toolTip1.SetToolTip(this.cmbTheme, "Use an existing theme in the list, or use available online or on your disc!");
             // 
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(325, 70);
+            this.linkLabel1.Location = new System.Drawing.Point(367, 72);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(73, 13);
-            this.linkLabel1.TabIndex = 4;
+            this.linkLabel1.TabIndex = 3;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Tag = "https://plantuml.com/theme";
             this.linkLabel1.Text = "Themes Docs";
@@ -498,7 +521,9 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.chkTypeDetails);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.label6);
+            this.Controls.Add(this.cmbOutputFormat);
+            this.Controls.Add(this.labelOutputFormat);
+            this.Controls.Add(this.labelFileStructure);
             this.Controls.Add(this.chkFileIncludeSelection);
             this.Controls.Add(this.chkShowLegend);
             this.Controls.Add(this.label3);
@@ -551,7 +576,9 @@
         private System.Windows.Forms.CheckBox chkShowLegend;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox chkFileIncludeSelection;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label labelFileStructure;
+        private System.Windows.Forms.Label labelOutputFormat;
+        private System.Windows.Forms.ComboBox cmbOutputFormat;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox chkTypeDetails;
         private System.Windows.Forms.Label label5;

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using static Rappen.XTB.LCG.CommonSettings;
 
 namespace Rappen.XTB.LCG
 {
@@ -15,41 +16,54 @@ namespace Rappen.XTB.LCG
         {
         }
 
-        public Settings(bool isUML)
+        public Settings(bool isUML = true)
         {
+            TemplateFormat = TemplateFormat.UML;
+
             commonsettings = new CommonSettings(isUML);
             AttributeSortMode = isUML ? AttributeSortMode.AlphabeticalAndRequired : AttributeSortMode.None;
             Legend = isUML;
-            SetFixedValues(isUML);
+
+            SetFixedValues(this.TemplateFormat);
         }
 
-        internal void SetFixedValues(bool isUML)
+        internal void SetFixedValues()
         {
-            if (isUML)
-            {
-                UseCommonFile = true;
-                FileName = NameType.DisplayName;
-                CommonAttributes = CommonAttributesType.None;
-                XmlProperties = false;
-                XmlDescription = false;
-                Regions = false;
-                RelationShips = true;
-                OptionSets = false;
-                GlobalOptionSets = false;
-                ValidateIdentifiers = false;
-            }
-            else
-            {
-                RelationshipLabels = false;
-                AttributeSortMode = AttributeSortMode.None;
-                TypeDetails = false;
-                Legend = false;
-            }
-            commonsettings?.SetFixedValues(isUML);
+            SetFixedValues(this.TemplateFormat);
         }
+
+        internal void SetFixedValues(TemplateFormat templateFormat)
+        {
+            switch (templateFormat) 
+            {   case TemplateFormat.UML:
+                case TemplateFormat.DBML:
+                    UseCommonFile = true;
+                    FileName = NameType.DisplayName;
+                    CommonAttributes = CommonAttributesType.None;
+                    XmlProperties = false;
+                    XmlDescription = false;
+                    Regions = false;
+                    RelationShips = true;
+                    OptionSets = false;
+                    GlobalOptionSets = false;
+                    ValidateIdentifiers = false;
+                    break;
+                case TemplateFormat.Constants:
+                    RelationshipLabels = false;
+                    AttributeSortMode = AttributeSortMode.None;
+                    TypeDetails = false;
+                    Legend = false;
+                    break; 
+            } 
+            commonsettings?.SetFixedValues(this.TemplateFormat);
+        }
+
+        public TemplateFormat TemplateFormat { get; set; }
+        // public bool IsUml => this.TemplateFormat != TemplateFormat.Constants;
 
         public string Version { get; set; }
         public string OutputFolder { get; set; }
+        public string OutputFormat { get; set; } = TemplateBase.OutputFormatUML;
         public string NameSpace { get; set; }
         public string Theme { get; set; }
         public bool UseCommonFile { get; set; }
@@ -196,6 +210,9 @@ namespace Rappen.XTB.LCG
         public bool Type1N { get; set; } = true;
         public bool TypeN1 { get; set; } = true;
         public bool TypeNN { get; set; } = true;
+        public bool Owner { get; set; } = true;
+        public bool Orphans { get; set; } = true;
+        public bool Regarding { get; set; } = true;
         public bool ExcludeOrphans { get; set; }
         public bool ExcludeOwner { get; set; } = true;
         public bool ExcludeRegarding { get; set; } = true;
