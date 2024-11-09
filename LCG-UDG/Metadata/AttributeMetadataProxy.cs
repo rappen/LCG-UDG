@@ -279,7 +279,7 @@ namespace Rappen.XTB.LCG
                     break;
 
                 case NameType.DisplayNameAndLogicalName:
-                    name = $"\"{StringToCSharpIdentifier(DisplayName)} ({settings.GetNonDisplayName(Metadata?.LogicalName)})\"";
+                    name = $"{StringToCSharpIdentifier(DisplayName)} ({settings.GetNonDisplayName(Metadata?.LogicalName)})";
                     break;
             }
             return name;
