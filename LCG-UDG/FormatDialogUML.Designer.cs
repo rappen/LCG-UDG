@@ -121,7 +121,8 @@
             this.cmbConstantName.Items.AddRange(new object[] {
             "Display Name",
             "Schema Name",
-            "Logical Name"});
+            "Logical Name",
+            "Display Name (Logical Name)"});
             this.cmbConstantName.Location = new System.Drawing.Point(141, 122);
             this.cmbConstantName.Name = "cmbConstantName";
             this.cmbConstantName.Size = new System.Drawing.Size(189, 21);

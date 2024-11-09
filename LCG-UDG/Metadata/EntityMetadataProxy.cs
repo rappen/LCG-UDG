@@ -136,8 +136,12 @@ namespace Rappen.XTB.LCG
                 case NameType.SchemaName:
                     name = Metadata?.SchemaName;
                     break;
+
+                case NameType.DisplayNameAndLogicalName:
+                    name = $"\"{StringToCSharpIdentifier(DisplayName)} ({Metadata?.LogicalName})\"";
+                    break;
             }
-            if (nametype != NameType.DisplayName)
+            if (nametype != NameType.DisplayName && nametype != NameType.DisplayNameAndLogicalName)
             {
                 if (settings.DoStripPrefix && !string.IsNullOrEmpty(settings.StripPrefix))
                 {

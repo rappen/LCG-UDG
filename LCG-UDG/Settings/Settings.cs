@@ -34,8 +34,9 @@ namespace Rappen.XTB.LCG
 
         internal void SetFixedValues(TemplateFormat templateFormat)
         {
-            switch (templateFormat) 
-            {   case TemplateFormat.UML:
+            switch (templateFormat)
+            {
+                case TemplateFormat.UML:
                 case TemplateFormat.DBML:
                     UseCommonFile = true;
                     FileName = NameType.DisplayName;
@@ -48,13 +49,14 @@ namespace Rappen.XTB.LCG
                     GlobalOptionSets = false;
                     ValidateIdentifiers = false;
                     break;
+
                 case TemplateFormat.Constants:
                     RelationshipLabels = false;
                     AttributeSortMode = AttributeSortMode.None;
                     TypeDetails = false;
                     Legend = false;
-                    break; 
-            } 
+                    break;
+            }
             commonsettings?.SetFixedValues(this.TemplateFormat);
         }
 
@@ -224,7 +226,8 @@ namespace Rappen.XTB.LCG
     {
         DisplayName = 0,
         SchemaName = 1,
-        LogicalName = 2
+        LogicalName = 2,
+        DisplayNameAndLogicalName = 3
     }
 
     public enum CommonAttributesType

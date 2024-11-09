@@ -260,6 +260,7 @@ namespace Rappen.XTB.LCG
             var name = GetNameTechnical(settings, settings.ConstantName);
             return name;
         }
+
         public string GetNameTechnical(Settings settings, NameType nameType)
         {
             var name = string.Empty;
@@ -275,6 +276,10 @@ namespace Rappen.XTB.LCG
 
                 case NameType.SchemaName:
                     name = settings.GetNonDisplayName(Metadata?.SchemaName);
+                    break;
+
+                case NameType.DisplayNameAndLogicalName:
+                    name = $"\"{StringToCSharpIdentifier(DisplayName)} ({settings.GetNonDisplayName(Metadata?.LogicalName)})\"";
                     break;
             }
             return name;

@@ -1,6 +1,5 @@
 ﻿using Rappen.XTB.Helpers;
 using System;
-using System.Configuration;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -21,8 +20,8 @@ namespace Rappen.XTB.LCG
                 settingdlg.txtNamespace.Text = settings.NameSpace;
                 settingdlg.cmbTheme.Text = settings.Theme;
                 settingdlg.cmbConstantName.SelectedIndex = (int)settings.ConstantName;
-                settingdlg.chkConstCamelCased.Checked = settings.ConstantCamelCased && settings.ConstantName != NameType.DisplayName;
-                settingdlg.chkConstStripPrefix.Checked = settings.DoStripPrefix && settings.ConstantName != NameType.DisplayName;
+                settingdlg.chkConstCamelCased.Checked = settings.ConstantCamelCased && settings.ConstantName != NameType.DisplayName && settings.ConstantName != NameType.DisplayNameAndLogicalName;
+                settingdlg.chkConstStripPrefix.Checked = settings.DoStripPrefix && settings.ConstantName != NameType.DisplayName && settings.ConstantName != NameType.DisplayNameAndLogicalName;
                 settingdlg.txtConstStripPrefix.Text = settings.StripPrefix;
                 settingdlg.cmbSortAttributes.SelectedIndex = (int)settings.AttributeSortMode;
                 settingdlg.chkTypeDetails.Checked = settings.TypeDetails;
@@ -88,8 +87,8 @@ namespace Rappen.XTB.LCG
 
         private void cmbConstantName_SelectedIndexChanged(object sender, EventArgs e)
         {
-            chkConstCamelCased.Visible = cmbConstantName.SelectedIndex != (int)NameType.DisplayName;
-            chkConstStripPrefix.Enabled = cmbConstantName.SelectedIndex != (int)NameType.DisplayName;
+            chkConstCamelCased.Visible = cmbConstantName.SelectedIndex != (int)NameType.DisplayName && cmbConstantName.SelectedIndex != (int)NameType.DisplayNameAndLogicalName;
+            chkConstStripPrefix.Enabled = cmbConstantName.SelectedIndex != (int)NameType.DisplayName && cmbConstantName.SelectedIndex != (int)NameType.DisplayNameAndLogicalName;
             txtConstStripPrefix.Enabled = chkConstStripPrefix.Enabled && chkConstStripPrefix.Checked;
         }
 
