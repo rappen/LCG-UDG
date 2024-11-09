@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using static Rappen.XTB.LCG.CommonSettings;
 
 namespace Rappen.XTB.LCG
 {
@@ -68,6 +67,7 @@ namespace Rappen.XTB.LCG
         public string OutputFormat { get; set; } = TemplateBase.OutputFormatUML;
         public string NameSpace { get; set; }
         public string Theme { get; set; }
+        public bool ColorByType { get; set; } = true;
         public bool UseCommonFile { get; set; }
         public bool SaveConfigurationInCommonFile { get; set; } = true;
         public string CommonFile { get; set; }

@@ -67,6 +67,8 @@
             this.cmbTheme = new System.Windows.Forms.ComboBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.label6 = new System.Windows.Forms.Label();
+            this.chkColorByStandardCustom = new System.Windows.Forms.CheckBox();
             this.panRelSizes.SuspendLayout();
             this.panTableSizes.SuspendLayout();
             this.SuspendLayout();
@@ -74,10 +76,10 @@
             // chkConstCamelCased
             // 
             this.chkConstCamelCased.AutoSize = true;
-            this.chkConstCamelCased.Location = new System.Drawing.Point(355, 124);
+            this.chkConstCamelCased.Location = new System.Drawing.Point(355, 147);
             this.chkConstCamelCased.Name = "chkConstCamelCased";
             this.chkConstCamelCased.Size = new System.Drawing.Size(85, 17);
-            this.chkConstCamelCased.TabIndex = 6;
+            this.chkConstCamelCased.TabIndex = 70;
             this.chkConstCamelCased.Text = "CamelCased";
             this.chkConstCamelCased.UseVisualStyleBackColor = true;
             this.chkConstCamelCased.Visible = false;
@@ -87,16 +89,16 @@
             this.txtConstStripPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtConstStripPrefix.Enabled = false;
-            this.txtConstStripPrefix.Location = new System.Drawing.Point(226, 149);
+            this.txtConstStripPrefix.Location = new System.Drawing.Point(226, 172);
             this.txtConstStripPrefix.Name = "txtConstStripPrefix";
             this.txtConstStripPrefix.Size = new System.Drawing.Size(214, 20);
-            this.txtConstStripPrefix.TabIndex = 8;
+            this.txtConstStripPrefix.TabIndex = 90;
             this.txtConstStripPrefix.Leave += new System.EventHandler(this.txtConstStripPrefix_Leave);
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(24, 152);
+            this.label10.Location = new System.Drawing.Point(24, 175);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(33, 13);
             this.label10.TabIndex = 14;
@@ -106,10 +108,10 @@
             // 
             this.chkConstStripPrefix.AutoSize = true;
             this.chkConstStripPrefix.Enabled = false;
-            this.chkConstStripPrefix.Location = new System.Drawing.Point(141, 151);
+            this.chkConstStripPrefix.Location = new System.Drawing.Point(141, 174);
             this.chkConstStripPrefix.Name = "chkConstStripPrefix";
             this.chkConstStripPrefix.Size = new System.Drawing.Size(89, 17);
-            this.chkConstStripPrefix.TabIndex = 7;
+            this.chkConstStripPrefix.TabIndex = 80;
             this.chkConstStripPrefix.Text = "Skip prefixes:";
             this.chkConstStripPrefix.UseVisualStyleBackColor = true;
             this.chkConstStripPrefix.CheckedChanged += new System.EventHandler(this.chkConstStripPrefix_CheckedChanged);
@@ -123,16 +125,16 @@
             "Schema Name",
             "Logical Name",
             "Display Name (Logical Name)"});
-            this.cmbConstantName.Location = new System.Drawing.Point(141, 122);
+            this.cmbConstantName.Location = new System.Drawing.Point(141, 145);
             this.cmbConstantName.Name = "cmbConstantName";
             this.cmbConstantName.Size = new System.Drawing.Size(189, 21);
-            this.cmbConstantName.TabIndex = 5;
+            this.cmbConstantName.TabIndex = 60;
             this.cmbConstantName.SelectedIndexChanged += new System.EventHandler(this.cmbConstantName_SelectedIndexChanged);
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(24, 125);
+            this.label8.Location = new System.Drawing.Point(24, 148);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(47, 13);
             this.label8.TabIndex = 8;
@@ -142,10 +144,10 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(141, 351);
+            this.btnCancel.Location = new System.Drawing.Point(141, 378);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(97, 23);
-            this.btnCancel.TabIndex = 120;
+            this.btnCancel.TabIndex = 999;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
@@ -153,10 +155,10 @@
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(274, 351);
+            this.btnOK.Location = new System.Drawing.Point(274, 378);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(97, 23);
-            this.btnOK.TabIndex = 16;
+            this.btnOK.TabIndex = 160;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             // 
@@ -168,15 +170,15 @@
             "No sorting",
             "Alphabetically",
             "Required Level and Alphabetically"});
-            this.cmbSortAttributes.Location = new System.Drawing.Point(141, 175);
+            this.cmbSortAttributes.Location = new System.Drawing.Point(141, 200);
             this.cmbSortAttributes.Name = "cmbSortAttributes";
             this.cmbSortAttributes.Size = new System.Drawing.Size(189, 21);
-            this.cmbSortAttributes.TabIndex = 9;
+            this.cmbSortAttributes.TabIndex = 100;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(24, 178);
+            this.label1.Location = new System.Drawing.Point(24, 203);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(86, 13);
             this.label1.TabIndex = 104;
@@ -185,17 +187,17 @@
             // chkRelationshipLabels
             // 
             this.chkRelationshipLabels.AutoSize = true;
-            this.chkRelationshipLabels.Location = new System.Drawing.Point(141, 225);
+            this.chkRelationshipLabels.Location = new System.Drawing.Point(141, 250);
             this.chkRelationshipLabels.Name = "chkRelationshipLabels";
             this.chkRelationshipLabels.Size = new System.Drawing.Size(130, 17);
-            this.chkRelationshipLabels.TabIndex = 12;
+            this.chkRelationshipLabels.TabIndex = 120;
             this.chkRelationshipLabels.Text = "Include lookup names";
             this.chkRelationshipLabels.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(24, 226);
+            this.label2.Location = new System.Drawing.Point(24, 251);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(70, 13);
             this.label2.TabIndex = 105;
@@ -204,7 +206,7 @@
             // lblNamespace
             // 
             this.lblNamespace.AutoSize = true;
-            this.lblNamespace.Location = new System.Drawing.Point(24, 99);
+            this.lblNamespace.Location = new System.Drawing.Point(24, 122);
             this.lblNamespace.Name = "lblNamespace";
             this.lblNamespace.Size = new System.Drawing.Size(27, 13);
             this.lblNamespace.TabIndex = 107;
@@ -214,25 +216,25 @@
             // 
             this.txtNamespace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtNamespace.Location = new System.Drawing.Point(141, 96);
+            this.txtNamespace.Location = new System.Drawing.Point(141, 119);
             this.txtNamespace.Name = "txtNamespace";
             this.txtNamespace.Size = new System.Drawing.Size(299, 20);
-            this.txtNamespace.TabIndex = 4;
+            this.txtNamespace.TabIndex = 50;
             // 
             // chkShowLegend
             // 
             this.chkShowLegend.AutoSize = true;
-            this.chkShowLegend.Location = new System.Drawing.Point(141, 248);
+            this.chkShowLegend.Location = new System.Drawing.Point(141, 273);
             this.chkShowLegend.Name = "chkShowLegend";
             this.chkShowLegend.Size = new System.Drawing.Size(88, 17);
-            this.chkShowLegend.TabIndex = 13;
+            this.chkShowLegend.TabIndex = 130;
             this.chkShowLegend.Text = "Show legend";
             this.chkShowLegend.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(24, 249);
+            this.label3.Location = new System.Drawing.Point(24, 274);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(25, 13);
             this.label3.TabIndex = 122;
@@ -244,7 +246,7 @@
             this.chkFileIncludeSelection.Location = new System.Drawing.Point(141, 46);
             this.chkFileIncludeSelection.Name = "chkFileIncludeSelection";
             this.chkFileIncludeSelection.Size = new System.Drawing.Size(125, 17);
-            this.chkFileIncludeSelection.TabIndex = 1;
+            this.chkFileIncludeSelection.TabIndex = 20;
             this.chkFileIncludeSelection.Text = "Include configuration";
             this.chkFileIncludeSelection.UseVisualStyleBackColor = true;
             // 
@@ -276,12 +278,12 @@
             this.cmbOutputFormat.Location = new System.Drawing.Point(141, 19);
             this.cmbOutputFormat.Name = "cmbOutputFormat";
             this.cmbOutputFormat.Size = new System.Drawing.Size(299, 21);
-            this.cmbOutputFormat.TabIndex = 0;
+            this.cmbOutputFormat.TabIndex = 10;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(24, 203);
+            this.label4.Location = new System.Drawing.Point(24, 228);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(36, 13);
             this.label4.TabIndex = 150;
@@ -290,17 +292,17 @@
             // chkTypeDetails
             // 
             this.chkTypeDetails.AutoSize = true;
-            this.chkTypeDetails.Location = new System.Drawing.Point(141, 202);
+            this.chkTypeDetails.Location = new System.Drawing.Point(141, 227);
             this.chkTypeDetails.Name = "chkTypeDetails";
             this.chkTypeDetails.Size = new System.Drawing.Size(85, 17);
-            this.chkTypeDetails.TabIndex = 10;
+            this.chkTypeDetails.TabIndex = 110;
             this.chkTypeDetails.Text = "Type Details";
             this.chkTypeDetails.UseVisualStyleBackColor = true;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(24, 276);
+            this.label5.Location = new System.Drawing.Point(24, 301);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(57, 13);
             this.label5.TabIndex = 151;
@@ -309,7 +311,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(24, 304);
+            this.label7.Location = new System.Drawing.Point(24, 329);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(88, 13);
             this.label7.TabIndex = 152;
@@ -413,10 +415,10 @@
             this.panRelSizes.Controls.Add(this.rbRelSize4);
             this.panRelSizes.Controls.Add(this.rbRelSize2);
             this.panRelSizes.Controls.Add(this.rbRelSize3);
-            this.panRelSizes.Location = new System.Drawing.Point(137, 297);
+            this.panRelSizes.Location = new System.Drawing.Point(137, 322);
             this.panRelSizes.Name = "panRelSizes";
             this.panRelSizes.Size = new System.Drawing.Size(234, 30);
-            this.panRelSizes.TabIndex = 15;
+            this.panRelSizes.TabIndex = 150;
             // 
             // panTableSizes
             // 
@@ -424,10 +426,10 @@
             this.panTableSizes.Controls.Add(this.rbTableSize10);
             this.panTableSizes.Controls.Add(this.rbTableSize50);
             this.panTableSizes.Controls.Add(this.rbTableSize20);
-            this.panTableSizes.Location = new System.Drawing.Point(139, 268);
+            this.panTableSizes.Location = new System.Drawing.Point(139, 293);
             this.panTableSizes.Name = "panTableSizes";
             this.panTableSizes.Size = new System.Drawing.Size(230, 25);
-            this.panTableSizes.TabIndex = 14;
+            this.panTableSizes.TabIndex = 140;
             // 
             // label9
             // 
@@ -489,8 +491,10 @@
             this.cmbTheme.Location = new System.Drawing.Point(141, 69);
             this.cmbTheme.Name = "cmbTheme";
             this.cmbTheme.Size = new System.Drawing.Size(189, 21);
-            this.cmbTheme.TabIndex = 2;
+            this.cmbTheme.TabIndex = 30;
             this.toolTip1.SetToolTip(this.cmbTheme, "Use an existing theme in the list, or use available online or on your disc!");
+            this.cmbTheme.SelectedIndexChanged += new System.EventHandler(this.cmbTheme_TextUpdate);
+            this.cmbTheme.TextUpdate += new System.EventHandler(this.cmbTheme_TextUpdate);
             // 
             // linkLabel1
             // 
@@ -505,6 +509,25 @@
             this.toolTip1.SetToolTip(this.linkLabel1, "Read docs: https://plantuml.com/theme");
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.link_LinkClicked);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(24, 97);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(50, 13);
+            this.label6.TabIndex = 164;
+            this.label6.Text = "Colors by";
+            // 
+            // chkColorByStandardCustom
+            // 
+            this.chkColorByStandardCustom.AutoSize = true;
+            this.chkColorByStandardCustom.Location = new System.Drawing.Point(141, 96);
+            this.chkColorByStandardCustom.Name = "chkColorByStandardCustom";
+            this.chkColorByStandardCustom.Size = new System.Drawing.Size(121, 17);
+            this.chkColorByStandardCustom.TabIndex = 40;
+            this.chkColorByStandardCustom.Text = "Standard vs Custom";
+            this.chkColorByStandardCustom.UseVisualStyleBackColor = true;
+            // 
             // FormatDialogUML
             // 
             this.AcceptButton = this.btnOK;
@@ -512,7 +535,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(467, 388);
+            this.ClientSize = new System.Drawing.Size(467, 415);
+            this.Controls.Add(this.chkColorByStandardCustom);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.cmbTheme);
             this.Controls.Add(this.label9);
@@ -598,5 +623,7 @@
         private System.Windows.Forms.ComboBox cmbTheme;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.CheckBox chkColorByStandardCustom;
     }
 }

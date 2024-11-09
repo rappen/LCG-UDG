@@ -142,7 +142,7 @@ namespace Rappen.XTB.LCG
                 .Replace("{entityname}", name)
                 .Replace("{entitydetail}", GetEntity(entitymetadata, template))
                 .Replace("{typedetails}", settings.TypeDetails ? entitymetadata.EntityTypeDetails : "")
-                .Replace("{type}", entitymetadata.Metadata.IsCustomEntity == true ? "custom" : "standard")
+                .Replace("{type}", settings.ColorByType ? entitymetadata.Metadata.IsCustomEntity == true ? "<<custom>>" : "<<standard>>" : "")
                 .Replace("{summary}", summary)
                 .Replace("{remarks}", remarks)
                 .Replace("'", "\"")
@@ -351,7 +351,7 @@ namespace Rappen.XTB.LCG
             {
                 name += template.TableAttributeNameClashSuffix;
             }
-            name = attributemetadata.Metadata.IsCustomAttribute.Value && string.IsNullOrEmpty(settings.Theme) ?
+            name = attributemetadata.Metadata.IsCustomAttribute.Value && string.IsNullOrEmpty(settings.Theme) && settings.ColorByType ?
                 template.CustomAttribute.ReplaceIfNotEmpty("{attribute}", name) :
                 template.StandardAttribute.ReplaceIfNotEmpty("{attribute}", name);
             switch (attributemetadata.Metadata.RequiredLevel.Value)

@@ -19,6 +19,8 @@ namespace Rappen.XTB.LCG
                 settingdlg.chkFileIncludeSelection.Checked = settings.SaveConfigurationInCommonFile;
                 settingdlg.txtNamespace.Text = settings.NameSpace;
                 settingdlg.cmbTheme.Text = settings.Theme;
+                settingdlg.chkColorByStandardCustom.Enabled = string.IsNullOrWhiteSpace(settings.Theme);
+                settingdlg.chkColorByStandardCustom.Checked = string.IsNullOrEmpty(settings.Theme) && settings.ColorByType;
                 settingdlg.cmbConstantName.SelectedIndex = (int)settings.ConstantName;
                 settingdlg.chkConstCamelCased.Checked = settings.ConstantCamelCased && settings.ConstantName != NameType.DisplayName && settings.ConstantName != NameType.DisplayNameAndLogicalName;
                 settingdlg.chkConstStripPrefix.Checked = settings.DoStripPrefix && settings.ConstantName != NameType.DisplayName && settings.ConstantName != NameType.DisplayNameAndLogicalName;
@@ -51,6 +53,7 @@ namespace Rappen.XTB.LCG
                     settings.SaveConfigurationInCommonFile = settingdlg.chkFileIncludeSelection.Checked;
                     settings.NameSpace = settingdlg.txtNamespace.Text;
                     settings.Theme = settingdlg.cmbTheme.Text.Trim();
+                    settings.ColorByType = string.IsNullOrEmpty(settings.Theme) && settingdlg.chkColorByStandardCustom.Checked;
                     settings.ConstantName = (NameType)Math.Max(settingdlg.cmbConstantName.SelectedIndex, 0);
                     settings.ConstantCamelCased = settingdlg.chkConstCamelCased.Checked;
                     settings.DoStripPrefix = settingdlg.chkConstStripPrefix.Checked;
@@ -108,6 +111,15 @@ namespace Rappen.XTB.LCG
         private void link_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             UrlUtils.OpenUrl(sender);
+        }
+
+        private void cmbTheme_TextUpdate(object sender, EventArgs e)
+        {
+            chkColorByStandardCustom.Enabled = string.IsNullOrWhiteSpace(cmbTheme.Text);
+            if (!chkColorByStandardCustom.Enabled)
+            {
+                chkColorByStandardCustom.Checked = false;
+            }
         }
     }
 }

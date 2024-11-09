@@ -5,6 +5,7 @@
         public CommonSettings() : this(false)
         {
         }
+
         public CommonSettings(TemplateFormat templateFormat)
         {
             SetFixedValues(templateFormat);
@@ -95,6 +96,7 @@
 
         // changed to an accessor because serialization was failing with an Interface
         private ITemplate Template { get; set; }
+
         public ITemplate GetTemplate() => this.Template;
     }
 
@@ -145,7 +147,7 @@ skinparam ArrowFontSize 12
 skinparam ClassBorderColor Black
 skinparam ClassBorderColor<<custom>> Blue";
                 EntityGroup = "package \"{group}\" {color}\n{\n{entities}\n}";
-                EntityContainer = "entity {entityname}{typedetails} <<{type}>>\n{\n{attributes}\n}";
+                EntityContainer = "entity {entityname}{typedetails} {type}\n{\n{attributes}\n}";
                 Attribute = "{attribute}: {type}{typedetails}";
                 Relationship = "{entity1} {relationtype} {entity2}: {lookup}";
                 PrimaryKeyName = "{attribute} (PK)";
