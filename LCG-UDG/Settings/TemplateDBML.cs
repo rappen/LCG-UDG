@@ -4,13 +4,15 @@
     {
         // reference: https://dbdiagram.io/d
 
-        public TemplateDBML() {
+        public TemplateDBML()
+        {
             DataContainer = "{data}";
+            EntityGroup = "\n{entities}\n";
             EntityContainer = "\nTable {entityname} {\n{attributes}\n}\n{relationships}\n\n";
             Attribute = "{attribute} {type} [note: '{logicalname}']";
 
             Relationship = "";
-            
+
             // allow for multiple relationships
             RelationshipN_1 = "Ref:{entity2}.{referencingName} > {entity1}.{referencedName}";
             Relationship1_N = "Ref:{entity1}.{referencedName} > {entity2}.{referencingName}";
