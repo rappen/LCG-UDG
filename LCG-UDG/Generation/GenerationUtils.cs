@@ -152,7 +152,7 @@ namespace Rappen.XTB.LCG
             return entity;
         }
 
-        private static string GetEntity(EntityMetadataProxy entitymetadata, ITemplate template)
+        private static string GetEntity(EntityMetadataProxy entitymetadata, TemplateBase template)
         {
             if (entitymetadata.LogicalName == "[common]")
             {

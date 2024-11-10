@@ -6,6 +6,7 @@
 
         public TemplateDBML()
         {
+            TemplateVersion = 4;
             DataContainer = "{data}";
             EntityGroup = "\n{entities}\n";
             EntityContainer = "\nTable {entityname} {\n{attributes}\n}\n{relationships}\n\n";

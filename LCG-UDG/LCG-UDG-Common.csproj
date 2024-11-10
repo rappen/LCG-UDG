@@ -259,8 +259,9 @@
     <Compile Include="Metadata\RelationshipMetadataProxy.cs" />
     <Compile Include="Generation\SeparateFileWriter.cs" />
     <Compile Include="Settings\ConfigurationUtils.cs" />
-    <Compile Include="Settings\ITemplate.cs" />
     <Compile Include="Settings\Settings.cs" />
+    <Compile Include="Settings\TemplatePlantUML.cs" />
+    <Compile Include="Settings\TemplateLCG.cs" />
     <Compile Include="Settings\TemplateBase.cs" />
     <Compile Include="Settings\TemplateDBML.cs" />
     <Compile Include="SolutionProxy.cs" />

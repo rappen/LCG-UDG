@@ -13,13 +13,20 @@
 
         public CommonSettings(bool isUML)
         {
-            var templateFormat = TemplateFormat.Constants;
-            Template = new Template(isUML);
-
-            if (isUML)
+            var templateFormat = isUML ? TemplateFormat.UML : TemplateFormat.Constants;
+            switch (templateFormat)
             {
-                templateFormat = TemplateFormat.UML;
-                // AttributeSeparatorAfterPK = "--";
+                case TemplateFormat.Constants:
+                    Template = new TemplateLCG();
+                    break;
+
+                case TemplateFormat.UML:
+                    Template = new TemplatePlantUML();
+                    break;
+
+                case TemplateFormat.DBML:
+                    Template = new TemplateDBML();
+                    break;
             }
             SetFixedValues(templateFormat);
         }
@@ -34,10 +41,17 @@
             {
                 CamelCaseWordEnds = new CommonSettings(isUML).CamelCaseWordEnds;
             }
-            if (Template.TemplateVersion != new Template(isUML).TemplateVersion)
+            var currenttemplver = isUML ? new TemplatePlantUML().TemplateVersion : new TemplateLCG().TemplateVersion;
+            if (Template.TemplateVersion != currenttemplver)
             {
-                //MessageBox.Show("Template has been updated.\nAny customizations will need to be recreated.", "Template", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Template = new Template(isUML);
+                if (isUML)
+                {
+                    Template = new TemplatePlantUML();
+                }
+                else
+                {
+                    Template = new TemplateLCG();
+                }
             }
         }
 
@@ -46,7 +60,7 @@
             switch (templateFormat)
             {
                 case TemplateFormat.Constants:
-                    Template = new Template(false);
+                    Template = new TemplateLCG();
                     break;
 
                 case TemplateFormat.DBML:
@@ -60,7 +74,7 @@
                     break;
 
                 case TemplateFormat.UML:
-                    Template = new Template(true);
+                    Template = new TemplatePlantUML();
 
                     ToolName = LCG.toolnameUDG;
                     FileType = "PlantUML";
@@ -95,69 +109,69 @@
         public string[] MicrosoftPrefixes { get; set; } = new string[] { "msdyn_", "msdynce_", "msdyncrm_", "msdynmkt_", "msfp_", "mspcat_", "mspp_", "sales_", "adx_", "bot_", "botcomponent_" };
 
         // changed to an accessor because serialization was failing with an Interface
-        private ITemplate Template { get; set; }
+        private TemplateBase Template { get; set; }
 
-        public ITemplate GetTemplate() => this.Template;
+        public TemplateBase GetTemplate() => this.Template;
     }
 
-    public class Template : TemplateBase
-    {
-        public Template() : this(false)
-        {
-        }
+    //    public class Template : TemplateBase
+    //    {
+    //        public Template() : this(false)
+    //        {
+    //        }
 
-        public Template(bool isUML)
-        {
-            if (!isUML)
-            {
-                TemplateVersion = 4;    // Change this when LCG template is updated to revert customizations
-            }
-            else
-            {
-                TemplateVersion = 7;    // Change this when UML template is updated to revert customizations
-                Legend = @"
-entity **Legend** <<standard>> #CCFFEE {
-    (PK) = Primary Key
-    --
-    (PN) = Primary Name
-    * Required
-    + Recommended
-    Standard
-    <color:blue>Custom</color>
-}";
-                DataContainer = @"
-@startuml {namespace}
+    //        public Template(bool isUML)
+    //        {
+    //            if (!isUML)
+    //            {
+    //                TemplateVersion = 4;    // Change this when LCG template is updated to revert customizations
+    //            }
+    //            else
+    //            {
+    //                TemplateVersion = 7;    // Change this when UML template is updated to revert customizations
+    //                Legend = @"
+    //entity **Legend** <<standard>> #CCFFEE {
+    //    (PK) = Primary Key
+    //    --
+    //    (PN) = Primary Name
+    //    * Required
+    //    + Recommended
+    //    Standard
+    //    <color:blue>Custom</color>
+    //}";
+    //                DataContainer = @"
+    //@startuml {namespace}
 
-{theme}
+    //{theme}
 
-skinparam Padding {paddingsize}
-skinparam linetype ortho
-hide circle
-hide stereotype
+    //skinparam Padding {paddingsize}
+    //skinparam linetype ortho
+    //hide circle
+    //hide stereotype
 
-{legend}
+    //{legend}
 
-title {namespace} Entity Model
-footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
-{data}
-@enduml";
-                Theme = @"
-skinparam RoundCorner 5
-skinparam ArrowFontSize 12
-skinparam ClassBorderColor Black
-skinparam ClassBorderColor<<custom>> Blue";
-                EntityGroup = "package \"{group}\" {color}\n{\n{entities}\n}";
-                EntityContainer = "entity {entityname}{typedetails} {type}\n{\n{attributes}\n}";
-                Attribute = "{attribute}: {type}{typedetails}";
-                Relationship = "{entity1} {relationtype} {entity2}: {lookup}";
-                PrimaryKeyName = "{attribute} (PK)";
-                PrimaryAttributeName = "{attribute} (PN)";
-                CustomAttribute = "<color:blue>{attribute}</color>";
-                RequiredLevelRequired = "*{attribute}";
-                RequiredLevelRecommended = "+{attribute}";
-            }
-        }
-    }
+    //title {namespace} Entity Model
+    //footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
+    //{data}
+    //@enduml";
+    //                Theme = @"
+    //skinparam RoundCorner 5
+    //skinparam ArrowFontSize 12
+    //skinparam ClassBorderColor Black
+    //skinparam ClassBorderColor<<custom>> Blue";
+    //                EntityGroup = "package \"{group}\" {color}\n{\n{entities}\n}";
+    //                EntityContainer = "entity {entityname}{typedetails} {type}\n{\n{attributes}\n}";
+    //                Attribute = "{attribute}: {type}{typedetails}";
+    //                Relationship = "{entity1} {relationtype} {entity2}: {lookup}";
+    //                PrimaryKeyName = "{attribute} (PK)";
+    //                PrimaryAttributeName = "{attribute} (PN)";
+    //                CustomAttribute = "<color:blue>{attribute}</color>";
+    //                RequiredLevelRequired = "*{attribute}";
+    //                RequiredLevelRecommended = "+{attribute}";
+    //            }
+    //        }
+    //    }
 }
 
 /*
