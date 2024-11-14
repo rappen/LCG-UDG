@@ -30,7 +30,7 @@ namespace Rappen.XTB.LCG
             var header = GetFileHeader(filename, orgurl, settings, version);
             var content = GetDataContent(data, settings, version);
             content = header + "\r\n\r\n" + content;
-            content = content.BeautifyContent(settings.commonsettings.GetTemplate().IndentStr);
+            content = content.BeautifyContent(settings.TemplateSettings.Template.IndentStr);
             if (settings.SaveConfigurationInCommonFile)
             {
                 string selection = GetInlineConfiguration(settings);
@@ -50,25 +50,25 @@ namespace Rappen.XTB.LCG
 
         private static string GetInlineConfiguration(Settings settings)
         {
-            var inlineconfig = Settings.GetBlankSettings();
+            var inlineconfig = Settings.GetBlankSettings(settings.TemplateFormat);
             inlineconfig.CopyInlineConfiguration(settings);
             var selection = XmlSerializerHelper.Serialize(inlineconfig);
             var inlineconfigstr = new StringBuilder();
-            inlineconfigstr.AppendLine(settings.commonsettings.InlineConfigBegin);
+            inlineconfigstr.AppendLine(settings.TemplateSettings.InlineConfigBegin);
             inlineconfigstr.AppendLine(selection);
-            inlineconfigstr.AppendLine(settings.commonsettings.InlineConfigEnd);
+            inlineconfigstr.AppendLine(settings.TemplateSettings.InlineConfigEnd);
             return inlineconfigstr.ToString();
         }
 
         private static string GetFileHeader(string filename, string orgurl, Settings settings, string version)
         {
-            var header = settings.commonsettings.GetTemplate().FileHeader
-                .Replace("{toolname}", settings.commonsettings.ToolName)
+            var header = settings.TemplateSettings.Template.FileHeader
+                .Replace("{toolname}", settings.TemplateSettings.ToolName)
                 .Replace("{version}", version)
                 .Replace("{organization}", orgurl)
                 .Replace("{filename}", filename)
                 .Replace("{createdate}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
-                .Replace("{legend}", settings.Legend ? settings.commonsettings.GetTemplate().Legend : string.Empty)
+                .Replace("{legend}", settings.Legend ? settings.TemplateSettings.Template.Legend : string.Empty)
                 .Replace("{namespace}", settings.NameSpace)
                 .Replace("\r\n\r\n", "\r\n");
             return header;
@@ -76,12 +76,12 @@ namespace Rappen.XTB.LCG
 
         private static string GetDataContent(string data, Settings settings, string version)
         {
-            return settings.commonsettings.GetTemplate().DataContainer
-                .Replace("{toolname}", settings.commonsettings.ToolName)
+            return settings.TemplateSettings.Template.DataContainer
+                .Replace("{toolname}", settings.TemplateSettings.ToolName)
                 .Replace("{version}", version)
                 .Replace("{namespace}", settings.NameSpace)
-                .Replace("{theme}", string.IsNullOrEmpty(settings.Theme) ? settings.commonsettings.GetTemplate().Theme : settings.GetTheme())
-                .Replace("{legend}", settings.Legend ? settings.commonsettings.GetTemplate().Legend : string.Empty)
+                .Replace("{theme}", string.IsNullOrEmpty(settings.Theme) ? settings.TemplateSettings.Template.DefaultTheme : settings.GetTheme())
+                .Replace("{legend}", settings.Legend ? settings.TemplateSettings.Template.Legend : string.Empty)
                 .Replace("{paddingsize}", settings.TableSize.ToString())
                 .Replace("{data}", data);
         }
@@ -164,10 +164,10 @@ namespace Rappen.XTB.LCG
             {
                 var last = text.Substring(0, i).ToLowerInvariant();
                 var next = text.Substring(i).ToLowerInvariant();
-                foreach (var word in settings.commonsettings.CamelCaseWords.Where(word => last.EndsWith(word) || next.StartsWith(word)))
+                foreach (var word in OnlineSettings.Instance.CamelCaseWords.Where(word => last.EndsWith(word) || next.StartsWith(word)))
                 {   // Found a "word" in the string (for example "count"
                     var isunbreakable = false;
-                    foreach (var unbreak in settings.commonsettings.CamelCaseWords)
+                    foreach (var unbreak in OnlineSettings.Instance.CamelCaseWords)
                     {   // Check that this word is not also part of a bigger word (for example "account"
                         var len = unbreak.Length;
                         var pos = text.ToLowerInvariant().IndexOf(unbreak);
@@ -182,7 +182,7 @@ namespace Rappen.XTB.LCG
                         return true;
                     }
                 }
-                return settings.commonsettings.CamelCaseWordEnds.Any(word => next.Equals(word));
+                return OnlineSettings.Instance.CamelCaseWordEnds.Any(word => next.Equals(word));
             }
 
             var result = string.Empty;

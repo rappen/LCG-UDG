@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using XrmToolBox.Extensibility;
 
 namespace Rappen.XTB.LCG
 {
@@ -11,60 +12,73 @@ namespace Rappen.XTB.LCG
     /// </remarks>
     public class Settings
     {
-        public Settings() : this(false)
+        public static bool IsUML(TemplateFormat templateFormat) => templateFormat == TemplateFormat.PlantUML || templateFormat == TemplateFormat.DBML;
+
+        public Settings() : this(TemplateFormat.Constants)
+        { }
+
+        public Settings(bool uml) : this(uml ? TemplateFormat.PlantUML : TemplateFormat.Constants)
+        { }
+
+        public Settings(TemplateFormat templateFormat)
         {
-        }
-
-        public Settings(bool isUML = true)
-        {
-            TemplateFormat = TemplateFormat.UML;
-
-            commonsettings = new CommonSettings(isUML);
-            AttributeSortMode = isUML ? AttributeSortMode.AlphabeticalAndRequired : AttributeSortMode.None;
-            Legend = isUML;
-
-            SetFixedValues(this.TemplateFormat);
-        }
-
-        internal void SetFixedValues()
-        {
-            SetFixedValues(this.TemplateFormat);
-        }
-
-        internal void SetFixedValues(TemplateFormat templateFormat)
-        {
-            switch (templateFormat)
+            TemplateFormat = templateFormat;
+            var isUML = templateFormat == TemplateFormat.PlantUML || templateFormat == TemplateFormat.DBML;
+            if (!SettingsManager.Instance.TryLoad(GetType(), out TemplateSettings, LCG.SettingsFileName(isUML, "[Common]")))
             {
-                case TemplateFormat.UML:
-                case TemplateFormat.DBML:
-                    UseCommonFile = true;
-                    FileName = NameType.DisplayName;
-                    CommonAttributes = CommonAttributesType.None;
-                    XmlProperties = false;
-                    XmlDescription = false;
-                    Regions = false;
-                    RelationShips = true;
-                    OptionSets = false;
-                    GlobalOptionSets = false;
-                    ValidateIdentifiers = false;
-                    break;
-
-                case TemplateFormat.Constants:
-                    RelationshipLabels = false;
-                    AttributeSortMode = AttributeSortMode.None;
-                    TypeDetails = false;
-                    Legend = false;
-                    break;
+                TemplateSettings = new TemplateSettings(templateFormat);
             }
-            commonsettings?.SetFixedValues(this.TemplateFormat);
+            TemplateSettings.TemplateFormat = TemplateFormat;
         }
 
-        public TemplateFormat TemplateFormat { get; set; }
-        // public bool IsUml => this.TemplateFormat != TemplateFormat.Constants;
+        public TemplateFormat TemplateFormat
+        {
+            get => templateFormat;
+            set
+            {
+                var isuml = IsUML(value);
+                if (isuml != IsUML(templateFormat))
+                {
+                    if (isuml)
+                    {
+                        TemplateSettings = new TemplateSettings(true);
+                        AttributeSortMode = AttributeSortMode.AlphabeticalAndRequired;
+                        Legend = true;
+
+                        UseCommonFile = true;
+                        FileName = NameType.DisplayName;
+                        CommonAttributes = CommonAttributesType.None;
+                        XmlProperties = false;
+                        XmlDescription = false;
+                        Regions = false;
+                        RelationShips = true;
+                        OptionSets = false;
+                        GlobalOptionSets = false;
+                        ValidateIdentifiers = false;
+                    }
+                    else
+                    {
+                        TemplateSettings = new TemplateSettings(false);
+                        AttributeSortMode = AttributeSortMode.None;
+                        Legend = false;
+
+                        RelationshipLabels = false;
+                        AttributeSortMode = AttributeSortMode.None;
+                        TypeDetails = false;
+                        Legend = false;
+                    }
+                }
+                templateFormat = value;
+                if (TemplateSettings == null)
+                {
+                    TemplateSettings = new TemplateSettings(templateFormat);
+                }
+                TemplateSettings.TemplateFormat = templateFormat;
+            }
+        }
 
         public string Version { get; set; }
         public string OutputFolder { get; set; }
-        public string OutputFormat { get; set; } = TemplateBase.OutputFormatUML;
         public string NameSpace { get; set; }
         public string Theme { get; set; }
         public bool ColorByType { get; set; } = true;
@@ -96,10 +110,12 @@ namespace Rappen.XTB.LCG
         public AttributeFilter AttributeFilter { get; set; } = new AttributeFilter();
         public RelationshipFilter RelationshipFilter { get; set; } = new RelationshipFilter();
 
-        internal CommonSettings commonsettings;
-        internal string CommonFilePath => Path.Combine(OutputFolder, CommonFile + commonsettings.FileSuffix);
+        internal TemplateSettings TemplateSettings;
+        internal string CommonFilePath => Path.Combine(OutputFolder, CommonFile + TemplateSettings.FileSuffix);
 
         internal bool ValidateIdentifiers = true;
+
+        private TemplateFormat templateFormat;
 
         public IConstantFileWriter GetWriter(string orgUrl)
         {
@@ -113,6 +129,7 @@ namespace Rappen.XTB.LCG
             Version = source.Version;
             NameSpace = source.NameSpace;
             Theme = source.Theme;
+            ColorByType = source.ColorByType;
             UseCommonFile = source.UseCommonFile;
             FileName = source.FileName;
             ConstantName = source.ConstantName;
@@ -133,9 +150,10 @@ namespace Rappen.XTB.LCG
             SelectedEntities = source.SelectedEntities;
         }
 
-        internal static Settings GetBlankSettings()
+        internal static Settings GetBlankSettings(TemplateFormat templateFormat)
         {
-            var result = new Settings();
+            var result = new Settings(templateFormat);
+            result.TemplateFormat = templateFormat;
             result.OutputFolder = null;
             result.NameSpace = null;
             result.Theme = null;
@@ -220,6 +238,13 @@ namespace Rappen.XTB.LCG
         public bool ExcludeRegarding { get; set; } = true;
         public bool ExcludeCreMod { get; set; } = true;
         public bool ExcludeDupRecords { get; set; } = true;
+    }
+
+    public enum TemplateFormat
+    {
+        Constants = 0,
+        PlantUML,
+        DBML
     }
 
     public enum NameType
