@@ -16,6 +16,9 @@ namespace Rappen.XTB.LCG
         {
             using (var settingdlg = new FormatDialogUML())
             {
+                settingdlg.cmbTheme.Items.Clear();
+                settingdlg.cmbTheme.Items.Add("");
+                settingdlg.cmbTheme.Items.AddRange(OnlineSettings.Instance.PlantUMLThemes.ToArray());
                 settingdlg.chkFileIncludeSelection.Checked = settings.SaveConfigurationInCommonFile;
                 settingdlg.txtNamespace.Text = settings.NameSpace;
                 settingdlg.cmbTheme.Text = settings.Theme;
@@ -30,7 +33,7 @@ namespace Rappen.XTB.LCG
                 settingdlg.chkRelationshipLabels.Checked = settings.RelationshipLabels;
                 settingdlg.chkShowLegend.Checked = settings.Legend;
                 // PlantUML or DBML?
-                settingdlg.cmbOutputFormat.SelectedItem = settings.OutputFormat;
+                settingdlg.cmbOutputFormat.SelectedItem = settings.TemplateFormat.ToString();
 
                 if (settingdlg.panTableSizes.Controls.Cast<Control>().FirstOrDefault(c => c.Name == $"rbTableSize{settings.TableSize}") is RadioButton table)
                 {
@@ -77,11 +80,7 @@ namespace Rappen.XTB.LCG
                     settings.RelationShips = true;
                     settings.OptionSets = false;
                     settings.GlobalOptionSets = false;
-                    settings.OutputFormat = settingdlg.cmbOutputFormat.SelectedItem.ToString();
-                    // more template types, need to update this to be generic
-                    settings.TemplateFormat = (settings.OutputFormat == TemplateBase.OutputFormatUML) ? TemplateFormat.UML : TemplateFormat.DBML;
-                    // update the settings - reset template and other settings
-                    settings.SetFixedValues();
+                    settings.TemplateFormat = Enum.TryParse<TemplateFormat>(settingdlg.cmbOutputFormat.Text, out var format) ? format : TemplateFormat.Constants;
                     return true;
                 }
             }

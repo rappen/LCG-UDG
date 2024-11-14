@@ -4,7 +4,10 @@
     {
         public TemplatePlantUML()
         {
+            Format = TemplateFormat.PlantUML;
             TemplateVersion = 7;    // Change this when LCG template is updated to revert customizations
+
+            FileHeader = "/'" + FileHeader.Replace("// ", "") + "'/";
             Legend = @"
 entity **Legend** <<standard>> #CCFFEE {
     (PK) = Primary Key
@@ -17,14 +20,13 @@ entity **Legend** <<standard>> #CCFFEE {
 }";
             DataContainer = @"
 @startuml {namespace}
+
+{theme}
+
+skinparam Padding 1
+skinparam linetype ortho
 hide circle
 hide stereotype
-skinparam linetype ortho
-skinparam RoundCorner 5
-skinparam Padding 1
-skinparam ArrowFontSize 12
-skinparam ClassBorderColor Black
-skinparam ClassBorderColor<<custom>> Blue
 
 {legend}
 
@@ -32,7 +34,7 @@ title {namespace} Entity Model
 footer Generated %date(""yyyy-MM-dd"") by {toolname} {version} for XrmToolBox
 {data}
 @enduml";
-            Theme = @"
+            DefaultTheme = @"
 skinparam RoundCorner 5
 skinparam ArrowFontSize 12
 skinparam ClassBorderColor Black
@@ -46,6 +48,7 @@ skinparam ClassBorderColor<<custom>> Blue";
             CustomAttribute = "<color:blue>{attribute}</color>";
             RequiredLevelRequired = "*{attribute}";
             RequiredLevelRecommended = "+{attribute}";
+            AddAllRelationshipsAfterEntities = true;
         }
     }
 }

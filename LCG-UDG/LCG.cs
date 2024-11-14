@@ -39,7 +39,6 @@ namespace Rappen.XTB.LCG
 
         private readonly string commonsettingsfile = "[Common]";
         private object checkedrow;
-        private CommonSettings commonsettings;
         private List<EntityMetadataProxy> entities;
         private Dictionary<string, int> groupBoxHeights;
         private string lasttriedattributeload;
@@ -114,7 +113,7 @@ namespace Rappen.XTB.LCG
 
         public override void ClosingPlugin(PluginCloseInfo info)
         {
-            SettingsManager.Instance.Save(GetType(), commonsettings, SettingsFileName(commonsettingsfile));
+            SettingsManager.Instance.Save(GetType(), settings.TemplateSettings, SettingsFileName(isUML, commonsettingsfile));
             SaveSettings(ConnectionDetail?.ConnectionName);
             LogUse("Close");
             base.ClosingPlugin(info);
@@ -166,7 +165,6 @@ namespace Rappen.XTB.LCG
                     var document = new XmlDocument();
                     document.Load(settingsfile);
                     settings = (Settings)XmlSerializerHelper.Deserialize(document.OuterXml, typeof(Settings));
-                    settings.SetFixedValues(settings.TemplateFormat);
                     ApplySettings();
                     RestoreSelectedEntities();
                 }
@@ -182,8 +180,8 @@ namespace Rappen.XTB.LCG
         {
             var ofd = new OpenFileDialog
             {
-                Title = $"Load generated {settings.commonsettings.FileType} file with configuration",
-                Filter = $"{settings.commonsettings.FileType} file (*{settings.commonsettings.FileSuffix})|*{settings.commonsettings.FileSuffix}",
+                Title = $"Load generated {settings.TemplateSettings.FileType} file with configuration",
+                Filter = $"{settings.TemplateSettings.FileType} file (*{settings.TemplateSettings.FileSuffix})|*{settings.TemplateSettings.FileSuffix}",
                 InitialDirectory = settings.OutputFolder,
                 FileName = settings.CommonFile
             };
@@ -339,7 +337,7 @@ namespace Rappen.XTB.LCG
 
         private void LCG_Load(object sender, EventArgs e)
         {
-            if (commonsettings == null)
+            if (settings.TemplateSettings == null)
             {
                 LoadCommonSettings();
             }
@@ -652,7 +650,7 @@ namespace Rappen.XTB.LCG
             Settings inlineconfig;
             try
             {
-                inlineconfig = ConfigurationUtils.GetEmbeddedConfiguration<Settings>(filename, settings.commonsettings.InlineConfigBegin, settings.commonsettings.InlineConfigEnd);
+                inlineconfig = ConfigurationUtils.GetEmbeddedConfiguration<Settings>(filename, settings.TemplateSettings.InlineConfigBegin, settings.TemplateSettings.InlineConfigEnd);
             }
             catch (Exception ex)
             {
@@ -718,6 +716,7 @@ namespace Rappen.XTB.LCG
             GroupBoxSetState(llAttributeExpander, settings.AttributeFilter?.Expanded ?? true);
             GroupBoxSetState(llRelationshipExpander, settings.RelationshipFilter?.Expanded ?? true);
             FillGroups();
+            toolTip1.SetToolTip(chkEntExclMS, $"Will not include with prefix:\r\n  {string.Join($"\r\n  ", OnlineSettings.Instance.MicrosoftPrefixes)}");
             restoringselection = false;
         }
 
@@ -858,11 +857,11 @@ namespace Rappen.XTB.LCG
                 {
                     using (var filedlg = new SaveFileDialog
                     {
-                        Title = $"Save generated {settings.commonsettings.FileType} file",
+                        Title = $"Save generated {settings.TemplateSettings.FileType} file",
                         InitialDirectory = settings.OutputFolder,
                         FileName = settings.CommonFile,
-                        DefaultExt = settings.commonsettings.FileSuffix,
-                        Filter = $"{settings.commonsettings.FileType} file (*{settings.commonsettings.FileSuffix})|*{settings.commonsettings.FileSuffix}"
+                        DefaultExt = settings.TemplateSettings.FileSuffix,
+                        Filter = $"{settings.TemplateSettings.FileType} file (*{settings.TemplateSettings.FileSuffix})|*{settings.TemplateSettings.FileSuffix}"
                     })
                     {
                         result = filedlg.ShowDialog(this) == DialogResult.OK;
@@ -929,7 +928,7 @@ namespace Rappen.XTB.LCG
             bool GetInternalFilter(AttributeMetadataProxy a)
             {
                 return !chkAttExclInternal.Checked ||
-                       !commonsettings.InternalAttributes.Contains(a.LogicalName);
+                       !OnlineSettings.Instance.InternalAttributes.Contains(a.LogicalName);
             }
             bool GetUnrequiredFilter(AttributeMetadataProxy a)
             {
@@ -1146,7 +1145,7 @@ namespace Rappen.XTB.LCG
             bool GetNoMSFT(EntityMetadataProxy e) =>
                 !chkEntExclMS.Checked ||
                 !e.LogicalName.Contains("_") ||
-                !(commonsettings.MicrosoftPrefixes.Contains(e.LogicalName.Split('_')[0] + "_"));
+                !(OnlineSettings.Instance.MicrosoftPrefixes.Contains(e.LogicalName.Split('_')[0] + "_"));
 
             if (ConnectionDetail?.OrganizationMajorVersion < 9 && chkEntExclNoRecords.Checked)
             {
@@ -1315,7 +1314,6 @@ namespace Rappen.XTB.LCG
             {
                 settings = new Settings(isUML);
             }
-            settings.commonsettings = commonsettings;
             if (settings.EntityFilter == null)
             {
                 settings.EntityFilter = new EntityFilter();
@@ -1452,18 +1450,16 @@ namespace Rappen.XTB.LCG
 
         private void LoadCommonSettings()
         {
-            if (!SettingsManager.Instance.TryLoad(GetType(), out commonsettings, SettingsFileName(commonsettingsfile)))
+            if (!SettingsManager.Instance.TryLoad(GetType(), out settings.TemplateSettings, SettingsFileName(isUML, commonsettingsfile)))
             {
-                commonsettings = new CommonSettings(isUML);
+                settings.TemplateSettings = new TemplateSettings(isUML);
                 LogWarning("Common Settings not found => created");
             }
             else
             {
                 LogInfo("Common Settings found and loaded");
             }
-            commonsettings.MigrateFromOldConfig(isUML);
-            commonsettings.SetFixedValues(settings.TemplateFormat);
-            toolTip1.SetToolTip(chkEntExclMS, $"Will not include with prefix:\r\n  {string.Join($"\r\n  ", commonsettings.MicrosoftPrefixes)}");
+            settings.TemplateSettings.TemplateFormat = settings.TemplateFormat;
         }
 
         private void LoadEntities()
@@ -1566,11 +1562,11 @@ namespace Rappen.XTB.LCG
 
         private void LoadSettings(string connectionname)
         {
-            if (!SettingsManager.Instance.TryLoad(GetType(), out settings, SettingsFileName(connectionname)))
+            SettingsManager.Instance.TryLoad(GetType(), out settings, SettingsFileName(isUML, connectionname));
+            if (settings == null)
             {
                 settings = new Settings(isUML);
             }
-            settings.SetFixedValues(settings.TemplateFormat);
             ApplySettings();
         }
 
@@ -1725,7 +1721,7 @@ namespace Rappen.XTB.LCG
             {
                 return;
             }
-            if (settings == null && !SettingsManager.Instance.TryLoad(GetType(), out settings, SettingsFileName(ConnectionDetail.ConnectionName)))
+            if (settings == null && !SettingsManager.Instance.TryLoad(GetType(), out settings, SettingsFileName(isUML, ConnectionDetail.ConnectionName)))
             {
                 return;
             }
@@ -1740,7 +1736,7 @@ namespace Rappen.XTB.LCG
             {
                 MessageBox.Show($@"Welcome to the new version!
 
-By default the project configuration will now be embedded in a comment block at the end of the generated {settings.commonsettings.FileType} file.
+By default the project configuration will now be embedded in a comment block at the end of the generated {settings.TemplateSettings.FileType} file.
 Using this feature will make the separate project xml files obsolete.
 This behavior can be prevented by unchecking the box 'Include configuration' in the Options dialog", "New version", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 settings.Version = Version;
@@ -1830,7 +1826,7 @@ This behavior can be prevented by unchecking the box 'Include configuration' in 
             GetSettingsFromUI();
             GetSelectionFromUI();
             settings.Version = Version;
-            SettingsManager.Instance.Save(GetType(), settings, SettingsFileName(connectionname));
+            SettingsManager.Instance.Save(GetType(), settings, SettingsFileName(isUML, connectionname));
         }
 
         private void SelectAllAttributes()
@@ -1849,9 +1845,9 @@ This behavior can be prevented by unchecking the box 'Include configuration' in 
             return selectedrelationships.Select(r => r.LogicalName).ToList();
         }
 
-        private string SettingsFileName(string name)
+        internal static string SettingsFileName(bool isUML, string name)
         {
-            return (isUML ? "UDG_" : "") + name;
+            return (isUML ? "UDG_" : "LCG_") + name;
         }
 
         private void UpdateAttributesStatus()

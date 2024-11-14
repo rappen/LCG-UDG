@@ -6,6 +6,7 @@
 
         public TemplateDBML()
         {
+            Format = TemplateFormat.DBML;
             TemplateVersion = 4;
             DataContainer = "{data}";
             EntityGroup = "\n{entities}\n";

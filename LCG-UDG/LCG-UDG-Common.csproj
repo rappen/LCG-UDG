@@ -239,7 +239,7 @@
     </Compile>
     <Compile Include="Generation\GenerationUtils.cs" />
     <Compile Include="Metadata\EntityMetadataProxy.cs" />
-    <Compile Include="Settings\CommonSettings.cs" />
+    <Compile Include="Settings\TemplateSettings.cs" />
     <Compile Include="Generation\Extensions.cs" />
     <Compile Include="Generation\IConstantFileWriter.cs" />
     <Compile Include="LCG.cs">
@@ -259,6 +259,7 @@
     <Compile Include="Metadata\RelationshipMetadataProxy.cs" />
     <Compile Include="Generation\SeparateFileWriter.cs" />
     <Compile Include="Settings\ConfigurationUtils.cs" />
+    <Compile Include="Settings\OnlineSettings.cs" />
     <Compile Include="Settings\Settings.cs" />
     <Compile Include="Settings\TemplatePlantUML.cs" />
     <Compile Include="Settings\TemplateLCG.cs" />
