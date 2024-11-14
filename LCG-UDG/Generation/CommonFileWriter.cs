@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Text;
+﻿using System.Text;
 
 namespace Rappen.XTB.LCG
 {
@@ -30,6 +29,6 @@ namespace Rappen.XTB.LCG
             return $"Saved file: {settings.CommonFilePath}";
         }
 
-        #endregion
+        #endregion Implementation of IConstantFileWriter
     }
 }
