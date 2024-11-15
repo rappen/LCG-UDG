@@ -63,6 +63,26 @@ namespace Rappen.XTB.LCG.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap csharp32 {
+            get {
+                object obj = ResourceManager.GetObject("csharp32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap dbml32 {
+            get {
+                object obj = ResourceManager.GetObject("dbml32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap I_Contribute_icon {
             get {
                 object obj = ResourceManager.GetObject("I_Contribute_icon", resourceCulture);
@@ -141,11 +161,61 @@ namespace Rappen.XTB.LCG.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon LCG16ico {
+            get {
+                object obj = ResourceManager.GetObject("LCG16ico", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap LCG32 {
             get {
                 object obj = ResourceManager.GetObject("LCG32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap package32 {
+            get {
+                object obj = ResourceManager.GetObject("package32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap plantuml32 {
+            get {
+                object obj = ResourceManager.GetObject("plantuml32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap project32 {
+            get {
+                object obj = ResourceManager.GetObject("project32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap projectnew32 {
+            get {
+                object obj = ResourceManager.GetObject("projectnew32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

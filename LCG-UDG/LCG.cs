@@ -101,10 +101,7 @@ namespace Rappen.XTB.LCG
             {
                 groupBoxHeights.Add(gb.Name, gb.Height);
             }
-            if (isUML)
-            {
-                FixFormForUML();
-            }
+            FixFormForSettings();
         }
 
         #endregion Public Constructors
@@ -207,6 +204,7 @@ namespace Rappen.XTB.LCG
             {
                 FormatDialogLCG.GetSettings(this, settings);
             }
+            FixFormForSettings();
         }
 
         private void btnSaveConfigAs_Click(object sender, EventArgs e)
@@ -717,6 +715,7 @@ namespace Rappen.XTB.LCG
             GroupBoxSetState(llRelationshipExpander, settings.RelationshipFilter?.Expanded ?? true);
             FillGroups();
             toolTip1.SetToolTip(chkEntExclMS, $"Will not include with prefix:\r\n  {string.Join($"\r\n  ", OnlineSettings.Instance.MicrosoftPrefixes)}");
+            FixFormForSettings();
             restoringselection = false;
         }
 
@@ -837,15 +836,26 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        private void FixFormForUML()
+        private void FixFormForSettings()
         {
-            TabIcon = Properties.Resources.UDG16;
-            PluginIcon = Properties.Resources.UDG16ico;
-            tslAbout.Image = Properties.Resources.UDG32;
-            btnOpenGeneratedFile.Text = "Generated PlantUML file...";
-            btnOpenGeneratedFile.Image = Properties.Resources.UML24;
-            btnSaveCsAs.Text = "PlantUML file as...";
-            btnSaveCsAs.Image = Properties.Resources.UML24;
+            TabIcon = isUML ? Resources.UDG32 : Resources.LCG32;
+            PluginIcon = isUML ? Resources.UDG16ico : Resources.LCG16ico;
+            tslAbout.Image = isUML ? Resources.UDG32 : Resources.LCG32;
+            btnOpenGeneratedFile.Text = $"Generated {settings?.TemplateFormat} file...";
+            btnOpenGeneratedFile.Image =
+                settings?.TemplateFormat == TemplateFormat.PlantUML ? Resources.plantuml32 :
+                settings?.TemplateFormat == TemplateFormat.DBML ? Resources.dbml32 :
+                Resources.csharp32;
+            btnGenerate.Text = $"Generate {settings?.TemplateFormat}";
+            btnGenerate.Image =
+                settings?.TemplateFormat == TemplateFormat.PlantUML ? Resources.plantuml32 :
+                settings?.TemplateFormat == TemplateFormat.DBML ? Resources.dbml32 :
+                Resources.csharp32;
+            btnSaveCsAs.Text = $"{settings?.TemplateFormat} file as...";
+            btnSaveCsAs.Image =
+                settings?.TemplateFormat == TemplateFormat.PlantUML ? Resources.plantuml32 :
+                settings?.TemplateFormat == TemplateFormat.DBML ? Resources.dbml32 :
+                Resources.csharp32;
         }
 
         private bool GetFileSettings(bool forceprompt)

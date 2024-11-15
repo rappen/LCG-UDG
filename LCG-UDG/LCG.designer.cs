@@ -286,22 +286,22 @@
             // 
             // btnOpenGeneratedFile
             // 
-            this.btnOpenGeneratedFile.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenGeneratedFile.Image")));
+            this.btnOpenGeneratedFile.Image = global::Rappen.XTB.LCG.Properties.Resources.csharp32;
             this.btnOpenGeneratedFile.Name = "btnOpenGeneratedFile";
-            this.btnOpenGeneratedFile.Size = new System.Drawing.Size(174, 22);
+            this.btnOpenGeneratedFile.Size = new System.Drawing.Size(196, 38);
             this.btnOpenGeneratedFile.Text = "Generated C# file...";
             this.btnOpenGeneratedFile.Click += new System.EventHandler(this.btnOpenGeneratedFile_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(171, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(193, 6);
             // 
             // btnOpenConfig
             // 
-            this.btnOpenConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenConfig.Image")));
+            this.btnOpenConfig.Image = global::Rappen.XTB.LCG.Properties.Resources.project32;
             this.btnOpenConfig.Name = "btnOpenConfig";
-            this.btnOpenConfig.Size = new System.Drawing.Size(174, 22);
+            this.btnOpenConfig.Size = new System.Drawing.Size(196, 38);
             this.btnOpenConfig.Text = "Project file...";
             this.btnOpenConfig.Click += new System.EventHandler(this.btnLoadConfig_Click);
             // 
@@ -322,30 +322,30 @@
             // 
             // btnSaveCsAs
             // 
-            this.btnSaveCsAs.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveCsAs.Image")));
+            this.btnSaveCsAs.Image = global::Rappen.XTB.LCG.Properties.Resources.csharp32;
             this.btnSaveCsAs.Name = "btnSaveCsAs";
-            this.btnSaveCsAs.Size = new System.Drawing.Size(153, 22);
+            this.btnSaveCsAs.Size = new System.Drawing.Size(196, 38);
             this.btnSaveCsAs.Text = "C# file as...";
             this.btnSaveCsAs.Click += new System.EventHandler(this.btnGenerate_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(150, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(193, 6);
             // 
             // btnSaveConfig
             // 
-            this.btnSaveConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveConfig.Image")));
+            this.btnSaveConfig.Image = global::Rappen.XTB.LCG.Properties.Resources.project32;
             this.btnSaveConfig.Name = "btnSaveConfig";
-            this.btnSaveConfig.Size = new System.Drawing.Size(153, 22);
+            this.btnSaveConfig.Size = new System.Drawing.Size(196, 38);
             this.btnSaveConfig.Text = "Project file";
             this.btnSaveConfig.Click += new System.EventHandler(this.btnSaveConfigAs_Click);
             // 
             // btnSaveConfigAs
             // 
-            this.btnSaveConfigAs.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveConfigAs.Image")));
+            this.btnSaveConfigAs.Image = global::Rappen.XTB.LCG.Properties.Resources.projectnew32;
             this.btnSaveConfigAs.Name = "btnSaveConfigAs";
-            this.btnSaveConfigAs.Size = new System.Drawing.Size(153, 22);
+            this.btnSaveConfigAs.Size = new System.Drawing.Size(196, 38);
             this.btnSaveConfigAs.Text = "Project file as...";
             this.btnSaveConfigAs.Click += new System.EventHandler(this.btnSaveConfigAs_Click);
             // 

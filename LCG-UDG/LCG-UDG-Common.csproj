@@ -354,6 +354,27 @@
   <ItemGroup>
     <None Include="Resources\icons8-reset-32 %282%291.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-c-sharp-logo-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LCG-2019-016-tsp.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-worldwide-delivery-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\plantuml icon 32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dbml32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-design-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-design-plus-32.png" />
+  </ItemGroup>
   <Import Project="..\Rappen.XTB.Helper\Rappen.XRM.Helpers\Rappen.XRM.Helpers.projitems" Label="Shared" />
   <Import Project="..\Rappen.XTB.Helper\Rappen.XTB.Helpers\Rappen.XTB.Helpers.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
