@@ -472,8 +472,8 @@ namespace Rappen.XTB.LCG
             {
                 cmbSolution.SelectedIndex = -1;
                 cmbSolution.SelectedItem = null;
-                rbEntCustomAll.Checked = true;
-                rbEntMgdAll.Checked = true;
+                triEntCustom.CheckState = CheckState.Indeterminate;
+                triEntManaged.CheckState = CheckState.Indeterminate;
                 chkEntExclIntersect.Checked = false;
                 chkEntExclUnselected.Checked = false;
                 chkEntExclNoRecords.Checked = false;
@@ -481,8 +481,8 @@ namespace Rappen.XTB.LCG
             }
             else if (sender == btnAttShowAll)
             {
-                rbAttCustomAll.Checked = true;
-                rbAttMgdAll.Checked = true;
+                triAttCustom.CheckState = CheckState.Indeterminate;
+                triAttManaged.CheckState = CheckState.Indeterminate;
                 chkAttPrimaryKey.Checked = false;
                 chkAttPrimaryAttribute.Checked = false;
                 chkAttRequired.Checked = false;
@@ -497,8 +497,8 @@ namespace Rappen.XTB.LCG
             }
             else if (sender == btnRelShowAll)
             {
-                rbRelCustomAll.Checked = true;
-                rbRelMgdAll.Checked = true;
+                triRelCustom.CheckState = CheckState.Indeterminate;
+                triRelManaged.CheckState = CheckState.Indeterminate;
                 chkRel1N.Checked = true;
                 chkRelN1.Checked = true;
                 chkRelNN.Checked = true;
@@ -669,22 +669,14 @@ namespace Rappen.XTB.LCG
         private void ApplySettings()
         {
             restoringselection = true;
-            rbEntCustomAll.Checked = settings.EntityFilter?.CustomAll ?? true;
-            rbEntCustomFalse.Checked = settings.EntityFilter?.CustomFalse ?? false;
-            rbEntCustomTrue.Checked = settings.EntityFilter?.CustomTrue ?? false;
-            rbEntMgdAll.Checked = settings.EntityFilter?.ManagedAll ?? true;
-            rbEntMgdTrue.Checked = settings.EntityFilter?.ManagedTrue ?? false;
-            rbEntMgdFalse.Checked = settings.EntityFilter?.ManagedFalse ?? false;
+            triEntCustom.CheckState = settings.EntityFilter?.Custom ?? CheckState.Indeterminate;
+            triEntManaged.CheckState = settings.EntityFilter?.Managed ?? CheckState.Indeterminate;
             chkEntExclIntersect.Checked = settings.EntityFilter?.ExcludeIntersect ?? false;
             chkEntExclNoRecords.Checked = settings.EntityFilter?.ExcludeNoRecords ?? false;
             //chkEntSelected.Checked = settings.EntityFilter?.SelectedOnly ?? false;
             chkAttCheckAll.Checked = settings.AttributeFilter?.CheckAll ?? false;
-            rbAttCustomAll.Checked = settings.AttributeFilter?.CustomAll ?? true;
-            rbAttCustomFalse.Checked = settings.AttributeFilter?.CustomFalse ?? false;
-            rbAttCustomTrue.Checked = settings.AttributeFilter?.CustomTrue ?? false;
-            rbAttMgdAll.Checked = settings.AttributeFilter?.ManagedAll ?? true;
-            rbAttMgdTrue.Checked = settings.AttributeFilter?.ManagedTrue ?? false;
-            rbAttMgdFalse.Checked = settings.AttributeFilter?.ManagedFalse ?? false;
+            triAttCustom.CheckState = settings.AttributeFilter?.Custom ?? CheckState.Indeterminate;
+            triAttManaged.CheckState = settings.AttributeFilter?.Managed ?? CheckState.Indeterminate;
             chkAttPrimaryKey.Checked = settings.AttributeFilter?.PrimaryKey ?? true;
             chkAttPrimaryAttribute.Checked = settings.AttributeFilter?.PrimaryAttribute ?? true;
             chkAttRequired.Checked = settings.AttributeFilter?.Required ?? false;
@@ -696,12 +688,8 @@ namespace Rappen.XTB.LCG
             //chkAttUsed.Checked = settings.AttributeFilter?.AreUsed ?? false;
             //chkAttUniques.Checked = settings.AttributeFilter?.UniqueValues ?? false;
             chkRelCheckAll.Checked = settings.RelationshipFilter?.CheckAll ?? false;
-            rbRelCustomAll.Checked = settings.RelationshipFilter?.CustomAll ?? true;
-            rbRelCustomFalse.Checked = settings.RelationshipFilter?.CustomFalse ?? false;
-            rbRelCustomTrue.Checked = settings.RelationshipFilter?.CustomTrue ?? false;
-            rbRelMgdAll.Checked = settings.RelationshipFilter?.ManagedAll ?? true;
-            rbRelMgdTrue.Checked = settings.RelationshipFilter?.ManagedTrue ?? false;
-            rbRelMgdFalse.Checked = settings.RelationshipFilter?.ManagedFalse ?? false;
+            triRelCustom.CheckState = settings.RelationshipFilter?.Custom ?? CheckState.Indeterminate;
+            triRelManaged.CheckState = settings.RelationshipFilter?.Managed ?? CheckState.Indeterminate;
             chkRel1N.Checked = settings.RelationshipFilter?.Type1N ?? true;
             chkRelN1.Checked = settings.RelationshipFilter?.TypeN1 ?? true;
             chkRelNN.Checked = settings.RelationshipFilter?.TypeNN ?? true;
@@ -912,15 +900,15 @@ namespace Rappen.XTB.LCG
         {
             bool GetCustomFilter(AttributeMetadataProxy a)
             {
-                return rbAttCustomAll.Checked ||
-                       rbAttCustomTrue.Checked && a.Metadata.IsCustomAttribute.GetValueOrDefault() ||
-                       rbAttCustomFalse.Checked && !a.Metadata.IsCustomAttribute.GetValueOrDefault();
+                return triAttCustom.CheckState == CheckState.Indeterminate ||
+                       (triAttCustom.CheckState == CheckState.Checked && a.Metadata.IsCustomAttribute.GetValueOrDefault()) ||
+                       (triAttCustom.CheckState == CheckState.Unchecked && !a.Metadata.IsCustomAttribute.GetValueOrDefault());
             }
             bool GetManagedFilter(AttributeMetadataProxy a)
             {
-                return rbAttMgdAll.Checked ||
-                       rbAttMgdTrue.Checked && a.Metadata.IsManaged.GetValueOrDefault() ||
-                       rbAttMgdFalse.Checked && !a.Metadata.IsManaged.GetValueOrDefault();
+                return triAttManaged.CheckState== CheckState.Indeterminate ||
+                       (triAttManaged.CheckState == CheckState.Unchecked && a.Metadata.IsManaged.GetValueOrDefault()) ||
+                       (triAttManaged.CheckState == CheckState.Checked && !a.Metadata.IsManaged.GetValueOrDefault());
             }
             bool GetSearchFilter(AttributeMetadataProxy a)
             {
@@ -1140,15 +1128,15 @@ namespace Rappen.XTB.LCG
             bool GetSelectedFilter(EntityMetadataProxy e) { return !chkEntExclUnselected.Checked || e.IsSelected; }
             bool GetManagedFilter(EntityMetadataProxy e)
             {
-                return rbEntMgdAll.Checked ||
-                       rbEntMgdTrue.Checked && e.Metadata.IsManaged.GetValueOrDefault() ||
-                       rbEntMgdFalse.Checked && !e.Metadata.IsManaged.GetValueOrDefault();
+                return triEntManaged.CheckState== CheckState.Indeterminate ||
+                       (triEntManaged.CheckState == CheckState.Unchecked && e.Metadata.IsManaged.GetValueOrDefault()) ||
+                       (triEntManaged.CheckState == CheckState.Checked && !e.Metadata.IsManaged.GetValueOrDefault());
             }
             bool GetCustomFilter(EntityMetadataProxy e)
             {
-                return rbEntCustomAll.Checked ||
-                       rbEntCustomTrue.Checked && e.Metadata.IsCustomEntity.GetValueOrDefault() ||
-                       rbEntCustomFalse.Checked && !e.Metadata.IsCustomEntity.GetValueOrDefault();
+                return triEntCustom.CheckState == CheckState.Indeterminate ||
+                       (triEntCustom.CheckState == CheckState.Checked && e.Metadata.IsCustomEntity.GetValueOrDefault()) ||
+                       (triEntCustom.CheckState == CheckState.Unchecked && !e.Metadata.IsCustomEntity.GetValueOrDefault());
             }
             bool GetNoDataFilter(EntityMetadataProxy e) { return !chkEntExclNoRecords.Checked || e.Records > 0 || e.Records == null; }
 
@@ -1200,15 +1188,15 @@ namespace Rappen.XTB.LCG
             }
             bool GetCustomFilter(RelationshipMetadataProxy r)
             {
-                return settings.RelationshipFilter.CustomAll ||
-                       settings.RelationshipFilter.CustomTrue && r.Metadata.IsCustomRelationship.GetValueOrDefault() ||
-                       settings.RelationshipFilter.CustomFalse && !r.Metadata.IsCustomRelationship.GetValueOrDefault();
+                return settings.RelationshipFilter.Custom== CheckState.Indeterminate ||
+                       (settings.RelationshipFilter.Custom== CheckState.Unchecked && r.Metadata.IsCustomRelationship.GetValueOrDefault()) ||
+                       (settings.RelationshipFilter.Custom== CheckState.Checked && !r.Metadata.IsCustomRelationship.GetValueOrDefault());
             }
             bool GetManagedFilter(RelationshipMetadataProxy r)
             {
-                return settings.RelationshipFilter.ManagedAll ||
-                       settings.RelationshipFilter.ManagedTrue && r.Metadata.IsManaged.GetValueOrDefault() ||
-                       settings.RelationshipFilter.ManagedFalse && !r.Metadata.IsManaged.GetValueOrDefault();
+                return settings.RelationshipFilter.Managed== CheckState.Indeterminate ||
+                       (settings.RelationshipFilter.Managed == CheckState.Unchecked && r.Metadata.IsManaged.GetValueOrDefault()) ||
+                       (settings.RelationshipFilter.Managed == CheckState.Checked && !r.Metadata.IsManaged.GetValueOrDefault());
             }
             bool GetSearchFilter(RelationshipMetadataProxy r)
             {
@@ -1329,12 +1317,8 @@ namespace Rappen.XTB.LCG
                 settings.EntityFilter = new EntityFilter();
             }
             settings.EntityFilter.Expanded = gbEntities.Height > 20;
-            settings.EntityFilter.CustomAll = rbEntCustomAll.Checked;
-            settings.EntityFilter.CustomFalse = rbEntCustomFalse.Checked;
-            settings.EntityFilter.CustomTrue = rbEntCustomTrue.Checked;
-            settings.EntityFilter.ManagedAll = rbEntMgdAll.Checked;
-            settings.EntityFilter.ManagedTrue = rbEntMgdTrue.Checked;
-            settings.EntityFilter.ManagedFalse = rbEntMgdFalse.Checked;
+            settings.EntityFilter.Custom = triEntCustom.CheckState;
+            settings.EntityFilter.Managed = triEntManaged.CheckState;
             settings.EntityFilter.ExcludeIntersect = chkEntExclIntersect.Checked;
             settings.EntityFilter.ExcludeUnSelected = chkEntExclUnselected.Checked;
             settings.EntityFilter.ExcludeNoRecords = chkEntExclNoRecords.Checked;
@@ -1344,12 +1328,8 @@ namespace Rappen.XTB.LCG
             }
             settings.AttributeFilter.Expanded = gbAttributes.Height > 20;
             settings.AttributeFilter.CheckAll = chkAttCheckAll.Checked;
-            settings.AttributeFilter.CustomAll = rbAttCustomAll.Checked;
-            settings.AttributeFilter.CustomFalse = rbAttCustomFalse.Checked;
-            settings.AttributeFilter.CustomTrue = rbAttCustomTrue.Checked;
-            settings.AttributeFilter.ManagedAll = rbAttMgdAll.Checked;
-            settings.AttributeFilter.ManagedTrue = rbAttMgdTrue.Checked;
-            settings.AttributeFilter.ManagedFalse = rbAttMgdFalse.Checked;
+            settings.AttributeFilter.Custom = triAttCustom.CheckState;
+            settings.AttributeFilter.Managed = triAttManaged.CheckState;
             settings.AttributeFilter.PrimaryKey = chkAttPrimaryKey.Checked;
             settings.AttributeFilter.PrimaryAttribute = chkAttPrimaryAttribute.Checked;
             settings.AttributeFilter.ExcludeLogical = chkAttExclLogical.Checked;
@@ -1365,12 +1345,8 @@ namespace Rappen.XTB.LCG
             }
             settings.RelationshipFilter.Expanded = gbRelationships.Height > 20;
             settings.RelationshipFilter.CheckAll = chkRelCheckAll.Checked;
-            settings.RelationshipFilter.CustomAll = rbRelCustomAll.Checked;
-            settings.RelationshipFilter.CustomFalse = rbRelCustomFalse.Checked;
-            settings.RelationshipFilter.CustomTrue = rbRelCustomTrue.Checked;
-            settings.RelationshipFilter.ManagedAll = rbRelMgdAll.Checked;
-            settings.RelationshipFilter.ManagedTrue = rbRelMgdTrue.Checked;
-            settings.RelationshipFilter.ManagedFalse = rbRelMgdFalse.Checked;
+            settings.RelationshipFilter.Custom= triRelCustom.CheckState;
+            settings.RelationshipFilter.Managed = triRelManaged.CheckState;
             settings.RelationshipFilter.Type1N = chkRel1N.Checked;
             settings.RelationshipFilter.TypeN1 = chkRelN1.Checked;
             settings.RelationshipFilter.TypeNN = chkRelNN.Checked;

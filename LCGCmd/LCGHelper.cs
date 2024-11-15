@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime;
+using System.Windows.Forms;
 using System.Xml;
 using McTools.Xrm.Connection;
+using McTools.Xrm.Connection.WinForms.AppCode;
 using Microsoft.Xrm.Sdk.Metadata;
 
 namespace Rappen.XTB.LCG.Cmd
@@ -164,6 +167,7 @@ namespace Rappen.XTB.LCG.Cmd
                 }
             }
         }
+
         private List<string> GetDefaultRelationships(EntityMetadataProxy entity)
         {
             var selectedrelationships = GetFilteredRelationships(entity, string.Empty);
@@ -194,15 +198,15 @@ namespace Rappen.XTB.LCG.Cmd
             }
             bool GetCustomFilter(RelationshipMetadataProxy r)
             {
-                return Settings.RelationshipFilter.CustomAll ||
-                       Settings.RelationshipFilter.CustomTrue && r.Metadata.IsCustomRelationship.GetValueOrDefault() ||
-                       Settings.RelationshipFilter.CustomFalse && !r.Metadata.IsCustomRelationship.GetValueOrDefault();
+                return Settings.RelationshipFilter.Custom == CheckState.Indeterminate ||
+                       (Settings.RelationshipFilter.Custom == CheckState.Unchecked && r.Metadata.IsCustomRelationship.GetValueOrDefault()) ||
+                       (Settings.RelationshipFilter.Custom == CheckState.Checked && !r.Metadata.IsCustomRelationship.GetValueOrDefault());
             }
             bool GetManagedFilter(RelationshipMetadataProxy r)
             {
-                return Settings.RelationshipFilter.ManagedAll ||
-                       Settings.RelationshipFilter.ManagedTrue && r.Metadata.IsManaged.GetValueOrDefault() ||
-                       Settings.RelationshipFilter.ManagedFalse && !r.Metadata.IsManaged.GetValueOrDefault();
+                return Settings.RelationshipFilter.Managed == CheckState.Indeterminate ||
+                       (Settings.RelationshipFilter.Managed == CheckState.Unchecked && r.Metadata.IsManaged.GetValueOrDefault()) ||
+                       (Settings.RelationshipFilter.Managed == CheckState.Checked && !r.Metadata.IsManaged.GetValueOrDefault());
             }
             bool GetSearchFilter(RelationshipMetadataProxy r)
             {

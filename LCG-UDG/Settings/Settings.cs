@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 using XrmToolBox.Extensibility;
 
 namespace Rappen.XTB.LCG
@@ -184,12 +185,8 @@ namespace Rappen.XTB.LCG
     public class EntityFilter
     {
         public bool Expanded { get; set; } = false;
-        public bool CustomAll { get; set; } = true;
-        public bool CustomFalse { get; set; }
-        public bool CustomTrue { get; set; }
-        public bool ManagedAll { get; set; } = true;
-        public bool ManagedTrue { get; set; }
-        public bool ManagedFalse { get; set; }
+        public CheckState Custom { get; set; } = CheckState.Indeterminate;
+        public CheckState Managed { get; set; } = CheckState.Indeterminate;
         public bool ExcludeIntersect { get; set; }
         internal bool ExcludeUnSelected { get; set; }
         public bool ExcludeNoRecords { get; set; } = false;
@@ -199,12 +196,8 @@ namespace Rappen.XTB.LCG
     {
         public bool Expanded { get; set; } = false;
         public bool CheckAll { get; set; }
-        public bool CustomAll { get; set; } = true;
-        public bool CustomFalse { get; set; }
-        public bool CustomTrue { get; set; }
-        public bool ManagedAll { get; set; } = true;
-        public bool ManagedTrue { get; set; }
-        public bool ManagedFalse { get; set; }
+        public CheckState Custom { get; set; } = CheckState.Indeterminate;
+        public CheckState Managed { get; set; } = CheckState.Indeterminate;
         public bool PrimaryKey { get; set; }
         public bool PrimaryAttribute { get; set; }
         public bool Required { get; set; }
@@ -221,13 +214,9 @@ namespace Rappen.XTB.LCG
     {
         public bool Expanded { get; set; } = false;
         public bool CheckAll { get; set; }
-        public bool CustomAll { get; set; } = true;
-        public bool CustomFalse { get; set; }
-        public bool CustomTrue { get; set; }
-        public bool ManagedAll { get; set; } = true;
-        public bool ManagedTrue { get; set; }
-        public bool ManagedFalse { get; set; }
-        public bool Type1N { get; set; } = true;
+        public CheckState Custom { get; set; } = CheckState.Indeterminate;
+        public CheckState Managed { get; set; } = CheckState.Indeterminate;
+        public bool Type1N { get; set; } = false;
         public bool TypeN1 { get; set; } = true;
         public bool TypeNN { get; set; } = true;
         public bool Owner { get; set; } = true;
