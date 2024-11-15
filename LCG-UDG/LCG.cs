@@ -518,19 +518,6 @@ namespace Rappen.XTB.LCG
             CancelWorker();
         }
 
-        private void linkShowDataInFXB_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            if (selectedEntity == null)
-            {
-                MessageBox.Show("An entity has to be selected to retrieve the data.", "Show in FXB", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            var fetch = $"<fetch top='1000'><entity name='{selectedEntity.LogicalName}'>";
-            fetch += string.Join("\n", selectedEntity.Attributes.Where(a => a.Selected).Select(a => $"<attribute name='{a.LogicalName}'/>"));
-            fetch += "</entity></fetch>";
-            OnOutgoingMessage(this, new MessageBusEventArgs("FetchXML Builder", true) { TargetArgument = fetch });
-        }
-
         private void tsbSupporting_Click(object sender, EventArgs e)
         {
             Supporting.ShowIf(this, true, false, ai2);
@@ -751,6 +738,7 @@ namespace Rappen.XTB.LCG
 
         private void DisplayFilteredEntities()
         {
+            chkEntShowUncountable.Enabled = chkEntExclNoRecords.Checked;
             if (entities != null && entities.Count > 0)
             {
                 var filteredentities = GetFilteredEntities();
@@ -906,7 +894,7 @@ namespace Rappen.XTB.LCG
             }
             bool GetManagedFilter(AttributeMetadataProxy a)
             {
-                return triAttManaged.CheckState== CheckState.Indeterminate ||
+                return triAttManaged.CheckState == CheckState.Indeterminate ||
                        (triAttManaged.CheckState == CheckState.Unchecked && a.Metadata.IsManaged.GetValueOrDefault()) ||
                        (triAttManaged.CheckState == CheckState.Checked && !a.Metadata.IsManaged.GetValueOrDefault());
             }
@@ -1128,7 +1116,7 @@ namespace Rappen.XTB.LCG
             bool GetSelectedFilter(EntityMetadataProxy e) { return !chkEntExclUnselected.Checked || e.IsSelected; }
             bool GetManagedFilter(EntityMetadataProxy e)
             {
-                return triEntManaged.CheckState== CheckState.Indeterminate ||
+                return triEntManaged.CheckState == CheckState.Indeterminate ||
                        (triEntManaged.CheckState == CheckState.Unchecked && e.Metadata.IsManaged.GetValueOrDefault()) ||
                        (triEntManaged.CheckState == CheckState.Checked && !e.Metadata.IsManaged.GetValueOrDefault());
             }
@@ -1138,7 +1126,7 @@ namespace Rappen.XTB.LCG
                        (triEntCustom.CheckState == CheckState.Checked && e.Metadata.IsCustomEntity.GetValueOrDefault()) ||
                        (triEntCustom.CheckState == CheckState.Unchecked && !e.Metadata.IsCustomEntity.GetValueOrDefault());
             }
-            bool GetNoDataFilter(EntityMetadataProxy e) { return !chkEntExclNoRecords.Checked || e.Records > 0 || e.Records == null; }
+            bool GetNoDataFilter(EntityMetadataProxy e) { return !chkEntExclNoRecords.Checked || e.Records > 0 || (chkEntShowUncountable.Checked && e.Records == null); }
 
             bool GetNoMSFT(EntityMetadataProxy e) =>
                 !chkEntExclMS.Checked ||
@@ -1188,13 +1176,13 @@ namespace Rappen.XTB.LCG
             }
             bool GetCustomFilter(RelationshipMetadataProxy r)
             {
-                return settings.RelationshipFilter.Custom== CheckState.Indeterminate ||
-                       (settings.RelationshipFilter.Custom== CheckState.Unchecked && r.Metadata.IsCustomRelationship.GetValueOrDefault()) ||
-                       (settings.RelationshipFilter.Custom== CheckState.Checked && !r.Metadata.IsCustomRelationship.GetValueOrDefault());
+                return settings.RelationshipFilter.Custom == CheckState.Indeterminate ||
+                       (settings.RelationshipFilter.Custom == CheckState.Unchecked && r.Metadata.IsCustomRelationship.GetValueOrDefault()) ||
+                       (settings.RelationshipFilter.Custom == CheckState.Checked && !r.Metadata.IsCustomRelationship.GetValueOrDefault());
             }
             bool GetManagedFilter(RelationshipMetadataProxy r)
             {
-                return settings.RelationshipFilter.Managed== CheckState.Indeterminate ||
+                return settings.RelationshipFilter.Managed == CheckState.Indeterminate ||
                        (settings.RelationshipFilter.Managed == CheckState.Unchecked && r.Metadata.IsManaged.GetValueOrDefault()) ||
                        (settings.RelationshipFilter.Managed == CheckState.Checked && !r.Metadata.IsManaged.GetValueOrDefault());
             }
@@ -1345,7 +1333,7 @@ namespace Rappen.XTB.LCG
             }
             settings.RelationshipFilter.Expanded = gbRelationships.Height > 20;
             settings.RelationshipFilter.CheckAll = chkRelCheckAll.Checked;
-            settings.RelationshipFilter.Custom= triRelCustom.CheckState;
+            settings.RelationshipFilter.Custom = triRelCustom.CheckState;
             settings.RelationshipFilter.Managed = triRelManaged.CheckState;
             settings.RelationshipFilter.Type1N = chkRel1N.Checked;
             settings.RelationshipFilter.TypeN1 = chkRelN1.Checked;

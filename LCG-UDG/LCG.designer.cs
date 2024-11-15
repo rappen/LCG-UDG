@@ -70,7 +70,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.llEntityExpander = new System.Windows.Forms.LinkLabel();
             this.pnEntIntersect = new System.Windows.Forms.Panel();
-            this.linkShowDataInFXB = new System.Windows.Forms.LinkLabel();
             this.label18 = new System.Windows.Forms.Label();
             this.chkEntExclMS = new System.Windows.Forms.CheckBox();
             this.chkEntExclNoRecords = new System.Windows.Forms.CheckBox();
@@ -180,6 +179,7 @@
             this.triAttManaged = new Rappen.XTB.Helpers.Controls.TriCheckBox();
             this.triRelManaged = new Rappen.XTB.Helpers.Controls.TriCheckBox();
             this.triRelCustom = new Rappen.XTB.Helpers.Controls.TriCheckBox();
+            this.chkEntShowUncountable = new System.Windows.Forms.CheckBox();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitEntityRest)).BeginInit();
             this.splitEntityRest.Panel1.SuspendLayout();
@@ -649,7 +649,7 @@
             // 
             // pnEntIntersect
             // 
-            this.pnEntIntersect.Controls.Add(this.linkShowDataInFXB);
+            this.pnEntIntersect.Controls.Add(this.chkEntShowUncountable);
             this.pnEntIntersect.Controls.Add(this.label18);
             this.pnEntIntersect.Controls.Add(this.chkEntExclMS);
             this.pnEntIntersect.Controls.Add(this.chkEntExclNoRecords);
@@ -661,17 +661,6 @@
             this.pnEntIntersect.Name = "pnEntIntersect";
             this.pnEntIntersect.Size = new System.Drawing.Size(341, 63);
             this.pnEntIntersect.TabIndex = 4;
-            // 
-            // linkShowDataInFXB
-            // 
-            this.linkShowDataInFXB.AutoSize = true;
-            this.linkShowDataInFXB.Location = new System.Drawing.Point(188, 42);
-            this.linkShowDataInFXB.Name = "linkShowDataInFXB";
-            this.linkShowDataInFXB.Size = new System.Drawing.Size(143, 13);
-            this.linkShowDataInFXB.TabIndex = 0;
-            this.linkShowDataInFXB.TabStop = true;
-            this.linkShowDataInFXB.Text = "Show in FetchXML Builder ↗️";
-            this.linkShowDataInFXB.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkShowDataInFXB_LinkClicked);
             // 
             // label18
             // 
@@ -1857,6 +1846,18 @@
             this.triRelCustom.UseVisualStyleBackColor = true;
             this.triRelCustom.CheckStateChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
+            // chkEntShowUncountable
+            // 
+            this.chkEntShowUncountable.AutoSize = true;
+            this.chkEntShowUncountable.Location = new System.Drawing.Point(218, 41);
+            this.chkEntShowUncountable.Name = "chkEntShowUncountable";
+            this.chkEntShowUncountable.Size = new System.Drawing.Size(87, 17);
+            this.chkEntShowUncountable.TabIndex = 13;
+            this.chkEntShowUncountable.Text = "Uncountable";
+            this.toolTip1.SetToolTip(this.chkEntShowUncountable, "Some entities can\'t let us to count the records. Shall those also be shown?");
+            this.chkEntShowUncountable.UseVisualStyleBackColor = true;
+            this.chkEntShowUncountable.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
+            // 
             // LCG
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2089,7 +2090,6 @@
         private System.Windows.Forms.CheckBox chkEntExclMS;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.LinkLabel linkShowDataInFXB;
         private System.Windows.Forms.ToolStripButton tsbSupporting;
         private System.Windows.Forms.Panel panEntityGroup;
         private System.Windows.Forms.Label label20;
@@ -2105,5 +2105,6 @@
         private Helpers.Controls.TriCheckBox triAttManaged;
         private Helpers.Controls.TriCheckBox triRelManaged;
         private Helpers.Controls.TriCheckBox triRelCustom;
+        private System.Windows.Forms.CheckBox chkEntShowUncountable;
     }
 }
