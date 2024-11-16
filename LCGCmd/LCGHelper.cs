@@ -1,13 +1,11 @@
-﻿using System;
+﻿using McTools.Xrm.Connection;
+using Microsoft.Xrm.Sdk.Metadata;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime;
 using System.Windows.Forms;
 using System.Xml;
-using McTools.Xrm.Connection;
-using McTools.Xrm.Connection.WinForms.AppCode;
-using Microsoft.Xrm.Sdk.Metadata;
 
 namespace Rappen.XTB.LCG.Cmd
 {

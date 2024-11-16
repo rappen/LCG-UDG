@@ -475,8 +475,9 @@ namespace Rappen.XTB.LCG
                 triEntCustom.CheckState = CheckState.Indeterminate;
                 triEntManaged.CheckState = CheckState.Indeterminate;
                 chkEntExclIntersect.Checked = false;
-                chkEntExclUnselected.Checked = false;
-                chkEntExclNoRecords.Checked = false;
+                chkEntExclMS.Checked = false;
+                triEntSelected.CheckState = CheckState.Indeterminate;
+                triEntRecords.CheckState = CheckState.Indeterminate;
                 txtEntSearch.Text = "";
             }
             else if (sender == btnAttShowAll)
@@ -659,7 +660,8 @@ namespace Rappen.XTB.LCG
             triEntCustom.CheckState = settings.EntityFilter?.Custom ?? CheckState.Indeterminate;
             triEntManaged.CheckState = settings.EntityFilter?.Managed ?? CheckState.Indeterminate;
             chkEntExclIntersect.Checked = settings.EntityFilter?.ExcludeIntersect ?? false;
-            chkEntExclNoRecords.Checked = settings.EntityFilter?.ExcludeNoRecords ?? false;
+            triEntRecords.CheckState = settings.EntityFilter?.Records ?? CheckState.Indeterminate;
+            chkEntShowUncountable.Checked = triEntRecords.CheckState != CheckState.Indeterminate && (settings.EntityFilter?.Uncountable ?? false);
             //chkEntSelected.Checked = settings.EntityFilter?.SelectedOnly ?? false;
             chkAttCheckAll.Checked = settings.AttributeFilter?.CheckAll ?? false;
             triAttCustom.CheckState = settings.AttributeFilter?.Custom ?? CheckState.Indeterminate;
@@ -738,7 +740,7 @@ namespace Rappen.XTB.LCG
 
         private void DisplayFilteredEntities()
         {
-            chkEntShowUncountable.Enabled = chkEntExclNoRecords.Checked;
+            chkEntShowUncountable.Enabled = triEntRecords.CheckState != CheckState.Indeterminate;
             if (entities != null && entities.Count > 0)
             {
                 var filteredentities = GetFilteredEntities();
@@ -1105,40 +1107,50 @@ namespace Rappen.XTB.LCG
 
         private IEnumerable<EntityMetadataProxy> GetFilteredEntities()
         {
-            bool GetSearchFilter(EntityMetadataProxy e)
-            {
-                return string.IsNullOrWhiteSpace(txtEntSearch.Text) ||
-                       e.Metadata.LogicalName.ToLowerInvariant().Contains(txtEntSearch.Text) ||
-                       e.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtEntSearch.Text) == true;
-            }
-            bool GetIntersectFilter(EntityMetadataProxy e) { return !e.Metadata.IsIntersect.GetValueOrDefault() || !chkEntExclIntersect.Checked; }
-            bool IsNotPrivate(EntityMetadataProxy e) { return !e.Metadata.IsPrivate.GetValueOrDefault(); }
-            bool GetSelectedFilter(EntityMetadataProxy e) { return !chkEntExclUnselected.Checked || e.IsSelected; }
-            bool GetManagedFilter(EntityMetadataProxy e)
-            {
-                return triEntManaged.CheckState == CheckState.Indeterminate ||
-                       (triEntManaged.CheckState == CheckState.Unchecked && e.Metadata.IsManaged.GetValueOrDefault()) ||
-                       (triEntManaged.CheckState == CheckState.Checked && !e.Metadata.IsManaged.GetValueOrDefault());
-            }
-            bool GetCustomFilter(EntityMetadataProxy e)
-            {
-                return triEntCustom.CheckState == CheckState.Indeterminate ||
-                       (triEntCustom.CheckState == CheckState.Checked && e.Metadata.IsCustomEntity.GetValueOrDefault()) ||
-                       (triEntCustom.CheckState == CheckState.Unchecked && !e.Metadata.IsCustomEntity.GetValueOrDefault());
-            }
-            bool GetNoDataFilter(EntityMetadataProxy e) { return !chkEntExclNoRecords.Checked || e.Records > 0 || (chkEntShowUncountable.Checked && e.Records == null); }
+            bool GetSearchFilter(EntityMetadataProxy e) =>
+                string.IsNullOrWhiteSpace(txtEntSearch.Text) ||
+                e.Metadata.LogicalName.ToLowerInvariant().Contains(txtEntSearch.Text) ||
+                e.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtEntSearch.Text) == true;
+
+            bool GetIntersectFilter(EntityMetadataProxy e) =>
+                !e.Metadata.IsIntersect.GetValueOrDefault() ||
+                !chkEntExclIntersect.Checked;
+
+            bool IsNotPrivate(EntityMetadataProxy e) =>
+                !e.Metadata.IsPrivate.GetValueOrDefault();
+
+            bool GetSelectedFilter(EntityMetadataProxy e) =>
+                triEntSelected.CheckState == CheckState.Indeterminate ||
+                (triEntSelected.CheckState == CheckState.Checked && e.IsSelected) ||
+                (triEntSelected.CheckState == CheckState.Unchecked && !e.IsSelected);
+
+            bool GetManagedFilter(EntityMetadataProxy e) =>
+                triEntManaged.CheckState == CheckState.Indeterminate ||
+                (triEntManaged.CheckState == CheckState.Unchecked && e.Metadata.IsManaged.GetValueOrDefault()) ||
+                (triEntManaged.CheckState == CheckState.Checked && !e.Metadata.IsManaged.GetValueOrDefault());
+
+            bool GetCustomFilter(EntityMetadataProxy e) =>
+                triEntCustom.CheckState == CheckState.Indeterminate ||
+                (triEntCustom.CheckState == CheckState.Checked && e.Metadata.IsCustomEntity.GetValueOrDefault()) ||
+                (triEntCustom.CheckState == CheckState.Unchecked && !e.Metadata.IsCustomEntity.GetValueOrDefault());
+
+            bool GetNoDataFilter(EntityMetadataProxy e) =>
+                triEntRecords.CheckState == CheckState.Indeterminate ||
+                (triEntRecords.CheckState == CheckState.Checked && e.Records > 0) ||
+                (triEntRecords.CheckState == CheckState.Unchecked && e.Records == 0) ||
+                (chkEntShowUncountable.Checked && e.Records == null);
 
             bool GetNoMSFT(EntityMetadataProxy e) =>
                 !chkEntExclMS.Checked ||
                 !e.LogicalName.Contains("_") ||
                 !(OnlineSettings.Instance.MicrosoftPrefixes.Contains(e.LogicalName.Split('_')[0] + "_"));
 
-            if (ConnectionDetail?.OrganizationMajorVersion < 9 && chkEntExclNoRecords.Checked)
+            if (ConnectionDetail?.OrganizationMajorVersion < 9 && triEntRecords.CheckState != CheckState.Indeterminate)
             {
                 MessageBox.Show("Sorry, currently not possible to count records with Dynamics 365 before version 9.*.\n\nClick 'Help' for more info!",
                     "Count Records", MessageBoxButtons.OK, MessageBoxIcon.Stop, MessageBoxDefaultButton.Button1, 0,
                     "https://learn.microsoft.com/dotnet/api/microsoft.crm.sdk.messages.retrievetotalrecordcountrequest?WT.mc_id=DX-MVP-5002475");
-                chkEntExclNoRecords.Checked = false;
+                triEntRecords.CheckState = CheckState.Indeterminate;
             }
             var filteredentities = entities.Where(
                 e => IsNotPrivate(e)
@@ -1308,8 +1320,9 @@ namespace Rappen.XTB.LCG
             settings.EntityFilter.Custom = triEntCustom.CheckState;
             settings.EntityFilter.Managed = triEntManaged.CheckState;
             settings.EntityFilter.ExcludeIntersect = chkEntExclIntersect.Checked;
-            settings.EntityFilter.ExcludeUnSelected = chkEntExclUnselected.Checked;
-            settings.EntityFilter.ExcludeNoRecords = chkEntExclNoRecords.Checked;
+            settings.EntityFilter.Selected = triEntSelected.CheckState;
+            settings.EntityFilter.Records = triEntRecords.CheckState;
+            settings.EntityFilter.Uncountable = settings.EntityFilter.Records != CheckState.Indeterminate && chkEntShowUncountable.Checked;
             if (settings.AttributeFilter == null)
             {
                 settings.AttributeFilter = new AttributeFilter();

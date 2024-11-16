@@ -188,8 +188,9 @@ namespace Rappen.XTB.LCG
         public CheckState Custom { get; set; } = CheckState.Indeterminate;
         public CheckState Managed { get; set; } = CheckState.Indeterminate;
         public bool ExcludeIntersect { get; set; }
-        internal bool ExcludeUnSelected { get; set; }
-        public bool ExcludeNoRecords { get; set; } = false;
+        internal CheckState Selected { get; set; }
+        public CheckState Records { get; set; } = CheckState.Indeterminate;
+        public bool Uncountable { get; set; }
     }
 
     public class AttributeFilter
