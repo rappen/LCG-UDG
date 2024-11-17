@@ -288,6 +288,11 @@ namespace Rappen.XTB.LCG
                     checkedrow = metadata;
                     metadata.SetSelected(!metadata.IsSelected);
                     checkedrow = null;
+
+                    if (metadata is EntityMetadataProxy entitymeta && !metadata.IsSelected && chkRelRemoveWhenUncheckedEntity.Checked)
+                    {
+                        // implement #115 later
+                    }
                 }
             }
         }
@@ -472,24 +477,22 @@ namespace Rappen.XTB.LCG
             {
                 cmbSolution.SelectedIndex = -1;
                 cmbSolution.SelectedItem = null;
-                triEntCustom.CheckState = CheckState.Indeterminate;
-                triEntManaged.CheckState = CheckState.Indeterminate;
+                triEntCustom.CheckState = CheckState.Checked;
+                triEntManaged.CheckState = CheckState.Checked;
                 chkEntExclIntersect.Checked = false;
                 chkEntExclMS.Checked = false;
-                triEntSelected.CheckState = CheckState.Indeterminate;
-                triEntRecords.CheckState = CheckState.Indeterminate;
+                triEntSelected.CheckState = CheckState.Checked;
+                triEntRecords.CheckState = CheckState.Checked;
                 txtEntSearch.Text = "";
             }
             else if (sender == btnAttShowAll)
             {
-                triAttCustom.CheckState = CheckState.Indeterminate;
-                triAttManaged.CheckState = CheckState.Indeterminate;
-                chkAttPrimaryKey.Checked = false;
-                chkAttPrimaryAttribute.Checked = false;
-                chkAttRequired.Checked = false;
-                chkAttExclLogical.Checked = false;
-                chkAttExclInternal.Checked = false;
-                chkAttExclUnRequired.Checked = false;
+                triAttCustom.CheckState = CheckState.Checked;
+                triAttManaged.CheckState = CheckState.Checked;
+                triAttPrimaryKeyName.CheckState = CheckState.Checked;
+                triAttRequired.CheckState = CheckState.Checked;
+                triAttLogical.CheckState = CheckState.Unchecked;
+                triAttInternal.CheckState = CheckState.Unchecked;
                 chkAttExclOwners.Checked = false;
                 chkAttExclCreMod.Checked = false;
                 chkAttUsed.Checked = false;
@@ -498,8 +501,8 @@ namespace Rappen.XTB.LCG
             }
             else if (sender == btnRelShowAll)
             {
-                triRelCustom.CheckState = CheckState.Indeterminate;
-                triRelManaged.CheckState = CheckState.Indeterminate;
+                triRelCustom.CheckState = CheckState.Checked;
+                triRelManaged.CheckState = CheckState.Checked;
                 chkRel1N.Checked = true;
                 chkRelN1.Checked = true;
                 chkRelNN.Checked = true;
@@ -666,14 +669,12 @@ namespace Rappen.XTB.LCG
             chkAttCheckAll.Checked = settings.AttributeFilter?.CheckAll ?? false;
             triAttCustom.CheckState = settings.AttributeFilter?.Custom ?? CheckState.Indeterminate;
             triAttManaged.CheckState = settings.AttributeFilter?.Managed ?? CheckState.Indeterminate;
-            chkAttPrimaryKey.Checked = settings.AttributeFilter?.PrimaryKey ?? true;
-            chkAttPrimaryAttribute.Checked = settings.AttributeFilter?.PrimaryAttribute ?? true;
-            chkAttRequired.Checked = settings.AttributeFilter?.Required ?? false;
-            chkAttExclLogical.Checked = settings.AttributeFilter?.ExcludeLogical ?? false;
-            chkAttExclInternal.Checked = settings.AttributeFilter?.ExcludeInternal ?? false;
+            triAttPrimaryKeyName.CheckState = settings.AttributeFilter?.PrimaryKeyName ?? CheckState.Indeterminate;
+            triAttRequired.CheckState = settings.AttributeFilter?.Required ?? CheckState.Indeterminate;
+            triAttLogical.CheckState = settings.AttributeFilter?.Logical ?? CheckState.Unchecked;
+            triAttInternal.CheckState = settings.AttributeFilter?.Internal ?? CheckState.Unchecked;
             chkAttExclCreMod.Checked = settings.AttributeFilter?.ExcludeCreMod ?? false;
             chkAttExclOwners.Checked = settings.AttributeFilter?.ExcludeOwner ?? false;
-            chkAttExclUnRequired.Checked = settings.AttributeFilter?.ExcludeUnrequired ?? false;
             //chkAttUsed.Checked = settings.AttributeFilter?.AreUsed ?? false;
             //chkAttUniques.Checked = settings.AttributeFilter?.UniqueValues ?? false;
             chkRelCheckAll.Checked = settings.RelationshipFilter?.CheckAll ?? false;
@@ -888,96 +889,106 @@ namespace Rappen.XTB.LCG
 
         private IEnumerable<AttributeMetadataProxy> GetFilteredAttributes(EntityMetadataProxy entity)
         {
-            bool GetCustomFilter(AttributeMetadataProxy a)
-            {
-                return triAttCustom.CheckState == CheckState.Indeterminate ||
-                       (triAttCustom.CheckState == CheckState.Checked && a.Metadata.IsCustomAttribute.GetValueOrDefault()) ||
-                       (triAttCustom.CheckState == CheckState.Unchecked && !a.Metadata.IsCustomAttribute.GetValueOrDefault());
-            }
-            bool GetManagedFilter(AttributeMetadataProxy a)
-            {
-                return triAttManaged.CheckState == CheckState.Indeterminate ||
-                       (triAttManaged.CheckState == CheckState.Unchecked && a.Metadata.IsManaged.GetValueOrDefault()) ||
-                       (triAttManaged.CheckState == CheckState.Checked && !a.Metadata.IsManaged.GetValueOrDefault());
-            }
-            bool GetSearchFilter(AttributeMetadataProxy a)
-            {
-                return string.IsNullOrWhiteSpace(txtAttSearch.Text) ||
-                       a.Metadata.LogicalName.ToLowerInvariant().Contains(txtAttSearch.Text) ||
-                       a.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtAttSearch.Text) == true;
-            }
-            bool GetLogicalFilter(AttributeMetadataProxy a, List<AttributeMetadataProxy> attributes)
-            {
-                return !chkAttExclLogical.Checked ||
-                       (a.Metadata.IsLogical != true &&
-                        !IsMoneyBase(a) &&
-                        !IsCustomerLogical(a, attributes));
-            }
-            bool GetInternalFilter(AttributeMetadataProxy a)
-            {
-                return !chkAttExclInternal.Checked ||
-                       !OnlineSettings.Instance.InternalAttributes.Contains(a.LogicalName);
-            }
-            bool GetUnrequiredFilter(AttributeMetadataProxy a)
-            {
-                return !chkAttExclUnRequired.Checked ||
-                       a.Required;
-            }
-            bool GetCreModFilter(AttributeMetadataProxy a)
-            {
-                return !chkAttExclCreMod.Checked ||
-                       (!a.LogicalName.StartsWith("created") &&
-                        !a.LogicalName.StartsWith("modified"));
-            }
-            bool GetOwnersFilter(AttributeMetadataProxy a)
-            {
-                return !chkAttExclOwners.Checked ||
-                       (!a.LogicalName.StartsWith("owner") &&
-                        !a.LogicalName.StartsWith("owning"));
-            }
-            bool IsMoneyBase(AttributeMetadataProxy a)
-            {
-                return a.Metadata is MoneyAttributeMetadata && a.LogicalName.EndsWith("_base");
-            }
-            bool IsCustomerLogical(AttributeMetadataProxy a, List<AttributeMetadataProxy> attributes)
-            {
-                return !string.IsNullOrEmpty(a.Metadata.AttributeOf) &&
-                    attributes.FirstOrDefault(a2 => a2.LogicalName == a.Metadata.AttributeOf) is AttributeMetadataProxy parentattr &&
-                    parentattr.Type == AttributeTypeCode.Customer;
-            }
+            bool GetCustomFilter(AttributeMetadataProxy a) =>
+                triAttCustom.CheckState == CheckState.Checked ||
+                (triAttCustom.CheckState == CheckState.Indeterminate && a.Metadata.IsCustomAttribute.GetValueOrDefault()) ||
+                (triAttCustom.CheckState == CheckState.Unchecked && !a.Metadata.IsCustomAttribute.GetValueOrDefault());
 
-            bool AreUsed(AttributeMetadataProxy a) { return !chkAttUsed.Checked || a.WithValues == null || a.WithValues > 0; }
+            bool GetManagedFilter(AttributeMetadataProxy a) =>
+                triAttManaged.CheckState == CheckState.Checked ||
+                (triAttManaged.CheckState == CheckState.Unchecked && a.Metadata.IsManaged.GetValueOrDefault()) ||
+                (triAttManaged.CheckState == CheckState.Indeterminate && !a.Metadata.IsManaged.GetValueOrDefault());
 
-            bool AreUniques(AttributeMetadataProxy a) { return !chkAttUniques.Checked || a.UniqueValues > 1; }
+            bool GetSearchFilter(AttributeMetadataProxy a) =>
+                string.IsNullOrWhiteSpace(txtAttSearch.Text) ||
+                a.Metadata.LogicalName.ToLowerInvariant().Contains(txtAttSearch.Text) ||
+                a.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtAttSearch.Text) == true;
 
-            bool AllPrimaryIDs(AttributeMetadataProxy a) => chkAttPrimaryKey.Checked && a.Metadata?.IsPrimaryId.Value == true && a.Metadata?.IsLogical.Value == false;
-            bool AllPrimaryNames(AttributeMetadataProxy a) => chkAttPrimaryAttribute.Checked && a.Metadata?.IsPrimaryName.Value == true;
-            bool AllRequired(AttributeMetadataProxy a) => chkAttRequired.Checked && a.Required;
+            bool GetLogicalFilter(AttributeMetadataProxy a, List<AttributeMetadataProxy> attributes) =>
+                triAttLogical.CheckState == CheckState.Checked ||
+                (triAttLogical.CheckState == CheckState.Unchecked && a.Metadata.IsLogical != true && !IsMoneyBase(a) && !IsCustomerLogical(a, attributes)) ||
+                (triAttLogical.CheckState == CheckState.Indeterminate && a.Metadata.IsLogical == true);
 
-            if (chkAttUsed.Checked && !entity.CountedAttributes)
+            bool GetInternalFilter(AttributeMetadataProxy a) =>
+                triAttInternal.CheckState == CheckState.Checked ||
+                (triAttInternal.CheckState == CheckState.Unchecked && !OnlineSettings.Instance.InternalAttributes.Contains(a.LogicalName)) ||
+                (triAttInternal.CheckState == CheckState.Indeterminate && OnlineSettings.Instance.InternalAttributes.Contains(a.LogicalName));
+
+            bool GetRequiredFilter(AttributeMetadataProxy a) =>
+                triAttRequired.CheckState == CheckState.Checked ||
+                (a.Required == (triAttRequired.CheckState == CheckState.Indeterminate));
+
+            bool GetCreModFilter(AttributeMetadataProxy a) =>
+                !chkAttExclCreMod.Checked ||
+                (!a.LogicalName.StartsWith("created") && !a.LogicalName.StartsWith("modified"));
+
+            bool GetOwnersFilter(AttributeMetadataProxy a) =>
+                !chkAttExclOwners.Checked ||
+                (!a.LogicalName.StartsWith("owner") && !a.LogicalName.StartsWith("owning"));
+
+            bool IsMoneyBase(AttributeMetadataProxy a) =>
+                a.Metadata is MoneyAttributeMetadata && a.LogicalName.EndsWith("_base");
+
+            bool IsCustomerLogical(AttributeMetadataProxy a, List<AttributeMetadataProxy> attributes) =>
+                !string.IsNullOrEmpty(a.Metadata.AttributeOf) &&
+                attributes.FirstOrDefault(a2 => a2.LogicalName == a.Metadata.AttributeOf) is AttributeMetadataProxy parentattr &&
+                parentattr.Type == AttributeTypeCode.Customer;
+
+            bool AreUsed(AttributeMetadataProxy a) =>
+                !chkAttUsed.Checked ||
+                a.WithValues == null ||
+                a.WithValues > 0;
+
+            bool AreUniques(AttributeMetadataProxy a) =>
+                !chkAttUniques.Checked ||
+                a.UniqueValues > 1;
+
+            bool AddPrimaryIdNames(AttributeMetadataProxy a) =>
+                triAttPrimaryKeyName.CheckState != CheckState.Unchecked &&
+                IsPriAttr(a);
+
+            bool FilterPrimaryIdNames(AttributeMetadataProxy a) =>
+                triAttPrimaryKeyName.CheckState == CheckState.Checked ||
+                (triAttPrimaryKeyName.CheckState == CheckState.Indeterminate && IsPriAttr(a)) ||
+                (triAttPrimaryKeyName.CheckState == CheckState.Unchecked && !IsPriAttr(a));
+
+            bool AddRequired(AttributeMetadataProxy a) =>
+                triAttRequired.CheckState != CheckState.Unchecked &&
+                a.Required;
+
+            bool FilterRequired(AttributeMetadataProxy a) =>
+                triAttRequired.CheckState == CheckState.Checked ||
+                (triAttRequired.CheckState == CheckState.Indeterminate && a.Required) ||
+                (triAttRequired.CheckState == CheckState.Unchecked && !a.Required);
+
+            bool IsPriAttr(AttributeMetadataProxy a) =>
+                (a.Metadata?.IsPrimaryId.Value == true ||
+                 a.Metadata?.IsPrimaryName.Value == true) &&
+                a.Metadata?.IsLogical.Value == false;
+
+            if (chkAttUsed.Checked && !entity.CountedAttributes && LoadCountingDatas(entity))
             {
-                if (LoadCountingDatas(entity))
-                {
-                    return null;
-                }
+                return null;
             }
             splitEntityRest.Enabled = true;
 
             var result = entity.Attributes
-                .Where(a => AllPrimaryIDs(a))
-                .Union(entity.Attributes.Where(a => AllPrimaryNames(a)))
-                .Union(entity.Attributes.Where(a => AllRequired(a)))
+                .Where(a => AddPrimaryIdNames(a))
+                .Union(entity.Attributes.Where(a => AddRequired(a)))
                 .Union(entity.Attributes.Where(a =>
-                    GetCustomFilter(a)
-                    && GetManagedFilter(a)
-                    && GetLogicalFilter(a, entity.Attributes)
-                    && GetInternalFilter(a)
-                    && GetUnrequiredFilter(a)
-                    && GetCreModFilter(a)
-                    && GetOwnersFilter(a)
-                    && AreUsed(a)
-                    && AreUniques(a)))
-                .Where(a => GetSearchFilter(a))
+                    GetCustomFilter(a) &&
+                    GetManagedFilter(a) &&
+                    GetLogicalFilter(a, entity.Attributes) &&
+                    GetInternalFilter(a) &&
+                    //     GetRequiredFilter(a) &&
+                    GetCreModFilter(a) &&
+                    GetOwnersFilter(a) &&
+                    AreUsed(a) &&
+                    AreUniques(a)))
+                .Where(a =>
+                    GetSearchFilter(a) &&
+                    FilterPrimaryIdNames(a) &&
+                    FilterRequired(a))
                 .Distinct()
                 .OrderBy(a => a)
                 .ToList();
@@ -1120,23 +1131,23 @@ namespace Rappen.XTB.LCG
                 !e.Metadata.IsPrivate.GetValueOrDefault();
 
             bool GetSelectedFilter(EntityMetadataProxy e) =>
-                triEntSelected.CheckState == CheckState.Indeterminate ||
-                (triEntSelected.CheckState == CheckState.Checked && e.IsSelected) ||
+                triEntSelected.CheckState == CheckState.Checked ||
+                (triEntSelected.CheckState == CheckState.Indeterminate && e.IsSelected) ||
                 (triEntSelected.CheckState == CheckState.Unchecked && !e.IsSelected);
 
             bool GetManagedFilter(EntityMetadataProxy e) =>
-                triEntManaged.CheckState == CheckState.Indeterminate ||
+                triEntManaged.CheckState == CheckState.Checked ||
                 (triEntManaged.CheckState == CheckState.Unchecked && e.Metadata.IsManaged.GetValueOrDefault()) ||
-                (triEntManaged.CheckState == CheckState.Checked && !e.Metadata.IsManaged.GetValueOrDefault());
+                (triEntManaged.CheckState == CheckState.Indeterminate && !e.Metadata.IsManaged.GetValueOrDefault());
 
             bool GetCustomFilter(EntityMetadataProxy e) =>
-                triEntCustom.CheckState == CheckState.Indeterminate ||
-                (triEntCustom.CheckState == CheckState.Checked && e.Metadata.IsCustomEntity.GetValueOrDefault()) ||
+                triEntCustom.CheckState == CheckState.Checked ||
+                (triEntCustom.CheckState == CheckState.Indeterminate && e.Metadata.IsCustomEntity.GetValueOrDefault()) ||
                 (triEntCustom.CheckState == CheckState.Unchecked && !e.Metadata.IsCustomEntity.GetValueOrDefault());
 
             bool GetNoDataFilter(EntityMetadataProxy e) =>
-                triEntRecords.CheckState == CheckState.Indeterminate ||
-                (triEntRecords.CheckState == CheckState.Checked && e.Records > 0) ||
+                triEntRecords.CheckState == CheckState.Checked ||
+                (triEntRecords.CheckState == CheckState.Indeterminate && e.Records > 0) ||
                 (triEntRecords.CheckState == CheckState.Unchecked && e.Records == 0) ||
                 (chkEntShowUncountable.Checked && e.Records == null);
 
@@ -1145,12 +1156,12 @@ namespace Rappen.XTB.LCG
                 !e.LogicalName.Contains("_") ||
                 !(OnlineSettings.Instance.MicrosoftPrefixes.Contains(e.LogicalName.Split('_')[0] + "_"));
 
-            if (ConnectionDetail?.OrganizationMajorVersion < 9 && triEntRecords.CheckState != CheckState.Indeterminate)
+            if (ConnectionDetail?.OrganizationMajorVersion < 9 && triEntRecords.CheckState != CheckState.Checked)
             {
                 MessageBox.Show("Sorry, currently not possible to count records with Dynamics 365 before version 9.*.\n\nClick 'Help' for more info!",
                     "Count Records", MessageBoxButtons.OK, MessageBoxIcon.Stop, MessageBoxDefaultButton.Button1, 0,
                     "https://learn.microsoft.com/dotnet/api/microsoft.crm.sdk.messages.retrievetotalrecordcountrequest?WT.mc_id=DX-MVP-5002475");
-                triEntRecords.CheckState = CheckState.Indeterminate;
+                triEntRecords.CheckState = CheckState.Checked;
             }
             var filteredentities = entities.Where(
                 e => IsNotPrivate(e)
@@ -1188,15 +1199,15 @@ namespace Rappen.XTB.LCG
             }
             bool GetCustomFilter(RelationshipMetadataProxy r)
             {
-                return settings.RelationshipFilter.Custom == CheckState.Indeterminate ||
+                return settings.RelationshipFilter.Custom == CheckState.Checked ||
                        (settings.RelationshipFilter.Custom == CheckState.Unchecked && r.Metadata.IsCustomRelationship.GetValueOrDefault()) ||
-                       (settings.RelationshipFilter.Custom == CheckState.Checked && !r.Metadata.IsCustomRelationship.GetValueOrDefault());
+                       (settings.RelationshipFilter.Custom == CheckState.Indeterminate && !r.Metadata.IsCustomRelationship.GetValueOrDefault());
             }
             bool GetManagedFilter(RelationshipMetadataProxy r)
             {
-                return settings.RelationshipFilter.Managed == CheckState.Indeterminate ||
+                return settings.RelationshipFilter.Managed == CheckState.Checked ||
                        (settings.RelationshipFilter.Managed == CheckState.Unchecked && r.Metadata.IsManaged.GetValueOrDefault()) ||
-                       (settings.RelationshipFilter.Managed == CheckState.Checked && !r.Metadata.IsManaged.GetValueOrDefault());
+                       (settings.RelationshipFilter.Managed == CheckState.Indeterminate && !r.Metadata.IsManaged.GetValueOrDefault());
             }
             bool GetSearchFilter(RelationshipMetadataProxy r)
             {
@@ -1331,11 +1342,10 @@ namespace Rappen.XTB.LCG
             settings.AttributeFilter.CheckAll = chkAttCheckAll.Checked;
             settings.AttributeFilter.Custom = triAttCustom.CheckState;
             settings.AttributeFilter.Managed = triAttManaged.CheckState;
-            settings.AttributeFilter.PrimaryKey = chkAttPrimaryKey.Checked;
-            settings.AttributeFilter.PrimaryAttribute = chkAttPrimaryAttribute.Checked;
-            settings.AttributeFilter.ExcludeLogical = chkAttExclLogical.Checked;
-            settings.AttributeFilter.ExcludeInternal = chkAttExclInternal.Checked;
-            settings.AttributeFilter.ExcludeUnrequired = chkAttExclUnRequired.Checked;
+            settings.AttributeFilter.PrimaryKeyName = triAttPrimaryKeyName.CheckState;
+            settings.AttributeFilter.Logical = triAttLogical.CheckState;
+            settings.AttributeFilter.Internal = triAttInternal.CheckState;
+            settings.AttributeFilter.Required = triAttRequired.CheckState;
             settings.AttributeFilter.ExcludeCreMod = chkAttExclCreMod.Checked;
             settings.AttributeFilter.ExcludeOwner = chkAttExclOwners.Checked;
             settings.AttributeFilter.AreUsed = chkAttUsed.Checked;

@@ -69,17 +69,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.llEntityExpander = new System.Windows.Forms.LinkLabel();
             this.pnEntCustom = new System.Windows.Forms.Panel();
-            this.label21 = new System.Windows.Forms.Label();
             this.chkEntShowUncountable = new System.Windows.Forms.CheckBox();
-            this.triEntSelected = new Rappen.XTB.Helpers.Controls.TriCheckBox();
-            this.triEntManaged = new Rappen.XTB.Helpers.Controls.TriCheckBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
             this.chkEntExclMS = new System.Windows.Forms.CheckBox();
-            this.triEntCustom = new Rappen.XTB.Helpers.Controls.TriCheckBox();
-            this.triEntRecords = new Rappen.XTB.Helpers.Controls.TriCheckBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.chkEntExclIntersect = new System.Windows.Forms.CheckBox();
             this.pnEntSolution = new System.Windows.Forms.Panel();
             this.cmbSolution = new System.Windows.Forms.ComboBox();
@@ -103,26 +94,12 @@
             this.label2 = new System.Windows.Forms.Label();
             this.llAttributeExpander = new System.Windows.Forms.LinkLabel();
             this.pnAttCustom = new System.Windows.Forms.Panel();
-            this.chkAttExclUnRequired = new System.Windows.Forms.CheckBox();
-            this.chkAttRequired = new System.Windows.Forms.CheckBox();
-            this.label19 = new System.Windows.Forms.Label();
-            this.triAttManaged = new Rappen.XTB.Helpers.Controls.TriCheckBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
             this.chkAttUniques = new System.Windows.Forms.CheckBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.chkAttExclLogical = new System.Windows.Forms.CheckBox();
             this.picAttReloadRecords = new System.Windows.Forms.PictureBox();
-            this.chkAttPrimaryAttribute = new System.Windows.Forms.CheckBox();
-            this.chkAttExclInternal = new System.Windows.Forms.CheckBox();
-            this.triAttCustom = new Rappen.XTB.Helpers.Controls.TriCheckBox();
             this.chkAttUsed = new System.Windows.Forms.CheckBox();
-            this.chkAttPrimaryKey = new System.Windows.Forms.CheckBox();
             this.chkAttExclCreMod = new System.Windows.Forms.CheckBox();
-            this.label13 = new System.Windows.Forms.Label();
             this.chkAttExclOwners = new System.Windows.Forms.CheckBox();
             this.pnAttBehavior = new System.Windows.Forms.Panel();
-            this.label16 = new System.Windows.Forms.Label();
             this.chkAttCheckAll = new System.Windows.Forms.CheckBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnAttShowAll = new System.Windows.Forms.Button();
@@ -146,19 +123,12 @@
             this.chkRelExclDupRecords = new System.Windows.Forms.CheckBox();
             this.chkRelNN = new System.Windows.Forms.CheckBox();
             this.chkRelExclCreMod = new System.Windows.Forms.CheckBox();
-            this.triRelManaged = new Rappen.XTB.Helpers.Controls.TriCheckBox();
             this.chkRelExclRegarding = new System.Windows.Forms.CheckBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.chkRelExclOwners = new System.Windows.Forms.CheckBox();
             this.chkRelN1 = new System.Windows.Forms.CheckBox();
             this.chkRelExclOrphans = new System.Windows.Forms.CheckBox();
-            this.triRelCustom = new Rappen.XTB.Helpers.Controls.TriCheckBox();
             this.chkRel1N = new System.Windows.Forms.CheckBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.panRel1 = new System.Windows.Forms.Panel();
-            this.label8 = new System.Windows.Forms.Label();
             this.chkRelCheckAll = new System.Windows.Forms.CheckBox();
             this.llRelationshipExpander = new System.Windows.Forms.LinkLabel();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -172,6 +142,20 @@
             this.tmRelSearch = new System.Windows.Forms.Timer(this.components);
             this.tmHideNotification = new System.Windows.Forms.Timer(this.components);
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.triEntSelected = new Rappen.XTB.Helpers.Controls.TriCheckBox();
+            this.triEntManaged = new Rappen.XTB.Helpers.Controls.TriCheckBox();
+            this.triEntCustom = new Rappen.XTB.Helpers.Controls.TriCheckBox();
+            this.triEntRecords = new Rappen.XTB.Helpers.Controls.TriCheckBox();
+            this.triAttRequired = new Rappen.XTB.Helpers.Controls.TriCheckBox();
+            this.triAttManaged = new Rappen.XTB.Helpers.Controls.TriCheckBox();
+            this.triAttLogical = new Rappen.XTB.Helpers.Controls.TriCheckBox();
+            this.triAttInternal = new Rappen.XTB.Helpers.Controls.TriCheckBox();
+            this.triAttCustom = new Rappen.XTB.Helpers.Controls.TriCheckBox();
+            this.triAttPrimaryKeyName = new Rappen.XTB.Helpers.Controls.TriCheckBox();
+            this.triRelManaged = new Rappen.XTB.Helpers.Controls.TriCheckBox();
+            this.triRelCustom = new Rappen.XTB.Helpers.Controls.TriCheckBox();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.chkRelRemoveWhenUncheckedEntity = new System.Windows.Forms.CheckBox();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitEntityRest)).BeginInit();
             this.splitEntityRest.Panel1.SuspendLayout();
@@ -566,6 +550,7 @@
             // 
             // gbEntities
             // 
+            this.gbEntities.Controls.Add(this.panel4);
             this.gbEntities.Controls.Add(this.pnEntSearch);
             this.gbEntities.Controls.Add(this.llEntityExpander);
             this.gbEntities.Controls.Add(this.pnEntCustom);
@@ -587,7 +572,7 @@
             this.pnEntSearch.Location = new System.Drawing.Point(3, 181);
             this.pnEntSearch.Name = "pnEntSearch";
             this.pnEntSearch.Size = new System.Drawing.Size(341, 26);
-            this.pnEntSearch.TabIndex = 5;
+            this.pnEntSearch.TabIndex = 4;
             // 
             // txtEntSearch
             // 
@@ -615,178 +600,61 @@
             this.llEntityExpander.Location = new System.Drawing.Point(291, 0);
             this.llEntityExpander.Name = "llEntityExpander";
             this.llEntityExpander.Size = new System.Drawing.Size(51, 13);
-            this.llEntityExpander.TabIndex = 3;
+            this.llEntityExpander.TabIndex = 900;
             this.llEntityExpander.TabStop = true;
             this.llEntityExpander.Text = "Hide filter";
             this.llEntityExpander.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGroupBoxExpander_LinkClicked);
             // 
             // pnEntCustom
             // 
-            this.pnEntCustom.Controls.Add(this.label21);
             this.pnEntCustom.Controls.Add(this.chkEntShowUncountable);
             this.pnEntCustom.Controls.Add(this.triEntSelected);
             this.pnEntCustom.Controls.Add(this.triEntManaged);
-            this.pnEntCustom.Controls.Add(this.label18);
-            this.pnEntCustom.Controls.Add(this.label12);
             this.pnEntCustom.Controls.Add(this.chkEntExclMS);
             this.pnEntCustom.Controls.Add(this.triEntCustom);
             this.pnEntCustom.Controls.Add(this.triEntRecords);
-            this.pnEntCustom.Controls.Add(this.label11);
-            this.pnEntCustom.Controls.Add(this.label10);
             this.pnEntCustom.Controls.Add(this.chkEntExclIntersect);
             this.pnEntCustom.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnEntCustom.Location = new System.Drawing.Point(3, 42);
             this.pnEntCustom.Name = "pnEntCustom";
-            this.pnEntCustom.Size = new System.Drawing.Size(341, 122);
+            this.pnEntCustom.Size = new System.Drawing.Size(341, 97);
             this.pnEntCustom.TabIndex = 2;
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(12, 98);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(49, 13);
-            this.label21.TabIndex = 2;
-            this.label21.Text = "Selected";
             // 
             // chkEntShowUncountable
             // 
             this.chkEntShowUncountable.AutoSize = true;
-            this.chkEntShowUncountable.Location = new System.Drawing.Point(218, 74);
+            this.chkEntShowUncountable.Location = new System.Drawing.Point(162, 60);
             this.chkEntShowUncountable.Name = "chkEntShowUncountable";
             this.chkEntShowUncountable.Size = new System.Drawing.Size(87, 17);
-            this.chkEntShowUncountable.TabIndex = 13;
+            this.chkEntShowUncountable.TabIndex = 60;
             this.chkEntShowUncountable.Text = "Uncountable";
-            this.toolTip1.SetToolTip(this.chkEntShowUncountable, "Some entities can\'t let us to count the records. Shall those also be shown?");
+            this.toolTip1.SetToolTip(this.chkEntShowUncountable, "Some entities are not able to count the records.\r\nShall those also be shown?");
             this.chkEntShowUncountable.UseVisualStyleBackColor = true;
             this.chkEntShowUncountable.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
-            // 
-            // triEntSelected
-            // 
-            this.triEntSelected.AutoSize = true;
-            this.triEntSelected.Checked = true;
-            this.triEntSelected.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.triEntSelected.Location = new System.Drawing.Point(99, 97);
-            this.triEntSelected.Name = "triEntSelected";
-            this.triEntSelected.Size = new System.Drawing.Size(37, 17);
-            this.triEntSelected.TabIndex = 1;
-            this.triEntSelected.Text = "All";
-            this.triEntSelected.TextChecked = "Only selected";
-            this.triEntSelected.TextIndeterminate = "All";
-            this.triEntSelected.TextUnchecked = "Only unselected";
-            this.triEntSelected.UseVisualStyleBackColor = true;
-            this.triEntSelected.CheckStateChanged += new System.EventHandler(this.filter_entity_Changed);
-            // 
-            // triEntManaged
-            // 
-            this.triEntManaged.AutoSize = true;
-            this.triEntManaged.Checked = true;
-            this.triEntManaged.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.triEntManaged.Location = new System.Drawing.Point(99, 28);
-            this.triEntManaged.Name = "triEntManaged";
-            this.triEntManaged.Size = new System.Drawing.Size(153, 17);
-            this.triEntManaged.TabIndex = 7;
-            this.triEntManaged.Text = "Unmanaged and Managed";
-            this.triEntManaged.TextChecked = "Unmanaged";
-            this.triEntManaged.TextIndeterminate = "Unmanaged and Managed";
-            this.triEntManaged.TextUnchecked = "Managed";
-            this.toolTip1.SetToolTip(this.triEntManaged, "Click to flip beween all option, only unmanaged entities, only managed entities.\r" +
-        "\nFiltered by metadata property: IsManaged");
-            this.triEntManaged.UseVisualStyleBackColor = true;
-            this.triEntManaged.CheckStateChanged += new System.EventHandler(this.filter_entity_Changed);
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(12, 75);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(30, 13);
-            this.label18.TabIndex = 12;
-            this.label18.Text = "Data";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(12, 29);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(52, 13);
-            this.label12.TabIndex = 3;
-            this.label12.Text = "Managed";
             // 
             // chkEntExclMS
             // 
             this.chkEntExclMS.AutoSize = true;
-            this.chkEntExclMS.Location = new System.Drawing.Point(218, 51);
+            this.chkEntExclMS.Location = new System.Drawing.Point(162, 42);
             this.chkEntExclMS.Name = "chkEntExclMS";
-            this.chkEntExclMS.Size = new System.Drawing.Size(94, 17);
-            this.chkEntExclMS.TabIndex = 2;
-            this.chkEntExclMS.Text = "MSFT prefixes";
+            this.chkEntExclMS.Size = new System.Drawing.Size(133, 17);
+            this.chkEntExclMS.TabIndex = 40;
+            this.chkEntExclMS.Text = "No with MSFT prefixes";
             this.toolTip1.SetToolTip(this.chkEntExclMS, "Will not include with prefix...");
             this.chkEntExclMS.UseVisualStyleBackColor = true;
             this.chkEntExclMS.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
-            // 
-            // triEntCustom
-            // 
-            this.triEntCustom.AutoSize = true;
-            this.triEntCustom.Checked = true;
-            this.triEntCustom.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.triEntCustom.Location = new System.Drawing.Point(99, 5);
-            this.triEntCustom.Name = "triEntCustom";
-            this.triEntCustom.Size = new System.Drawing.Size(119, 17);
-            this.triEntCustom.TabIndex = 6;
-            this.triEntCustom.Text = "System and Custom";
-            this.triEntCustom.TextChecked = "Custom";
-            this.triEntCustom.TextIndeterminate = "System and Custom";
-            this.triEntCustom.TextUnchecked = "System";
-            this.toolTip1.SetToolTip(this.triEntCustom, "Click to flip beween all option, only system entities, only customized entities.\r" +
-        "\nFiltered by metadata property: IsCustomEntity");
-            this.triEntCustom.UseVisualStyleBackColor = true;
-            this.triEntCustom.CheckStateChanged += new System.EventHandler(this.filter_entity_Changed);
-            // 
-            // triEntRecords
-            // 
-            this.triEntRecords.AutoSize = true;
-            this.triEntRecords.Checked = true;
-            this.triEntRecords.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.triEntRecords.Location = new System.Drawing.Point(99, 74);
-            this.triEntRecords.Name = "triEntRecords";
-            this.triEntRecords.Size = new System.Drawing.Size(37, 17);
-            this.triEntRecords.TabIndex = 3;
-            this.triEntRecords.Text = "All";
-            this.triEntRecords.TextChecked = ">0 records";
-            this.triEntRecords.TextIndeterminate = "All";
-            this.triEntRecords.TextUnchecked = "0 records";
-            this.triEntRecords.UseVisualStyleBackColor = true;
-            this.triEntRecords.CheckStateChanged += new System.EventHandler(this.filter_entity_Changed);
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(12, 6);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(61, 13);
-            this.label11.TabIndex = 3;
-            this.label11.Text = "Customized";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(12, 52);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(45, 13);
-            this.label10.TabIndex = 3;
-            this.label10.Text = "Exclude";
             // 
             // chkEntExclIntersect
             // 
             this.chkEntExclIntersect.AutoSize = true;
             this.chkEntExclIntersect.Checked = true;
             this.chkEntExclIntersect.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkEntExclIntersect.Location = new System.Drawing.Point(99, 51);
+            this.chkEntExclIntersect.Location = new System.Drawing.Point(12, 42);
             this.chkEntExclIntersect.Name = "chkEntExclIntersect";
-            this.chkEntExclIntersect.Size = new System.Drawing.Size(67, 17);
-            this.chkEntExclIntersect.TabIndex = 0;
-            this.chkEntExclIntersect.Text = "Intersect";
+            this.chkEntExclIntersect.Size = new System.Drawing.Size(83, 17);
+            this.chkEntExclIntersect.TabIndex = 30;
+            this.chkEntExclIntersect.Text = "No intersect";
+            this.toolTip1.SetToolTip(this.chkEntExclIntersect, "Show intersected tables for M:M relationships.");
             this.chkEntExclIntersect.UseVisualStyleBackColor = true;
             this.chkEntExclIntersect.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
@@ -989,7 +857,7 @@
             this.gbAttributes.Size = new System.Drawing.Size(332, 247);
             this.gbAttributes.TabIndex = 2;
             this.gbAttributes.TabStop = false;
-            this.gbAttributes.Text = "Attributes";
+            this.gbAttributes.Text = "Columns";
             // 
             // pnAttSearch
             // 
@@ -1035,23 +903,16 @@
             // 
             // pnAttCustom
             // 
-            this.pnAttCustom.Controls.Add(this.chkAttExclUnRequired);
-            this.pnAttCustom.Controls.Add(this.chkAttRequired);
-            this.pnAttCustom.Controls.Add(this.label19);
-            this.pnAttCustom.Controls.Add(this.triAttManaged);
-            this.pnAttCustom.Controls.Add(this.label17);
-            this.pnAttCustom.Controls.Add(this.label15);
-            this.pnAttCustom.Controls.Add(this.chkAttUniques);
-            this.pnAttCustom.Controls.Add(this.label14);
-            this.pnAttCustom.Controls.Add(this.chkAttExclLogical);
             this.pnAttCustom.Controls.Add(this.picAttReloadRecords);
-            this.pnAttCustom.Controls.Add(this.chkAttPrimaryAttribute);
-            this.pnAttCustom.Controls.Add(this.chkAttExclInternal);
+            this.pnAttCustom.Controls.Add(this.triAttRequired);
+            this.pnAttCustom.Controls.Add(this.triAttManaged);
+            this.pnAttCustom.Controls.Add(this.chkAttUniques);
+            this.pnAttCustom.Controls.Add(this.triAttLogical);
+            this.pnAttCustom.Controls.Add(this.triAttInternal);
             this.pnAttCustom.Controls.Add(this.triAttCustom);
             this.pnAttCustom.Controls.Add(this.chkAttUsed);
-            this.pnAttCustom.Controls.Add(this.chkAttPrimaryKey);
+            this.pnAttCustom.Controls.Add(this.triAttPrimaryKeyName);
             this.pnAttCustom.Controls.Add(this.chkAttExclCreMod);
-            this.pnAttCustom.Controls.Add(this.label13);
             this.pnAttCustom.Controls.Add(this.chkAttExclOwners);
             this.pnAttCustom.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnAttCustom.Location = new System.Drawing.Point(3, 42);
@@ -1059,110 +920,23 @@
             this.pnAttCustom.Size = new System.Drawing.Size(326, 141);
             this.pnAttCustom.TabIndex = 2;
             // 
-            // chkAttExclUnRequired
-            // 
-            this.chkAttExclUnRequired.AutoSize = true;
-            this.chkAttExclUnRequired.Location = new System.Drawing.Point(235, 74);
-            this.chkAttExclUnRequired.Name = "chkAttExclUnRequired";
-            this.chkAttExclUnRequired.Size = new System.Drawing.Size(78, 17);
-            this.chkAttExclUnRequired.TabIndex = 13;
-            this.chkAttExclUnRequired.Text = "Unrequired";
-            this.chkAttExclUnRequired.UseVisualStyleBackColor = true;
-            this.chkAttExclUnRequired.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
-            // 
-            // chkAttRequired
-            // 
-            this.chkAttRequired.AutoSize = true;
-            this.chkAttRequired.Location = new System.Drawing.Point(235, 51);
-            this.chkAttRequired.Name = "chkAttRequired";
-            this.chkAttRequired.Size = new System.Drawing.Size(69, 17);
-            this.chkAttRequired.TabIndex = 12;
-            this.chkAttRequired.Text = "Required";
-            this.chkAttRequired.UseVisualStyleBackColor = true;
-            this.chkAttRequired.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(12, 75);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(45, 13);
-            this.label19.TabIndex = 4;
-            this.label19.Text = "Exclude";
-            // 
-            // triAttManaged
-            // 
-            this.triAttManaged.AutoSize = true;
-            this.triAttManaged.Checked = true;
-            this.triAttManaged.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.triAttManaged.Location = new System.Drawing.Point(99, 28);
-            this.triAttManaged.Name = "triAttManaged";
-            this.triAttManaged.Size = new System.Drawing.Size(153, 17);
-            this.triAttManaged.TabIndex = 8;
-            this.triAttManaged.Text = "Unmanaged and Managed";
-            this.triAttManaged.TextChecked = "Unmanaged";
-            this.triAttManaged.TextIndeterminate = "Unmanaged and Managed";
-            this.triAttManaged.TextUnchecked = "Managed";
-            this.toolTip1.SetToolTip(this.triAttManaged, "Click to flip beween all option, only unmanaged attributes, only managed attribut" +
-        "es.\r\nFiltered by metadata property: IsManaged");
-            this.triAttManaged.UseVisualStyleBackColor = true;
-            this.triAttManaged.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(12, 121);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(71, 13);
-            this.label17.TabIndex = 11;
-            this.label17.Text = "Records data";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(12, 52);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(42, 13);
-            this.label15.TabIndex = 2;
-            this.label15.Text = "Include";
-            // 
             // chkAttUniques
             // 
             this.chkAttUniques.AutoSize = true;
             this.chkAttUniques.Enabled = false;
-            this.chkAttUniques.Location = new System.Drawing.Point(165, 120);
+            this.chkAttUniques.Location = new System.Drawing.Point(162, 96);
             this.chkAttUniques.Name = "chkAttUniques";
-            this.chkAttUniques.Size = new System.Drawing.Size(72, 17);
-            this.chkAttUniques.TabIndex = 6;
-            this.chkAttUniques.Text = ">1 values";
+            this.chkAttUniques.Size = new System.Drawing.Size(78, 17);
+            this.chkAttUniques.TabIndex = 120;
+            this.chkAttUniques.Text = ">1 uniques";
             this.chkAttUniques.UseVisualStyleBackColor = true;
             this.chkAttUniques.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(12, 29);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(52, 13);
-            this.label14.TabIndex = 4;
-            this.label14.Text = "Managed";
-            // 
-            // chkAttExclLogical
-            // 
-            this.chkAttExclLogical.AutoSize = true;
-            this.chkAttExclLogical.Location = new System.Drawing.Point(99, 74);
-            this.chkAttExclLogical.Name = "chkAttExclLogical";
-            this.chkAttExclLogical.Size = new System.Drawing.Size(60, 17);
-            this.chkAttExclLogical.TabIndex = 1;
-            this.chkAttExclLogical.Text = "Logical";
-            this.chkAttExclLogical.UseVisualStyleBackColor = true;
-            this.chkAttExclLogical.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // picAttReloadRecords
             // 
             this.picAttReloadRecords.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picAttReloadRecords.Image = global::Rappen.XTB.LCG.Properties.Resources.icons8_reset_32__2_1;
-            this.picAttReloadRecords.Location = new System.Drawing.Point(240, 120);
+            this.picAttReloadRecords.Location = new System.Drawing.Point(237, 96);
             this.picAttReloadRecords.Margin = new System.Windows.Forms.Padding(2);
             this.picAttReloadRecords.Name = "picAttReloadRecords";
             this.picAttReloadRecords.Size = new System.Drawing.Size(16, 16);
@@ -1172,103 +946,43 @@
             this.toolTip1.SetToolTip(this.picAttReloadRecords, "Reloading record datas");
             this.picAttReloadRecords.Click += new System.EventHandler(this.picAttReloadRecords_Click);
             // 
-            // chkAttPrimaryAttribute
-            // 
-            this.chkAttPrimaryAttribute.AutoSize = true;
-            this.chkAttPrimaryAttribute.Location = new System.Drawing.Point(165, 51);
-            this.chkAttPrimaryAttribute.Name = "chkAttPrimaryAttribute";
-            this.chkAttPrimaryAttribute.Size = new System.Drawing.Size(54, 17);
-            this.chkAttPrimaryAttribute.TabIndex = 1;
-            this.chkAttPrimaryAttribute.Text = "Name";
-            this.chkAttPrimaryAttribute.UseVisualStyleBackColor = true;
-            this.chkAttPrimaryAttribute.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
-            // 
-            // chkAttExclInternal
-            // 
-            this.chkAttExclInternal.AutoSize = true;
-            this.chkAttExclInternal.Location = new System.Drawing.Point(165, 74);
-            this.chkAttExclInternal.Name = "chkAttExclInternal";
-            this.chkAttExclInternal.Size = new System.Drawing.Size(61, 17);
-            this.chkAttExclInternal.TabIndex = 2;
-            this.chkAttExclInternal.Text = "Internal";
-            this.chkAttExclInternal.UseVisualStyleBackColor = true;
-            this.chkAttExclInternal.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
-            // 
-            // triAttCustom
-            // 
-            this.triAttCustom.AutoSize = true;
-            this.triAttCustom.Checked = true;
-            this.triAttCustom.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.triAttCustom.Location = new System.Drawing.Point(99, 5);
-            this.triAttCustom.Name = "triAttCustom";
-            this.triAttCustom.Size = new System.Drawing.Size(119, 17);
-            this.triAttCustom.TabIndex = 5;
-            this.triAttCustom.Text = "System and Custom";
-            this.triAttCustom.TextChecked = "Custom";
-            this.triAttCustom.TextIndeterminate = "System and Custom";
-            this.triAttCustom.TextUnchecked = "System";
-            this.toolTip1.SetToolTip(this.triAttCustom, "Click to flip beween all option, only system attributes, only customized attribut" +
-        "es.\r\nFiltering by metadata property: IsCustomAttribute");
-            this.triAttCustom.UseVisualStyleBackColor = true;
-            this.triAttCustom.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
-            // 
             // chkAttUsed
             // 
             this.chkAttUsed.AutoSize = true;
-            this.chkAttUsed.Location = new System.Drawing.Point(99, 120);
+            this.chkAttUsed.Location = new System.Drawing.Point(12, 96);
             this.chkAttUsed.Name = "chkAttUsed";
-            this.chkAttUsed.Size = new System.Drawing.Size(44, 17);
-            this.chkAttUsed.TabIndex = 5;
-            this.chkAttUsed.Text = "Any";
+            this.chkAttUsed.Size = new System.Drawing.Size(105, 17);
+            this.chkAttUsed.TabIndex = 110;
+            this.chkAttUsed.Text = "Column has data";
             this.chkAttUsed.UseVisualStyleBackColor = true;
             this.chkAttUsed.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
-            // 
-            // chkAttPrimaryKey
-            // 
-            this.chkAttPrimaryKey.AutoSize = true;
-            this.chkAttPrimaryKey.Location = new System.Drawing.Point(99, 51);
-            this.chkAttPrimaryKey.Name = "chkAttPrimaryKey";
-            this.chkAttPrimaryKey.Size = new System.Drawing.Size(37, 17);
-            this.chkAttPrimaryKey.TabIndex = 0;
-            this.chkAttPrimaryKey.Text = "ID";
-            this.chkAttPrimaryKey.UseVisualStyleBackColor = true;
-            this.chkAttPrimaryKey.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // chkAttExclCreMod
             // 
             this.chkAttExclCreMod.AutoSize = true;
-            this.chkAttExclCreMod.Location = new System.Drawing.Point(165, 97);
+            this.chkAttExclCreMod.Location = new System.Drawing.Point(162, 78);
             this.chkAttExclCreMod.Name = "chkAttExclCreMod";
-            this.chkAttExclCreMod.Size = new System.Drawing.Size(108, 17);
-            this.chkAttExclCreMod.TabIndex = 4;
-            this.chkAttExclCreMod.Text = "Created/Modified";
+            this.chkAttExclCreMod.Size = new System.Drawing.Size(102, 17);
+            this.chkAttExclCreMod.TabIndex = 100;
+            this.chkAttExclCreMod.Text = "No saving users";
+            this.toolTip1.SetToolTip(this.chkAttExclCreMod, "Exclude all columns CreateBy/On and UpdatedNy/On.");
             this.chkAttExclCreMod.UseVisualStyleBackColor = true;
-            this.chkAttExclCreMod.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(12, 6);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(61, 13);
-            this.label13.TabIndex = 4;
-            this.label13.Text = "Customized";
+            this.chkAttExclCreMod.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // chkAttExclOwners
             // 
             this.chkAttExclOwners.AutoSize = true;
-            this.chkAttExclOwners.Location = new System.Drawing.Point(99, 97);
+            this.chkAttExclOwners.Location = new System.Drawing.Point(12, 78);
             this.chkAttExclOwners.Name = "chkAttExclOwners";
-            this.chkAttExclOwners.Size = new System.Drawing.Size(62, 17);
-            this.chkAttExclOwners.TabIndex = 3;
-            this.chkAttExclOwners.Text = "Owners";
+            this.chkAttExclOwners.Size = new System.Drawing.Size(77, 17);
+            this.chkAttExclOwners.TabIndex = 90;
+            this.chkAttExclOwners.Text = "No owners";
             this.toolTip1.SetToolTip(this.chkAttExclOwners, "Relationships for Owner fields");
             this.chkAttExclOwners.UseVisualStyleBackColor = true;
-            this.chkAttExclOwners.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
+            this.chkAttExclOwners.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // pnAttBehavior
             // 
-            this.pnAttBehavior.Controls.Add(this.label16);
             this.pnAttBehavior.Controls.Add(this.chkAttCheckAll);
             this.pnAttBehavior.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnAttBehavior.Location = new System.Drawing.Point(3, 16);
@@ -1276,23 +990,14 @@
             this.pnAttBehavior.Size = new System.Drawing.Size(326, 26);
             this.pnAttBehavior.TabIndex = 1;
             // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(13, 6);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(49, 13);
-            this.label16.TabIndex = 1;
-            this.label16.Text = "Behavior";
-            // 
             // chkAttCheckAll
             // 
             this.chkAttCheckAll.AutoSize = true;
-            this.chkAttCheckAll.Location = new System.Drawing.Point(99, 6);
+            this.chkAttCheckAll.Location = new System.Drawing.Point(12, 5);
             this.chkAttCheckAll.Name = "chkAttCheckAll";
-            this.chkAttCheckAll.Size = new System.Drawing.Size(221, 17);
-            this.chkAttCheckAll.TabIndex = 0;
-            this.chkAttCheckAll.Text = "Check all visible when checking an entity";
+            this.chkAttCheckAll.Size = new System.Drawing.Size(220, 17);
+            this.chkAttCheckAll.TabIndex = 10;
+            this.chkAttCheckAll.Text = "Add shown columns when adding a table";
             this.chkAttCheckAll.UseVisualStyleBackColor = true;
             // 
             // panel2
@@ -1491,15 +1196,11 @@
             this.panRel2.Controls.Add(this.chkRelExclCreMod);
             this.panRel2.Controls.Add(this.triRelManaged);
             this.panRel2.Controls.Add(this.chkRelExclRegarding);
-            this.panRel2.Controls.Add(this.label9);
-            this.panRel2.Controls.Add(this.label5);
-            this.panRel2.Controls.Add(this.label6);
             this.panRel2.Controls.Add(this.chkRelExclOwners);
             this.panRel2.Controls.Add(this.chkRelN1);
             this.panRel2.Controls.Add(this.chkRelExclOrphans);
             this.panRel2.Controls.Add(this.triRelCustom);
             this.panRel2.Controls.Add(this.chkRel1N);
-            this.panRel2.Controls.Add(this.label7);
             this.panRel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panRel2.Location = new System.Drawing.Point(3, 42);
             this.panRel2.Name = "panRel2";
@@ -1509,101 +1210,56 @@
             // chkRelExclDupRecords
             // 
             this.chkRelExclDupRecords.AutoSize = true;
-            this.chkRelExclDupRecords.Location = new System.Drawing.Point(231, 97);
+            this.chkRelExclDupRecords.Location = new System.Drawing.Point(144, 78);
             this.chkRelExclDupRecords.Name = "chkRelExclDupRecords";
-            this.chkRelExclDupRecords.Size = new System.Drawing.Size(84, 17);
-            this.chkRelExclDupRecords.TabIndex = 5;
-            this.chkRelExclDupRecords.Text = "Duplications";
+            this.chkRelExclDupRecords.Size = new System.Drawing.Size(99, 17);
+            this.chkRelExclDupRecords.TabIndex = 90;
+            this.chkRelExclDupRecords.Text = "No duplications";
             this.chkRelExclDupRecords.UseVisualStyleBackColor = true;
             this.chkRelExclDupRecords.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
             // chkRelNN
             // 
             this.chkRelNN.AutoSize = true;
-            this.chkRelNN.Location = new System.Drawing.Point(231, 51);
+            this.chkRelNN.Location = new System.Drawing.Point(144, 42);
             this.chkRelNN.Name = "chkRelNN";
-            this.chkRelNN.Size = new System.Drawing.Size(45, 17);
-            this.chkRelNN.TabIndex = 3;
-            this.chkRelNN.Text = "N:N";
+            this.chkRelNN.Size = new System.Drawing.Size(47, 17);
+            this.chkRelNN.TabIndex = 50;
+            this.chkRelNN.Text = "M:M";
             this.chkRelNN.UseVisualStyleBackColor = true;
             this.chkRelNN.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
             // chkRelExclCreMod
             // 
             this.chkRelExclCreMod.AutoSize = true;
-            this.chkRelExclCreMod.Location = new System.Drawing.Point(99, 97);
+            this.chkRelExclCreMod.Location = new System.Drawing.Point(12, 60);
             this.chkRelExclCreMod.Name = "chkRelExclCreMod";
-            this.chkRelExclCreMod.Size = new System.Drawing.Size(108, 17);
-            this.chkRelExclCreMod.TabIndex = 4;
-            this.chkRelExclCreMod.Text = "Created/Modified";
+            this.chkRelExclCreMod.Size = new System.Drawing.Size(102, 17);
+            this.chkRelExclCreMod.TabIndex = 60;
+            this.chkRelExclCreMod.Text = "No saving users";
             this.chkRelExclCreMod.UseVisualStyleBackColor = true;
             this.chkRelExclCreMod.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
-            // 
-            // triRelManaged
-            // 
-            this.triRelManaged.AutoSize = true;
-            this.triRelManaged.Checked = true;
-            this.triRelManaged.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.triRelManaged.Location = new System.Drawing.Point(99, 28);
-            this.triRelManaged.Name = "triRelManaged";
-            this.triRelManaged.Size = new System.Drawing.Size(153, 17);
-            this.triRelManaged.TabIndex = 9;
-            this.triRelManaged.Text = "Unmanaged and Managed";
-            this.triRelManaged.TextChecked = "Unmanaged";
-            this.triRelManaged.TextIndeterminate = "Unmanaged and Managed";
-            this.triRelManaged.TextUnchecked = "Managed";
-            this.toolTip1.SetToolTip(this.triRelManaged, "Click to flip beween all option, only unmanaged relationships, only managed relat" +
-        "ionships.\r\nFiltered by metadata property: IsManaged");
-            this.triRelManaged.UseVisualStyleBackColor = true;
-            this.triRelManaged.CheckStateChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
             // chkRelExclRegarding
             // 
             this.chkRelExclRegarding.AutoSize = true;
-            this.chkRelExclRegarding.Location = new System.Drawing.Point(231, 74);
+            this.chkRelExclRegarding.Location = new System.Drawing.Point(12, 78);
             this.chkRelExclRegarding.Name = "chkRelExclRegarding";
-            this.chkRelExclRegarding.Size = new System.Drawing.Size(80, 17);
-            this.chkRelExclRegarding.TabIndex = 3;
-            this.chkRelExclRegarding.Text = "Regardings";
+            this.chkRelExclRegarding.Size = new System.Drawing.Size(92, 17);
+            this.chkRelExclRegarding.TabIndex = 80;
+            this.chkRelExclRegarding.Text = "No regardings";
             this.toolTip1.SetToolTip(this.chkRelExclRegarding, "Relationships for Regarding fields");
             this.chkRelExclRegarding.UseVisualStyleBackColor = true;
             this.chkRelExclRegarding.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(12, 52);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(31, 13);
-            this.label9.TabIndex = 2;
-            this.label9.Text = "Type";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 75);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(45, 13);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "Exclude";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 29);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(52, 13);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "Managed";
-            // 
             // chkRelExclOwners
             // 
             this.chkRelExclOwners.AutoSize = true;
-            this.chkRelExclOwners.Location = new System.Drawing.Point(162, 74);
+            this.chkRelExclOwners.Location = new System.Drawing.Point(144, 60);
             this.chkRelExclOwners.Name = "chkRelExclOwners";
-            this.chkRelExclOwners.Size = new System.Drawing.Size(62, 17);
-            this.chkRelExclOwners.TabIndex = 1;
-            this.chkRelExclOwners.Text = "Owners";
+            this.chkRelExclOwners.Size = new System.Drawing.Size(77, 17);
+            this.chkRelExclOwners.TabIndex = 70;
+            this.chkRelExclOwners.Text = "No owners";
             this.toolTip1.SetToolTip(this.chkRelExclOwners, "Relationships for Owner fields");
             this.chkRelExclOwners.UseVisualStyleBackColor = true;
             this.chkRelExclOwners.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
@@ -1611,68 +1267,41 @@
             // chkRelN1
             // 
             this.chkRelN1.AutoSize = true;
-            this.chkRelN1.Location = new System.Drawing.Point(162, 51);
+            this.chkRelN1.Location = new System.Drawing.Point(75, 42);
             this.chkRelN1.Name = "chkRelN1";
-            this.chkRelN1.Size = new System.Drawing.Size(43, 17);
-            this.chkRelN1.TabIndex = 1;
-            this.chkRelN1.Text = "N:1";
+            this.chkRelN1.Size = new System.Drawing.Size(44, 17);
+            this.chkRelN1.TabIndex = 40;
+            this.chkRelN1.Text = "M:1";
             this.chkRelN1.UseVisualStyleBackColor = true;
             this.chkRelN1.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
             // chkRelExclOrphans
             // 
             this.chkRelExclOrphans.AutoSize = true;
-            this.chkRelExclOrphans.Location = new System.Drawing.Point(99, 74);
+            this.chkRelExclOrphans.Location = new System.Drawing.Point(12, 96);
             this.chkRelExclOrphans.Name = "chkRelExclOrphans";
-            this.chkRelExclOrphans.Size = new System.Drawing.Size(66, 17);
-            this.chkRelExclOrphans.TabIndex = 0;
-            this.chkRelExclOrphans.Text = "Orphans";
+            this.chkRelExclOrphans.Size = new System.Drawing.Size(81, 17);
+            this.chkRelExclOrphans.TabIndex = 100;
+            this.chkRelExclOrphans.Text = "No orphans";
             this.toolTip1.SetToolTip(this.chkRelExclOrphans, "Relationships where the \"other\" entity is not selected");
             this.chkRelExclOrphans.UseVisualStyleBackColor = true;
             this.chkRelExclOrphans.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
-            // triRelCustom
-            // 
-            this.triRelCustom.AutoSize = true;
-            this.triRelCustom.Checked = true;
-            this.triRelCustom.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.triRelCustom.Location = new System.Drawing.Point(99, 5);
-            this.triRelCustom.Name = "triRelCustom";
-            this.triRelCustom.Size = new System.Drawing.Size(119, 17);
-            this.triRelCustom.TabIndex = 6;
-            this.triRelCustom.Text = "System and Custom";
-            this.triRelCustom.TextChecked = "Custom";
-            this.triRelCustom.TextIndeterminate = "System and Custom";
-            this.triRelCustom.TextUnchecked = "System";
-            this.toolTip1.SetToolTip(this.triRelCustom, "Click to flip beween all option, only system relationships, only customized relat" +
-        "ionships.\r\nFiltering by metadata property: IsCustomAttribute");
-            this.triRelCustom.UseVisualStyleBackColor = true;
-            this.triRelCustom.CheckStateChanged += new System.EventHandler(this.filter_relationship_Changed);
-            // 
             // chkRel1N
             // 
             this.chkRel1N.AutoSize = true;
-            this.chkRel1N.Location = new System.Drawing.Point(99, 51);
+            this.chkRel1N.Location = new System.Drawing.Point(12, 42);
             this.chkRel1N.Name = "chkRel1N";
-            this.chkRel1N.Size = new System.Drawing.Size(43, 17);
-            this.chkRel1N.TabIndex = 0;
-            this.chkRel1N.Text = "1:N";
+            this.chkRel1N.Size = new System.Drawing.Size(44, 17);
+            this.chkRel1N.TabIndex = 30;
+            this.chkRel1N.Text = "1:M";
             this.toolTip1.SetToolTip(this.chkRel1N, "Relationships where the \"other\" entity is not selected");
             this.chkRel1N.UseVisualStyleBackColor = true;
             this.chkRel1N.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 6);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(61, 13);
-            this.label7.TabIndex = 4;
-            this.label7.Text = "Customized";
-            // 
             // panRel1
             // 
-            this.panRel1.Controls.Add(this.label8);
+            this.panRel1.Controls.Add(this.chkRelRemoveWhenUncheckedEntity);
             this.panRel1.Controls.Add(this.chkRelCheckAll);
             this.panRel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panRel1.Location = new System.Drawing.Point(3, 16);
@@ -1680,23 +1309,14 @@
             this.panRel1.Size = new System.Drawing.Size(335, 26);
             this.panRel1.TabIndex = 6;
             // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(13, 6);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(49, 13);
-            this.label8.TabIndex = 1;
-            this.label8.Text = "Behavior";
-            // 
             // chkRelCheckAll
             // 
             this.chkRelCheckAll.AutoSize = true;
-            this.chkRelCheckAll.Location = new System.Drawing.Point(99, 6);
+            this.chkRelCheckAll.Location = new System.Drawing.Point(12, 5);
             this.chkRelCheckAll.Name = "chkRelCheckAll";
-            this.chkRelCheckAll.Size = new System.Drawing.Size(221, 17);
-            this.chkRelCheckAll.TabIndex = 0;
-            this.chkRelCheckAll.Text = "Check all visible when checking an entity";
+            this.chkRelCheckAll.Size = new System.Drawing.Size(178, 17);
+            this.chkRelCheckAll.TabIndex = 20;
+            this.chkRelCheckAll.Text = "Add shown when adding a table";
             this.chkRelCheckAll.UseVisualStyleBackColor = true;
             // 
             // llRelationshipExpander
@@ -1779,6 +1399,229 @@
             // 
             this.tmHideNotification.Interval = 5000;
             this.tmHideNotification.Tick += new System.EventHandler(this.tmHideNotification_Tick);
+            // 
+            // triEntSelected
+            // 
+            this.triEntSelected.AutoSize = true;
+            this.triEntSelected.Checked = true;
+            this.triEntSelected.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.triEntSelected.Location = new System.Drawing.Point(12, 78);
+            this.triEntSelected.Name = "triEntSelected";
+            this.triEntSelected.Size = new System.Drawing.Size(164, 17);
+            this.triEntSelected.TabIndex = 70;
+            this.triEntSelected.Text = "Ignoring if tables are selected";
+            this.triEntSelected.TextChecked = "Ignoring if tables are selected";
+            this.triEntSelected.TextIndeterminate = "Only selected tables";
+            this.triEntSelected.TextUnchecked = "Only unselected tables";
+            this.triEntSelected.UseVisualStyleBackColor = true;
+            this.triEntSelected.CheckStateChanged += new System.EventHandler(this.filter_entity_Changed);
+            // 
+            // triEntManaged
+            // 
+            this.triEntManaged.AutoSize = true;
+            this.triEntManaged.Checked = true;
+            this.triEntManaged.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.triEntManaged.Location = new System.Drawing.Point(12, 24);
+            this.triEntManaged.Name = "triEntManaged";
+            this.triEntManaged.Size = new System.Drawing.Size(204, 17);
+            this.triEntManaged.TabIndex = 20;
+            this.triEntManaged.Text = "Show both managed and unmanaged";
+            this.triEntManaged.TextChecked = "Show both managed and unmanaged";
+            this.triEntManaged.TextIndeterminate = "Only unmanaged tables";
+            this.triEntManaged.TextUnchecked = "Only managed tables";
+            this.toolTip1.SetToolTip(this.triEntManaged, "Click to flip beween all option, only unmanaged entities, only managed entities.\r" +
+        "\nFiltered by metadata property: IsManaged");
+            this.triEntManaged.UseVisualStyleBackColor = true;
+            this.triEntManaged.CheckStateChanged += new System.EventHandler(this.filter_entity_Changed);
+            // 
+            // triEntCustom
+            // 
+            this.triEntCustom.AutoSize = true;
+            this.triEntCustom.Checked = true;
+            this.triEntCustom.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.triEntCustom.Location = new System.Drawing.Point(12, 6);
+            this.triEntCustom.Name = "triEntCustom";
+            this.triEntCustom.Size = new System.Drawing.Size(198, 17);
+            this.triEntCustom.TabIndex = 10;
+            this.triEntCustom.Text = "Show both customized and standard";
+            this.triEntCustom.TextChecked = "Show both customized and standard";
+            this.triEntCustom.TextIndeterminate = "Only custom tables";
+            this.triEntCustom.TextUnchecked = "Only core tables";
+            this.toolTip1.SetToolTip(this.triEntCustom, "Click to flip beween all option, only system entities, only customized entities.\r" +
+        "\nFiltered by metadata property: IsCustomEntity");
+            this.triEntCustom.UseVisualStyleBackColor = true;
+            this.triEntCustom.CheckStateChanged += new System.EventHandler(this.filter_entity_Changed);
+            // 
+            // triEntRecords
+            // 
+            this.triEntRecords.AutoSize = true;
+            this.triEntRecords.Checked = true;
+            this.triEntRecords.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.triEntRecords.Location = new System.Drawing.Point(12, 60);
+            this.triEntRecords.Name = "triEntRecords";
+            this.triEntRecords.Size = new System.Drawing.Size(152, 17);
+            this.triEntRecords.TabIndex = 50;
+            this.triEntRecords.Text = "Ignoring number of records";
+            this.triEntRecords.TextChecked = "Ignoring number of records";
+            this.triEntRecords.TextIndeterminate = "Only tables with records";
+            this.triEntRecords.TextUnchecked = "Only empty tables";
+            this.triEntRecords.UseVisualStyleBackColor = true;
+            this.triEntRecords.CheckStateChanged += new System.EventHandler(this.filter_entity_Changed);
+            // 
+            // triAttRequired
+            // 
+            this.triAttRequired.AutoSize = true;
+            this.triAttRequired.Checked = true;
+            this.triAttRequired.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.triAttRequired.Location = new System.Drawing.Point(162, 42);
+            this.triAttRequired.Name = "triAttRequired";
+            this.triAttRequired.Size = new System.Drawing.Size(147, 17);
+            this.triAttRequired.TabIndex = 50;
+            this.triAttRequired.Text = "Ignoring requirement level";
+            this.triAttRequired.TextChecked = "Ignoring requirement level";
+            this.triAttRequired.TextIndeterminate = "Only required";
+            this.triAttRequired.TextUnchecked = "Only not required";
+            this.toolTip1.SetToolTip(this.triAttRequired, "Show columns based on Requirement level.");
+            this.triAttRequired.UseVisualStyleBackColor = true;
+            this.triAttRequired.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
+            // 
+            // triAttManaged
+            // 
+            this.triAttManaged.AutoSize = true;
+            this.triAttManaged.Checked = true;
+            this.triAttManaged.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.triAttManaged.Location = new System.Drawing.Point(12, 24);
+            this.triAttManaged.Name = "triAttManaged";
+            this.triAttManaged.Size = new System.Drawing.Size(204, 17);
+            this.triAttManaged.TabIndex = 20;
+            this.triAttManaged.Text = "Show both managed and unmanaged";
+            this.triAttManaged.TextChecked = "Show both managed and unmanaged";
+            this.triAttManaged.TextIndeterminate = "Only unmanaged columns";
+            this.triAttManaged.TextUnchecked = "Only managed columns";
+            this.toolTip1.SetToolTip(this.triAttManaged, "Click to flip beween all option, only unmanaged attributes, only managed attribut" +
+        "es.\r\nFiltered by metadata property: IsManaged");
+            this.triAttManaged.UseVisualStyleBackColor = true;
+            this.triAttManaged.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
+            // 
+            // triAttLogical
+            // 
+            this.triAttLogical.AutoSize = true;
+            this.triAttLogical.Location = new System.Drawing.Point(12, 60);
+            this.triAttLogical.Name = "triAttLogical";
+            this.triAttLogical.Size = new System.Drawing.Size(76, 17);
+            this.triAttLogical.TabIndex = 60;
+            this.triAttLogical.Text = "Not logical";
+            this.triAttLogical.TextChecked = "Ignoring logical flag";
+            this.triAttLogical.TextIndeterminate = "Only logical";
+            this.triAttLogical.TextUnchecked = "Not logical";
+            this.toolTip1.SetToolTip(this.triAttLogical, "Show regarding on IsLogical metadata.");
+            this.triAttLogical.UseVisualStyleBackColor = true;
+            this.triAttLogical.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
+            // 
+            // triAttInternal
+            // 
+            this.triAttInternal.AutoSize = true;
+            this.triAttInternal.Location = new System.Drawing.Point(162, 60);
+            this.triAttInternal.Name = "triAttInternal";
+            this.triAttInternal.Size = new System.Drawing.Size(80, 17);
+            this.triAttInternal.TabIndex = 70;
+            this.triAttInternal.Text = "Not internal";
+            this.triAttInternal.TextChecked = "Ignoring internal flag";
+            this.triAttInternal.TextIndeterminate = "Only internal";
+            this.triAttInternal.TextUnchecked = "Not internal";
+            this.toolTip1.SetToolTip(this.triAttInternal, "Show regarding on Jonas\' thoughts on what are only internal attributes.\r\n");
+            this.triAttInternal.UseVisualStyleBackColor = true;
+            this.triAttInternal.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
+            // 
+            // triAttCustom
+            // 
+            this.triAttCustom.AutoSize = true;
+            this.triAttCustom.Checked = true;
+            this.triAttCustom.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.triAttCustom.Location = new System.Drawing.Point(12, 6);
+            this.triAttCustom.Name = "triAttCustom";
+            this.triAttCustom.Size = new System.Drawing.Size(198, 17);
+            this.triAttCustom.TabIndex = 10;
+            this.triAttCustom.Text = "Show both customized and standard";
+            this.triAttCustom.TextChecked = "Show both customized and standard";
+            this.triAttCustom.TextIndeterminate = "Only custom columns";
+            this.triAttCustom.TextUnchecked = "Only core columns";
+            this.toolTip1.SetToolTip(this.triAttCustom, "Click to flip beween all option, only system attributes, only customized attribut" +
+        "es.\r\nFiltering by metadata property: IsCustomAttribute");
+            this.triAttCustom.UseVisualStyleBackColor = true;
+            this.triAttCustom.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
+            // 
+            // triAttPrimaryKeyName
+            // 
+            this.triAttPrimaryKeyName.AutoSize = true;
+            this.triAttPrimaryKeyName.Checked = true;
+            this.triAttPrimaryKeyName.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.triAttPrimaryKeyName.Location = new System.Drawing.Point(12, 42);
+            this.triAttPrimaryKeyName.Name = "triAttPrimaryKeyName";
+            this.triAttPrimaryKeyName.Size = new System.Drawing.Size(106, 17);
+            this.triAttPrimaryKeyName.TabIndex = 30;
+            this.triAttPrimaryKeyName.Text = "Include Id/Name";
+            this.triAttPrimaryKeyName.TextChecked = "Include Id/Name";
+            this.triAttPrimaryKeyName.TextIndeterminate = "Only Id/Name";
+            this.triAttPrimaryKeyName.TextUnchecked = "No Id/Name";
+            this.toolTip1.SetToolTip(this.triAttPrimaryKeyName, "Show or not PrimaryKey and PrimaryName.");
+            this.triAttPrimaryKeyName.UseVisualStyleBackColor = true;
+            this.triAttPrimaryKeyName.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
+            // 
+            // triRelManaged
+            // 
+            this.triRelManaged.AutoSize = true;
+            this.triRelManaged.Checked = true;
+            this.triRelManaged.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.triRelManaged.Location = new System.Drawing.Point(12, 24);
+            this.triRelManaged.Name = "triRelManaged";
+            this.triRelManaged.Size = new System.Drawing.Size(204, 17);
+            this.triRelManaged.TabIndex = 20;
+            this.triRelManaged.Text = "Show both managed and unmanaged";
+            this.triRelManaged.TextChecked = "Show both managed and unmanaged";
+            this.triRelManaged.TextIndeterminate = "Only unmanaged relationships";
+            this.triRelManaged.TextUnchecked = "Only managed relationships";
+            this.toolTip1.SetToolTip(this.triRelManaged, "Click to flip beween all option, only unmanaged relationships, only managed relat" +
+        "ionships.\r\nFiltered by metadata property: IsManaged");
+            this.triRelManaged.UseVisualStyleBackColor = true;
+            this.triRelManaged.CheckStateChanged += new System.EventHandler(this.filter_relationship_Changed);
+            // 
+            // triRelCustom
+            // 
+            this.triRelCustom.AutoSize = true;
+            this.triRelCustom.Checked = true;
+            this.triRelCustom.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.triRelCustom.Location = new System.Drawing.Point(12, 6);
+            this.triRelCustom.Name = "triRelCustom";
+            this.triRelCustom.Size = new System.Drawing.Size(198, 17);
+            this.triRelCustom.TabIndex = 10;
+            this.triRelCustom.Text = "Show both customized and standard";
+            this.triRelCustom.TextChecked = "Show both customized and standard";
+            this.triRelCustom.TextIndeterminate = "Only custom relationships";
+            this.triRelCustom.TextUnchecked = "Only core relationships";
+            this.toolTip1.SetToolTip(this.triRelCustom, "Click to flip beween all option, only system relationships, only customized relat" +
+        "ionships.\r\nFiltering by metadata property: IsCustomAttribute");
+            this.triRelCustom.UseVisualStyleBackColor = true;
+            this.triRelCustom.CheckStateChanged += new System.EventHandler(this.filter_relationship_Changed);
+            // 
+            // panel4
+            // 
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel4.Location = new System.Drawing.Point(3, 139);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(341, 42);
+            this.panel4.TabIndex = 3;
+            // 
+            // chkRelRemoveWhenUncheckedEntity
+            // 
+            this.chkRelRemoveWhenUncheckedEntity.AutoSize = true;
+            this.chkRelRemoveWhenUncheckedEntity.Location = new System.Drawing.Point(196, 5);
+            this.chkRelRemoveWhenUncheckedEntity.Name = "chkRelRemoveWhenUncheckedEntity";
+            this.chkRelRemoveWhenUncheckedEntity.Size = new System.Drawing.Size(189, 17);
+            this.chkRelRemoveWhenUncheckedEntity.TabIndex = 21;
+            this.chkRelRemoveWhenUncheckedEntity.Text = "Remove related unchecked tables";
+            this.toolTip1.SetToolTip(this.chkRelRemoveWhenUncheckedEntity, "When tables are unchecked, relationships related to that one will be removed");
+            this.chkRelRemoveWhenUncheckedEntity.UseVisualStyleBackColor = true;
             // 
             // LCG
             // 
@@ -1894,24 +1737,16 @@
         private System.Windows.Forms.Panel pnEntCustom;
         private System.Windows.Forms.Timer tmEntSearch;
         private System.Windows.Forms.Timer tmAttSearch;
-        private System.Windows.Forms.CheckBox chkAttPrimaryAttribute;
-        private System.Windows.Forms.CheckBox chkAttPrimaryKey;
+        private Rappen.XTB.Helpers.Controls.TriCheckBox triAttPrimaryKeyName;
         private System.Windows.Forms.Panel pnAttBehavior;
         private System.Windows.Forms.Panel pnAttributeGrid;
         private System.Windows.Forms.Panel pnEntityGrid;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Panel pnWindowTopSpacer;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.Label label16;
         private System.Windows.Forms.CheckBox chkAttCheckAll;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolStripLabel tslAbout;
-        private System.Windows.Forms.CheckBox chkAttExclLogical;
         private System.Windows.Forms.ToolStripButton btnOptions;
         private System.Windows.Forms.ToolStripMenuItem btnOpenConfig;
         private System.Windows.Forms.ToolStripMenuItem btnSaveConfigAs;
@@ -1925,27 +1760,21 @@
         private System.Windows.Forms.TextBox txtRelSearch;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox chkRelExclRegarding;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox chkRelExclOwners;
         private System.Windows.Forms.CheckBox chkRelExclOrphans;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Panel panRel2;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Panel panRel1;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.CheckBox chkRelCheckAll;
         private System.Windows.Forms.StatusStrip statusRelationships;
         private System.Windows.Forms.ToolStripStatusLabel statusRelationshipsShowing;
         private System.Windows.Forms.ToolStripStatusLabel statusRelationshipsSelected;
         private System.Windows.Forms.Timer tmRelSearch;
         private System.Windows.Forms.CheckBox chkRelNN;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.CheckBox chkRelN1;
         private System.Windows.Forms.CheckBox chkRel1N;
         private System.Windows.Forms.Label lblEntNoMatch;
         private System.Windows.Forms.Label lblAttNoMatch;
         private System.Windows.Forms.Label lblRelNoMatch;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ToolStripMenuItem btnSaveConfig;
         private System.Windows.Forms.Timer tmHideNotification;
         private System.Windows.Forms.ToolStripSplitButton btnGenerate;
@@ -1958,13 +1787,12 @@
         private System.Windows.Forms.CheckBox chkRelExclDupRecords;
         private System.Windows.Forms.CheckBox chkAttExclOwners;
         private System.Windows.Forms.CheckBox chkAttExclCreMod;
-        private System.Windows.Forms.CheckBox chkAttExclInternal;
+        private Rappen.XTB.Helpers.Controls.TriCheckBox triAttInternal;
         private Rappen.XTB.Helpers.Controls.TriCheckBox triEntRecords;
         private System.Windows.Forms.CheckBox chkAttUsed;
         private System.Windows.Forms.PictureBox picAttReloadRecords;
         private System.Windows.Forms.CheckBox chkAttUniques;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.CheckBox chkAttRequired;
+        private Rappen.XTB.Helpers.Controls.TriCheckBox triAttRequired;
         private System.Windows.Forms.ContextMenuStrip ctxRelationshipMenu;
         private System.Windows.Forms.ToolStripMenuItem ctxRelAddRemAccount;
         private System.Windows.Forms.Label lblRelUnShown;
@@ -1982,11 +1810,8 @@
         private System.Windows.Forms.Button btnRelUnselectAll;
         private System.Windows.Forms.Button btnAttShowAll;
         private System.Windows.Forms.Button btnRelShowAll;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.CheckBox chkAttExclUnRequired;
         private System.Windows.Forms.ToolStripButton btnCancel;
         private System.Windows.Forms.CheckBox chkEntExclMS;
-        private System.Windows.Forms.Label label18;
         private System.Windows.Forms.ToolStripButton tsbSupporting;
         private System.Windows.Forms.Panel panEntityGroup;
         private System.Windows.Forms.Label label20;
@@ -2003,6 +1828,8 @@
         private Helpers.Controls.TriCheckBox triRelManaged;
         private Helpers.Controls.TriCheckBox triRelCustom;
         private System.Windows.Forms.CheckBox chkEntShowUncountable;
-        private System.Windows.Forms.Label label21;
+        private Helpers.Controls.TriCheckBox triAttLogical;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.CheckBox chkRelRemoveWhenUncheckedEntity;
     }
 }

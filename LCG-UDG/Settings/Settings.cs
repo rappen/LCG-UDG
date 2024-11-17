@@ -185,11 +185,11 @@ namespace Rappen.XTB.LCG
     public class EntityFilter
     {
         public bool Expanded { get; set; } = false;
-        public CheckState Custom { get; set; } = CheckState.Indeterminate;
-        public CheckState Managed { get; set; } = CheckState.Indeterminate;
+        public CheckState Custom { get; set; } = CheckState.Checked;
+        public CheckState Managed { get; set; } = CheckState.Checked;
         public bool ExcludeIntersect { get; set; }
         internal CheckState Selected { get; set; }
-        public CheckState Records { get; set; } = CheckState.Indeterminate;
+        public CheckState Records { get; set; } = CheckState.Checked;
         public bool Uncountable { get; set; }
     }
 
@@ -197,16 +197,14 @@ namespace Rappen.XTB.LCG
     {
         public bool Expanded { get; set; } = false;
         public bool CheckAll { get; set; }
-        public CheckState Custom { get; set; } = CheckState.Indeterminate;
-        public CheckState Managed { get; set; } = CheckState.Indeterminate;
-        public bool PrimaryKey { get; set; }
-        public bool PrimaryAttribute { get; set; }
-        public bool Required { get; set; }
-        public bool ExcludeLogical { get; set; }
-        public bool ExcludeInternal { get; set; }
+        public CheckState Custom { get; set; } = CheckState.Checked;
+        public CheckState Managed { get; set; } = CheckState.Checked;
+        public CheckState PrimaryKeyName { get; set; } = CheckState.Checked;
+        public CheckState Required { get; set; } = CheckState.Checked;
+        public CheckState Logical { get; set; } = CheckState.Unchecked;
+        public CheckState Internal { get; set; } = CheckState.Unchecked;
         public bool ExcludeCreMod { get; set; } = true;
         public bool ExcludeOwner { get; set; } = true;
-        public bool ExcludeUnrequired { get; set; }
         internal bool AreUsed { get; set; } = false;
         internal bool UniqueValues { get; set; } = false;
     }
@@ -215,8 +213,8 @@ namespace Rappen.XTB.LCG
     {
         public bool Expanded { get; set; } = false;
         public bool CheckAll { get; set; }
-        public CheckState Custom { get; set; } = CheckState.Indeterminate;
-        public CheckState Managed { get; set; } = CheckState.Indeterminate;
+        public CheckState Custom { get; set; } = CheckState.Checked;
+        public CheckState Managed { get; set; } = CheckState.Checked;
         public bool Type1N { get; set; } = false;
         public bool TypeN1 { get; set; } = true;
         public bool TypeNN { get; set; } = true;
