@@ -44,9 +44,12 @@ namespace Rappen.XTB.LCG
 
         [Browsable(false)]
         public OneToManyRelationshipMetadata OneToManyRelationshipMetadata => Metadata as OneToManyRelationshipMetadata;
+
         [Browsable(false)]
         public ManyToManyRelationshipMetadata ManyToManyRelationshipMetadata => Metadata as ManyToManyRelationshipMetadata;
+
         internal EntityMetadataProxy OtherEntity => originatingentity == Parent ? Child : Parent;
+
         internal AttributeMetadataProxy LookupAttribute
         {
             get
@@ -65,7 +68,7 @@ namespace Rappen.XTB.LCG
         public bool Selected => IsSelected;
 
         [DisplayName("Type")]
-        public string Type => Metadata.RelationshipType == RelationshipType.ManyToManyRelationship ? "N : N" : originatingentity == Parent ? "1 : N" : originatingentity == Child ? "N : 1" : "?";
+        public string Type => Metadata.RelationshipType == RelationshipType.ManyToManyRelationship ? "M : M" : originatingentity == Parent ? "1 : M" : originatingentity == Child ? "M : 1" : "?";
 
         [DisplayName("Related Entity")]
         public string RelatedEntityName => OtherEntity?.DisplayName;
@@ -101,7 +104,7 @@ namespace Rappen.XTB.LCG
 
         [DisplayName("Referencing")]
         [Browsable(false)]
-        public string Referencing => Metadata.RelationshipType == RelationshipType.ManyToManyRelationship ? ManyToManyRelationshipMetadata.Entity2IntersectAttribute: OneToManyRelationshipMetadata.ReferencingAttribute;
+        public string Referencing => Metadata.RelationshipType == RelationshipType.ManyToManyRelationship ? ManyToManyRelationshipMetadata.Entity2IntersectAttribute : OneToManyRelationshipMetadata.ReferencingAttribute;
 
         public string Summary(Settings settings)
         {
