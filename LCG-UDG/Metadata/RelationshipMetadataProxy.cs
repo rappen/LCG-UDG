@@ -132,6 +132,11 @@ namespace Rappen.XTB.LCG
             {
                 originatingentity.SetSelected(true);
             }
+            // Showing from both directions #113
+            if (OtherEntity?.Relationships?.FirstOrDefault(r => r.Metadata.SchemaName == Metadata.SchemaName) is RelationshipMetadataProxy otherRelationship && otherRelationship.IsSelected != value)
+            {
+                otherRelationship.SetSelected(value);
+            }
         }
 
         public override string ToString()
