@@ -156,6 +156,7 @@
             this.triRelCustom = new Rappen.XTB.Helpers.Controls.TriCheckBox();
             this.panel4 = new System.Windows.Forms.Panel();
             this.chkRelRemoveWhenUncheckedEntity = new System.Windows.Forms.CheckBox();
+            this.chkRelReqLookups = new System.Windows.Forms.CheckBox();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitEntityRest)).BeginInit();
             this.splitEntityRest.Panel1.SuspendLayout();
@@ -1191,6 +1192,7 @@
             // 
             // panRel2
             // 
+            this.panRel2.Controls.Add(this.chkRelReqLookups);
             this.panRel2.Controls.Add(this.chkRelExclDupRecords);
             this.panRel2.Controls.Add(this.chkRelNN);
             this.panRel2.Controls.Add(this.chkRelExclCreMod);
@@ -1623,6 +1625,17 @@
             this.toolTip1.SetToolTip(this.chkRelRemoveWhenUncheckedEntity, "When tables are unchecked, relationships related to that one will be removed");
             this.chkRelRemoveWhenUncheckedEntity.UseVisualStyleBackColor = true;
             // 
+            // chkRelReqLookups
+            // 
+            this.chkRelReqLookups.AutoSize = true;
+            this.chkRelReqLookups.Location = new System.Drawing.Point(144, 96);
+            this.chkRelReqLookups.Name = "chkRelReqLookups";
+            this.chkRelReqLookups.Size = new System.Drawing.Size(109, 17);
+            this.chkRelReqLookups.TabIndex = 101;
+            this.chkRelReqLookups.Text = "Required lookups";
+            this.chkRelReqLookups.UseVisualStyleBackColor = true;
+            this.chkRelReqLookups.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
+            // 
             // LCG
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1831,5 +1844,6 @@
         private Helpers.Controls.TriCheckBox triAttLogical;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.CheckBox chkRelRemoveWhenUncheckedEntity;
+        private System.Windows.Forms.CheckBox chkRelReqLookups;
     }
 }

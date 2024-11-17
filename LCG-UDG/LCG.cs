@@ -693,6 +693,7 @@ namespace Rappen.XTB.LCG
             chkRelExclRegarding.Checked = settings.RelationshipFilter?.ExcludeRegarding ?? false;
             chkRelExclCreMod.Checked = settings.RelationshipFilter?.ExcludeCreMod ?? false;
             chkRelExclDupRecords.Checked = settings.RelationshipFilter?.ExcludeDupRecords ?? false;
+            chkRelReqLookups.Checked = settings.RelationshipFilter?.RequireLookups ?? false;
             GroupBoxSetState(llEntityExpander, settings.EntityFilter?.Expanded ?? true);
             GroupBoxSetState(llAttributeExpander, settings.AttributeFilter?.Expanded ?? true);
             GroupBoxSetState(llRelationshipExpander, settings.RelationshipFilter?.Expanded ?? true);
@@ -1273,18 +1274,22 @@ namespace Rappen.XTB.LCG
                 }
                 return r.OneToManyRelationshipMetadata.ReferencingEntity != "duplicaterecord";
             }
+            bool GetRequredFilters(RelationshipMetadataProxy r) =>
+                !settings.RelationshipFilter.RequireLookups ||
+                (r.LookupAttribute?.Required ?? false);
 
             return entity.Relationships
                     .Where(
-                        r => GetTypeFilter(r)
-                           && GetCustomFilter(r)
-                           && GetManagedFilter(r)
-                           && GetSearchFilter(r)
-                           && GetOrphansFilter(r)
-                           && GetOwnersFilter(r)
-                           && GetRegardingFilter(r)
-                           && GetCreModFilter(r)
-                           && GetDupRecordsFilter(r));
+                        r => GetTypeFilter(r) &&
+                             GetCustomFilter(r) &&
+                             GetManagedFilter(r) &&
+                             GetSearchFilter(r) &&
+                             GetOrphansFilter(r) &&
+                             GetOwnersFilter(r) &&
+                             GetRegardingFilter(r) &&
+                             GetCreModFilter(r) &&
+                             GetDupRecordsFilter(r) &&
+                             GetRequredFilters(r));
         }
 
         private EntityMetadataProxy GetSelectedEntity()
@@ -1371,6 +1376,7 @@ namespace Rappen.XTB.LCG
             settings.RelationshipFilter.ExcludeRegarding = chkRelExclRegarding.Checked;
             settings.RelationshipFilter.ExcludeCreMod = chkRelExclCreMod.Checked;
             settings.RelationshipFilter.ExcludeDupRecords = chkRelExclDupRecords.Checked;
+            settings.RelationshipFilter.RequireLookups = chkRelReqLookups.Checked;
         }
 
         private void GroupBoxCollapse(LinkLabel link)
