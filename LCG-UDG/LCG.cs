@@ -291,7 +291,12 @@ namespace Rappen.XTB.LCG
 
                     if (metadata is EntityMetadataProxy entitymeta && !metadata.IsSelected && chkRelRemoveWhenUncheckedEntity.Checked)
                     {
-                        // implement #115 later
+                        var rels = entities
+                           .Where(ent => ent.Relationships != null)
+                           .SelectMany(ent => ent.Relationships)
+                           .Where(rel => rel.OtherEntity == entitymeta)
+                           .ToList();
+                        rels.ForEach(rel => rel.SetSelected(false));
                     }
                 }
             }
