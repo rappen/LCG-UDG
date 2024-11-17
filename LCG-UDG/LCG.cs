@@ -1382,12 +1382,14 @@ namespace Rappen.XTB.LCG
         private void GroupBoxCollapse(LinkLabel link)
         {
             link.Parent.Height = 16;
+            link.Parent.Controls.OfType<Control>().Where(c => c != link).ToList().ForEach(c => c.Visible = false);
             link.Text = "Show filter";
         }
 
         private void GroupBoxExpand(LinkLabel link)
         {
             link.Parent.Height = groupBoxHeights[link.Parent.Name];
+            link.Parent.Controls.OfType<Control>().Where(c => c != link).ToList().ForEach(c => c.Visible = true);
             link.Text = "Hide filter";
         }
 
