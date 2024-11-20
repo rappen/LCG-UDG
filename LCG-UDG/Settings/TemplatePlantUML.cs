@@ -41,7 +41,7 @@ skinparam ClassBorderColor Black
 skinparam ClassBorderColor<<custom>> Blue";
             EntityGroup = "package \"{group}\" {color}\n{\n{entities}\n}";
             EntityContainer = "entity {entityname} {type}\n{\n{attributes}\n}";
-            Attribute = "{attribute}: {type}";
+            Attribute = "{attribute}: {type}{typedetails}";
             Relationship = "{entity1} {relationtype} {entity2}: {lookup}";
             PrimaryKeyName = "{attribute} (PK)";
             PrimaryAttributeName = "{attribute} (PN)";
