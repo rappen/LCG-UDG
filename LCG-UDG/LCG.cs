@@ -458,14 +458,14 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        private void btnEntSelectAllVisible_Click(object sender, EventArgs e)
+        private void btnSelectAllVisible_Click(object sender, EventArgs e)
         {
             SelectAllRows(sender == btnEntSelectAllVisible ? gridEntities :
                           sender == btnAttSelectAllVisible ? gridAttributes :
                           sender == btnRelSelectAllVisible ? gridRelationships : null, true);
         }
 
-        private void btnEntUnselectAll_Click(object sender, EventArgs e)
+        private void btnUnselectAll_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Confirm removing all selected items!", "Unselect all", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) != DialogResult.OK)
             {
@@ -476,7 +476,7 @@ namespace Rappen.XTB.LCG
                         sender == btnRelUnselectAll ? selectedEntity?.Relationships?.Select(m => (MetadataProxy)m) : null);
         }
 
-        private void btnEntShowAll_Click(object sender, EventArgs e)
+        private void btnShowAll_Click(object sender, EventArgs e)
         {
             if (sender == btnEntShowAll)
             {
@@ -1337,7 +1337,7 @@ namespace Rappen.XTB.LCG
             {
                 settings.EntityFilter = new EntityFilter();
             }
-            settings.EntityFilter.Expanded = gbEntities.Height > 20;
+            settings.EntityFilter.Expanded = gbEntities.Height > Settings.FilterCollapseHeight;
             settings.EntityFilter.Custom = triEntCustom.CheckState;
             settings.EntityFilter.Managed = triEntManaged.CheckState;
             settings.EntityFilter.ExcludeIntersect = chkEntExclIntersect.Checked;
@@ -1348,7 +1348,7 @@ namespace Rappen.XTB.LCG
             {
                 settings.AttributeFilter = new AttributeFilter();
             }
-            settings.AttributeFilter.Expanded = gbAttributes.Height > 20;
+            settings.AttributeFilter.Expanded = gbAttributes.Height > Settings.FilterCollapseHeight;
             settings.AttributeFilter.CheckAll = chkAttCheckAll.Checked;
             settings.AttributeFilter.Custom = triAttCustom.CheckState;
             settings.AttributeFilter.Managed = triAttManaged.CheckState;
@@ -1364,7 +1364,7 @@ namespace Rappen.XTB.LCG
             {
                 settings.RelationshipFilter = new RelationshipFilter();
             }
-            settings.RelationshipFilter.Expanded = gbRelationships.Height > 20;
+            settings.RelationshipFilter.Expanded = gbRelationships.Height > Settings.FilterCollapseHeight;
             settings.RelationshipFilter.CheckAll = chkRelCheckAll.Checked;
             settings.RelationshipFilter.Custom = triRelCustom.CheckState;
             settings.RelationshipFilter.Managed = triRelManaged.CheckState;
@@ -1381,7 +1381,7 @@ namespace Rappen.XTB.LCG
 
         private void GroupBoxCollapse(LinkLabel link)
         {
-            link.Parent.Height = 16;
+            link.Parent.Height = Settings.FilterCollapseHeight;
             link.Parent.Controls.OfType<Control>().Where(c => c != link).ToList().ForEach(c => c.Visible = false);
             link.Text = "Show filter";
         }
@@ -1407,7 +1407,7 @@ namespace Rappen.XTB.LCG
 
         private void GroupBoxToggle(LinkLabel link)
         {
-            if (link.Parent.Height > 20)
+            if (link.Parent.Height > Settings.FilterCollapseHeight)
             {
                 GroupBoxCollapse(link);
             }
@@ -1984,5 +1984,6 @@ This behavior can be prevented by unchecking the box 'Include configuration' in 
         }
 
         #endregion Private Methods
+
     }
 }

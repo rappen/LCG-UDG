@@ -13,6 +13,8 @@ namespace Rappen.XTB.LCG
     /// </remarks>
     public class Settings
     {
+        internal static int FilterCollapseHeight = 20;
+
         public static bool IsUML(TemplateFormat templateFormat) => templateFormat == TemplateFormat.PlantUML || templateFormat == TemplateFormat.DBML;
 
         public Settings() : this(TemplateFormat.Constants)

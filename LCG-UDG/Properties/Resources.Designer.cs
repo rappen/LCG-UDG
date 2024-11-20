@@ -103,6 +103,16 @@ namespace Rappen.XTB.LCG.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_dots_32x20 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-dots-32x20", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_open_32 {
             get {
                 object obj = ResourceManager.GetObject("icons8-open-32", resourceCulture);
