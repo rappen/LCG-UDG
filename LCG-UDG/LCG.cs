@@ -1543,14 +1543,23 @@ namespace Rappen.XTB.LCG
             }
             gridEntities.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
             gridEntities.Columns[0].Width = 30;
-            var widthavailable = gridEntities.Width - gridEntities.Columns[0].Width - 10;
-            if (gridEntities.Columns[1].Width > widthavailable / 2)
+            var totalwidthavailable = gridEntities.Width - 20;
+            var widthavailable = totalwidthavailable - gridEntities.Columns[0].Width;
+            if (gridEntities.Columns.Cast<DataGridViewColumn>().Sum(c => c.Width) > totalwidthavailable)
             {
-                gridEntities.Columns[1].Width = widthavailable / 2;
+                gridEntities.Columns[1].Width = widthavailable / 3;
             }
-            if (gridEntities.Columns[1].Width + gridEntities.Columns[2].Width + gridEntities.Columns[3].Width > widthavailable)
+            if (gridEntities.Columns.Cast<DataGridViewColumn>().Sum(c => c.Width) > totalwidthavailable && gridEntities.Columns[2].Width > widthavailable / 3)
             {
-                gridEntities.Columns[2].Width = widthavailable / 4;
+                gridEntities.Columns[2].Width = widthavailable / 3;
+            }
+            if (gridEntities.Columns.Cast<DataGridViewColumn>().Sum(c => c.Width) > totalwidthavailable && gridEntities.Columns[3].Width > widthavailable / 6)
+            {
+                gridEntities.Columns[3].Width = widthavailable / 6;
+            }
+            if (gridEntities.Columns.Cast<DataGridViewColumn>().Sum(c => c.Width) > totalwidthavailable)
+            {
+                gridEntities.Columns[4].Width = widthavailable / 6;
             }
             gridEntities.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
         }
@@ -1984,6 +1993,5 @@ This behavior can be prevented by unchecking the box 'Include configuration' in 
         }
 
         #endregion Private Methods
-
     }
 }
