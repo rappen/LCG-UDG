@@ -11,10 +11,11 @@ namespace Rappen.XTB.LCG
         public static bool GenerateFiles(List<EntityMetadataProxy> selectedentities, Settings settings, IConstantFileWriter fileWriter)
         {
             var commonentity = GetCommonEntity(selectedentities, settings);
+            var suffix = Settings.FileSuffix(settings.TemplateFormat);
             if (commonentity != null)
             {
                 var entity = GetClass(commonentity, null, settings);
-                var fileName = commonentity.GetNameTechnical(settings.FileName, settings) + settings.TemplateSettings.FileSuffix;
+                var fileName = commonentity.GetNameTechnical(settings.FileName, settings) + suffix;
                 fileWriter.WriteBlock(settings, entity, fileName);
             }
             if (settings.Groups?.Count > 0)
@@ -28,7 +29,7 @@ namespace Rappen.XTB.LCG
             foreach (var entitymetadata in selectedentities.Where(e => e.Group == null))
             {
                 var entity = GetClass(entitymetadata, commonentity, settings);
-                var fileName = entitymetadata.GetNameTechnical(settings.FileName, settings) + settings.TemplateSettings.FileSuffix;
+                var fileName = entitymetadata.GetNameTechnical(settings.FileName, settings) + suffix;
                 fileWriter.WriteBlock(settings, entity, fileName);
             }
             if (settings.TemplateSettings.Template.AddAllRelationshipsAfterEntities)
@@ -36,7 +37,7 @@ namespace Rappen.XTB.LCG
                 var relationships = selectedentities.SelectMany(e => e.Relationships.Where(r => r.IsSelected));
                 relationships = relationships.GroupBy(r => r.LogicalName).Select(r => r.FirstOrDefault());    // This will make it distinct by LogicalName
                 var allrelationshipsstring = GetRelationships(relationships, settings);
-                fileWriter.WriteBlock(settings, allrelationshipsstring, "Relationships" + settings.TemplateSettings.FileSuffix);
+                fileWriter.WriteBlock(settings, allrelationshipsstring, "Relationships" + suffix);
             }
             return fileWriter.Finalize(settings);
         }
@@ -115,7 +116,7 @@ namespace Rappen.XTB.LCG
             {
                 color = "#" + color;
             }
-            return template.EntityGroup
+            return template.EntityGroup?
                 .Replace("{group}", group.Name)
                 .Replace("{color}", color)
                 .Replace("{entities}", entities.ToString());
@@ -131,11 +132,11 @@ namespace Rappen.XTB.LCG
             var remarks = settings.XmlProperties && entitymetadata.LogicalName != "[common]" && settings.XmlDescription ? description : string.Empty;
             if (!string.IsNullOrEmpty(summary))
             {
-                summary = template.Summary.Replace("{summary}", summary);
+                summary = template.Summary?.Replace("{summary}", summary);
             }
             if (!string.IsNullOrEmpty(remarks))
             {
-                remarks = template.Remarks.Replace("{remarks}", remarks);
+                remarks = template.Remarks?.Replace("{remarks}", remarks);
             }
             var entity = template.EntityContainer
                 .Replace("{entityname}", name)
@@ -157,7 +158,7 @@ namespace Rappen.XTB.LCG
             {
                 return string.Empty;
             }
-            return template.EntityDetail.Replace("{logicalname}", entitymetadata.LogicalName).Replace("{logicalcollectionname}", entitymetadata.Metadata.LogicalCollectionName);
+            return template.EntityDetail?.Replace("{logicalname}", entitymetadata.LogicalName).Replace("{logicalcollectionname}", entitymetadata.Metadata.LogicalCollectionName);
         }
 
         private static string GetAttributes(EntityMetadataProxy entitymetadata, EntityMetadataProxy commonentity, Settings settings)
@@ -199,7 +200,7 @@ namespace Rappen.XTB.LCG
             var result = string.Join("\r\n", attributes);
             if (settings.Regions && !string.IsNullOrWhiteSpace(result))
             {
-                return settings.TemplateSettings.Template.Region.ReplaceIfNotEmpty("{region}", "Attributes").Replace("{content}", result);
+                return settings.TemplateSettings.Template.Region?.ReplaceIfNotEmpty("{region}", "Attributes").Replace("{content}", result);
             }
             return result;
         }
@@ -255,7 +256,7 @@ namespace Rappen.XTB.LCG
             var result = string.Join("\r\n", relationships);
             if (settings.Regions && !string.IsNullOrEmpty(result))
             {
-                return settings.TemplateSettings.Template.Region.Replace("{region}", "Relationships").Replace("{content}", result);
+                return settings.TemplateSettings.Template.Region?.Replace("{region}", "Relationships").Replace("{content}", result);
             }
             return result;
         }
@@ -326,7 +327,7 @@ namespace Rappen.XTB.LCG
             var result = string.Join("\r\n", optionsets);
             if (settings.Regions && !string.IsNullOrEmpty(result))
             {
-                return settings.TemplateSettings.Template.Region.Replace("{region}", "OptionSets").Replace("{content}", result);
+                return settings.TemplateSettings.Template.Region?.Replace("{region}", "OptionSets").Replace("{content}", result);
             }
             return result;
         }
@@ -377,11 +378,11 @@ namespace Rappen.XTB.LCG
             var remarks = settings.XmlProperties && settings.XmlDescription ? description : string.Empty;
             if (!string.IsNullOrEmpty(summary))
             {
-                summary = template.Summary.Replace("{summary}", summary.Replace("\n", "\n/// "));
+                summary = template.Summary?.Replace("{summary}", summary.Replace("\n", "\n/// "));
             }
             if (!string.IsNullOrEmpty(remarks))
             {
-                remarks = template.Remarks.Replace("{remarks}", remarks);
+                remarks = template.Remarks?.Replace("{remarks}", remarks);
             }
             var attribute = template.Attribute
                 .Replace("{attribute}", name)
@@ -405,7 +406,7 @@ namespace Rappen.XTB.LCG
             var summary = settings.XmlProperties ? relationship.Summary(settings) : string.Empty;
             if (!string.IsNullOrEmpty(summary))
             {
-                summary = template.Summary.Replace("{summary}", summary);
+                summary = template.Summary?.Replace("{summary}", summary);
             }
             // default to Relationship if no specific template is defined
             var relationTemplate = template.Relationship;
@@ -472,7 +473,7 @@ namespace Rappen.XTB.LCG
         private static string GetOptionSet(AttributeMetadataProxy attributemetadata, Settings settings)
         {
             var name = settings.TemplateSettings.OptionSetEnumPrefix + attributemetadata.GetNameTechnical(settings) + settings.TemplateSettings.OptionSetEnumSuffix;
-            var optionset = settings.TemplateSettings.Template.OptionSet.Replace("{name}", name);
+            var optionset = settings.TemplateSettings.Template.OptionSet?.Replace("{name}", name);
             var options = new List<string>();
             if (attributemetadata.Metadata is EnumAttributeMetadata optionsetmetadata && optionsetmetadata.OptionSet != null)
             {
@@ -487,7 +488,7 @@ namespace Rappen.XTB.LCG
                     {
                         label = "_" + label;
                     }
-                    var option = settings.TemplateSettings.Template.OptionSetValue
+                    var option = settings.TemplateSettings.Template.OptionSetValue?
                         .Replace("{name}", label)
                         .Replace("{value}", optionmetadata.Value.ToString());
                     options.Add(option);

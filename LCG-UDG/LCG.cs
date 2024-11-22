@@ -145,29 +145,6 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        private void btnLoadConfig_Click(object sender, EventArgs e)
-        {
-            var sfd = new OpenFileDialog
-            {
-                Title = "Load settings and selections",
-                Filter = "XML file (*.xml)|*.xml",
-                FileName = Path.GetDirectoryName(settingsfile)
-            };
-            if (sfd.ShowDialog() == DialogResult.OK)
-            {
-                settingsfile = sfd.FileName;
-                if (File.Exists(settingsfile))
-                {
-                    generatedfileprompted = false;
-                    var document = new XmlDocument();
-                    document.Load(settingsfile);
-                    settings = (Settings)XmlSerializerHelper.Deserialize(document.OuterXml, typeof(Settings));
-                    ApplySettings();
-                    RestoreSelectedEntities();
-                }
-            }
-        }
-
         private void btnLoadEntities_Click(object sender, EventArgs e)
         {
             ExecuteMethod(LoadEntities);
@@ -175,10 +152,18 @@ namespace Rappen.XTB.LCG
 
         private void btnOpenGeneratedFile_Click(object sender, EventArgs e)
         {
+            var filters = Settings.FileFilter(settings.TemplateFormat);
+            Enum.GetValues(typeof(TemplateFormat))
+               .Cast<TemplateFormat>()
+               .Where(f => f != settings.TemplateFormat)
+               .ToList()
+               .ForEach(format => filters += $"|{Settings.FileFilter(format)}");
+            filters += "|Project XML file (*.xml)|*.xml";
+            filters += "|All files (*.*)|*.*";
             var ofd = new OpenFileDialog
             {
-                Title = $"Load generated {settings.TemplateSettings.FileType} file with configuration",
-                Filter = $"{settings.TemplateSettings.FileType} file (*{settings.TemplateSettings.FileSuffix})|*{settings.TemplateSettings.FileSuffix}",
+                Title = $"Load generated {Settings.FileType(settings.TemplateFormat)} file with configuration",
+                Filter = filters,
                 InitialDirectory = settings.OutputFolder,
                 FileName = settings.CommonFile
             };
@@ -641,21 +626,36 @@ namespace Rappen.XTB.LCG
 
         private void ApplyEmbeddedConfiguration(string filename)
         {
-            Settings inlineconfig;
+            Settings inlineconfig = null;
             try
             {
                 inlineconfig = ConfigurationUtils.GetEmbeddedConfiguration<Settings>(filename, settings.TemplateSettings.InlineConfigBegin, settings.TemplateSettings.InlineConfigEnd);
+                ShowInfoNotification("Loaded project embedded in file.", null);
+            }
+            catch (FileLoadException)
+            {
+                try
+                {
+                    var document = new XmlDocument();
+                    document.Load(filename);
+                    inlineconfig = (Settings)XmlSerializerHelper.Deserialize(document.OuterXml, typeof(Settings));
+                    ShowInfoNotification("Loaded project file.", null);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to open project file.\n\n{ex.Message}", "Open file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to parse configuration.\n\n{ex.Message}", "Open file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Failed to parse project.\n\n{ex.Message}", "Open file", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             if (inlineconfig == null)
             {
                 return;
             }
-            ShowInfoNotification("Loaded configuration embedded in C# file.", null);
             tmHideNotification.Start();
             settings.CopyInlineConfiguration(inlineconfig);
             ApplySettings();
@@ -826,11 +826,6 @@ namespace Rappen.XTB.LCG
             TabIcon = isUML ? Resources.UDG32 : Resources.LCG32;
             PluginIcon = isUML ? Resources.UDG16ico : Resources.LCG16ico;
             tslAbout.Image = isUML ? Resources.UDG32 : Resources.LCG32;
-            btnOpenGeneratedFile.Text = $"Generated {settings?.TemplateFormat} file...";
-            btnOpenGeneratedFile.Image =
-                settings?.TemplateFormat == TemplateFormat.PlantUML ? Resources.plantuml32 :
-                settings?.TemplateFormat == TemplateFormat.DBML ? Resources.dbml32 :
-                Resources.csharp32;
             btnGenerate.Text = $"Generate {settings?.TemplateFormat}";
             btnGenerate.Image =
                 settings?.TemplateFormat == TemplateFormat.PlantUML ? Resources.plantuml32 :
@@ -852,11 +847,11 @@ namespace Rappen.XTB.LCG
                 {
                     using (var filedlg = new SaveFileDialog
                     {
-                        Title = $"Save generated {settings.TemplateSettings.FileType} file",
+                        Title = $"Save generated {Settings.FileType(settings.TemplateFormat)} file",
                         InitialDirectory = settings.OutputFolder,
                         FileName = settings.CommonFile,
-                        DefaultExt = settings.TemplateSettings.FileSuffix,
-                        Filter = $"{settings.TemplateSettings.FileType} file (*{settings.TemplateSettings.FileSuffix})|*{settings.TemplateSettings.FileSuffix}"
+                        DefaultExt = Settings.FileSuffix(settings.TemplateFormat),
+                        Filter = Settings.FileFilter(settings.TemplateFormat)
                     })
                     {
                         result = filedlg.ShowDialog(this) == DialogResult.OK;
@@ -1755,7 +1750,7 @@ namespace Rappen.XTB.LCG
             {
                 MessageBox.Show($@"Welcome to the new version!
 
-By default the project configuration will now be embedded in a comment block at the end of the generated {settings.TemplateSettings.FileType} file.
+By default the project configuration will now be embedded in a comment block at the end of the generated {Settings.FileType(settings.TemplateFormat)} file.
 Using this feature will make the separate project xml files obsolete.
 This behavior can be prevented by unchecking the box 'Include configuration' in the Options dialog", "New version", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 settings.Version = Version;

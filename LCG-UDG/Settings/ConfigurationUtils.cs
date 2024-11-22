@@ -44,7 +44,7 @@ namespace Rappen.XTB.Helper
             {
                 return string.Empty;
             }
-            text = text.Substring(0, endpos + (includebeginend ? end.Length : 0)).Trim();
+            text = text.Substring(0, endpos + (includebeginend ? end.Length : 0)).Trim().Trim('*').Trim();
             return text;
         }
     }

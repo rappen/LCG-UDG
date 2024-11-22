@@ -21,7 +21,7 @@
             get => templateFormat;
             set
             {
-                if (templateFormat == value)
+                if (templateFormat == value && Template != null)
                 {
                     return;
                 }
@@ -50,23 +50,10 @@
             ? LCG.toolnameUDG
             : LCG.toolnameLCG;
 
-        internal string FileType =>
-            templateFormat == TemplateFormat.PlantUML ? "PlantUML" :
-            templateFormat == TemplateFormat.DBML ? "DBML" : "C#";
-
-        internal string FileSuffix =>
-            templateFormat == TemplateFormat.PlantUML ? ".plantuml" :
-            templateFormat == TemplateFormat.DBML ? ".dbml" : ".cs";
-
-        internal string InlineConfigBegin =>
-            templateFormat == TemplateFormat.PlantUML
-            ? @"/'**** LCG-configuration-BEGIN ****"
-            : @"/***** LCG-configuration-BEGIN *****";
-
-        internal string InlineConfigEnd =>
-            templateFormat == TemplateFormat.PlantUML
-            ? @"***** LCG-configuration-END   ****'/"
-            : @"***** LCG-configuration-END   *****/";
+        internal string CommentBegin => templateFormat == TemplateFormat.PlantUML ? @"/'" : @"/*";
+        internal string CommentEnd => templateFormat == TemplateFormat.PlantUML ? @"'/" : @"*/";
+        internal string InlineConfigBegin => @"**** LCG-configuration-BEGIN ****";
+        internal string InlineConfigEnd => @"**** LCG-configuration-END   ****";
 
         internal TemplateBase Template;
 

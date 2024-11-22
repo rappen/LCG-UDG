@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using McTools.Xrm.Connection.WinForms.AppCode;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using XrmToolBox.Extensibility;
@@ -16,6 +17,12 @@ namespace Rappen.XTB.LCG
         internal static int FilterCollapseHeight = 20;
 
         public static bool IsUML(TemplateFormat templateFormat) => templateFormat == TemplateFormat.PlantUML || templateFormat == TemplateFormat.DBML;
+
+        public static string FileType(TemplateFormat format) => format == TemplateFormat.PlantUML ? "PlantUML" : format == TemplateFormat.DBML ? "DBML" : "C#";
+
+        public static string FileSuffix(TemplateFormat format) => format == TemplateFormat.PlantUML ? ".plantuml" : format == TemplateFormat.DBML ? ".dbml" : ".cs";
+
+        public static string FileFilter(TemplateFormat format) => $"{FileType(format)} file (*{FileSuffix(format)})|*{FileSuffix(format)}";
 
         public Settings() : this(TemplateFormat.Constants)
         { }
@@ -114,7 +121,7 @@ namespace Rappen.XTB.LCG
         public RelationshipFilter RelationshipFilter { get; set; } = new RelationshipFilter();
 
         internal TemplateSettings TemplateSettings;
-        internal string CommonFilePath => Path.Combine(OutputFolder, CommonFile + TemplateSettings.FileSuffix);
+        internal string CommonFilePath => Path.Combine(OutputFolder, CommonFile + FileSuffix(TemplateFormat));
 
         internal bool ValidateIdentifiers = true;
 
@@ -233,7 +240,7 @@ namespace Rappen.XTB.LCG
 
     public enum TemplateFormat
     {
-        Constants = 0,
+        Constants,
         PlantUML,
         DBML
     }

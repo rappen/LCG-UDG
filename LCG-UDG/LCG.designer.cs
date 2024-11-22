@@ -33,10 +33,6 @@
             this.toolStripMenu = new System.Windows.Forms.ToolStrip();
             this.btnLoadEntities = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.menuOpen = new System.Windows.Forms.ToolStripDropDownButton();
-            this.btnOpenGeneratedFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnOpenConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.btnGenerate = new System.Windows.Forms.ToolStripSplitButton();
             this.btnSaveCsAs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -157,6 +153,7 @@
             this.tmRelSearch = new System.Windows.Forms.Timer(this.components);
             this.tmHideNotification = new System.Windows.Forms.Timer(this.components);
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.menuOpen = new System.Windows.Forms.ToolStripButton();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitEntityRest)).BeginInit();
             this.splitEntityRest.Panel1.SuspendLayout();
@@ -225,39 +222,6 @@
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 39);
-            // 
-            // menuOpen
-            // 
-            this.menuOpen.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnOpenGeneratedFile,
-            this.toolStripSeparator4,
-            this.btnOpenConfig});
-            this.menuOpen.Image = global::Rappen.XTB.LCG.Properties.Resources.icons8_open_32;
-            this.menuOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.menuOpen.Name = "menuOpen";
-            this.menuOpen.Size = new System.Drawing.Size(81, 36);
-            this.menuOpen.Text = "Open";
-            // 
-            // btnOpenGeneratedFile
-            // 
-            this.btnOpenGeneratedFile.Image = global::Rappen.XTB.LCG.Properties.Resources.csharp32;
-            this.btnOpenGeneratedFile.Name = "btnOpenGeneratedFile";
-            this.btnOpenGeneratedFile.Size = new System.Drawing.Size(174, 22);
-            this.btnOpenGeneratedFile.Text = "Generated C# file...";
-            this.btnOpenGeneratedFile.Click += new System.EventHandler(this.btnOpenGeneratedFile_Click);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(171, 6);
-            // 
-            // btnOpenConfig
-            // 
-            this.btnOpenConfig.Image = global::Rappen.XTB.LCG.Properties.Resources.project32;
-            this.btnOpenConfig.Name = "btnOpenConfig";
-            this.btnOpenConfig.Size = new System.Drawing.Size(174, 22);
-            this.btnOpenConfig.Text = "Project file...";
-            this.btnOpenConfig.Click += new System.EventHandler(this.btnLoadConfig_Click);
             // 
             // btnGenerate
             // 
@@ -1645,6 +1609,15 @@
             this.tmHideNotification.Interval = 5000;
             this.tmHideNotification.Tick += new System.EventHandler(this.tmHideNotification_Tick);
             // 
+            // menuOpen
+            // 
+            this.menuOpen.Image = global::Rappen.XTB.LCG.Properties.Resources.icons8_open_32;
+            this.menuOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.menuOpen.Name = "menuOpen";
+            this.menuOpen.Size = new System.Drawing.Size(72, 36);
+            this.menuOpen.Text = "Open";
+            this.menuOpen.Click += new System.EventHandler(this.btnOpenGeneratedFile_Click);
+            // 
             // LCG
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1766,7 +1739,6 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolStripLabel tslAbout;
         private System.Windows.Forms.ToolStripButton btnOptions;
-        private System.Windows.Forms.ToolStripMenuItem btnOpenConfig;
         private System.Windows.Forms.ToolStripMenuItem btnSaveConfigAs;
         private System.Windows.Forms.SplitContainer splitAttRel;
         private System.Windows.Forms.GroupBox gbRelationships;
@@ -1795,9 +1767,6 @@
         private System.Windows.Forms.Timer tmHideNotification;
         private System.Windows.Forms.ToolStripSplitButton btnGenerate;
         private System.Windows.Forms.ToolStripMenuItem btnSaveCsAs;
-        private System.Windows.Forms.ToolStripDropDownButton menuOpen;
-        private System.Windows.Forms.ToolStripMenuItem btnOpenGeneratedFile;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.CheckBox chkRelExclCreMod;
         private System.Windows.Forms.CheckBox chkRelExclDupRecords;
@@ -1852,5 +1821,6 @@
         private System.Windows.Forms.ToolStripMenuItem chkAttCheckAll;
         private System.Windows.Forms.ToolStripMenuItem chkRelCheckAll;
         private System.Windows.Forms.ToolStripMenuItem chkRelRemoveWhenUncheckedEntity;
+        private System.Windows.Forms.ToolStripButton menuOpen;
     }
 }
