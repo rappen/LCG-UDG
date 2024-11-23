@@ -632,24 +632,32 @@ namespace Rappen.XTB.LCG
                 inlineconfig = ConfigurationUtils.GetEmbeddedConfiguration<Settings>(filename, settings.TemplateSettings.InlineConfigBegin, settings.TemplateSettings.InlineConfigEnd);
                 ShowInfoNotification("Loaded project embedded in file.", null);
             }
-            catch (FileLoadException)
+            catch (FileLoadException ex1)
             {
-                try
+                if (filename.ToLowerInvariant().EndsWith(".xml"))
                 {
-                    var document = new XmlDocument();
-                    document.Load(filename);
-                    inlineconfig = (Settings)XmlSerializerHelper.Deserialize(document.OuterXml, typeof(Settings));
-                    ShowInfoNotification("Loaded project file.", null);
+                    try
+                    {
+                        var document = new XmlDocument();
+                        document.Load(filename);
+                        inlineconfig = (Settings)XmlSerializerHelper.Deserialize(document.OuterXml, typeof(Settings));
+                        ShowInfoNotification("Loaded project file.", null);
+                    }
+                    catch (Exception ex2)
+                    {
+                        ShowErrorDialog(ex2, $"Open {filename}");
+                        return;
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show($"Failed to open project file.\n\n{ex.Message}", "Open file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ShowErrorDialog(ex1, $"Open {filename}");
                     return;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to parse project.\n\n{ex.Message}", "Open file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowErrorDialog(ex, $"Open {filename}");
                 return;
             }
             if (inlineconfig == null)
