@@ -6,125 +6,13 @@
 		<title>Latebound Constants Generator for XrmToolBox</title>
 		<authors>Jonas Rapp</authors>
 		<owners>rappen</owners>
-		<projectUrl>https://github.com/rappen/LCG-UDG</projectUrl>
+		<projectUrl>https://jonasr.app/LCG</projectUrl>
 		<iconUrl>https://raw.githubusercontent.com/rappen/LCG-UDG/master/images/LCG-150-tsp.png</iconUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>Generate constant classes from metadata for late bound development on Microsoft Dataverse.</description>
 		<summary>Generate constant classes from metadata for late bound development on Microsoft Dataverse.</summary>
 		<releaseNotes>
-Latest version:
-
-Solving issue 'XrmToolBox.PluginStore missing' - read more: https://jonasr.app/missing-xrmtoolbox-pluginsstore/
-
-Kindly stolen code from Ivan Ficko @DynamicsNinja to count records. #89
-
-Displays number of records for all entities (only for v9.0 or later). #89
-
-Possibility to only show entities that have any records. #92
-
-Can count and displays all attributes that are not-null. #90
-
-Attributes with data count will also display how many unique values.
-
-Filter to only show attributes with any values. #93
-
-Filter to only show attributes with >1 unique values.
-
-Feature to filter out all Microsoft related apps. #88 requested by @jellevervloessem
-  Current MS prefixes are listed as:
-		msdyn_
-		msdynce_
-		msdyncrm_
-		msdynmkt_
-		msfp_
-		mspcat_
-		mspp_
-		sales_
-		adx_
-		bot_
-		botcomponent_
-	Need more? Please comment here! https://github.com/rappen/LCG-UDG/issues/88
-
----
-
-Version 1.2023.2.1
-
-#79 Handling bugs in the metadata, some should be `IsLogical` but isn't.
-#85 Better filtering options for Attributes and Relationships
-
----
-
-Version 1.2021.12.1
-
-Fixes:
-#72: Load old project with one-file-per-entity gets include config with every file (not supported)
-#73: Load sometime fails for no project
-
----
-
-Version 1.2021.1.2
-
-Major improvement!
-Configuration will now by default be stored inline in the generated C# file as a comment block in at the end of the file.
-This makes the "project file" obsolete, and a generated C# file can be opened by Latebound Constants Generator and the configuration is parsed from the comment block.
-
-Also:
-Simplify Save and Generate behavior, not prompting all the time (#66)
-Better handling of identifier strings to ensure compilable results (#70)
-Fixed crash when opening configuration containing entities not in the database (#57)
-
----
-
-Version 1.2020.2.1:
-
-Hide entities, attributes and relationships grids when nothing matches filter (#47)
-Disable entire Project menu when no subitems are enabled (#46)
-Uncheck all attributes and relationships when unchecking an entity (#49)
-Relationship type filters improved (#44)
-Filter to exclude various CDS "internal" attributes (#53)
-Sorting relationships by type, related entity, and lookup in the UI (#54)
-Moved settings to separate dialog (#9)
-Possibile to select which relationships to include
-Major project refactoring to fit UDG features in a common library
-
----
-
-Version 1.2019.12.2:
-
-#35 Fixed primary key issue with logical attributes, thanks @maerger!
-#38 Fixed de-duplication routine that was confused by comment lines
-Fixed issue with Common Class when including relationships
-
----
-
-Version 1.2019.6.2:
-
-#30 Enum texts containing [ or ] now created correctly. Thanks to @DerekHAu!
-#33 Add option to include logical attributes
-This will make "non-real" attributes like owneridname and address fields on contact and account etc available.
-
----
-
-Version 1.2019.5.2:
-
-#22 Many-to-Many relationships included
-#26 EntityCollectionName included
-#27 CLI support for build automation
-#29 Exposing file template for customization of generated file
-Rebranded with 2019 design
-
-* NOTE! #26 introduces a breaking change where constant EntityName is changed to LogicalName. This can be reverted with the introduction of #29.
-
----
-
-Version 1.2018.9.2:
-
-#16 Generate constants for relationships
-#21 Option to create separate common class for attributes used by multiple entities
-#19 Improved CamelCasing
-#24 Add XML documentation for relationship constants
-#25 Gently forgive file write errors instead of throwing exception
-Template line break bug fixed
+Release Notes: https://jonasr.app/LCG/releases
 		</releaseNotes>
 		<copyright>Copyright 2017-2024 Jonas Rapp</copyright>
 		<tags>XrmToolBox Plugins LateboundConstantsGenerator</tags>
