@@ -19,30 +19,30 @@
 // Created    : {createdate}
 // *********************************************************************";
 
-        public string Legend { get; set; }
-        public string DataContainer { get; set; }
-        public string DefaultTheme { get; set; }
-        public string EntityGroup { get; set; }
-        public string EntityContainer { get; set; }
+        public string Legend { get; set; } = string.Empty;
+        public string DataContainer { get; set; } = string.Empty;
+        public string DefaultTheme { get; set; } = string.Empty;
+        public string EntityGroup { get; set; } = string.Empty;
+        public string EntityContainer { get; set; } = string.Empty;
         public string EntityDetail { get; set; } = string.Empty;
-        public string Attribute { get; set; }
-        public string Relationship { get; set; }
-        public string RelationshipN_1 { get; set; }
-        public string Relationship1_N { get; set; }
-        public string RelationshipN_N { get; set; }
-        public string OptionSet { get; set; }
-        public string OptionSetValue { get; set; }
-        public string Region { get; set; }
-        public string Summary { get; set; }
-        public string Remarks { get; set; }
-        public string PrimaryKeyName { get; set; }
-        public string PrimaryAttributeName { get; set; }
-        public string StandardAttribute { get; set; }
-        public string CustomAttribute { get; set; }
+        public string Attribute { get; set; } = string.Empty;
+        public string Relationship { get; set; } = string.Empty;
+        public string RelationshipN_1 { get; set; } = string.Empty;
+        public string Relationship1_N { get; set; } = string.Empty;
+        public string RelationshipN_N { get; set; } = string.Empty;
+        public string OptionSet { get; set; } = string.Empty;
+        public string OptionSetValue { get; set; } = string.Empty;
+        public string Region { get; set; } = string.Empty;
+        public string Summary { get; set; } = string.Empty;
+        public string Remarks { get; set; } = string.Empty;
+        public string PrimaryKeyName { get; set; } = string.Empty;
+        public string PrimaryAttributeName { get; set; } = string.Empty;
+        public string StandardAttribute { get; set; } = string.Empty;
+        public string CustomAttribute { get; set; } = string.Empty;
         public string TableAttributeNameClashSuffix { get; set; } = "_";
-        public string RequiredLevelRequired { get; set; }
-        public string RequiredLevelRecommended { get; set; }
-        public string RequiredLevelNone { get; set; }
+        public string RequiredLevelRequired { get; set; } = string.Empty;
+        public string RequiredLevelRecommended { get; set; } = string.Empty;
+        public string RequiredLevelNone { get; set; } = string.Empty;
         public bool AddAllRelationshipsAfterEntities { get; set; } = false;
         public TemplateFormat Format { get; set; } = TemplateFormat.Constants;
     }
