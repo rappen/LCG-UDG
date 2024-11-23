@@ -1336,6 +1336,7 @@ namespace Rappen.XTB.LCG
             {
                 settings = new Settings(isUML);
             }
+            settings.Version = Version;
             if (settings.EntityFilter == null)
             {
                 settings.EntityFilter = new EntityFilter();
