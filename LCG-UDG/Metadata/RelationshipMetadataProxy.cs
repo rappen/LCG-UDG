@@ -124,7 +124,9 @@ namespace Rappen.XTB.LCG
 
         #region Public Methods
 
-        public override void SetSelected(bool value)
+        public override void SetSelected(bool value) => SetSelected(value, true);
+
+        public void SetSelected(bool value, bool setfromotherdirection)
         {
             var wasSelected = IsSelected;
             base.SetSelected(value);
@@ -133,7 +135,9 @@ namespace Rappen.XTB.LCG
                 originatingentity.SetSelected(true);
             }
             // Showing from both directions #113
-            if (OtherEntity?.Relationships?.FirstOrDefault(r => r.Metadata.SchemaName == Metadata.SchemaName) is RelationshipMetadataProxy otherRelationship && otherRelationship.IsSelected != value)
+            if (setfromotherdirection &&
+                OtherEntity?.Relationships?.FirstOrDefault(r => r.Metadata.SchemaName == Metadata.SchemaName) is RelationshipMetadataProxy otherRelationship &&
+                otherRelationship.IsSelected != value)
             {
                 otherRelationship.SetSelected(value);
             }

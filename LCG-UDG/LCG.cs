@@ -1814,7 +1814,7 @@ This behavior can be prevented by unchecking the box 'Include configuration' in 
                     entity.Group = settings.Groups.FirstOrDefault(g => g.Name == selectedentity.Group);
                 }
                 entity.Attributes.ForEach(a => a.SetSelected(false));
-                entity.Relationships.ForEach(r => r.SetSelected(false));
+                entity.Relationships.ForEach(r => r.SetSelected(false, false));
                 foreach (var attributename in selectedentity.Attributes)
                 {
                     var attribute = entity.Attributes.FirstOrDefault(a => a.LogicalName == attributename);

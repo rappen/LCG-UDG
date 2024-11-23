@@ -413,8 +413,8 @@ namespace Rappen.XTB.LCG
 
             var parentAttrib = relationship.Parent.Attributes.Where(a => a.LogicalName == relationship.Referenced).FirstOrDefault();
             var childAttrib = relationship.Child.Attributes.Where(a => a.LogicalName == relationship.Referencing).FirstOrDefault();
-            var referencedName = parentAttrib.GetNameTechnical(settings);
-            var referencingName = childAttrib.GetNameTechnical(settings);
+            var referencedName = parentAttrib?.GetNameTechnical(settings) ?? relationship.Referenced;
+            var referencingName = childAttrib?.GetNameTechnical(settings) ?? relationship.Referencing;
 
             if (relationTemplate == string.Empty)
             {
