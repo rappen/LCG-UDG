@@ -155,6 +155,10 @@ namespace Rappen.XTB.LCG
             {
                 return true;
             }
+            if (line.StartsWith("Table "))
+            {
+                return true;
+            }
             return false;
         }
 
