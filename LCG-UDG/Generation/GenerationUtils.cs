@@ -10,11 +10,12 @@ namespace Rappen.XTB.LCG
     {
         public static bool GenerateFiles(List<EntityMetadataProxy> selectedentities, Settings settings, IConstantFileWriter fileWriter)
         {
+            var addedrelationships = new List<string>();
             var commonentity = GetCommonEntity(selectedentities, settings);
             var suffix = Settings.FileSuffix(settings.TemplateFormat);
             if (commonentity != null)
             {
-                var entity = GetClass(commonentity, null, settings);
+                var entity = GetClass(commonentity, null, settings, addedrelationships);
                 var fileName = commonentity.GetNameTechnical(settings.FileName, settings) + suffix;
                 fileWriter.WriteBlock(settings, entity, fileName);
             }
@@ -22,13 +23,13 @@ namespace Rappen.XTB.LCG
             {
                 foreach (var group in settings.Groups.Where(g => selectedentities.Any(e => e.Group == g)))
                 {
-                    var groupstr = GetGroup(group, selectedentities.Where(e => e.Group == group).ToList(), settings);
+                    var groupstr = GetGroup(group, selectedentities.Where(e => e.Group == group).ToList(), settings, addedrelationships);
                     fileWriter.WriteBlock(settings, groupstr, group.Name);
                 }
             }
             foreach (var entitymetadata in selectedentities.Where(e => e.Group == null))
             {
-                var entity = GetClass(entitymetadata, commonentity, settings);
+                var entity = GetClass(entitymetadata, commonentity, settings, addedrelationships);
                 var fileName = entitymetadata.GetNameTechnical(settings.FileName, settings) + suffix;
                 fileWriter.WriteBlock(settings, entity, fileName);
             }
@@ -36,7 +37,7 @@ namespace Rappen.XTB.LCG
             {
                 var relationships = selectedentities.SelectMany(e => e.Relationships.Where(r => r.IsSelected));
                 relationships = relationships.GroupBy(r => r.LogicalName).Select(r => r.FirstOrDefault());    // This will make it distinct by LogicalName
-                var allrelationshipsstring = GetRelationships(relationships, settings);
+                var allrelationshipsstring = GetRelationships(relationships, settings, addedrelationships);
                 fileWriter.WriteBlock(settings, allrelationshipsstring, "Relationships" + suffix);
             }
             return fileWriter.Finalize(settings);
@@ -101,14 +102,14 @@ namespace Rappen.XTB.LCG
             return result;
         }
 
-        private static string GetGroup(EntityGroup group, List<EntityMetadataProxy> selectedentities, Settings settings)
+        private static string GetGroup(EntityGroup group, List<EntityMetadataProxy> selectedentities, Settings settings, List<string> addedrelationships)
         {
             var template = settings.TemplateSettings.Template;
 
             var entities = new StringBuilder();
             foreach (var entitymetadata in selectedentities)
             {
-                var entity = GetClass(entitymetadata, null, settings);
+                var entity = GetClass(entitymetadata, null, settings, addedrelationships);
                 entities.AppendLine(entity);
             }
             var color = group.ColorToString ?? "";
@@ -122,7 +123,7 @@ namespace Rappen.XTB.LCG
                 .Replace("{entities}", entities.ToString());
         }
 
-        private static string GetClass(EntityMetadataProxy entitymetadata, EntityMetadataProxy commonentity, Settings settings)
+        private static string GetClass(EntityMetadataProxy entitymetadata, EntityMetadataProxy commonentity, Settings settings, List<string> addedrelationships)
         {
             var template = settings.TemplateSettings.Template;
             var name = entitymetadata.GetNameTechnical(settings.ConstantName, settings);
@@ -147,7 +148,7 @@ namespace Rappen.XTB.LCG
                 .Replace("{remarks}", remarks)
                 .Replace("'", "\"")
                 .Replace("{attributes}", GetAttributes(entitymetadata, commonentity, settings))
-                .Replace("{relationships}", GetRelationships(entitymetadata, settings))
+                .Replace("{relationships}", GetRelationships(entitymetadata, settings, addedrelationships))
                 .Replace("{optionsets}", GetOptionSets(entitymetadata, settings));
             return entity;
         }
@@ -221,30 +222,34 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        private static string GetRelationships(EntityMetadataProxy entitymetadata, Settings settings)
+        private static string GetRelationships(EntityMetadataProxy entitymetadata, Settings settings, List<string> addedrelationships)
         {
+            if (settings.TemplateSettings.Template.AddAllRelationshipsAfterEntities)
+            {
+                return string.Empty;
+            }
             var relationships = new List<string>();
             var relation = string.Empty;
             if (settings.RelationShips && entitymetadata.Relationships != null)
             {
-                foreach (var relationship in entitymetadata.Relationships.Where(r => r.Parent != entitymetadata && r.IsSelected).Distinct())
+                foreach (var relationship in entitymetadata.Relationships.Where(r => r.Parent != entitymetadata && r.IsSelected && !addedrelationships.Contains(r.LogicalName)).Distinct())
                 {
                     relation = GetRelationShip(relationship, settings,
                         (relationship.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship) ?
                             settings.TemplateSettings.ManyManyRelationshipPrefix :
-                            settings.TemplateSettings.ManyOneRelationshipPrefix);
+                            settings.TemplateSettings.ManyOneRelationshipPrefix, addedrelationships);
                     // N : 1 and 1 : N are the same, so we only add one of them
                     if (!relationships.Contains(relation))
                     {
                         relationships.Add(relation);
                     }
                 }
-                foreach (var relationship in entitymetadata.Relationships.Where(r => r.Parent == entitymetadata && r.IsSelected).Distinct())
+                foreach (var relationship in entitymetadata.Relationships.Where(r => r.Parent == entitymetadata && r.IsSelected && !addedrelationships.Contains(r.LogicalName)).Distinct())
                 {
                     relation = GetRelationShip(relationship, settings,
                         (relationship.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship) ?
                             settings.TemplateSettings.ManyManyRelationshipPrefix :
-                            settings.TemplateSettings.OneManyRelationshipPrefix);
+                            settings.TemplateSettings.OneManyRelationshipPrefix, addedrelationships);
                     // N : 1 and 1 : N are the same, so we only add one of them
                     if (!relationships.Contains(relation))
                     {
@@ -261,15 +266,15 @@ namespace Rappen.XTB.LCG
             return result;
         }
 
-        private static string GetRelationships(IEnumerable<RelationshipMetadataProxy> relationshipslist, Settings settings)
+        private static string GetRelationships(IEnumerable<RelationshipMetadataProxy> relationshipslist, Settings settings, List<string> addedrelationships)
         {
             var relationships = new List<string>();
-            foreach (var relationship in relationshipslist)
+            foreach (var relationship in relationshipslist.Where(r => !addedrelationships.Contains(r.LogicalName)))
             {
                 relationships.Add(GetRelationShip(relationship, settings,
                     (relationship.Metadata.RelationshipType == RelationshipType.ManyToManyRelationship) ?
                         settings.TemplateSettings.ManyManyRelationshipPrefix :
-                        settings.TemplateSettings.OneManyRelationshipPrefix));
+                        settings.TemplateSettings.OneManyRelationshipPrefix, addedrelationships));
             }
             var result = string.Join("\r\n", relationships);
             return result;
@@ -395,7 +400,7 @@ namespace Rappen.XTB.LCG
             return attribute;
         }
 
-        private static string GetRelationShip(RelationshipMetadataProxy relationship, Settings settings, string prefix)
+        private static string GetRelationShip(RelationshipMetadataProxy relationship, Settings settings, string prefix, List<string> addedrelationships)
         {
             var template = settings.TemplateSettings.Template;
             if (relationship.Child == null || relationship.Parent == null)
@@ -443,31 +448,49 @@ namespace Rappen.XTB.LCG
                 .Replace("{referencingName}", referencingName)
                 .Replace("{referencedAttribute}", relationship.LookupName)
                 .Replace("{entity2}", relationship.Child.GetNameTechnical(settings.ConstantName, settings))
-                .Replace("{relationtype}", GetRelationUMLNotation(relationship, settings.RelationShipSize))
+                .Replace("{relationtype}", GetRelationUMLNotation(relationship, settings.RelationShipSize, settings.TemplateFormat))
                 .Replace("{lookup}", settings.RelationshipLabels ? relationship.LookupAttribute?.GetNameTechnical(settings) : "")
                 .Replace("{summary}", summary)
                 .Replace("'", "\"")
                 .TrimEnd(' ', ':');
+            if (!string.IsNullOrWhiteSpace(relation))
+            {
+                addedrelationships.Add(relationship.LogicalName);
+            }
             return relation;
         }
 
-        private static string GetRelationUMLNotation(RelationshipMetadataProxy relationship, int size)
+        private static string GetRelationUMLNotation(RelationshipMetadataProxy relationship, int size, TemplateFormat templateFormat)
         {
-            var sizestr = new string('-', size);
-            if (relationship.Metadata is ManyToManyRelationshipMetadata)
+            switch (templateFormat)
             {
-                return "}" + sizestr + "{";
+                case TemplateFormat.PlantUML:
+                    var sizestr = new string('-', size);
+                    if (relationship.Metadata is ManyToManyRelationshipMetadata)
+                    {
+                        return "}" + sizestr + "{";
+                    }
+                    else if (relationship.Metadata is OneToManyRelationshipMetadata)
+                    {
+                        if (relationship.LookupAttribute?.Metadata.RequiredLevel.Value == AttributeRequiredLevel.ApplicationRequired ||
+                            relationship.LookupAttribute?.Metadata.RequiredLevel.Value == AttributeRequiredLevel.SystemRequired)
+                        {
+                            return "||" + sizestr + "{";
+                        }
+                        return sizestr + "{";
+                    }
+                    return sizestr;
+
+                case TemplateFormat.DBML:
+                    if (relationship.Metadata is ManyToManyRelationshipMetadata)
+                    {
+                        return "<>";
+                    }
+                    return ">";
+
+                default:
+                    return string.Empty;
             }
-            else if (relationship.Metadata is OneToManyRelationshipMetadata)
-            {
-                if (relationship.LookupAttribute?.Metadata.RequiredLevel.Value == AttributeRequiredLevel.ApplicationRequired ||
-                    relationship.LookupAttribute?.Metadata.RequiredLevel.Value == AttributeRequiredLevel.SystemRequired)
-                {
-                    return "||" + sizestr + "{";
-                }
-                return sizestr + "{";
-            }
-            return sizestr;
         }
 
         private static string GetOptionSet(AttributeMetadataProxy attributemetadata, Settings settings)
