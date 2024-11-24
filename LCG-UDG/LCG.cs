@@ -38,6 +38,7 @@ namespace Rappen.XTB.LCG
         private readonly AppInsights ai2;
 
         private readonly string commonsettingsfile = "[Common]";
+        private readonly string globalsettingsfile = "[Global]";
         private object checkedrow;
         private List<EntityMetadataProxy> entities;
         private Dictionary<string, int> groupBoxHeights;
@@ -59,8 +60,7 @@ namespace Rappen.XTB.LCG
 
         public string Version => Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-        // public string HelpUrl => isUML ? "https://jonasr.app/UML" : "https://github.com/rappen/LCG-UDG/blob/master/README.md";
-        public string HelpUrl => templFormat != TemplateFormat.Constants ? "https://jonasr.app/UML" : "https://github.com/rappen/LCG-UDG/blob/master/README.md";
+        public string HelpUrl => isUML ? "https://jonasr.app/UML" : "https://jonasr.app/LCG";
 
         public event EventHandler<MessageBusEventArgs> OnOutgoingMessage;
 
@@ -330,6 +330,7 @@ namespace Rappen.XTB.LCG
 
         private void LCG_Load(object sender, EventArgs e)
         {
+            LoadGlobalSetting();
             if (settings.TemplateSettings == null)
             {
                 LoadCommonSettings();
@@ -1525,6 +1526,22 @@ namespace Rappen.XTB.LCG
                     }
                 }
             });
+        }
+
+        private void LoadGlobalSetting()
+        {
+            var version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            if (!SettingsManager.Instance.TryLoad(GetType(), out GlobalSettings globalsettings, SettingsFileName(isUML, globalsettingsfile)))
+            {
+                globalsettings = new GlobalSettings();
+            }
+            if (!version.Equals(globalsettings.CurrentVersion))
+            {
+                // Reset some settings when new version is deployed
+                globalsettings.CurrentVersion = version;
+                SettingsManager.Instance.Save(GetType(), globalsettings, SettingsFileName(isUML, globalsettingsfile));
+                UrlUtils.OpenUrl($"{HelpUrl}/releases/#{version}");
+            }
         }
 
         private void CountingCompleted()
