@@ -420,15 +420,15 @@ namespace Rappen.XTB.LCG
             {
                 switch (relationship.Type)
                 {
-                    case "1 : N":
+                    case "1 : M":
                         relationTemplate = template.Relationship1_N;
                         break;
 
-                    case "N : N":
+                    case "M : M":
                         relationTemplate = template.RelationshipN_N;
                         break;
 
-                    case "N : 1":
+                    case "M : 1":
                         relationTemplate = template.RelationshipN_1;
                         break;
                 }
