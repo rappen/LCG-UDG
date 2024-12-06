@@ -33,6 +33,7 @@
             this.toolStripMenu = new System.Windows.Forms.ToolStrip();
             this.btnLoadEntities = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuOpen = new System.Windows.Forms.ToolStripButton();
             this.btnGenerate = new System.Windows.Forms.ToolStripSplitButton();
             this.btnSaveCsAs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -153,7 +154,6 @@
             this.tmRelSearch = new System.Windows.Forms.Timer(this.components);
             this.tmHideNotification = new System.Windows.Forms.Timer(this.components);
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.menuOpen = new System.Windows.Forms.ToolStripButton();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitEntityRest)).BeginInit();
             this.splitEntityRest.Panel1.SuspendLayout();
@@ -222,6 +222,15 @@
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 39);
+            // 
+            // menuOpen
+            // 
+            this.menuOpen.Image = global::Rappen.XTB.LCG.Properties.Resources.icons8_open_32;
+            this.menuOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.menuOpen.Name = "menuOpen";
+            this.menuOpen.Size = new System.Drawing.Size(72, 36);
+            this.menuOpen.Text = "Open";
+            this.menuOpen.Click += new System.EventHandler(this.btnOpenGeneratedFile_Click);
             // 
             // btnGenerate
             // 
@@ -512,8 +521,8 @@
             this.btnEntSelectAllVisible.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnEntSelectAllVisible.Margin = new System.Windows.Forms.Padding(0, 1, 4, 2);
             this.btnEntSelectAllVisible.Name = "btnEntSelectAllVisible";
-            this.btnEntSelectAllVisible.Size = new System.Drawing.Size(90, 22);
-            this.btnEntSelectAllVisible.Text = "Select all vsible";
+            this.btnEntSelectAllVisible.Size = new System.Drawing.Size(93, 22);
+            this.btnEntSelectAllVisible.Text = "Select all visible";
             this.btnEntSelectAllVisible.Click += new System.EventHandler(this.btnSelectAllVisible_Click);
             // 
             // btnEntUnselectAll
@@ -900,8 +909,8 @@
             this.btnAttSelectAllVisible.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAttSelectAllVisible.Margin = new System.Windows.Forms.Padding(0, 1, 4, 2);
             this.btnAttSelectAllVisible.Name = "btnAttSelectAllVisible";
-            this.btnAttSelectAllVisible.Size = new System.Drawing.Size(90, 22);
-            this.btnAttSelectAllVisible.Text = "Select all vsible";
+            this.btnAttSelectAllVisible.Size = new System.Drawing.Size(93, 22);
+            this.btnAttSelectAllVisible.Text = "Select all visible";
             this.btnAttSelectAllVisible.Click += new System.EventHandler(this.btnSelectAllVisible_Click);
             // 
             // btnAttUnselectAll
@@ -1295,8 +1304,8 @@
             this.btnRelSelectAllVisible.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRelSelectAllVisible.Margin = new System.Windows.Forms.Padding(0, 1, 4, 2);
             this.btnRelSelectAllVisible.Name = "btnRelSelectAllVisible";
-            this.btnRelSelectAllVisible.Size = new System.Drawing.Size(90, 22);
-            this.btnRelSelectAllVisible.Text = "Select all vsible";
+            this.btnRelSelectAllVisible.Size = new System.Drawing.Size(93, 22);
+            this.btnRelSelectAllVisible.Text = "Select all visible";
             this.btnRelSelectAllVisible.Click += new System.EventHandler(this.btnSelectAllVisible_Click);
             // 
             // btnRelUnselectAll
@@ -1608,15 +1617,6 @@
             // 
             this.tmHideNotification.Interval = 5000;
             this.tmHideNotification.Tick += new System.EventHandler(this.tmHideNotification_Tick);
-            // 
-            // menuOpen
-            // 
-            this.menuOpen.Image = global::Rappen.XTB.LCG.Properties.Resources.icons8_open_32;
-            this.menuOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.menuOpen.Name = "menuOpen";
-            this.menuOpen.Size = new System.Drawing.Size(72, 36);
-            this.menuOpen.Text = "Open";
-            this.menuOpen.Click += new System.EventHandler(this.btnOpenGeneratedFile_Click);
             // 
             // LCG
             // 
