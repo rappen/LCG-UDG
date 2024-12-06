@@ -43,6 +43,7 @@
         public string RequiredLevelRequired { get; set; } = string.Empty;
         public string RequiredLevelRecommended { get; set; } = string.Empty;
         public string RequiredLevelNone { get; set; } = string.Empty;
+        public string ReadOnly { get; set; } = string.Empty;
         public bool AddAllRelationshipsAfterEntities { get; set; } = false;
         public TemplateFormat Format { get; set; } = TemplateFormat.Constants;
     }

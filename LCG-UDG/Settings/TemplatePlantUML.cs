@@ -13,8 +13,9 @@ entity **Legend** <<standard>> #CCFFEE {
     (PK) = Primary Key
     --
     (PN) = Primary Name
-    * Required
-    + Recommended
+    *Required
+    +Recommended
+    -ReadOnly
     Standard
     <color:blue>Custom</color>
 }";
@@ -48,6 +49,7 @@ skinparam ClassBorderColor<<custom>> Blue";
             CustomAttribute = "<color:blue>{attribute}</color>";
             RequiredLevelRequired = "*{attribute}";
             RequiredLevelRecommended = "+{attribute}";
+            ReadOnly = "-{attribute}";
             AddAllRelationshipsAfterEntities = true;
         }
     }

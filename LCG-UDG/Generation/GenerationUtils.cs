@@ -372,6 +372,10 @@ namespace Rappen.XTB.LCG
 
                 case AttributeRequiredLevel.None:
                     name = template.RequiredLevelNone.ReplaceIfNotEmpty("{attribute}", name);
+                    if (attributemetadata.Metadata.IsValidForCreate == false)
+                    {
+                        name = template.ReadOnly.ReplaceIfNotEmpty("{attribute}", name);
+                    }
                     break;
             }
             if (settings.ValidateIdentifiers)
