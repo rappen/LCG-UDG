@@ -147,7 +147,7 @@ namespace Rappen.XTB.LCG
 
         private void btnLoadEntities_Click(object sender, EventArgs e)
         {
-            ExecuteMethod(LoadEntities);
+            ExecuteMethod(LoadSolutions);
         }
 
         private void btnOpenGeneratedFile_Click(object sender, EventArgs e)
@@ -1523,6 +1523,7 @@ namespace Rappen.XTB.LCG
                         {
                             this.CountRecords(entities.Select(e => e.Metadata).ToList(), SetEntityRecords, CountingCompleted);
                         }
+                        LoadSolutionEntities(cmbSolution.SelectedItem as SolutionProxy, null);
                     }
                 }
             });
@@ -1612,6 +1613,11 @@ namespace Rappen.XTB.LCG
 
         private void LoadSolutionEntities(SolutionProxy solution, Action callback)
         {
+            if (solution == null)
+            {
+                callback?.Invoke();
+                return;
+            }
             WorkAsync(new WorkAsyncInfo
             {
                 Message = "Loading solution entities...",
@@ -1631,7 +1637,7 @@ namespace Rappen.XTB.LCG
                     }
                     if (args.Result is EntityCollection solutionentities)
                     {
-                        solution.Entities = entities
+                        solution.Entities = entities?
                             .Where(e => solutionentities.Entities
                                 .Select(i => i["objectid"]).Contains(e.Metadata.MetadataId))
                             .Select(e => e.LogicalName)
@@ -1645,6 +1651,7 @@ namespace Rappen.XTB.LCG
         private void LoadSolutions()
         {
             EnableControls(false);
+            var lastsolution = cmbSolution.SelectedItem is SolutionProxy lastselectedsolution ? lastselectedsolution.UniqueName : null;
             cmbSolution.Items.Clear();
             WorkAsync(new WorkAsyncInfo
             {
@@ -1673,6 +1680,12 @@ namespace Rappen.XTB.LCG
                             var proxiedsolutions = solutions.Entities.Select(s => new SolutionProxy(s)).OrderBy(s => s.ToString());
                             cmbSolution.Items.Add("");
                             cmbSolution.Items.AddRange(proxiedsolutions.Cast<object>().ToArray());
+                            if (!string.IsNullOrEmpty(lastsolution))
+                            {
+                                cmbSolution.SelectedItem = cmbSolution.Items
+                                    .OfType<SolutionProxy>()
+                                    .FirstOrDefault(s => s.UniqueName == lastsolution) ?? null;
+                            }
                         }
                     }
                     EnableControls(true);
