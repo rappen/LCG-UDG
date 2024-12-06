@@ -123,7 +123,7 @@ namespace Rappen.XTB.LCG
                         return "*NONE*";
                     }
                     var lookupstring = string.Join(", ", lookup.Targets);
-                    if (lookup.Targets.Count() > 1)
+                    if (lookup.Targets.Count() >= 1)
                     {
                         return "[" + lookupstring + "]";
                     }

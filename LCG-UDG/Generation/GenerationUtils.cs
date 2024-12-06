@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xrm.Sdk.Metadata;
+using Rappen.XRM.Helpers.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -397,6 +398,7 @@ namespace Rappen.XTB.LCG
                 .Replace("{attribute}", name)
                 .Replace("{logicalname}", attributemetadata.LogicalName)
                 .Replace("{type}", attributemetadata.Type.ToString())
+                .Replace("{typestr}", attributemetadata.Metadata.ToTypeName())
                 .Replace("{typedetails}", settings.TypeDetails ? attributemetadata.AttributeTypeDetails : "")
                 .Replace("{summary}", summary)
                 .Replace("{remarks}", remarks)
