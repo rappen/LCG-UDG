@@ -110,7 +110,10 @@ namespace Rappen.XTB.LCG
 
         public override void ClosingPlugin(PluginCloseInfo info)
         {
-            SettingsManager.Instance.Save(GetType(), settings.TemplateSettings, SettingsFileName(isUML, commonsettingsfile));
+            if (settings.TemplateSettings != null)
+            {
+                SettingsManager.Instance.Save(GetType(), settings.TemplateSettings, SettingsFileName(isUML, commonsettingsfile));
+            }
             SaveSettings(ConnectionDetail?.ConnectionName);
             LogUse("Close");
             base.ClosingPlugin(info);
@@ -331,7 +334,7 @@ namespace Rappen.XTB.LCG
         private void LCG_Load(object sender, EventArgs e)
         {
             LoadGlobalSetting();
-            if (settings.TemplateSettings == null)
+            if (settings != null && settings.TemplateSettings == null)
             {
                 LoadCommonSettings();
             }
