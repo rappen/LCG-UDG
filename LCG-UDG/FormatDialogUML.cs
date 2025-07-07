@@ -51,6 +51,16 @@ namespace Rappen.XTB.LCG
                 {
                     settingdlg.rbRelSize1.Checked = true;
                 }
+                settingdlg.cmbEncoding.Items.Clear();
+                settingdlg.cmbEncoding.Items.AddRange(OnlineSettings.Instance.Encodings.ToArray());
+                if (settingdlg.cmbEncoding.Items.Contains(settings.Encoding))
+                {
+                    settingdlg.cmbEncoding.SelectedItem = settings.Encoding;
+                }
+                else
+                {
+                    settingdlg.cmbEncoding.Text = settings.Encoding;
+                }
                 if (settingdlg.ShowDialog(lcg) == DialogResult.OK)
                 {
                     settings.SaveConfigurationInCommonFile = settingdlg.chkFileIncludeSelection.Checked;
@@ -59,6 +69,7 @@ namespace Rappen.XTB.LCG
                     settings.ColorByType = string.IsNullOrEmpty(settings.Theme) && settingdlg.chkColorByStandardCustom.Checked;
                     settings.ConstantName = (NameType)Math.Max(settingdlg.cmbConstantName.SelectedIndex, 0);
                     settings.ConstantCamelCased = settingdlg.chkConstCamelCased.Checked;
+                    settings.Encoding = settingdlg.cmbEncoding.Text.Trim();
                     settings.DoStripPrefix = settingdlg.chkConstStripPrefix.Checked;
                     settings.StripPrefix = settingdlg.txtConstStripPrefix.Text.ToLowerInvariant().TrimEnd('_') + "_";
                     settings.AttributeSortMode = (AttributeSortMode)Math.Max(settingdlg.cmbSortAttributes.SelectedIndex, 0);

@@ -1,10 +1,10 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace Rappen.XTB.LCG
 {
-    public class MetadataProxy: INotifyPropertyChanged
+    public class MetadataProxy : INotifyPropertyChanged
     {
         protected bool IsVisible;
 
@@ -27,9 +27,9 @@ namespace Rappen.XTB.LCG
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        internal static string StringToCSharpIdentifier(string name)
+        internal static string StringToCSharpIdentifier(string name, string encoding)
         {
-            name = System.Text.Encoding.UTF8.GetString(System.Text.Encoding.GetEncoding("UTF-8").GetBytes(name))
+            name = Encoding.UTF8.GetString(Encoding.GetEncoding(encoding ?? "UTF-8").GetBytes(name))
                 .Replace(" ", "")
                 .Replace("(", "")
                 .Replace(")", "")

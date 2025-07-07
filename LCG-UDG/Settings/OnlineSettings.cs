@@ -19,6 +19,7 @@ namespace Rappen.XTB.LCG
         public List<string> InternalAttributes = new List<string>();
         public List<string> MicrosoftPrefixes = new List<string>();
         public List<string> PlantUMLThemes = new List<string>();
+        public List<string> Encodings = new List<string>();
 
         private OnlineSettings()
         { }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Windows.Forms;
 
 namespace Rappen.XTB.LCG
@@ -30,6 +31,16 @@ namespace Rappen.XTB.LCG
                 settingdlg.chkRelationships.Checked = settings.RelationShips;
                 settingdlg.chkEnumsInclude.Checked = settings.OptionSets;
                 settingdlg.chkEnumsGlobal.Checked = settings.GlobalOptionSets;
+                settingdlg.cmbEncoding.Items.Clear();
+                settingdlg.cmbEncoding.Items.AddRange(OnlineSettings.Instance.Encodings.ToArray());
+                if (settingdlg.cmbEncoding.Items.Contains(settings.Encoding))
+                {
+                    settingdlg.cmbEncoding.SelectedItem = settings.Encoding;
+                }
+                else
+                {
+                    settingdlg.cmbEncoding.Text = settings.Encoding;
+                }
                 if (settingdlg.ShowDialog(lcg) == DialogResult.OK)
                 {
                     settings.UseCommonFile = lcg.isUML || settingdlg.rbFileCommon.Checked;
@@ -39,6 +50,7 @@ namespace Rappen.XTB.LCG
                     settings.CommonAttributes = (CommonAttributesType)Math.Max(settingdlg.cmbCommonAttributes.SelectedIndex, 0);
                     settings.ConstantName = (NameType)Math.Max(settingdlg.cmbConstantName.SelectedIndex, 0);
                     settings.ConstantCamelCased = settingdlg.chkConstCamelCased.Checked;
+                    settings.Encoding = settingdlg.cmbEncoding.Text.Trim();
                     settings.DoStripPrefix = settingdlg.chkConstStripPrefix.Checked;
                     settings.StripPrefix = settingdlg.txtConstStripPrefix.Text.ToLowerInvariant().TrimEnd('_') + "_";
                     settings.XmlProperties = settingdlg.chkXmlProperties.Checked;

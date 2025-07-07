@@ -126,7 +126,7 @@ namespace Rappen.XTB.LCG
             switch (nametype)
             {
                 case NameType.DisplayName:
-                    name = StringToCSharpIdentifier(DisplayName);
+                    name = StringToCSharpIdentifier(DisplayName, settings.Encoding);
                     break;
 
                 case NameType.LogicalName:
@@ -138,7 +138,7 @@ namespace Rappen.XTB.LCG
                     break;
 
                 case NameType.DisplayNameAndLogicalName:
-                    name = $"\"{StringToCSharpIdentifier(DisplayName)} ({Metadata?.LogicalName})\"";
+                    name = $"\"{StringToCSharpIdentifier(DisplayName, settings.Encoding)} ({Metadata?.LogicalName})\"";
                     break;
             }
             if (nametype != NameType.DisplayName && nametype != NameType.DisplayNameAndLogicalName)

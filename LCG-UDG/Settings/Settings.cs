@@ -66,6 +66,7 @@ namespace Rappen.XTB.LCG
         public NameType FileName { get => templateFormat == TemplateFormat.Constants ? fileName : NameType.DisplayName; set => fileName = value; }
         public NameType ConstantName { get; set; } = NameType.DisplayName;
         public bool ConstantCamelCased { get; set; }
+        public string Encoding { get; set; } = "UTF-8";
         public bool DoStripPrefix { get; set; }
         public string StripPrefix { get; set; }
         public bool XmlProperties { get => xmlProperties && templateFormat == TemplateFormat.Constants; set => xmlProperties = value; }

@@ -153,7 +153,7 @@ namespace Rappen.XTB.LCG
             var name = settings.GetNonDisplayName(Metadata.SchemaName);
             if (settings.ConstantName == NameType.DisplayName && LookupAttribute != null)
             {
-                name = StringToCSharpIdentifier(Child.DisplayName + lookupAttribute.DisplayName);
+                name = StringToCSharpIdentifier(Child.DisplayName + lookupAttribute.DisplayName, settings.Encoding);
             }
             return name;
         }
