@@ -966,7 +966,7 @@ namespace Rappen.XTB.LCG
                 (triAttPrimaryKeyName.CheckState == CheckState.Unchecked && !IsPriAttr(a));
 
             bool AddRequired(AttributeMetadataProxy a) =>
-                triAttRequired.CheckState != CheckState.Unchecked &&
+                triAttRequired.CheckState == CheckState.Unchecked &&
                 a.Required;
 
             bool FilterRequired(AttributeMetadataProxy a) =>
