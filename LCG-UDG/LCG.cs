@@ -110,7 +110,7 @@ namespace Rappen.XTB.LCG
 
         public override void ClosingPlugin(PluginCloseInfo info)
         {
-            if (settings.TemplateSettings != null)
+            if (settings?.TemplateSettings != null)
             {
                 SettingsManager.Instance.Save(GetType(), settings.TemplateSettings, SettingsFileName(isUML, commonsettingsfile));
             }
