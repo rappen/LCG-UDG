@@ -15,10 +15,9 @@ Read docs: https://jonasr.app/UML
 		</description>
 		<summary>Generate PlantUML or DBML diagram files from metadata in Microsoft Dataverse.</summary>
 		<releaseNotes>
-There are some MASSIVE, HUGE, AWESOME new features...!
-So go read the Release Notes: https://jonasr.app/UML/releases
+Go read the Release Notes: https://jonasr.app/UML/releases
 		</releaseNotes>
-		<copyright>Copyright 2020-2024 Jonas Rapp</copyright>
+		<copyright>Copyright 2020-2025 Jonas Rapp</copyright>
 		<tags>XrmToolBox Plugins UMLDiagramGenerator</tags>
 		<dependencies>
 			<dependency id="XrmToolBox" version="1.2023.10.67" />
