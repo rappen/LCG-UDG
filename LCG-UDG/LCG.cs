@@ -475,7 +475,7 @@ namespace Rappen.XTB.LCG
                 triEntManaged.CheckState = CheckState.Checked;
                 chkEntExclIntersect.Checked = false;
                 chkEntExclMS.Checked = false;
-                triEntSelected.CheckState = CheckState.Checked;
+                rbEntAll.Checked = true;
                 triEntRecords.CheckState = CheckState.Checked;
                 txtEntSearch.Text = "";
             }
@@ -1144,9 +1144,9 @@ namespace Rappen.XTB.LCG
                 !e.Metadata.IsPrivate.GetValueOrDefault();
 
             bool GetSelectedFilter(EntityMetadataProxy e) =>
-                triEntSelected.CheckState == CheckState.Checked ||
-                (triEntSelected.CheckState == CheckState.Indeterminate && e.IsSelected) ||
-                (triEntSelected.CheckState == CheckState.Unchecked && !e.IsSelected);
+                rbEntAll.Checked ||
+                (rbEntSel.Checked && e.IsSelected) ||
+                (rbEntUnsel.Checked && !e.IsSelected);
 
             bool GetManagedFilter(EntityMetadataProxy e) =>
                 triEntManaged.CheckState == CheckState.Checked ||
@@ -1349,7 +1349,7 @@ namespace Rappen.XTB.LCG
             settings.EntityFilter.Custom = triEntCustom.CheckState;
             settings.EntityFilter.Managed = triEntManaged.CheckState;
             settings.EntityFilter.ExcludeIntersect = chkEntExclIntersect.Checked;
-            settings.EntityFilter.Selected = triEntSelected.CheckState;
+            settings.EntityFilter.Selected = rbEntSel.Checked ? CheckState.Indeterminate : rbEntUnsel.Checked ? CheckState.Unchecked : CheckState.Checked;
             settings.EntityFilter.Records = triEntRecords.CheckState;
             settings.EntityFilter.Uncountable = settings.EntityFilter.Records != CheckState.Indeterminate && chkEntShowUncountable.Checked;
             if (settings.AttributeFilter == null)

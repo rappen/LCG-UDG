@@ -73,7 +73,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.pnEntCustom = new System.Windows.Forms.Panel();
             this.chkEntShowUncountable = new System.Windows.Forms.CheckBox();
-            this.triEntSelected = new Rappen.XTB.Helpers.Controls.TriCheckBox();
             this.triEntManaged = new Rappen.XTB.Helpers.Controls.TriCheckBox();
             this.chkEntExclMS = new System.Windows.Forms.CheckBox();
             this.triEntCustom = new Rappen.XTB.Helpers.Controls.TriCheckBox();
@@ -154,6 +153,9 @@
             this.tmRelSearch = new System.Windows.Forms.Timer(this.components);
             this.tmHideNotification = new System.Windows.Forms.Timer(this.components);
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.rbEntAll = new System.Windows.Forms.RadioButton();
+            this.rbEntSel = new System.Windows.Forms.RadioButton();
+            this.rbEntUnsel = new System.Windows.Forms.RadioButton();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitEntityRest)).BeginInit();
             this.splitEntityRest.Panel1.SuspendLayout();
@@ -643,8 +645,10 @@
             // 
             // pnEntCustom
             // 
+            this.pnEntCustom.Controls.Add(this.rbEntUnsel);
+            this.pnEntCustom.Controls.Add(this.rbEntSel);
+            this.pnEntCustom.Controls.Add(this.rbEntAll);
             this.pnEntCustom.Controls.Add(this.chkEntShowUncountable);
-            this.pnEntCustom.Controls.Add(this.triEntSelected);
             this.pnEntCustom.Controls.Add(this.triEntManaged);
             this.pnEntCustom.Controls.Add(this.chkEntExclMS);
             this.pnEntCustom.Controls.Add(this.triEntCustom);
@@ -667,22 +671,6 @@
             this.toolTip1.SetToolTip(this.chkEntShowUncountable, "Some entities are not able to count the records.\r\nShall those also be shown?");
             this.chkEntShowUncountable.UseVisualStyleBackColor = true;
             this.chkEntShowUncountable.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
-            // 
-            // triEntSelected
-            // 
-            this.triEntSelected.AutoSize = true;
-            this.triEntSelected.Checked = true;
-            this.triEntSelected.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.triEntSelected.Location = new System.Drawing.Point(12, 78);
-            this.triEntSelected.Name = "triEntSelected";
-            this.triEntSelected.Size = new System.Drawing.Size(164, 17);
-            this.triEntSelected.TabIndex = 70;
-            this.triEntSelected.Text = "Ignoring if tables are selected";
-            this.triEntSelected.TextChecked = "Ignoring if tables are selected";
-            this.triEntSelected.TextIndeterminate = "Only selected tables";
-            this.triEntSelected.TextUnchecked = "Only unselected tables";
-            this.triEntSelected.UseVisualStyleBackColor = true;
-            this.triEntSelected.CheckStateChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
             // triEntManaged
             // 
@@ -1618,6 +1606,41 @@
             this.tmHideNotification.Interval = 5000;
             this.tmHideNotification.Tick += new System.EventHandler(this.tmHideNotification_Tick);
             // 
+            // rbEntAll
+            // 
+            this.rbEntAll.AutoSize = true;
+            this.rbEntAll.Checked = true;
+            this.rbEntAll.Location = new System.Drawing.Point(12, 77);
+            this.rbEntAll.Name = "rbEntAll";
+            this.rbEntAll.Size = new System.Drawing.Size(36, 17);
+            this.rbEntAll.TabIndex = 61;
+            this.rbEntAll.TabStop = true;
+            this.rbEntAll.Text = "All";
+            this.rbEntAll.UseVisualStyleBackColor = true;
+            this.rbEntAll.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
+            // 
+            // rbEntSel
+            // 
+            this.rbEntSel.AutoSize = true;
+            this.rbEntSel.Location = new System.Drawing.Point(71, 77);
+            this.rbEntSel.Name = "rbEntSel";
+            this.rbEntSel.Size = new System.Drawing.Size(67, 17);
+            this.rbEntSel.TabIndex = 62;
+            this.rbEntSel.Text = "Selected";
+            this.rbEntSel.UseVisualStyleBackColor = true;
+            this.rbEntSel.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
+            // 
+            // rbEntUnsel
+            // 
+            this.rbEntUnsel.AutoSize = true;
+            this.rbEntUnsel.Location = new System.Drawing.Point(162, 77);
+            this.rbEntUnsel.Name = "rbEntUnsel";
+            this.rbEntUnsel.Size = new System.Drawing.Size(79, 17);
+            this.rbEntUnsel.TabIndex = 63;
+            this.rbEntUnsel.Text = "Unselected";
+            this.rbEntUnsel.UseVisualStyleBackColor = true;
+            this.rbEntUnsel.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
+            // 
             // LCG
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1725,7 +1748,6 @@
         private System.Windows.Forms.Panel pnEntSolution;
         private System.Windows.Forms.ComboBox cmbSolution;
         private System.Windows.Forms.Label label4;
-        private Rappen.XTB.Helpers.Controls.TriCheckBox triEntSelected;
         private System.Windows.Forms.CheckBox chkEntExclIntersect;
         private System.Windows.Forms.Panel pnEntCustom;
         private System.Windows.Forms.Timer tmEntSearch;
@@ -1822,5 +1844,8 @@
         private System.Windows.Forms.ToolStripMenuItem chkRelCheckAll;
         private System.Windows.Forms.ToolStripMenuItem chkRelRemoveWhenUncheckedEntity;
         private System.Windows.Forms.ToolStripButton menuOpen;
+        private System.Windows.Forms.RadioButton rbEntUnsel;
+        private System.Windows.Forms.RadioButton rbEntSel;
+        private System.Windows.Forms.RadioButton rbEntAll;
     }
 }
