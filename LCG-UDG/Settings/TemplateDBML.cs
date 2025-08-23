@@ -15,7 +15,7 @@
             PrimaryKeyName = "{attribute}";
             PrimaryAttributeName = "{attribute}";
             RelationshipN_1 = "Ref:{entity2}.{referencingName} > {entity1}.{referencedName}";
-            Relationship1_N = "Ref:{entity1}.{referencedName} > {entity2}.{referencingName}";
+            Relationship1_N = "Ref:{entity1}.{referencedName} < {entity2}.{referencingName}";
             RelationshipN_N = "\n\nTable {schemaname} {\n    {referencingName} Uniqueidentifier [ref: > {entity2}.{referencingName}]\n    {referencedName} Uniqueidentifier [ref: > {entity1}.{referencedName}]\n}\n";
             OptionSet = "Enum {name}\n{\n{values}\n}";
             OptionSetValue = "{name}\n";
