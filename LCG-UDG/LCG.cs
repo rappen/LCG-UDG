@@ -225,7 +225,7 @@ namespace Rappen.XTB.LCG
             var grid = chk == chkEntAll ? gridEntities : chk == chkAttAll ? gridAttributes : chk == chkRelAll ? gridRelationships : null;
             if (grid != null)
             {
-                SelectAllRows(grid, chk.Checked);
+                SelectAllRows(grid, chk.Checked, chkRelIncludeColumns.Checked);
             }
         }
 
@@ -274,7 +274,14 @@ namespace Rappen.XTB.LCG
                 if (row.DataBoundItem is MetadataProxy metadata)
                 {
                     checkedrow = metadata;
-                    metadata.SetSelected(!metadata.IsSelected);
+                    if (metadata is RelationshipMetadataProxy relmeta)
+                    {
+                        relmeta.SetSelected(!metadata.IsSelected, true, chkRelIncludeColumns.Checked);
+                    }
+                    else
+                    {
+                        metadata.SetSelected(!metadata.IsSelected);
+                    }
                     checkedrow = null;
 
                     if (metadata is EntityMetadataProxy entitymeta && !metadata.IsSelected && chkRelRemoveWhenUncheckedEntity.Checked)
@@ -451,7 +458,7 @@ namespace Rappen.XTB.LCG
         {
             SelectAllRows(sender == btnEntSelectAllVisible ? gridEntities :
                           sender == btnAttSelectAllVisible ? gridAttributes :
-                          sender == btnRelSelectAllVisible ? gridRelationships : null, true);
+                          sender == btnRelSelectAllVisible ? gridRelationships : null, true, chkRelIncludeColumns.Checked);
         }
 
         private void btnUnselectAll_Click(object sender, EventArgs e)
@@ -598,7 +605,7 @@ namespace Rappen.XTB.LCG
             if (ai2) this.ai2.WriteEvent(action);
         }
 
-        private static void SelectAllRows(DataGridView grid, bool select)
+        private static void SelectAllRows(DataGridView grid, bool select, bool inclcolumns)
         {
             if (grid == null) return;
             grid.Rows
@@ -606,7 +613,13 @@ namespace Rappen.XTB.LCG
                 .Select(r => r.DataBoundItem)
                 .OfType<MetadataProxy>()
                 .ToList()
-                .ForEach(m => m.SetSelected(select));
+                .ForEach(m =>
+                {
+                    if (m is RelationshipMetadataProxy rm)
+                        rm.SetSelected(select, true, inclcolumns);
+                    else
+                        m.SetSelected(select);
+                });
         }
 
         private static void UnselectAll(IEnumerable<MetadataProxy> metadatas)
@@ -695,6 +708,8 @@ namespace Rappen.XTB.LCG
             //chkAttUsed.Checked = settings.AttributeFilter?.AreUsed ?? false;
             //chkAttUniques.Checked = settings.AttributeFilter?.UniqueValues ?? false;
             chkRelCheckAll.Checked = settings.RelationshipFilter?.CheckAll ?? false;
+            chkRelRemoveWhenUncheckedEntity.Checked = settings.RelationshipFilter?.RemoveWhenUncheckedEntity ?? false;
+            chkRelIncludeColumns.Checked = settings.RelationshipFilter?.IncludeColumns ?? false;
             triRelCustom.CheckState = settings.RelationshipFilter?.Custom ?? CheckState.Indeterminate;
             triRelManaged.CheckState = settings.RelationshipFilter?.Managed ?? CheckState.Indeterminate;
             chkRel1N.Checked = settings.RelationshipFilter?.Type1N ?? true;
@@ -1374,6 +1389,8 @@ namespace Rappen.XTB.LCG
             }
             settings.RelationshipFilter.Expanded = gbRelationships.Height > Settings.FilterCollapseHeight;
             settings.RelationshipFilter.CheckAll = chkRelCheckAll.Checked;
+            settings.RelationshipFilter.RemoveWhenUncheckedEntity = chkRelRemoveWhenUncheckedEntity.Checked;
+            settings.RelationshipFilter.IncludeColumns = chkRelIncludeColumns.Checked;
             settings.RelationshipFilter.Custom = triRelCustom.CheckState;
             settings.RelationshipFilter.Managed = triRelManaged.CheckState;
             settings.RelationshipFilter.Type1N = chkRel1N.Checked;
@@ -1848,7 +1865,7 @@ This behavior can be prevented by unchecking the box 'Include configuration' in 
                     entity.Group = settings.Groups.FirstOrDefault(g => g.Name == selectedentity.Group);
                 }
                 entity.Attributes.ForEach(a => a.SetSelected(false));
-                entity.Relationships.ForEach(r => r.SetSelected(false, false));
+                entity.Relationships.ForEach(r => r.SetSelected(false, false, false));
                 foreach (var attributename in selectedentity.Attributes)
                 {
                     var attribute = entity.Attributes.FirstOrDefault(a => a.LogicalName == attributename);
@@ -1887,12 +1904,12 @@ This behavior can be prevented by unchecking the box 'Include configuration' in 
 
         private void SelectAllAttributes()
         {
-            SelectAllRows(gridAttributes, true);
+            SelectAllRows(gridAttributes, true, chkRelIncludeColumns.Checked);
         }
 
         private void SelectAllRelationships()
         {
-            SelectAllRows(gridRelationships, true);
+            SelectAllRows(gridRelationships, true, chkRelIncludeColumns.Checked);
         }
 
         private List<string> GetDefaultRelationships(EntityMetadataProxy entity)

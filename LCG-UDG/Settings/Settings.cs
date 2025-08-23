@@ -218,6 +218,8 @@ namespace Rappen.XTB.LCG
         public bool ExcludeCreMod { get; set; } = true;
         public bool ExcludeDupRecords { get; set; } = true;
         public bool RequireLookups { get; set; }
+        public bool RemoveWhenUncheckedEntity { get; set; }
+        public bool IncludeColumns { get; set; }
     }
 
     public enum TemplateFormat
