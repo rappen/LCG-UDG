@@ -154,6 +154,9 @@ namespace Rappen.XTB.LCG
 
         private void btnLoadEntities_Click(object sender, EventArgs e)
         {
+            entities.Clear();
+            viewcolumns.Clear();
+            formcolumns.Clear();
             ExecuteMethod(LoadSolutions);
         }
 
