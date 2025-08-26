@@ -3,6 +3,7 @@ using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Metadata;
 using Microsoft.Xrm.Sdk.Query;
+using Rappen.XRM.Helpers.Extensions;
 using Rappen.XTB.Helper;
 using Rappen.XTB.Helpers;
 using Rappen.XTB.LCG.Properties;
@@ -45,9 +46,12 @@ namespace Rappen.XTB.LCG
         private string lasttriedattributeload;
         private bool restoringselection = false;
         private EntityMetadataProxy selectedEntity;
+        private Dictionary<string, List<string>> viewcolumns = new Dictionary<string, List<string>>();
+        private Dictionary<string, List<string>> formcolumns = new Dictionary<string, List<string>>();
         private Settings settings;
         private string settingsfile;
         private bool generatedfileprompted = false;
+        private bool loadingviewsforms = false;
 
         #endregion Private Fields
 
@@ -490,6 +494,8 @@ namespace Rappen.XTB.LCG
             {
                 triAttCustom.CheckState = CheckState.Checked;
                 triAttManaged.CheckState = CheckState.Checked;
+                chkAttForms.Checked = false;
+                chkAttViews.Checked = false;
                 triAttPrimaryKeyName.CheckState = CheckState.Checked;
                 triAttRequired.CheckState = CheckState.Checked;
                 triAttLogical.CheckState = CheckState.Unchecked;
@@ -917,107 +923,53 @@ namespace Rappen.XTB.LCG
 
         private IEnumerable<AttributeMetadataProxy> GetFilteredAttributes(EntityMetadataProxy entity)
         {
-            bool GetCustomFilter(AttributeMetadataProxy a) =>
-                triAttCustom.CheckState == CheckState.Checked ||
-                (triAttCustom.CheckState == CheckState.Indeterminate && a.Metadata.IsCustomAttribute.GetValueOrDefault()) ||
-                (triAttCustom.CheckState == CheckState.Unchecked && !a.Metadata.IsCustomAttribute.GetValueOrDefault());
-
-            bool GetManagedFilter(AttributeMetadataProxy a) =>
-                triAttManaged.CheckState == CheckState.Checked ||
-                (triAttManaged.CheckState == CheckState.Unchecked && a.Metadata.IsManaged.GetValueOrDefault()) ||
-                (triAttManaged.CheckState == CheckState.Indeterminate && !a.Metadata.IsManaged.GetValueOrDefault());
-
-            bool GetSearchFilter(AttributeMetadataProxy a) =>
-                string.IsNullOrWhiteSpace(txtAttSearch.Text) ||
-                a.Metadata.LogicalName.ToLowerInvariant().Contains(txtAttSearch.Text) ||
-                a.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtAttSearch.Text) == true;
-
-            bool GetLogicalFilter(AttributeMetadataProxy a, List<AttributeMetadataProxy> attributes) =>
-                triAttLogical.CheckState == CheckState.Checked ||
-                (triAttLogical.CheckState == CheckState.Unchecked && a.Metadata.IsLogical != true && !IsMoneyBase(a) && !IsCustomerLogical(a, attributes)) ||
-                (triAttLogical.CheckState == CheckState.Indeterminate && a.Metadata.IsLogical == true);
-
-            bool GetInternalFilter(AttributeMetadataProxy a) =>
-                triAttInternal.CheckState == CheckState.Checked ||
-                (triAttInternal.CheckState == CheckState.Unchecked && !OnlineSettings.Instance.InternalAttributes.Contains(a.LogicalName)) ||
-                (triAttInternal.CheckState == CheckState.Indeterminate && OnlineSettings.Instance.InternalAttributes.Contains(a.LogicalName));
-
-            bool GetRequiredFilter(AttributeMetadataProxy a) =>
-                triAttRequired.CheckState == CheckState.Checked ||
-                (a.Required == (triAttRequired.CheckState == CheckState.Indeterminate));
-
-            bool GetCreModFilter(AttributeMetadataProxy a) =>
-                !chkAttExclCreMod.Checked ||
-                (!a.LogicalName.StartsWith("created") && !a.LogicalName.StartsWith("modified"));
-
-            bool GetOwnersFilter(AttributeMetadataProxy a) =>
-                !chkAttExclOwners.Checked ||
-                (!a.LogicalName.StartsWith("owner") && !a.LogicalName.StartsWith("owning"));
-
-            bool IsMoneyBase(AttributeMetadataProxy a) =>
-                a.Metadata is MoneyAttributeMetadata && a.LogicalName.EndsWith("_base");
-
-            bool IsCustomerLogical(AttributeMetadataProxy a, List<AttributeMetadataProxy> attributes) =>
-                !string.IsNullOrEmpty(a.Metadata.AttributeOf) &&
-                attributes.FirstOrDefault(a2 => a2.LogicalName == a.Metadata.AttributeOf) is AttributeMetadataProxy parentattr &&
-                parentattr.Type == AttributeTypeCode.Customer;
-
-            bool AreUsed(AttributeMetadataProxy a) =>
-                !chkAttUsed.Checked ||
-                a.WithValues == null ||
-                a.WithValues > 0;
-
-            bool AreUniques(AttributeMetadataProxy a) =>
-                !chkAttUniques.Checked ||
-                a.UniqueValues > 1;
-
-            bool AddPrimaryIdNames(AttributeMetadataProxy a) =>
-                triAttPrimaryKeyName.CheckState != CheckState.Unchecked &&
-                IsPriAttr(a);
-
-            bool FilterPrimaryIdNames(AttributeMetadataProxy a) =>
-                triAttPrimaryKeyName.CheckState == CheckState.Checked ||
-                (triAttPrimaryKeyName.CheckState == CheckState.Indeterminate && IsPriAttr(a)) ||
-                (triAttPrimaryKeyName.CheckState == CheckState.Unchecked && !IsPriAttr(a));
-
-            bool AddRequired(AttributeMetadataProxy a) =>
-                triAttRequired.CheckState == CheckState.Unchecked &&
-                a.Required;
-
-            bool FilterRequired(AttributeMetadataProxy a) =>
-                triAttRequired.CheckState == CheckState.Checked ||
-                (triAttRequired.CheckState == CheckState.Indeterminate && a.Required) ||
-                (triAttRequired.CheckState == CheckState.Unchecked && !a.Required);
-
-            bool IsPriAttr(AttributeMetadataProxy a) =>
-                (a.Metadata?.IsPrimaryId.Value == true ||
-                 a.Metadata?.IsPrimaryName.Value == true) &&
-                a.Metadata?.IsLogical.Value == false;
-
             if (chkAttUsed.Checked && !entity.CountedAttributes && LoadCountingDatas(entity))
             {
                 return null;
             }
             splitEntityRest.Enabled = true;
+            var attributesonforsofviews = new List<string>();
+            if (chkAttForms.Checked)
+            {
+                attributesonforsofviews.AddRange(AttributesOnAnyForm(entity.LogicalName));
+            }
+            if (chkAttViews.Checked)
+            {
+                attributesonforsofviews.AddRange(AttributesOnAnyView(entity.LogicalName));
+            }
+            attributesonforsofviews = attributesonforsofviews.Distinct().ToList();
 
+            // Including those who shall/might be included no matter what
             var result = entity.Attributes
-                .Where(a => AddPrimaryIdNames(a))
-                .Union(entity.Attributes.Where(a => AddRequired(a)))
-                .Union(entity.Attributes.Where(a =>
-                    GetCustomFilter(a) &&
-                    GetManagedFilter(a) &&
-                    GetLogicalFilter(a, entity.Attributes) &&
-                    GetInternalFilter(a) &&
-                    //     GetRequiredFilter(a) &&
-                    GetCreModFilter(a) &&
-                    GetOwnersFilter(a) &&
-                    AreUsed(a) &&
-                    AreUniques(a)))
-                .Where(a =>
-                    GetSearchFilter(a) &&
-                    FilterPrimaryIdNames(a) &&
-                    FilterRequired(a))
-                .Distinct()
+                .Where(a => triAttCustom.Checked || a.Metadata.IsCustomAttribute.GetValueOrDefault() == triAttCustom.Indeterminate)
+                .ToList(); result = result
+                .Where(a => (!chkAttForms.Checked && !chkAttViews.Checked) || attributesonforsofviews.Contains(a.LogicalName))
+                .ToList(); result = result
+                .Where(a => !triAttPrimaryKeyName.Unchecked || !a.IsPrimaryIdOrName)
+                .ToList(); result = result
+                .Where(a => !triAttRequired.Unchecked || !a.IsRequired)
+                .ToList(); result = result
+                .Where(a => triAttLogical.Checked || a.IsLogical == triAttLogical.Indeterminate)
+                .ToList(); result = result
+                .Where(a => triAttInternal.Checked || OnlineSettings.Instance.InternalAttributes.Contains(a.LogicalName) == triAttInternal.Indeterminate)
+                .ToList(); result = result
+                .Where(a => !chkAttExclOwners.Checked || !a.IsOwner)
+                .ToList(); result = result
+                .Where(a => !chkAttExclCreMod.Checked || !a.IsCreatorOrModifier)
+                .ToList(); result = result
+                .Where(a => !chkAttUsed.Checked || a.WithValues > 0)
+                .ToList(); result = result
+                .Where(a => !chkAttUniques.Checked || a.UniqueValues > 1)
+                .ToList(); result = result
+                .Union(entity.Attributes.Where(a => triAttPrimaryKeyName.Checked && a.IsPrimaryIdOrName))
+                .ToList(); result = result
+                .Where(a => string.IsNullOrWhiteSpace(txtAttSearch.Text) ||
+                    a.Metadata.LogicalName.ToLowerInvariant().Contains(txtAttSearch.Text) ||
+                    a.Metadata.DisplayName?.UserLocalizedLabel?.Label?.ToLowerInvariant().Contains(txtAttSearch.Text) == true).ToList();
+
+            // Remove all those who shall not be included
+            // Now apply the rest of the filters only if not already included
+            result = result.Distinct()
                 .OrderBy(a => a)
                 .ToList();
             return result;
@@ -1298,7 +1250,7 @@ namespace Rappen.XTB.LCG
             }
             bool GetRequredFilters(RelationshipMetadataProxy r) =>
                 !settings.RelationshipFilter.RequireLookups ||
-                (r.LookupAttribute?.Required ?? false);
+                (r.LookupAttribute?.IsRequired ?? false);
 
             return entity.Relationships
                     .Where(
@@ -2044,6 +1996,162 @@ This behavior can be prevented by unchecking the box 'Include configuration' in 
             btnGroupColor.Enabled = group != null;
             btnGroupDelete.Enabled = group != null;
             btnGroupColor.BackColor = group?.Color ?? Color.White;
+        }
+
+        private List<string> AttributesOnAnyView(string entity)
+        {
+            if (viewcolumns?.ContainsKey(entity) != true)
+            {
+                if (loadingviewsforms)
+                {
+                    return new List<string>();
+                }
+                loadingviewsforms = true;
+                Enabled = false;
+                WorkAsync(new WorkAsyncInfo
+                {
+                    Message = "Loading views...",
+                    Work = (w, a) =>
+                    {
+                        if (Service == null)
+                        {
+                            throw new Exception("Need a connection to load views.");
+                        }
+                        var qexs = new QueryExpression("savedquery");
+                        qexs.ColumnSet = new ColumnSet("name", "returnedtypecode", "layoutxml", "iscustomizable");
+                        qexs.Criteria.AddCondition("returnedtypecode", ConditionOperator.Equal, entity);
+                        qexs.Criteria.AddCondition("statecode", ConditionOperator.Equal, 0);
+                        qexs.Criteria.AddCondition("layoutxml", ConditionOperator.NotNull);
+                        a.Result = Service.RetrieveMultipleAll(qexs);
+                    },
+                    PostWorkCallBack = (a) =>
+                    {
+                        if (a.Error != null)
+                        {
+                            ShowErrorDialog(a.Error);
+                        }
+                        else if (a.Result is EntityCollection views)
+                        {
+                            SetViewColumns(entity, views);
+                            DisplayFilteredAttributes();
+                        }
+                        Enabled = true;
+                        loadingviewsforms = false;
+                    }
+                });
+                return new List<string>();
+            }
+            return viewcolumns?[entity] ?? new List<string>();
+        }
+
+        private List<string> AttributesOnAnyForm(string entity)
+        {
+            if (formcolumns?.ContainsKey(entity) != true)
+            {
+                if (loadingviewsforms)
+                {
+                    return new List<string>();
+                }
+                loadingviewsforms = true;
+                Enabled = false;
+                WorkAsync(new WorkAsyncInfo
+                {
+                    Message = "Loading forms...",
+                    Work = (w, a) =>
+                    {
+                        if (Service == null)
+                        {
+                            throw new Exception("Need a connection to load forms.");
+                        }
+                        var query = new QueryExpression("systemform");
+                        query.ColumnSet.AddColumns("name", "type", "formxml");
+                        query.Criteria.AddCondition("objecttypecode", ConditionOperator.Equal, entity);
+                        query.Criteria.AddCondition("formactivationstate", ConditionOperator.Equal, 1);
+                        query.Criteria.AddCondition("formxml", ConditionOperator.NotNull);
+                        a.Result = Service.RetrieveMultipleAll(query);
+                    },
+                    PostWorkCallBack = (a) =>
+                    {
+                        if (a.Error != null)
+                        {
+                            ShowErrorDialog(a.Error);
+                        }
+                        else if (a.Result is EntityCollection forms)
+                        {
+                            SetFormColumns(entity, forms);
+                            DisplayFilteredAttributes();
+                        }
+                        Enabled = true;
+                        loadingviewsforms = false;
+                    }
+                });
+                return new List<string>();
+            }
+            return formcolumns?[entity] ?? new List<string>();
+        }
+
+        private void SetViewColumns(string entity, EntityCollection views)
+        {
+            if (viewcolumns == null)
+            {
+                viewcolumns = new Dictionary<string, List<string>>();
+            }
+            if (!viewcolumns.ContainsKey(entity))
+            {
+                viewcolumns.Remove(entity);
+            }
+            var viewcolumnsentity = new List<string>();
+            foreach (var view in views.Entities)
+            {
+                var layout = view.GetAttributeValue<string>("layoutxml");
+                if (layout.ToXml().SelectSingleNode("grid") is XmlElement grid &&
+                    grid.SelectSingleNode("row") is XmlElement row)
+                {
+                    viewcolumnsentity.AddRange(row.ChildNodes
+                        .Cast<XmlNode>()
+                        .Where(n => n.Name == "cell")
+                        .Select(c => c.AttributeValue("name"))
+                        .Where(c => !c.Contains(".")));
+                }
+            }
+            viewcolumns[entity] = viewcolumnsentity.Distinct().ToList();
+        }
+
+        private void SetFormColumns(string entity, EntityCollection forms)
+        {
+            IEnumerable<string> FindCellControlFields(XmlNode node)
+            {
+                var result = new List<string>();
+                if (node.Name == "cell" &&
+                    node.SelectSingleNode("control") is XmlNode control &&
+                    control.AttributeValue("datafieldname") is string field &&
+                    !string.IsNullOrEmpty(field))
+                {
+                    result.Add(field);
+                }
+                node.ChildNodes.Cast<XmlNode>().ToList().ForEach(n => result.AddRange(FindCellControlFields(n)));
+                return result;
+            }
+
+            if (formcolumns == null)
+            {
+                formcolumns = new Dictionary<string, List<string>>();
+            }
+            if (!formcolumns.ContainsKey(entity))
+            {
+                formcolumns.Remove(entity);
+            }
+            var formcolumnsentity = new List<string>();
+            foreach (var form in forms.Entities)
+            {
+                var formxml = form.GetAttributeValue<string>("formxml");
+                var nodes = formxml.ToXml().ChildNodes;
+                foreach (XmlNode node in nodes)
+                {
+                    formcolumnsentity.AddRange(FindCellControlFields(node));
+                }
+            }
+            formcolumns[entity] = formcolumnsentity.Distinct().ToList();
         }
 
         #endregion Private Methods

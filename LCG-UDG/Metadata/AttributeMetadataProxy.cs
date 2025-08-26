@@ -36,7 +36,7 @@ namespace Rappen.XTB.LCG
         public bool Selected => IsSelected;
 
         [DisplayName("Name")]
-        public string DisplayName => (Required ? "* " : "") + Metadata?.DisplayName?.UserLocalizedLabel?.Label ?? Metadata?.LogicalName;
+        public string DisplayName => (IsRequired ? "* " : "") + Metadata?.DisplayName?.UserLocalizedLabel?.Label ?? Metadata?.LogicalName;
 
         [DisplayName("Logical Name")]
         public string LogicalName => Metadata?.LogicalName;
@@ -213,13 +213,27 @@ namespace Rappen.XTB.LCG
 
         internal string Description => Metadata?.Description?.UserLocalizedLabel?.Label;
 
-        internal bool PrimaryId => Metadata?.IsPrimaryId.Value == true && Metadata?.IsLogical.Value == false;
-        internal bool PrimaryName => Metadata?.IsPrimaryName.Value == true;
+        internal bool IsPrimaryId => Metadata?.IsPrimaryId.Value == true && Metadata?.IsLogical.Value == false;
 
-        internal bool Required =>
+        internal bool IsPrimaryName => Metadata?.IsPrimaryName.Value == true;
+
+        internal bool IsPrimaryIdOrName => IsPrimaryId || IsPrimaryName;
+
+        internal bool IsCreatorOrModifier => LogicalName.StartsWith("created") || LogicalName.StartsWith("modified");
+
+        internal bool IsRequired =>
             (Metadata?.RequiredLevel?.Value == AttributeRequiredLevel.SystemRequired
              || Metadata?.RequiredLevel?.Value == AttributeRequiredLevel.ApplicationRequired)
             && string.IsNullOrEmpty(Metadata?.AttributeOf);
+
+        internal bool IsLogical =>
+            Metadata?.IsLogical == true ||
+            Metadata is MoneyAttributeMetadata && LogicalName.EndsWith("_base") ||
+            (!string.IsNullOrEmpty(Metadata.AttributeOf) &&
+             entity?.Attributes?.FirstOrDefault(a2 => a2.LogicalName == Metadata.AttributeOf) is AttributeMetadataProxy parentattr &&
+             parentattr.Type == AttributeTypeCode.Customer);
+
+        internal bool IsOwner => LogicalName.StartsWith("owner") || LogicalName.StartsWith("owning");
 
         internal EntityMetadataProxy Entity => entity;
 
@@ -288,12 +302,12 @@ namespace Rappen.XTB.LCG
         public int CompareTo(object y)
         {
             if (!(y is AttributeMetadataProxy yattr)) return -1;
-            if (PrimaryId && !yattr.PrimaryId) return -1;
-            if (yattr.PrimaryId && !PrimaryId) return 1;
-            if (PrimaryName && !yattr.PrimaryName) return -1;
-            if (yattr.PrimaryName && !PrimaryName) return 1;
-            if (Required && !yattr.Required) return -1;
-            if (yattr.Required && !Required) return 1;
+            if (IsPrimaryId && !yattr.IsPrimaryId) return -1;
+            if (yattr.IsPrimaryId && !IsPrimaryId) return 1;
+            if (IsPrimaryName && !yattr.IsPrimaryName) return -1;
+            if (yattr.IsPrimaryName && !IsPrimaryName) return 1;
+            if (IsRequired && !yattr.IsRequired) return -1;
+            if (yattr.IsRequired && !IsRequired) return 1;
             return Metadata?.ColumnNumber ?? 0 - yattr.Metadata?.ColumnNumber ?? 0;
         }
 

@@ -76,7 +76,10 @@
             this.rbEntSel = new System.Windows.Forms.RadioButton();
             this.rbEntAll = new System.Windows.Forms.RadioButton();
             this.chkEntShowUncountable = new System.Windows.Forms.CheckBox();
+            this.triEntManaged = new Rappen.XTB.Helpers.Controls.TriCheckBox();
             this.chkEntExclMS = new System.Windows.Forms.CheckBox();
+            this.triEntCustom = new Rappen.XTB.Helpers.Controls.TriCheckBox();
+            this.triEntRecords = new Rappen.XTB.Helpers.Controls.TriCheckBox();
             this.chkEntExclIntersect = new System.Windows.Forms.CheckBox();
             this.llEntityExpander = new System.Windows.Forms.LinkLabel();
             this.pnEntSearch = new System.Windows.Forms.Panel();
@@ -103,9 +106,17 @@
             this.label2 = new System.Windows.Forms.Label();
             this.llAttributeExpander = new System.Windows.Forms.LinkLabel();
             this.pnAttCustom = new System.Windows.Forms.Panel();
+            this.chkAttViews = new System.Windows.Forms.CheckBox();
+            this.chkAttForms = new System.Windows.Forms.CheckBox();
             this.picAttReloadRecords = new System.Windows.Forms.PictureBox();
+            this.triAttRequired = new Rappen.XTB.Helpers.Controls.TriCheckBox();
+            this.triAttManaged = new Rappen.XTB.Helpers.Controls.TriCheckBox();
             this.chkAttUniques = new System.Windows.Forms.CheckBox();
+            this.triAttLogical = new Rappen.XTB.Helpers.Controls.TriCheckBox();
+            this.triAttInternal = new Rappen.XTB.Helpers.Controls.TriCheckBox();
+            this.triAttCustom = new Rappen.XTB.Helpers.Controls.TriCheckBox();
             this.chkAttUsed = new System.Windows.Forms.CheckBox();
+            this.triAttPrimaryKeyName = new Rappen.XTB.Helpers.Controls.TriCheckBox();
             this.chkAttExclCreMod = new System.Windows.Forms.CheckBox();
             this.chkAttExclOwners = new System.Windows.Forms.CheckBox();
             this.pnRelationshipGrid = new System.Windows.Forms.Panel();
@@ -115,6 +126,8 @@
             this.toolStripDropDownButton3 = new System.Windows.Forms.ToolStripDropDownButton();
             this.chkRelCheckAll = new System.Windows.Forms.ToolStripMenuItem();
             this.chkRelRemoveWhenUncheckedEntity = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.chkRelIncludeColumns = new System.Windows.Forms.ToolStripMenuItem();
             this.btnRelSelectAllVisible = new System.Windows.Forms.ToolStripButton();
             this.btnRelUnselectAll = new System.Windows.Forms.ToolStripButton();
             this.btnRelShowAll = new System.Windows.Forms.ToolStripButton();
@@ -132,10 +145,12 @@
             this.chkRelExclDupRecords = new System.Windows.Forms.CheckBox();
             this.chkRelNN = new System.Windows.Forms.CheckBox();
             this.chkRelExclCreMod = new System.Windows.Forms.CheckBox();
+            this.triRelManaged = new Rappen.XTB.Helpers.Controls.TriCheckBox();
             this.chkRelExclRegarding = new System.Windows.Forms.CheckBox();
             this.chkRelExclOwners = new System.Windows.Forms.CheckBox();
             this.chkRelN1 = new System.Windows.Forms.CheckBox();
             this.chkRelExclOrphans = new System.Windows.Forms.CheckBox();
+            this.triRelCustom = new Rappen.XTB.Helpers.Controls.TriCheckBox();
             this.chkRel1N = new System.Windows.Forms.CheckBox();
             this.llRelationshipExpander = new System.Windows.Forms.LinkLabel();
             this.tmEntSearch = new System.Windows.Forms.Timer(this.components);
@@ -145,19 +160,6 @@
             this.tmRelSearch = new System.Windows.Forms.Timer(this.components);
             this.tmHideNotification = new System.Windows.Forms.Timer(this.components);
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.chkRelIncludeColumns = new System.Windows.Forms.ToolStripMenuItem();
-            this.triEntManaged = new Rappen.XTB.Helpers.Controls.TriCheckBox();
-            this.triEntCustom = new Rappen.XTB.Helpers.Controls.TriCheckBox();
-            this.triEntRecords = new Rappen.XTB.Helpers.Controls.TriCheckBox();
-            this.triAttRequired = new Rappen.XTB.Helpers.Controls.TriCheckBox();
-            this.triAttManaged = new Rappen.XTB.Helpers.Controls.TriCheckBox();
-            this.triAttLogical = new Rappen.XTB.Helpers.Controls.TriCheckBox();
-            this.triAttInternal = new Rappen.XTB.Helpers.Controls.TriCheckBox();
-            this.triAttCustom = new Rappen.XTB.Helpers.Controls.TriCheckBox();
-            this.triAttPrimaryKeyName = new Rappen.XTB.Helpers.Controls.TriCheckBox();
-            this.triRelManaged = new Rappen.XTB.Helpers.Controls.TriCheckBox();
-            this.triRelCustom = new Rappen.XTB.Helpers.Controls.TriCheckBox();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitEntityRest)).BeginInit();
             this.splitEntityRest.Panel1.SuspendLayout();
@@ -709,6 +711,23 @@
             this.chkEntShowUncountable.UseVisualStyleBackColor = true;
             this.chkEntShowUncountable.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
+            // triEntManaged
+            // 
+            this.triEntManaged.AutoSize = true;
+            this.triEntManaged.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.triEntManaged.Location = new System.Drawing.Point(12, 24);
+            this.triEntManaged.Name = "triEntManaged";
+            this.triEntManaged.Size = new System.Drawing.Size(204, 17);
+            this.triEntManaged.TabIndex = 20;
+            this.triEntManaged.Text = "Show both managed and unmanaged";
+            this.triEntManaged.TextChecked = "Show both managed and unmanaged";
+            this.triEntManaged.TextIndeterminate = "Only unmanaged tables";
+            this.triEntManaged.TextUnchecked = "Only managed tables";
+            this.toolTip1.SetToolTip(this.triEntManaged, "Click to flip beween all option, only unmanaged entities, only managed entities.\r" +
+        "\nFiltered by metadata property: IsManaged");
+            this.triEntManaged.UseVisualStyleBackColor = true;
+            this.triEntManaged.CheckStateChanged += new System.EventHandler(this.filter_entity_Changed);
+            // 
             // chkEntExclMS
             // 
             this.chkEntExclMS.AutoSize = true;
@@ -720,6 +739,38 @@
             this.toolTip1.SetToolTip(this.chkEntExclMS, "Will not include with prefix...");
             this.chkEntExclMS.UseVisualStyleBackColor = true;
             this.chkEntExclMS.CheckedChanged += new System.EventHandler(this.filter_entity_Changed);
+            // 
+            // triEntCustom
+            // 
+            this.triEntCustom.AutoSize = true;
+            this.triEntCustom.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.triEntCustom.Location = new System.Drawing.Point(12, 6);
+            this.triEntCustom.Name = "triEntCustom";
+            this.triEntCustom.Size = new System.Drawing.Size(198, 17);
+            this.triEntCustom.TabIndex = 10;
+            this.triEntCustom.Text = "Show both customized and standard";
+            this.triEntCustom.TextChecked = "Show both customized and standard";
+            this.triEntCustom.TextIndeterminate = "Only custom tables";
+            this.triEntCustom.TextUnchecked = "Only core tables";
+            this.toolTip1.SetToolTip(this.triEntCustom, "Click to flip beween all option, only system entities, only customized entities.\r" +
+        "\nFiltered by metadata property: IsCustomEntity");
+            this.triEntCustom.UseVisualStyleBackColor = true;
+            this.triEntCustom.CheckStateChanged += new System.EventHandler(this.filter_entity_Changed);
+            // 
+            // triEntRecords
+            // 
+            this.triEntRecords.AutoSize = true;
+            this.triEntRecords.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.triEntRecords.Location = new System.Drawing.Point(12, 60);
+            this.triEntRecords.Name = "triEntRecords";
+            this.triEntRecords.Size = new System.Drawing.Size(152, 17);
+            this.triEntRecords.TabIndex = 50;
+            this.triEntRecords.Text = "Ignoring number of records";
+            this.triEntRecords.TextChecked = "Ignoring number of records";
+            this.triEntRecords.TextIndeterminate = "Only tables with records";
+            this.triEntRecords.TextUnchecked = "Only empty tables";
+            this.triEntRecords.UseVisualStyleBackColor = true;
+            this.triEntRecords.CheckStateChanged += new System.EventHandler(this.filter_entity_Changed);
             // 
             // chkEntExclIntersect
             // 
@@ -1012,6 +1063,8 @@
             // 
             // pnAttCustom
             // 
+            this.pnAttCustom.Controls.Add(this.chkAttViews);
+            this.pnAttCustom.Controls.Add(this.chkAttForms);
             this.pnAttCustom.Controls.Add(this.picAttReloadRecords);
             this.pnAttCustom.Controls.Add(this.triAttRequired);
             this.pnAttCustom.Controls.Add(this.triAttManaged);
@@ -1029,6 +1082,28 @@
             this.pnAttCustom.Size = new System.Drawing.Size(326, 115);
             this.pnAttCustom.TabIndex = 2;
             // 
+            // chkAttViews
+            // 
+            this.chkAttViews.AutoSize = true;
+            this.chkAttViews.Location = new System.Drawing.Point(162, 24);
+            this.chkAttViews.Name = "chkAttViews";
+            this.chkAttViews.Size = new System.Drawing.Size(93, 17);
+            this.chkAttViews.TabIndex = 26;
+            this.chkAttViews.Text = "Only on Views";
+            this.chkAttViews.UseVisualStyleBackColor = true;
+            this.chkAttViews.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
+            // 
+            // chkAttForms
+            // 
+            this.chkAttForms.AutoSize = true;
+            this.chkAttForms.Location = new System.Drawing.Point(12, 24);
+            this.chkAttForms.Name = "chkAttForms";
+            this.chkAttForms.Size = new System.Drawing.Size(93, 17);
+            this.chkAttForms.TabIndex = 24;
+            this.chkAttForms.Text = "Only on Forms";
+            this.chkAttForms.UseVisualStyleBackColor = true;
+            this.chkAttForms.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
+            // 
             // picAttReloadRecords
             // 
             this.picAttReloadRecords.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -1043,6 +1118,39 @@
             this.toolTip1.SetToolTip(this.picAttReloadRecords, "Reloading record datas");
             this.picAttReloadRecords.Click += new System.EventHandler(this.picAttReloadRecords_Click);
             // 
+            // triAttRequired
+            // 
+            this.triAttRequired.AutoSize = true;
+            this.triAttRequired.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.triAttRequired.Location = new System.Drawing.Point(162, 42);
+            this.triAttRequired.Name = "triAttRequired";
+            this.triAttRequired.Size = new System.Drawing.Size(147, 17);
+            this.triAttRequired.TabIndex = 50;
+            this.triAttRequired.Text = "Ignoring requirement level";
+            this.triAttRequired.TextChecked = "Ignoring requirement level";
+            this.triAttRequired.TextIndeterminate = "Only required";
+            this.triAttRequired.TextUnchecked = "Only not required";
+            this.toolTip1.SetToolTip(this.triAttRequired, "Show columns based on Requirement level.");
+            this.triAttRequired.UseVisualStyleBackColor = true;
+            this.triAttRequired.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
+            // 
+            // triAttManaged
+            // 
+            this.triAttManaged.AutoSize = true;
+            this.triAttManaged.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.triAttManaged.Location = new System.Drawing.Point(162, 6);
+            this.triAttManaged.Name = "triAttManaged";
+            this.triAttManaged.Size = new System.Drawing.Size(141, 17);
+            this.triAttManaged.TabIndex = 20;
+            this.triAttManaged.Text = "Managed && Unmanaged";
+            this.triAttManaged.TextChecked = "Managed && Unmanaged";
+            this.triAttManaged.TextIndeterminate = "Only unmanaged columns";
+            this.triAttManaged.TextUnchecked = "Only managed columns";
+            this.toolTip1.SetToolTip(this.triAttManaged, "Click to flip beween all option, only unmanaged attributes, only managed attribut" +
+        "es.\r\nFiltered by metadata property: IsManaged");
+            this.triAttManaged.UseVisualStyleBackColor = true;
+            this.triAttManaged.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
+            // 
             // chkAttUniques
             // 
             this.chkAttUniques.AutoSize = true;
@@ -1055,6 +1163,53 @@
             this.chkAttUniques.UseVisualStyleBackColor = true;
             this.chkAttUniques.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
+            // triAttLogical
+            // 
+            this.triAttLogical.AutoSize = true;
+            this.triAttLogical.Location = new System.Drawing.Point(12, 60);
+            this.triAttLogical.Name = "triAttLogical";
+            this.triAttLogical.Size = new System.Drawing.Size(76, 17);
+            this.triAttLogical.TabIndex = 60;
+            this.triAttLogical.Text = "Not logical";
+            this.triAttLogical.TextChecked = "Ignoring logical flag";
+            this.triAttLogical.TextIndeterminate = "Only logical";
+            this.triAttLogical.TextUnchecked = "Not logical";
+            this.toolTip1.SetToolTip(this.triAttLogical, "Show regarding on IsLogical metadata.");
+            this.triAttLogical.UseVisualStyleBackColor = true;
+            this.triAttLogical.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
+            // 
+            // triAttInternal
+            // 
+            this.triAttInternal.AutoSize = true;
+            this.triAttInternal.Location = new System.Drawing.Point(162, 60);
+            this.triAttInternal.Name = "triAttInternal";
+            this.triAttInternal.Size = new System.Drawing.Size(80, 17);
+            this.triAttInternal.TabIndex = 70;
+            this.triAttInternal.Text = "Not internal";
+            this.triAttInternal.TextChecked = "Ignoring internal flag";
+            this.triAttInternal.TextIndeterminate = "Only internal";
+            this.triAttInternal.TextUnchecked = "Not internal";
+            this.toolTip1.SetToolTip(this.triAttInternal, "Show regarding on Jonas\' thoughts on what are only internal attributes.\r\n");
+            this.triAttInternal.UseVisualStyleBackColor = true;
+            this.triAttInternal.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
+            // 
+            // triAttCustom
+            // 
+            this.triAttCustom.AutoSize = true;
+            this.triAttCustom.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.triAttCustom.Location = new System.Drawing.Point(12, 6);
+            this.triAttCustom.Name = "triAttCustom";
+            this.triAttCustom.Size = new System.Drawing.Size(135, 17);
+            this.triAttCustom.TabIndex = 10;
+            this.triAttCustom.Text = "Customized && Standard";
+            this.triAttCustom.TextChecked = "Customized && Standard";
+            this.triAttCustom.TextIndeterminate = "Only custom columns";
+            this.triAttCustom.TextUnchecked = "Only core columns";
+            this.toolTip1.SetToolTip(this.triAttCustom, "Click to flip beween all option, only system attributes, only customized attribut" +
+        "es.\r\nFiltering by metadata property: IsCustomAttribute");
+            this.triAttCustom.UseVisualStyleBackColor = true;
+            this.triAttCustom.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
+            // 
             // chkAttUsed
             // 
             this.chkAttUsed.AutoSize = true;
@@ -1065,6 +1220,22 @@
             this.chkAttUsed.Text = "Column has data";
             this.chkAttUsed.UseVisualStyleBackColor = true;
             this.chkAttUsed.CheckedChanged += new System.EventHandler(this.filter_attribute_Changed);
+            // 
+            // triAttPrimaryKeyName
+            // 
+            this.triAttPrimaryKeyName.AutoSize = true;
+            this.triAttPrimaryKeyName.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.triAttPrimaryKeyName.Location = new System.Drawing.Point(12, 42);
+            this.triAttPrimaryKeyName.Name = "triAttPrimaryKeyName";
+            this.triAttPrimaryKeyName.Size = new System.Drawing.Size(106, 17);
+            this.triAttPrimaryKeyName.TabIndex = 30;
+            this.triAttPrimaryKeyName.Text = "Include Id/Name";
+            this.triAttPrimaryKeyName.TextChecked = "Include Id/Name";
+            this.triAttPrimaryKeyName.TextIndeterminate = "Only Id/Name";
+            this.triAttPrimaryKeyName.TextUnchecked = "No Id/Name";
+            this.toolTip1.SetToolTip(this.triAttPrimaryKeyName, "Show or not PrimaryKey and PrimaryName.");
+            this.triAttPrimaryKeyName.UseVisualStyleBackColor = true;
+            this.triAttPrimaryKeyName.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
             // 
             // chkAttExclCreMod
             // 
@@ -1175,6 +1346,20 @@
             this.chkRelRemoveWhenUncheckedEntity.Text = "Remove related unchecked tables";
             this.chkRelRemoveWhenUncheckedEntity.ToolTipText = "Remove/uncheck all relationships when the\r\ntable is removed/unchecked to make sur" +
     "e\r\nwe don\'t have any orphan relationships.";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(274, 6);
+            // 
+            // chkRelIncludeColumns
+            // 
+            this.chkRelIncludeColumns.CheckOnClick = true;
+            this.chkRelIncludeColumns.Name = "chkRelIncludeColumns";
+            this.chkRelIncludeColumns.Size = new System.Drawing.Size(277, 22);
+            this.chkRelIncludeColumns.Text = "Include primary id and lookup column";
+            this.chkRelIncludeColumns.ToolTipText = "If this option is checked, it will make sure\r\nthat the two columns in this relati" +
+    "onship are\r\nincluded/checked.";
             // 
             // btnRelSelectAllVisible
             // 
@@ -1362,6 +1547,23 @@
             this.chkRelExclCreMod.UseVisualStyleBackColor = true;
             this.chkRelExclCreMod.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
+            // triRelManaged
+            // 
+            this.triRelManaged.AutoSize = true;
+            this.triRelManaged.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.triRelManaged.Location = new System.Drawing.Point(12, 24);
+            this.triRelManaged.Name = "triRelManaged";
+            this.triRelManaged.Size = new System.Drawing.Size(204, 17);
+            this.triRelManaged.TabIndex = 20;
+            this.triRelManaged.Text = "Show both managed and unmanaged";
+            this.triRelManaged.TextChecked = "Show both managed and unmanaged";
+            this.triRelManaged.TextIndeterminate = "Only unmanaged relationships";
+            this.triRelManaged.TextUnchecked = "Only managed relationships";
+            this.toolTip1.SetToolTip(this.triRelManaged, "Click to flip beween all option, only unmanaged relationships, only managed relat" +
+        "ionships.\r\nFiltered by metadata property: IsManaged");
+            this.triRelManaged.UseVisualStyleBackColor = true;
+            this.triRelManaged.CheckStateChanged += new System.EventHandler(this.filter_relationship_Changed);
+            // 
             // chkRelExclRegarding
             // 
             this.chkRelExclRegarding.AutoSize = true;
@@ -1408,6 +1610,23 @@
             this.toolTip1.SetToolTip(this.chkRelExclOrphans, "Relationships where the \"other\" entity is not selected");
             this.chkRelExclOrphans.UseVisualStyleBackColor = true;
             this.chkRelExclOrphans.CheckedChanged += new System.EventHandler(this.filter_relationship_Changed);
+            // 
+            // triRelCustom
+            // 
+            this.triRelCustom.AutoSize = true;
+            this.triRelCustom.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.triRelCustom.Location = new System.Drawing.Point(12, 6);
+            this.triRelCustom.Name = "triRelCustom";
+            this.triRelCustom.Size = new System.Drawing.Size(198, 17);
+            this.triRelCustom.TabIndex = 10;
+            this.triRelCustom.Text = "Show both customized and standard";
+            this.triRelCustom.TextChecked = "Show both customized and standard";
+            this.triRelCustom.TextIndeterminate = "Only custom relationships";
+            this.triRelCustom.TextUnchecked = "Only core relationships";
+            this.toolTip1.SetToolTip(this.triRelCustom, "Click to flip beween all option, only system relationships, only customized relat" +
+        "ionships.\r\nFiltering by metadata property: IsCustomAttribute");
+            this.triRelCustom.UseVisualStyleBackColor = true;
+            this.triRelCustom.CheckStateChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
             // chkRel1N
             // 
@@ -1460,208 +1679,6 @@
             // 
             this.tmHideNotification.Interval = 5000;
             this.tmHideNotification.Tick += new System.EventHandler(this.tmHideNotification_Tick);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(274, 6);
-            // 
-            // chkRelIncludeColumns
-            // 
-            this.chkRelIncludeColumns.CheckOnClick = true;
-            this.chkRelIncludeColumns.Name = "chkRelIncludeColumns";
-            this.chkRelIncludeColumns.Size = new System.Drawing.Size(277, 22);
-            this.chkRelIncludeColumns.Text = "Include primary id and lookup column";
-            this.chkRelIncludeColumns.ToolTipText = "If this option is checked, it will make sure\r\nthat the two columns in this relati" +
-    "onship are\r\nincluded/checked.";
-            // 
-            // triEntManaged
-            // 
-            this.triEntManaged.AutoSize = true;
-            this.triEntManaged.Checked = true;
-            this.triEntManaged.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.triEntManaged.Location = new System.Drawing.Point(12, 24);
-            this.triEntManaged.Name = "triEntManaged";
-            this.triEntManaged.Size = new System.Drawing.Size(204, 17);
-            this.triEntManaged.TabIndex = 20;
-            this.triEntManaged.Text = "Show both managed and unmanaged";
-            this.triEntManaged.TextChecked = "Show both managed and unmanaged";
-            this.triEntManaged.TextIndeterminate = "Only unmanaged tables";
-            this.triEntManaged.TextUnchecked = "Only managed tables";
-            this.toolTip1.SetToolTip(this.triEntManaged, "Click to flip beween all option, only unmanaged entities, only managed entities.\r" +
-        "\nFiltered by metadata property: IsManaged");
-            this.triEntManaged.UseVisualStyleBackColor = true;
-            this.triEntManaged.CheckStateChanged += new System.EventHandler(this.filter_entity_Changed);
-            // 
-            // triEntCustom
-            // 
-            this.triEntCustom.AutoSize = true;
-            this.triEntCustom.Checked = true;
-            this.triEntCustom.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.triEntCustom.Location = new System.Drawing.Point(12, 6);
-            this.triEntCustom.Name = "triEntCustom";
-            this.triEntCustom.Size = new System.Drawing.Size(198, 17);
-            this.triEntCustom.TabIndex = 10;
-            this.triEntCustom.Text = "Show both customized and standard";
-            this.triEntCustom.TextChecked = "Show both customized and standard";
-            this.triEntCustom.TextIndeterminate = "Only custom tables";
-            this.triEntCustom.TextUnchecked = "Only core tables";
-            this.toolTip1.SetToolTip(this.triEntCustom, "Click to flip beween all option, only system entities, only customized entities.\r" +
-        "\nFiltered by metadata property: IsCustomEntity");
-            this.triEntCustom.UseVisualStyleBackColor = true;
-            this.triEntCustom.CheckStateChanged += new System.EventHandler(this.filter_entity_Changed);
-            // 
-            // triEntRecords
-            // 
-            this.triEntRecords.AutoSize = true;
-            this.triEntRecords.Checked = true;
-            this.triEntRecords.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.triEntRecords.Location = new System.Drawing.Point(12, 60);
-            this.triEntRecords.Name = "triEntRecords";
-            this.triEntRecords.Size = new System.Drawing.Size(152, 17);
-            this.triEntRecords.TabIndex = 50;
-            this.triEntRecords.Text = "Ignoring number of records";
-            this.triEntRecords.TextChecked = "Ignoring number of records";
-            this.triEntRecords.TextIndeterminate = "Only tables with records";
-            this.triEntRecords.TextUnchecked = "Only empty tables";
-            this.triEntRecords.UseVisualStyleBackColor = true;
-            this.triEntRecords.CheckStateChanged += new System.EventHandler(this.filter_entity_Changed);
-            // 
-            // triAttRequired
-            // 
-            this.triAttRequired.AutoSize = true;
-            this.triAttRequired.Checked = true;
-            this.triAttRequired.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.triAttRequired.Location = new System.Drawing.Point(162, 42);
-            this.triAttRequired.Name = "triAttRequired";
-            this.triAttRequired.Size = new System.Drawing.Size(147, 17);
-            this.triAttRequired.TabIndex = 50;
-            this.triAttRequired.Text = "Ignoring requirement level";
-            this.triAttRequired.TextChecked = "Ignoring requirement level";
-            this.triAttRequired.TextIndeterminate = "Only required";
-            this.triAttRequired.TextUnchecked = "Only not required";
-            this.toolTip1.SetToolTip(this.triAttRequired, "Show columns based on Requirement level.");
-            this.triAttRequired.UseVisualStyleBackColor = true;
-            this.triAttRequired.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
-            // 
-            // triAttManaged
-            // 
-            this.triAttManaged.AutoSize = true;
-            this.triAttManaged.Checked = true;
-            this.triAttManaged.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.triAttManaged.Location = new System.Drawing.Point(12, 24);
-            this.triAttManaged.Name = "triAttManaged";
-            this.triAttManaged.Size = new System.Drawing.Size(204, 17);
-            this.triAttManaged.TabIndex = 20;
-            this.triAttManaged.Text = "Show both managed and unmanaged";
-            this.triAttManaged.TextChecked = "Show both managed and unmanaged";
-            this.triAttManaged.TextIndeterminate = "Only unmanaged columns";
-            this.triAttManaged.TextUnchecked = "Only managed columns";
-            this.toolTip1.SetToolTip(this.triAttManaged, "Click to flip beween all option, only unmanaged attributes, only managed attribut" +
-        "es.\r\nFiltered by metadata property: IsManaged");
-            this.triAttManaged.UseVisualStyleBackColor = true;
-            this.triAttManaged.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
-            // 
-            // triAttLogical
-            // 
-            this.triAttLogical.AutoSize = true;
-            this.triAttLogical.Location = new System.Drawing.Point(12, 60);
-            this.triAttLogical.Name = "triAttLogical";
-            this.triAttLogical.Size = new System.Drawing.Size(76, 17);
-            this.triAttLogical.TabIndex = 60;
-            this.triAttLogical.Text = "Not logical";
-            this.triAttLogical.TextChecked = "Ignoring logical flag";
-            this.triAttLogical.TextIndeterminate = "Only logical";
-            this.triAttLogical.TextUnchecked = "Not logical";
-            this.toolTip1.SetToolTip(this.triAttLogical, "Show regarding on IsLogical metadata.");
-            this.triAttLogical.UseVisualStyleBackColor = true;
-            this.triAttLogical.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
-            // 
-            // triAttInternal
-            // 
-            this.triAttInternal.AutoSize = true;
-            this.triAttInternal.Location = new System.Drawing.Point(162, 60);
-            this.triAttInternal.Name = "triAttInternal";
-            this.triAttInternal.Size = new System.Drawing.Size(80, 17);
-            this.triAttInternal.TabIndex = 70;
-            this.triAttInternal.Text = "Not internal";
-            this.triAttInternal.TextChecked = "Ignoring internal flag";
-            this.triAttInternal.TextIndeterminate = "Only internal";
-            this.triAttInternal.TextUnchecked = "Not internal";
-            this.toolTip1.SetToolTip(this.triAttInternal, "Show regarding on Jonas\' thoughts on what are only internal attributes.\r\n");
-            this.triAttInternal.UseVisualStyleBackColor = true;
-            this.triAttInternal.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
-            // 
-            // triAttCustom
-            // 
-            this.triAttCustom.AutoSize = true;
-            this.triAttCustom.Checked = true;
-            this.triAttCustom.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.triAttCustom.Location = new System.Drawing.Point(12, 6);
-            this.triAttCustom.Name = "triAttCustom";
-            this.triAttCustom.Size = new System.Drawing.Size(198, 17);
-            this.triAttCustom.TabIndex = 10;
-            this.triAttCustom.Text = "Show both customized and standard";
-            this.triAttCustom.TextChecked = "Show both customized and standard";
-            this.triAttCustom.TextIndeterminate = "Only custom columns";
-            this.triAttCustom.TextUnchecked = "Only core columns";
-            this.toolTip1.SetToolTip(this.triAttCustom, "Click to flip beween all option, only system attributes, only customized attribut" +
-        "es.\r\nFiltering by metadata property: IsCustomAttribute");
-            this.triAttCustom.UseVisualStyleBackColor = true;
-            this.triAttCustom.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
-            // 
-            // triAttPrimaryKeyName
-            // 
-            this.triAttPrimaryKeyName.AutoSize = true;
-            this.triAttPrimaryKeyName.Checked = true;
-            this.triAttPrimaryKeyName.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.triAttPrimaryKeyName.Location = new System.Drawing.Point(12, 42);
-            this.triAttPrimaryKeyName.Name = "triAttPrimaryKeyName";
-            this.triAttPrimaryKeyName.Size = new System.Drawing.Size(106, 17);
-            this.triAttPrimaryKeyName.TabIndex = 30;
-            this.triAttPrimaryKeyName.Text = "Include Id/Name";
-            this.triAttPrimaryKeyName.TextChecked = "Include Id/Name";
-            this.triAttPrimaryKeyName.TextIndeterminate = "Only Id/Name";
-            this.triAttPrimaryKeyName.TextUnchecked = "No Id/Name";
-            this.toolTip1.SetToolTip(this.triAttPrimaryKeyName, "Show or not PrimaryKey and PrimaryName.");
-            this.triAttPrimaryKeyName.UseVisualStyleBackColor = true;
-            this.triAttPrimaryKeyName.CheckStateChanged += new System.EventHandler(this.filter_attribute_Changed);
-            // 
-            // triRelManaged
-            // 
-            this.triRelManaged.AutoSize = true;
-            this.triRelManaged.Checked = true;
-            this.triRelManaged.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.triRelManaged.Location = new System.Drawing.Point(12, 24);
-            this.triRelManaged.Name = "triRelManaged";
-            this.triRelManaged.Size = new System.Drawing.Size(204, 17);
-            this.triRelManaged.TabIndex = 20;
-            this.triRelManaged.Text = "Show both managed and unmanaged";
-            this.triRelManaged.TextChecked = "Show both managed and unmanaged";
-            this.triRelManaged.TextIndeterminate = "Only unmanaged relationships";
-            this.triRelManaged.TextUnchecked = "Only managed relationships";
-            this.toolTip1.SetToolTip(this.triRelManaged, "Click to flip beween all option, only unmanaged relationships, only managed relat" +
-        "ionships.\r\nFiltered by metadata property: IsManaged");
-            this.triRelManaged.UseVisualStyleBackColor = true;
-            this.triRelManaged.CheckStateChanged += new System.EventHandler(this.filter_relationship_Changed);
-            // 
-            // triRelCustom
-            // 
-            this.triRelCustom.AutoSize = true;
-            this.triRelCustom.Checked = true;
-            this.triRelCustom.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.triRelCustom.Location = new System.Drawing.Point(12, 6);
-            this.triRelCustom.Name = "triRelCustom";
-            this.triRelCustom.Size = new System.Drawing.Size(198, 17);
-            this.triRelCustom.TabIndex = 10;
-            this.triRelCustom.Text = "Show both customized and standard";
-            this.triRelCustom.TextChecked = "Show both customized and standard";
-            this.triRelCustom.TextIndeterminate = "Only custom relationships";
-            this.triRelCustom.TextUnchecked = "Only core relationships";
-            this.toolTip1.SetToolTip(this.triRelCustom, "Click to flip beween all option, only system relationships, only customized relat" +
-        "ionships.\r\nFiltering by metadata property: IsCustomAttribute");
-            this.triRelCustom.UseVisualStyleBackColor = true;
-            this.triRelCustom.CheckStateChanged += new System.EventHandler(this.filter_relationship_Changed);
             // 
             // LCG
             // 
@@ -1871,5 +1888,7 @@
         private System.Windows.Forms.RadioButton rbEntAll;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem chkRelIncludeColumns;
+        private System.Windows.Forms.CheckBox chkAttViews;
+        private System.Windows.Forms.CheckBox chkAttForms;
     }
 }
