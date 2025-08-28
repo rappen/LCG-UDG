@@ -20,7 +20,7 @@ Go read the Release Notes: https://jonasr.app/UML/releases
 		<copyright>Copyright 2020-2025 Jonas Rapp</copyright>
 		<tags>XrmToolBox Plugins UMLDiagramGenerator</tags>
 		<dependencies>
-			<dependency id="XrmToolBox" version="1.2023.10.67" />
+			<dependency id="XrmToolBox" version="1.2025.7.71" />
 		</dependencies>
 	</metadata>
 	<files>

@@ -17,7 +17,7 @@ Release Notes: https://jonasr.app/LCG/releases
 		<copyright>Copyright 2017-2025 Jonas Rapp</copyright>
 		<tags>XrmToolBox Plugins LateboundConstantsGenerator</tags>
 		<dependencies>
-			<dependency id="XrmToolBox" version="1.2023.10.67" />
+			<dependency id="XrmToolBox" version="1.2025.7.71" />
 		</dependencies>
 	</metadata>
 	<files>
