@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using System.Linq;
 using XrmToolBox.Extensibility;
 using XrmToolBox.Extensibility.Interfaces;
 
@@ -16,7 +17,20 @@ namespace Rappen.XTB.LCG
     {
         public override IXrmToolBoxPluginControl GetControl()
         {
-            return new LCG(true);
+            var tool = new LCG(true);
+            tool.SaveImageFromBase64(
+                tool.IconBigPath,
+                GetType()
+                .GetCustomAttributes(typeof(ExportMetadataAttribute), false)
+                .OfType<ExportMetadataAttribute>()
+                .FirstOrDefault(a => a.Name == "BigImageBase64")?.Value as string);
+            tool.SaveImageFromBase64(
+                tool.IconSmallPath,
+                GetType()
+                .GetCustomAttributes(typeof(ExportMetadataAttribute), false)
+                .OfType<ExportMetadataAttribute>()
+                .FirstOrDefault(a => a.Name == "SmallImageBase64")?.Value as string);
+            return tool;
         }
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.Xrm.Sdk.Query;
 using Rappen.XRM.Helpers.Extensions;
 using Rappen.XTB.Helper;
 using Rappen.XTB.Helpers;
+using Rappen.XTB.Helpers.RappXTB;
 using Rappen.XTB.LCG.Properties;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ using XrmToolBox.Extensibility.Interfaces;
 
 namespace Rappen.XTB.LCG
 {
-    public partial class LCG : PluginControlBase, IGitHubPlugin, IPayPalPlugin, IAboutPlugin, IHelpPlugin, IMessageBusHost
+    public partial class LCG : RappPluginControlBase, IGitHubPlugin, IPayPalPlugin, IAboutPlugin, IHelpPlugin, IMessageBusHost
     {
         #region Private Fields
 
@@ -57,10 +58,10 @@ namespace Rappen.XTB.LCG
 
         #region Interface implementations
 
-        public string DonationDescription => $"{toolname} Fan Club";
-        public string EmailAccount => "jonas@rappen.net";
-        public string RepositoryName => "LCG-UDG";
-        public string UserName => "rappen";
+        public new string DonationDescription => $"{toolname} Fan Club";
+        public new string EmailAccount => "jonas@rappen.net";
+        public new string RepositoryName => "LCG-UDG";
+        public new string UserName => "rappen";
 
         public string Version => Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
@@ -127,6 +128,7 @@ namespace Rappen.XTB.LCG
 
         #region Private Event Handlers
 
+        [Obsolete]
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             LogUse($"Generate {settings.UseCommonFile}");
@@ -160,6 +162,7 @@ namespace Rappen.XTB.LCG
             ExecuteMethod(LoadSolutions);
         }
 
+        [Obsolete]
         private void btnOpenGeneratedFile_Click(object sender, EventArgs e)
         {
             var filters = Settings.FileFilter(settings.TemplateFormat);
@@ -202,6 +205,7 @@ namespace Rappen.XTB.LCG
             FixFormForSettings();
         }
 
+        [Obsolete]
         private void btnSaveConfigAs_Click(object sender, EventArgs e)
         {
             if (sender == btnSaveConfigAs || string.IsNullOrWhiteSpace(settingsfile))
@@ -353,7 +357,7 @@ namespace Rappen.XTB.LCG
                 LoadCommonSettings();
             }
             LogUse("Load", ai2: true);
-            Supporting.ShowIf(this, false, true, ai2);
+            Supporting.ShowIf(this, ShowItFrom.Open, false, true);
             if (Supporting.IsEnabled(this))
             {
                 tsbSupporting.Visible = true;
@@ -431,6 +435,7 @@ namespace Rappen.XTB.LCG
             tmRelSearch.Start();
         }
 
+        [Obsolete]
         private void tmHideNotification_Tick(object sender, EventArgs e)
         {
             tmHideNotification.Stop();
@@ -534,7 +539,7 @@ namespace Rappen.XTB.LCG
 
         private void tsbSupporting_Click(object sender, EventArgs e)
         {
-            Supporting.ShowIf(this, true, false, ai2);
+            Supporting.ShowIf(this, ShowItFrom.Button, true, false);
         }
 
         private void cmbGroup_SelectedIndexChanged(object sender, EventArgs e)
@@ -610,13 +615,24 @@ namespace Rappen.XTB.LCG
 
         internal void LogUse(string action, bool ai1 = true, bool ai2 = false)
         {
-            if (ai1) this.ai1.WriteEvent(action);
-            if (ai2) this.ai2.WriteEvent(action);
+            if (ai1)
+            {
+                this.ai1.WriteEvent(action);
+            }
+
+            if (ai2)
+            {
+                this.ai2.WriteEvent(action);
+            }
         }
 
         private static void SelectAllRows(DataGridView grid, bool select, bool inclcolumns)
         {
-            if (grid == null) return;
+            if (grid == null)
+            {
+                return;
+            }
+
             grid.Rows
                 .Cast<DataGridViewRow>()
                 .Select(r => r.DataBoundItem)
@@ -625,9 +641,13 @@ namespace Rappen.XTB.LCG
                 .ForEach(m =>
                 {
                     if (m is RelationshipMetadataProxy rm)
+                    {
                         rm.SetSelected(select, true, inclcolumns);
+                    }
                     else
+                    {
                         m.SetSelected(select);
+                    }
                 });
         }
 
@@ -650,6 +670,7 @@ namespace Rappen.XTB.LCG
             }
         }
 
+        [Obsolete]
         private void ApplyEmbeddedConfiguration(string filename)
         {
             Settings inlineconfig = null;

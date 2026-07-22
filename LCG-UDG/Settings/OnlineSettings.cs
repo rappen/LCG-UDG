@@ -1,5 +1,4 @@
 ﻿using Rappen.XTB.Helpers;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using XrmToolBox.Extensibility;
@@ -10,7 +9,7 @@ namespace Rappen.XTB.LCG
     public class OnlineSettings
     {
         private const string FileName = "Rappen.XTB.LCG.Settings.xml";
-        private static readonly Uri ToolSettingsURLPath = new Uri("https://rappen.github.io/Tools/");
+        private static readonly string ToolSettingsURLPath = "https://rappen.github.io/Tools/";
         private static OnlineSettings instance;
 
         public int SettingsVersion = 1;
@@ -21,7 +20,7 @@ namespace Rappen.XTB.LCG
         public List<string> PlantUMLThemes = new List<string>();
         public List<string> Encodings = new List<string>();
 
-        private OnlineSettings()
+        public OnlineSettings()
         { }
 
         public static OnlineSettings Instance
@@ -30,7 +29,8 @@ namespace Rappen.XTB.LCG
             {
                 if (instance == null)
                 {
-                    instance = new Uri(ToolSettingsURLPath, FileName).DownloadXml<OnlineSettings>() ?? new OnlineSettings();
+                    var folder = Path.Combine(Paths.SettingsPath, "LCG-UDG");
+                    instance = XmlAtomicStore.DownloadXml<OnlineSettings>(ToolSettingsURLPath, FileName, folder);
                 }
                 return instance;
             }
