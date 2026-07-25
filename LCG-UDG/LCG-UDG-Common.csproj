@@ -92,6 +92,7 @@
     <Compile Include="About.designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="Constants\FileHeaderConstants.cs" />
     <Compile Include="EntityGroup.cs" />
     <Compile Include="Generation\FabienDehopreIdentifier.cs" />
     <Compile Include="Generation\UnicodeCharacterUtilities.cs" />
