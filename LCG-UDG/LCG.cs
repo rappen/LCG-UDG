@@ -6,6 +6,7 @@ using Microsoft.Xrm.Sdk.Query;
 using Rappen.XRM.Helpers.Extensions;
 using Rappen.XTB.Helper;
 using Rappen.XTB.Helpers;
+using Rappen.XTB.Helpers.Extensions;
 using Rappen.XTB.Helpers.RappXTB;
 using Rappen.XTB.LCG.Properties;
 using System;
@@ -33,12 +34,6 @@ namespace Rappen.XTB.LCG
         internal readonly TemplateFormat templFormat = TemplateFormat.Constants;
         internal readonly string toolname = toolnameLCG;
 
-        private const string aiEndpoint = "https://dc.services.visualstudio.com/v2/track";
-        private const string aiKey1 = "eed73022-2444-45fd-928b-5eebd8fa46a6";    // jonas@rappen.net tenant, XrmToolBox
-        private const string aiKey2 = "d46e9c12-ee8b-4b28-9643-dae62ae7d3d4";    // jonas@jonasr.app, XrmToolBoxTools
-        private readonly AppInsights ai1;
-        private readonly AppInsights ai2;
-
         private readonly string commonsettingsfile = "[Common]";
         private readonly string globalsettingsfile = "[Global]";
         private object checkedrow;
@@ -58,10 +53,7 @@ namespace Rappen.XTB.LCG
 
         #region Interface implementations
 
-        public new string DonationDescription => $"{toolname} Fan Club";
-        public new string EmailAccount => "jonas@rappen.net";
         public new string RepositoryName => "LCG-UDG";
-        public new string UserName => "rappen";
 
         public string Version => Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
@@ -87,9 +79,6 @@ namespace Rappen.XTB.LCG
         {
             toolname = isuml ? toolnameUDG : toolnameLCG;
             UrlUtils.TOOL_NAME = toolname.Replace(" ", "");
-
-            ai1 = new AppInsights(aiEndpoint, aiKey1, Assembly.GetExecutingAssembly(), toolname);
-            ai2 = new AppInsights(aiEndpoint, aiKey2, Assembly.GetExecutingAssembly(), toolname);
 
             IEnumerable<Control> GetAll(Control control, Type type)
             {
@@ -128,7 +117,6 @@ namespace Rappen.XTB.LCG
 
         #region Private Event Handlers
 
-        [Obsolete]
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             LogUse($"Generate {settings.UseCommonFile}");
@@ -144,13 +132,14 @@ namespace Rappen.XTB.LCG
                 var message = filewriter.GetResult(settings);
                 if (isUML)
                 {
-                    ShowInfoNotification(message + "\nClick \"learn more\" to the right to open file 👉", new Uri("file://" + settings.CommonFilePath));
+                    this.ShowFileLinkMessage(
+                        message,
+                        settings.CommonFilePath, 10000);
                 }
                 else
                 {
-                    ShowInfoNotification(message, null);
+                    this.ShowSuccessMessage(message, 10000);
                 }
-                tmHideNotification.Start();
             }
         }
 
@@ -162,7 +151,6 @@ namespace Rappen.XTB.LCG
             ExecuteMethod(LoadSolutions);
         }
 
-        [Obsolete]
         private void btnOpenGeneratedFile_Click(object sender, EventArgs e)
         {
             var filters = Settings.FileFilter(settings.TemplateFormat);
@@ -205,7 +193,6 @@ namespace Rappen.XTB.LCG
             FixFormForSettings();
         }
 
-        [Obsolete]
         private void btnSaveConfigAs_Click(object sender, EventArgs e)
         {
             if (sender == btnSaveConfigAs || string.IsNullOrWhiteSpace(settingsfile))
@@ -226,8 +213,7 @@ namespace Rappen.XTB.LCG
             GetSelectionFromUI();
             settings.Version = Version;
             XmlSerializerHelper.SerializeToFile(settings, settingsfile);
-            ShowInfoNotification($"Saved project as: {settingsfile}", null);
-            tmHideNotification.Start();
+            this.ShowSuccessMessage($"Saved project as: {settingsfile}", 10000);
         }
 
         private void chkAllRows_CheckedChanged(object sender, EventArgs e)
@@ -356,7 +342,7 @@ namespace Rappen.XTB.LCG
             {
                 LoadCommonSettings();
             }
-            LogUse("Load", ai2: true);
+            LogUse("Load", newAppInsights: true);
             Supporting.ShowIf(this, ShowItFrom.Open, false, true);
             if (Supporting.IsEnabled(this))
             {
@@ -433,13 +419,6 @@ namespace Rappen.XTB.LCG
         {
             tmRelSearch.Stop();
             tmRelSearch.Start();
-        }
-
-        [Obsolete]
-        private void tmHideNotification_Tick(object sender, EventArgs e)
-        {
-            tmHideNotification.Stop();
-            HideNotification();
         }
 
         private void picAttReloadRecords_Click(object sender, EventArgs e)
@@ -613,19 +592,6 @@ namespace Rappen.XTB.LCG
 
         #region Private Methods
 
-        internal void LogUse(string action, bool ai1 = true, bool ai2 = false)
-        {
-            if (ai1)
-            {
-                this.ai1.WriteEvent(action);
-            }
-
-            if (ai2)
-            {
-                this.ai2.WriteEvent(action);
-            }
-        }
-
         private static void SelectAllRows(DataGridView grid, bool select, bool inclcolumns)
         {
             if (grid == null)
@@ -670,14 +636,13 @@ namespace Rappen.XTB.LCG
             }
         }
 
-        [Obsolete]
         private void ApplyEmbeddedConfiguration(string filename)
         {
             Settings inlineconfig = null;
             try
             {
                 inlineconfig = ConfigurationUtils.GetEmbeddedConfiguration<Settings>(filename, settings.TemplateSettings.InlineConfigBegin, settings.TemplateSettings.InlineConfigEnd);
-                ShowInfoNotification("Loaded project embedded in file.", null);
+                this.ShowInfoMessage("Loaded project embedded in file.", 10000);
             }
             catch (FileLoadException ex1)
             {
@@ -688,7 +653,7 @@ namespace Rappen.XTB.LCG
                         var document = new XmlDocument();
                         document.Load(filename);
                         inlineconfig = (Settings)XmlSerializerHelper.Deserialize(document.OuterXml, typeof(Settings));
-                        ShowInfoNotification("Loaded project file.", null);
+                        this.ShowInfoMessage("Loaded project file.", 10000);
                     }
                     catch (Exception ex2)
                     {
@@ -711,7 +676,7 @@ namespace Rappen.XTB.LCG
             {
                 return;
             }
-            tmHideNotification.Start();
+
             settings.CopyInlineConfiguration(inlineconfig);
             ApplySettings();
             RestoreSelectedEntities();

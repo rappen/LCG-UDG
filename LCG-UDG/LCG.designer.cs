@@ -158,7 +158,6 @@
             this.pnWindowTopSpacer = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tmRelSearch = new System.Windows.Forms.Timer(this.components);
-            this.tmHideNotification = new System.Windows.Forms.Timer(this.components);
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.toolStripMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitEntityRest)).BeginInit();
@@ -1675,11 +1674,6 @@
             this.tmRelSearch.Interval = 500;
             this.tmRelSearch.Tick += new System.EventHandler(this.tmRelSearch_Tick);
             // 
-            // tmHideNotification
-            // 
-            this.tmHideNotification.Interval = 5000;
-            this.tmHideNotification.Tick += new System.EventHandler(this.tmHideNotification_Tick);
-            // 
             // LCG
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1825,7 +1819,6 @@
         private System.Windows.Forms.Label lblAttNoMatch;
         private System.Windows.Forms.Label lblRelNoMatch;
         private System.Windows.Forms.ToolStripMenuItem btnSaveConfig;
-        private System.Windows.Forms.Timer tmHideNotification;
         private System.Windows.Forms.ToolStripSplitButton btnGenerate;
         private System.Windows.Forms.ToolStripMenuItem btnSaveCsAs;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;

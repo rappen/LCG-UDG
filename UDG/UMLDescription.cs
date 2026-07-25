@@ -18,6 +18,7 @@ namespace Rappen.XTB.LCG
         public override IXrmToolBoxPluginControl GetControl()
         {
             var tool = new LCG(true);
+            tool.Name = "UDG";
             tool.SaveImageFromBase64(
                 tool.IconBigPath,
                 GetType()
