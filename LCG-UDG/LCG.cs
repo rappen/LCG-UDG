@@ -127,19 +127,30 @@ namespace Rappen.XTB.LCG
             GetSettingsFromUI();
             GetSelectionFromUI();
             var filewriter = settings.GetWriter(ConnectionDetail.WebApplicationUrl);
-            if (GenerationUtils.GenerateFiles(entities.Where(ent => ent.Selected).ToList(), settings, filewriter))
+            try
             {
-                var message = filewriter.GetResult(settings);
-                if (isUML)
+                if (GenerationUtils.GenerateFiles(entities.Where(ent => ent.Selected).ToList(), settings, filewriter))
                 {
-                    this.ShowFileLinkMessage(
-                        message,
-                        settings.CommonFilePath, 10000);
+                    var message = filewriter.GetResult(settings);
+                    if (isUML)
+                    {
+                        this.ShowFileLinkMessage(
+                            message,
+                            settings.CommonFilePath, 10000);
+                    }
+                    else
+                    {
+                        this.ShowSuccessMessage(message, 10000);
+                    }
                 }
                 else
                 {
-                    this.ShowSuccessMessage(message, 10000);
+                    this.ShowInfoMessage("No file needed, probably because no changes.", 5000);
                 }
+            }
+            catch (Exception ex)
+            {
+                ShowErrorDialog(ex, $"Generate {settings.TemplateFormat}");
             }
         }
 

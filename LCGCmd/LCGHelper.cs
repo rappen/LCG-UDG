@@ -47,13 +47,20 @@ namespace Rappen.XTB.LCG.Cmd
             LoadEntities();
             RestoreSelectedEntities();
             var writer = Settings.GetWriter(this.crmConnection.WebApplicationUrl);
-            if (GenerationUtils.GenerateFiles(entities, Settings, writer))
+            try
             {
-                Console.Write(writer.GetResult(Settings));
+                if (GenerationUtils.GenerateFiles(entities, Settings, writer))
+                {
+                    Console.Write(writer.GetResult(Settings));
+                }
+                else
+                {
+                    Console.WriteLine("Not saved, probably because no changes.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine("Error");
+                MessageBox.Show($"Error:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

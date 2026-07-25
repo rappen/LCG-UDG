@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
 
 namespace Rappen.XTB.LCG
 {
@@ -12,45 +11,37 @@ namespace Rappen.XTB.LCG
     {
         public static bool GenerateFiles(List<EntityMetadataProxy> selectedentities, Settings settings, IConstantFileWriter fileWriter)
         {
-            try
+            var addedrelationships = new List<string>();
+            var commonentity = GetCommonEntity(selectedentities, settings);
+            var suffix = Settings.FileSuffix(settings.TemplateFormat);
+            if (commonentity != null)
             {
-                var addedrelationships = new List<string>();
-                var commonentity = GetCommonEntity(selectedentities, settings);
-                var suffix = Settings.FileSuffix(settings.TemplateFormat);
-                if (commonentity != null)
-                {
-                    var entity = GetClass(commonentity, null, settings, addedrelationships);
-                    var fileName = commonentity.GetNameTechnical(settings.FileName, settings) + suffix;
-                    fileWriter.WriteBlock(settings, entity, fileName);
-                }
-                if (settings.Groups?.Count > 0)
-                {
-                    foreach (var group in settings.Groups.Where(g => selectedentities.Any(e => e.Group == g)))
-                    {
-                        var groupstr = GetGroup(group, selectedentities.Where(e => e.Group == group).ToList(), settings, addedrelationships);
-                        fileWriter.WriteBlock(settings, groupstr, group.Name);
-                    }
-                }
-                foreach (var entitymetadata in selectedentities.Where(e => e.Group == null))
-                {
-                    var entity = GetClass(entitymetadata, commonentity, settings, addedrelationships);
-                    var fileName = entitymetadata.GetNameTechnical(settings.FileName, settings) + suffix;
-                    fileWriter.WriteBlock(settings, entity, fileName);
-                }
-                if (settings.TemplateSettings.Template.AddAllRelationshipsAfterEntities)
-                {
-                    var relationships = selectedentities.SelectMany(e => e.Relationships.Where(r => r.IsSelected));
-                    relationships = relationships.GroupBy(r => r.LogicalName).Select(r => r.FirstOrDefault());    // This will make it distinct by LogicalName
-                    var allrelationshipsstring = GetRelationships(relationships, settings, addedrelationships);
-                    fileWriter.WriteBlock(settings, allrelationshipsstring, "Relationships" + suffix);
-                }
-                return fileWriter.Finalize(settings);
+                var entity = GetClass(commonentity, null, settings, addedrelationships);
+                var fileName = commonentity.GetNameTechnical(settings.FileName, settings) + suffix;
+                fileWriter.WriteBlock(settings, entity, fileName);
             }
-            catch (Exception ex)
+            if (settings.Groups?.Count > 0)
             {
-                MessageBox.Show($"Error:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                foreach (var group in settings.Groups.Where(g => selectedentities.Any(e => e.Group == g)))
+                {
+                    var groupstr = GetGroup(group, selectedentities.Where(e => e.Group == group).ToList(), settings, addedrelationships);
+                    fileWriter.WriteBlock(settings, groupstr, group.Name);
+                }
             }
+            foreach (var entitymetadata in selectedentities.Where(e => e.Group == null))
+            {
+                var entity = GetClass(entitymetadata, commonentity, settings, addedrelationships);
+                var fileName = entitymetadata.GetNameTechnical(settings.FileName, settings) + suffix;
+                fileWriter.WriteBlock(settings, entity, fileName);
+            }
+            if (settings.TemplateSettings.Template.AddAllRelationshipsAfterEntities)
+            {
+                var relationships = selectedentities.SelectMany(e => e.Relationships.Where(r => r.IsSelected));
+                relationships = relationships.GroupBy(r => r.LogicalName).Select(r => r.FirstOrDefault());    // This will make it distinct by LogicalName
+                var allrelationshipsstring = GetRelationships(relationships, settings, addedrelationships);
+                fileWriter.WriteBlock(settings, allrelationshipsstring, "Relationships" + suffix);
+            }
+            return fileWriter.Finalize(settings);
         }
 
         private static EntityMetadataProxy GetCommonEntity(List<EntityMetadataProxy> selectedentities, Settings settings)
