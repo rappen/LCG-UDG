@@ -11,10 +11,8 @@
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>Generate constant classes from metadata for late bound development on Microsoft Dataverse.</description>
 		<summary>Generate constant classes from metadata for late bound development on Microsoft Dataverse.</summary>
-		<releaseNotes>
-Release Notes: https://jonasr.app/LCG/releases
-		</releaseNotes>
-		<copyright>Copyright 2017-2025 Jonas Rapp</copyright>
+		<releaseNotes>Release Notes: https://jonasr.app/LCG/releases</releaseNotes>
+		<copyright>Copyright 2017-2026 Jonas Rapp</copyright>
 		<tags>XrmToolBox Plugins LateboundConstantsGenerator</tags>
 		<dependencies>
 			<dependency id="XrmToolBox" version="1.2025.7.71" />

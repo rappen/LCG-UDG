@@ -9,15 +9,11 @@
 		<projectUrl>https://jonasr.app/UML</projectUrl>
 		<iconUrl>https://raw.githubusercontent.com/rappen/LCG-UDG/master/images/UDG-150-tsp.png</iconUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
-		<description>
-Generate PlantUML or DBML diagram files from metadata in Microsoft Dataverse.
-Read docs: https://jonasr.app/UML
-		</description>
+		<description>Generate PlantUML or DBML diagram files from metadata in Microsoft Dataverse.
+Read docs: https://jonasr.app/UML</description>
 		<summary>Generate PlantUML or DBML diagram files from metadata in Microsoft Dataverse.</summary>
-		<releaseNotes>
-Go read the Release Notes: https://jonasr.app/UML/releases
-		</releaseNotes>
-		<copyright>Copyright 2020-2025 Jonas Rapp</copyright>
+		<releaseNotes>Go read the Release Notes: https://jonasr.app/UML/releases</releaseNotes>
+		<copyright>Copyright 2020-2026 Jonas Rapp</copyright>
 		<tags>XrmToolBox Plugins UMLDiagramGenerator</tags>
 		<dependencies>
 			<dependency id="XrmToolBox" version="1.2025.7.71" />
