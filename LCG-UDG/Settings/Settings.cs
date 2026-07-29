@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Rappen.XRM.Helpers.Extensions;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 using XrmToolBox.Extensibility;
 
 namespace Rappen.XTB.LCG
@@ -176,11 +178,41 @@ namespace Rappen.XTB.LCG
     public class EntityFilter
     {
         public bool Expanded { get; set; } = false;
+
+        [XmlIgnore]
         public CheckState Custom { get; set; } = CheckState.Checked;
+
+        [XmlElement("Custom")]
+        public string CustomSerialized
+        {
+            get => Custom.ToString();
+            set => Custom = value.ToCheckState(CheckState.Checked);
+        }
+
+        [XmlIgnore]
         public CheckState Managed { get; set; } = CheckState.Checked;
+
+        [XmlElement("Managed")]
+        public string ManagedSerialized
+        {
+            get => Managed.ToString();
+            set => Managed = value.ToCheckState(CheckState.Checked);
+        }
+
         public bool ExcludeIntersect { get; set; }
+
         internal CheckState Selected { get; set; }
+
+        [XmlIgnore]
         public CheckState Records { get; set; } = CheckState.Checked;
+
+        [XmlElement("Records")]
+        public string RecordsSerialized
+        {
+            get => Records.ToString();
+            set => Records = value.ToCheckState(CheckState.Checked);
+        }
+
         public bool Uncountable { get; set; }
     }
 
@@ -188,12 +220,67 @@ namespace Rappen.XTB.LCG
     {
         public bool Expanded { get; set; } = false;
         public bool CheckAll { get; set; }
+
+        [XmlIgnore]
         public CheckState Custom { get; set; } = CheckState.Checked;
+
+        [XmlElement("Custom")]
+        public string CustomSerialized
+        {
+            get => Custom.ToString();
+            set => Custom = value.ToCheckState(CheckState.Checked);
+        }
+
+        [XmlIgnore]
         public CheckState Managed { get; set; } = CheckState.Checked;
+
+        [XmlElement("Managed")]
+        public string ManagedSerialized
+        {
+            get => Managed.ToString();
+            set => Managed = value.ToCheckState(CheckState.Checked);
+        }
+
+        [XmlIgnore]
         public CheckState PrimaryKeyName { get; set; } = CheckState.Checked;
+
+        [XmlElement("PrimaryKeyName")]
+        public string PrimaryKeyNameSerialized
+        {
+            get => PrimaryKeyName.ToString();
+            set => PrimaryKeyName = value.ToCheckState(CheckState.Checked);
+        }
+
+        [XmlIgnore]
         public CheckState Required { get; set; } = CheckState.Checked;
+
+        [XmlElement("Required")]
+        public string RequiredSerialized
+        {
+            get => Required.ToString();
+            set => Required = value.ToCheckState(CheckState.Checked);
+        }
+
+        [XmlIgnore]
         public CheckState Logical { get; set; } = CheckState.Unchecked;
+
+        [XmlElement("Logical")]
+        public string LogicalSerialized
+        {
+            get => Logical.ToString();
+            set => Logical = value.ToCheckState(CheckState.Unchecked);
+        }
+
+        [XmlIgnore]
         public CheckState Internal { get; set; } = CheckState.Unchecked;
+
+        [XmlElement("Internal")]
+        public string InternalSerialized
+        {
+            get => Internal.ToString();
+            set => Internal = value.ToCheckState(CheckState.Unchecked);
+        }
+
         public bool ExcludeCreMod { get; set; } = true;
         public bool ExcludeOwner { get; set; } = true;
         internal bool AreUsed { get; set; } = false;
@@ -204,8 +291,27 @@ namespace Rappen.XTB.LCG
     {
         public bool Expanded { get; set; } = false;
         public bool CheckAll { get; set; }
+
+        [XmlIgnore]
         public CheckState Custom { get; set; } = CheckState.Checked;
+
+        [XmlElement("Custom")]
+        public string CustomSerialized
+        {
+            get => Custom.ToString();
+            set => Custom = value.ToCheckState(CheckState.Checked);
+        }
+
+        [XmlIgnore]
         public CheckState Managed { get; set; } = CheckState.Checked;
+
+        [XmlElement("Managed")]
+        public string ManagedSerialized
+        {
+            get => Managed.ToString();
+            set => Managed = value.ToCheckState(CheckState.Checked);
+        }
+
         public bool Type1N { get; set; } = false;
         public bool TypeN1 { get; set; } = true;
         public bool TypeNN { get; set; } = true;
